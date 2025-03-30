@@ -1,0 +1,56 @@
+{
+    "Bone Club":
+    {
+        "Type": "Ground",
+        "Category": "Physical",
+        "Power": 65,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": "May cause flinching."
+    },
+    "Bonemerang":
+    {
+        "Type": "Ground",
+        "Category": "Physical",
+        "Power": 50,
+        "Accuracy": 90,
+        "PP": 10,
+        "Effect": "Hits twice in one turn."
+    },
+    "Dig":
+    {
+        "Type": "Ground",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Digs underground on first turn, attacks on second. Can also escape from caves."
+    },
+    "Earthquake":
+    {
+        "Type": "Ground",
+        "Category": "Physical",
+        "Power": 100,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Power is doubled if opponent is underground from using Dig."
+    },
+    "Fissure":
+    {
+        "Type": "Ground",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 30,
+        "PP": 5,
+        "Effect": "One-Hit-KO, if it hits."
+    },
+    "Sand Attack":
+    {
+        "Type": "Ground",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Lowers opponent's Accuracy."
+    }
+}

@@ -1,0 +1,83 @@
+{
+    "Bubble":
+    {
+        "Type": "Water",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "May lower opponent's Speed."
+    },
+    "Bubble Beam":
+    {
+        "Type": "Water",
+        "Category": "Special",
+        "Power": 65,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "May lower opponent's Speed."
+    },
+    "Clamp":
+    {
+        "Type": "Water",
+        "Category": "Physical",
+        "Power": 35,
+        "Accuracy": 85,
+        "PP": 15,
+        "Effect": "Traps opponent, damaging them for 4-5 turns."
+    },
+    "Crabhammer":
+    {
+        "Type": "Water",
+        "Category": "Physical",
+        "Power": 100,
+        "Accuracy": 90,
+        "PP": 10,
+        "Effect": "High critical hit ratio."
+    },
+    "Hydro Pump":
+    {
+        "Type": "Water",
+        "Category": "Special",
+        "Power": 110,
+        "Accuracy": 80,
+        "PP": 5,
+        "Effect": ""
+    },
+    "Surf":
+    {
+        "Type": "Water",
+        "Category": "Special",
+        "Power": 90,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Hits all adjacent Pokémon."
+    },
+    "Water Gun":
+    {
+        "Type": "Water",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": ""
+    },
+    "Waterfall":
+    {
+        "Type": "Water",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May cause flinching."
+    },
+    "Withdraw":
+    {
+        "Type": "Water",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 40,
+        "Effect": "Raises user's Defense."
+    }
+}

@@ -1,0 +1,668 @@
+{
+    "Barrage":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 15,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Bide":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "User takes damage for two turns then strikes back double."
+    },
+    "Bind":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 15,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": "Traps opponent, damaging them for 4-5 turns."
+    },
+    "Body Slam":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 85,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May paralyze opponent."
+    },
+    "Comet Punch":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 18,
+        "Accuracy": 85,
+        "PP": 15,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Constrict":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 10,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": "May lower opponent's Speed by one stage."
+    },
+    "Conversion":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Changes user's type to that of its first move."
+    },
+    "Cut":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 50,
+        "Accuracy": 95,
+        "PP": 30,
+        "Effect": ""
+    },
+    "Defense Curl":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 40,
+        "Effect": "Raises user's Defense."
+    },
+    "Disable":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "Opponent can't use its last attack for a few turns."
+    },
+    "Dizzy Punch":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 70,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "May confuse opponent."
+    },
+    "Double Slap":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 15,
+        "Accuracy": 85,
+        "PP": 10,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Double Team":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 15,
+        "Effect": "Raises user's Evasiveness."
+    },
+    "Double-Edge":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 120,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "User receives recoil damage."
+    },
+    "Egg Bomb":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 100,
+        "Accuracy": 75,
+        "PP": 10,
+        "Effect": ""
+    },
+    "Explosion":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 250,
+        "Accuracy": 100,
+        "PP": 5,
+        "Effect": "User faints."
+    },
+    "Flash":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Lowers opponent's Accuracy."
+    },
+    "Focus Energy":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Increases critical hit ratio."
+    },
+    "Fury Attack":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 15,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Fury Swipes":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 18,
+        "Accuracy": 80,
+        "PP": 15,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Glare":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "Paralyzes opponent."
+    },
+    "Growl":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 40,
+        "Effect": "Lowers opponent's Attack."
+    },
+    "Growth":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "Raises user's Attack and Special Attack."
+    },
+    "Guillotine":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 30,
+        "PP": 5,
+        "Effect": "One-Hit-KO, if it hits."
+    },
+    "Harden":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Raises user's Defense."
+    },
+    "Headbutt":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 70,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May cause flinching."
+    },
+    "Horn Attack":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 65,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": ""
+    },
+    "Horn Drill":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 30,
+        "PP": 5,
+        "Effect": "One-Hit-KO, if it hits."
+    },
+    "Hyper Beam":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 150,
+        "Accuracy": 90,
+        "PP": 5,
+        "Effect": "User must recharge next turn."
+    },
+    "Hyper Fang":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 90,
+        "PP": 15,
+        "Effect": "May cause flinching."
+    },
+    "Leer":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "Lowers opponent's Defense."
+    },
+    "Lovely Kiss":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 75,
+        "PP": 10,
+        "Effect": "Puts opponent to sleep."
+    },
+    "Mega Kick":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": ""
+    },
+    "Mega Punch":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": ""
+    },
+    "Metronome":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "User performs almost any move in the game at random."
+    },
+    "Mimic":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "Copies the opponent's last move."
+    },
+    "Minimize":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "Sharply raises user's Evasiveness."
+    },
+    "Pay Day":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Money is earned after the battle."
+    },
+    "Pound":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": ""
+    },
+    "Quick Attack":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "User attacks first."
+    },
+    "Rage":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 20,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Raises user's Attack when hit."
+    },
+    "Razor Wind":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Charges on first turn, attacks on second. High critical hit ratio."
+    },
+    "Recover":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 5,
+        "Effect": "User recovers half its max HP."
+    },
+    "Roar":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "In battles, the opponent switches. In the wild, the Pokémon runs."
+    },
+    "Scratch":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": ""
+    },
+    "Screech":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 85,
+        "PP": 40,
+        "Effect": "Sharply lowers opponent's Defense."
+    },
+    "Self-Destruct":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 200,
+        "Accuracy": 100,
+        "PP": 5,
+        "Effect": "User faints."
+    },
+    "Sharpen":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Raises user's Attack."
+    },
+    "Sing":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 55,
+        "PP": 15,
+        "Effect": "Puts opponent to sleep."
+    },
+    "Skull Bash":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 130,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Raises Defense on first turn, attacks on second."
+    },
+    "Slam":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 75,
+        "PP": 20,
+        "Effect": ""
+    },
+    "Slash":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 70,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "High critical hit ratio."
+    },
+    "Smokescreen":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Lowers opponent's Accuracy."
+    },
+    "Soft-Boiled":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 5,
+        "Effect": "User recovers half its max HP."
+    },
+    "Sonic Boom":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": null,
+        "Accuracy": 90,
+        "PP": 20,
+        "Effect": "Always inflicts 20 HP."
+    },
+    "Spike Cannon":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 20,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Hits 2-5 times in one turn."
+    },
+    "Splash":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 40,
+        "Effect": "Doesn't do ANYTHING."
+    },
+    "Stomp":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 65,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "May cause flinching."
+    },
+    "Strength":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": ""
+    },
+    "Struggle":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 50,
+        "Accuracy": null,
+        "PP": null,
+        "Effect": "Only usable when all PP are gone. Hurts the user."
+    },
+    "Substitute":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "Uses HP to creates a decoy that takes hits."
+    },
+    "Super Fang":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 90,
+        "PP": 10,
+        "Effect": "Always takes off half of the opponent's HP."
+    },
+    "Supersonic":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 55,
+        "PP": 20,
+        "Effect": "Confuses opponent."
+    },
+    "Swift":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 60,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Ignores Accuracy and Evasiveness."
+    },
+    "Swords Dance":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "Sharply raises user's Attack."
+    },
+    "Tackle":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": ""
+    },
+    "Tail Whip":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "Lowers opponent's Defense."
+    },
+    "Take Down":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 90,
+        "Accuracy": 85,
+        "PP": 20,
+        "Effect": "User receives recoil damage."
+    },
+    "Thrash":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 120,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "User attacks for 2-3 turns but then becomes confused."
+    },
+    "Transform":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 10,
+        "Effect": "User takes on the form and attacks of the opponent."
+    },
+    "Tri Attack":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "May paralyze, burn or freeze opponent."
+    },
+    "Vise Grip":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 55,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": ""
+    },
+    "Whirlwind":
+    {
+        "Type": "Normal",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "In battles, the opponent switches. In the wild, the Pokémon runs."
+    },
+    "Wrap":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 15,
+        "Accuracy": 90,
+        "PP": 20,
+        "Effect": "Traps opponent, damaging them for 4-5 turns."
+    }
+}

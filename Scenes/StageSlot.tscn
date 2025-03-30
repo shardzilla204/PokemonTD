@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://drr2i3gp3uiw2"]
+
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_88lx8"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageSlot.cs" id="2_cyh1f"]
+[ext_resource type="Texture2D" uid="uid://xcrj3nubd0a7" path="res://Assets/Images/Pokémon/Charizard.png" id="3_dsbw2"]
+[ext_resource type="Script" path="res://Resources/Scripts/InteractComponent.cs" id="3_mna3b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xoqv1"]
+radius = 150.0
+
+[node name="Control" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="StageSlot" type="NinePatchRect" parent="." node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_attackTimer")]
+self_modulate = Color(1, 1, 1, 0)
+y_sort_enabled = true
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+texture = ExtResource("1_88lx8")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("2_cyh1f")
+_area = NodePath("Area2D")
+_sprite = NodePath("InteractComponent/Sprite")
+_interactComponent = NodePath("InteractComponent")
+_attackTimer = NodePath("AttackTimer")
+metadata/_edit_group_ = true
+
+[node name="InteractComponent" type="MarginContainer" parent="StageSlot"]
+y_sort_enabled = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("3_mna3b")
+
+[node name="Sprite" type="TextureRect" parent="StageSlot/InteractComponent"]
+y_sort_enabled = true
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 2
+texture = ExtResource("3_dsbw2")
+expand_mode = 1
+
+[node name="Area2D" type="Area2D" parent="StageSlot"]
+position = Vector2(32, 32)
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StageSlot/Area2D"]
+shape = SubResource("CircleShape2D_xoqv1")
+debug_color = Color(0, 0.6, 0.7, 0)
+
+[node name="AttackTimer" type="Timer" parent="StageSlot"]
+wait_time = 0.75

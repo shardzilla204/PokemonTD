@@ -1,0 +1,47 @@
+{
+    "Ember":
+    {
+        "Type": "Fire",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": "May burn opponent."
+    },
+    "Fire Blast":
+    {
+        "Type": "Fire",
+        "Category": "Special",
+        "Power": 110,
+        "Accuracy": 85,
+        "PP": 5,
+        "Effect": "May burn opponent."
+    },
+    "Fire Punch":
+    {
+        "Type": "Fire",
+        "Category": "Physical",
+        "Power": 75,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May burn opponent."
+    },
+    "Fire Spin":
+    {
+        "Type": "Fire",
+        "Category": "Special",
+        "Power": 35,
+        "Accuracy": 85,
+        "PP": 15,
+        "Effect": "Traps opponent, damaging them for 4-5 turns."
+    },
+    "Flamethrower":
+    {
+        "Type": "Fire",
+        "Category": "Special",
+        "Power": 90,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May burn opponent."
+    }
+}

@@ -1,0 +1,92 @@
+{
+    "Absorb":
+    {
+        "Type": "Grass",
+        "Category": "Special",
+        "Power": 20,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": "User recovers half the HP inflicted on opponent."
+    },
+    "Leech Seed":
+    {
+        "Type": "Grass",
+        "Category": "Status",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Drains HP from opponent each turn."
+    },
+    "Mega Drain":
+    {
+        "Type": "Grass",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "User recovers half the HP inflicted on opponent."
+    },
+    "Petal Dance":
+    {
+        "Type": "Grass",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "User attacks for 2-3 turns but then becomes confused."
+    },
+    "Razor Leaf":
+    {
+        "Type": "Grass",
+        "Category": "Physical",
+        "Power": 55,
+        "Accuracy": 95,
+        "PP": 25,
+        "Effect": "High critical hit ratio."
+    },
+    "Sleep Powder":
+    {
+        "Type": "Grass",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 75,
+        "PP": 15,
+        "Effect": "Puts opponent to sleep."
+    },
+    "Solar Beam":
+    {
+        "Type": "Grass",
+        "Category": "Special",
+        "Power": 120,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Charges on first turn, attacks on second."
+    },
+    "Spore":
+    {
+        "Type": "Grass",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Puts opponent to sleep."
+    },
+    "Stun Spore":
+    {
+        "Type": "Grass",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 75,
+        "PP": 30,
+        "Effect": "Paralyzes opponent."
+    },
+    "Vine Whip":
+    {
+        "Type": "Grass",
+        "Category": "Physical",
+        "Power": 45,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": ""
+    }
+}

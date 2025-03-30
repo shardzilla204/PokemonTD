@@ -1,0 +1,11 @@
+{
+    "Bite":
+    {
+        "Type": "Dark",
+        "Category": "Physical",
+        "Power": 60,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": "May cause flinching."
+    }
+}

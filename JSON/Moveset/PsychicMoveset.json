@@ -1,0 +1,137 @@
+{
+    "Agility":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Sharply raises user's Speed."
+    },
+    "Amnesia":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "Sharply raises user's Special Defense."
+    },
+    "Barrier":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "Sharply raises user's Defense."
+    },
+    "Confusion":
+    {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": 50,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": "May confuse opponent."
+    },
+    "Dream Eater":
+    {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": 100,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "User recovers half the HP inflicted on a sleeping opponent."
+    },
+    "Hypnosis":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 60,
+        "PP": 20,
+        "Effect": "Puts opponent to sleep."
+    },
+    "Kinesis":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 80,
+        "PP":15,
+        "Effect": "Lowers opponent's Accuracy."
+    },
+    "Light Screen":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Halves damage from Special attacks for 5 turns."
+    },
+    "Meditate":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 40,
+        "Effect": "Raises user's Attack."
+    },
+    "Psybeam":
+    {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": 65,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "May confuse opponent."
+    },
+    "Psychic":
+    {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": 90,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "May lower opponent's Special Defense."
+    },
+    "Psywave":
+    {
+        "Type": "Psychic",
+        "Category": "Special",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Inflicts damage 50-150% of user's level."
+    },
+    "Reflect":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Halves damage from Physical attacks for 5 turns."
+    },
+    "Rest":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 5,
+        "Effect": "User sleeps for 2 turns, but user is fully healed."
+    },
+    "Teleport":
+    {
+        "Type": "Psychic",
+        "Category": "Status",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Allows user to flee wild battles; also warps player to last PokéCenter."
+    }
+}

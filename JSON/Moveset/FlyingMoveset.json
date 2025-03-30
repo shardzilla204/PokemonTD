@@ -1,0 +1,65 @@
+{
+    "Drill Peck":
+    {
+        "Type": "Flying",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": ""
+    },
+    "Fly":
+    {
+        "Type": "Flying",
+        "Category": "Physical",
+        "Power": 90,
+        "Accuracy": 95,
+        "PP": 20,
+        "Effect": "Flies up on first turn, attacks on second turn."
+    },
+    "Gust":
+    {
+        "Type": "Flying",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": "Hits Pokémon using Fly/Bounce/Sky Drop with double power."
+    },
+    "Mirror Move":
+    {
+        "Type": "Flying",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 20,
+        "Effect": "User performs the opponent's last move."
+    },
+    "Peck":
+    {
+        "Type": "Flying",
+        "Category": "Physical",
+        "Power": 35,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": ""
+    },
+    "Sky Attack":
+    {
+        "Type": "Flying",
+        "Category": "Physical",
+        "Power": 140,
+        "Accuracy": 90,
+        "PP": 5,
+        "Effect": "Charges on first turn, attacks on second. May cause flinching. High critical hit ratio."
+    },
+    "Wing Attack":
+    {
+        "Type": "Flying",
+        "Category": "Physical",
+        "Power": 60,
+        "Accuracy": 100,
+        "PP": 35,
+        "Effect": ""
+    }
+}

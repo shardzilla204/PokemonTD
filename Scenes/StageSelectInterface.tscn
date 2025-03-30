@@ -1,0 +1,125 @@
+[gd_scene load_steps=9 format=3 uid="uid://dionk6n8v1pii"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageSelectInterface.cs" id="1_gq7qg"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_jby32"]
+[ext_resource type="Texture2D" uid="uid://qh66tbyu5083" path="res://Assets/Images/StageThumbnail/Stage1Thumbnail.png" id="3_o0bm3"]
+[ext_resource type="Texture2D" uid="uid://xcrj3nubd0a7" path="res://Assets/Images/Pokémon/Charizard.png" id="3_sd67l"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="3_y72j3"]
+[ext_resource type="Texture2D" uid="uid://cinjd53htdwrp" path="res://Assets/Images/Pokémon/Pidgey.png" id="4_w7rh7"]
+[ext_resource type="Texture2D" uid="uid://61fbayn4qi1p" path="res://Assets/Images/Pokémon/Pikachu.png" id="5_kr1ba"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokémon/Bulbasaur.png" id="6_ifdhw"]
+
+[node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokémonTeamButton", "_exitButton", "_stageSelectButtons", "_stageThumbnail", "_enemyPokémonSprites")]
+script = ExtResource("1_gq7qg")
+"_pokémonTeamButton" = NodePath("ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/PokémonTeamButton")
+_exitButton = NodePath("ColorRect/MarginContainer/VBoxContainer/HBoxContainer2/ExitButton")
+_stageSelectButtons = NodePath("ColorRect/MarginContainer/VBoxContainer/HBoxContainer/StageSelectButtons")
+_stageThumbnail = NodePath("ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/StageThumbnail")
+"_enemyPokémonSprites" = NodePath("ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/EnemyPokémonSprites")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_jby32")
+color = Color(0, 0, 0, 0.25)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PokémonTeamButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(150, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Pokemon Team"
+script = ExtResource("3_y72j3")
+
+[node name="ExitButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+text = "X"
+script = ExtResource("3_y72j3")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="StageSelectButtons" type="FlowContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(330, 0)
+layout_mode = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnemyPokémonLabel" type="Label" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 25
+text = "Enemy Pokémon:"
+
+[node name="EnemyPokémonSprites" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="TextureRect" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/EnemyPokémonSprites"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+texture = ExtResource("3_sd67l")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/EnemyPokémonSprites"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+texture = ExtResource("4_w7rh7")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/EnemyPokémonSprites"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+texture = ExtResource("5_kr1ba")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect4" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/EnemyPokémonSprites"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+texture = ExtResource("6_ifdhw")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="StageThumbnail" type="TextureRect" parent="ColorRect/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture = ExtResource("3_o0bm3")
+expand_mode = 5
+stretch_mode = 4

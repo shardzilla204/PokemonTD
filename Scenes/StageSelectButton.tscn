@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dejp0ypq88xe4"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageSelectButton.cs" id="1_dco7j"]
+
+[node name="StageSelectButton" type="Button"]
+custom_minimum_size = Vector2(75, 75)
+theme_override_font_sizes/font_size = 30
+text = "1"
+script = ExtResource("1_dco7j")

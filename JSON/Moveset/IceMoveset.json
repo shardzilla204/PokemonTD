@@ -1,0 +1,56 @@
+{
+    "Aurora Beam":
+    {
+        "Type": "Ice",
+        "Category": "Special",
+        "Power": 65,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "May lower opponent's Attack."
+    },
+    "Blizzard":
+    {
+        "Type": "Ice",
+        "Category": "Special",
+        "Power": 110,
+        "Accuracy": 70,
+        "PP": 5,
+        "Effect": "May freeze opponent."
+    },
+    "Haze":
+    {
+        "Type": "Ice",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "Resets all stat changes."
+    },
+    "Ice Beam":
+    {
+        "Type": "Ice",
+        "Category": "Special",
+        "Power": 90,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "May freeze opponent."
+    },
+    "Ice Punch":
+    {
+        "Type": "Ice",
+        "Category": "Physical",
+        "Power": 75,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "May freeze opponent."
+    },
+    "Mist":
+    {
+        "Type": "Ice",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": null,
+        "PP": 30,
+        "Effect": "User's stats cannot be changed for a period of time."
+    }
+}

@@ -1,0 +1,65 @@
+[gd_scene load_steps=4 format=3 uid="uid://jcfh6tp6od31"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageStateInterface.cs" id="1_12hrc"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_i0qk8"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="3_hj45f"]
+
+[node name="StageStateInterface" type="CanvasLayer" node_paths=PackedStringArray("_retryButton", "_leaveButton", "_message")]
+script = ExtResource("1_12hrc")
+_retryButton = NodePath("ColorRect/MarginContainer/VBoxContainer/ButtonContainer/RetryButton")
+_leaveButton = NodePath("ColorRect/MarginContainer/VBoxContainer/ButtonContainer/LeaveButton")
+_message = NodePath("ColorRect/MarginContainer/VBoxContainer/Message")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_i0qk8")
+color = Color(0, 0, 0, 0.25)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+
+[node name="Message" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 40
+text = "You've lost all your candy!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ButtonContainer" type="HBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="RetryButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(125, 65)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 25
+text = "Retry"
+script = ExtResource("3_hj45f")
+
+[node name="LeaveButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/ButtonContainer"]
+custom_minimum_size = Vector2(125, 65)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_font_sizes/font_size = 25
+text = "Leave"
+script = ExtResource("3_hj45f")

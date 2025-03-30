@@ -1,0 +1,29 @@
+{
+    "Confuse Ray":
+    {
+        "Type": "Ghost",
+        "Category": "Status",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 10,
+        "Effect": "Confuses opponent."
+    },
+    "Lick":
+    {
+        "Type": "Ghost",
+        "Category": "Physical",
+        "Power": 30,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "May paralyze opponent."
+    },
+    "Night Shade":
+    {
+        "Type": "Ghost",
+        "Category": "Special",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 15,
+        "Effect": "Inflicts damage equal to user's level."
+    }
+}

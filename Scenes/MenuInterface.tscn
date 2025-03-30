@@ -1,0 +1,126 @@
+[gd_scene load_steps=5 format=3 uid="uid://cj4tssggis6bf"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/MenuInterface.cs" id="1_flyhv"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_y8l40"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="3_5lst2"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_qo7a8"]
+
+[node name="MenuInterface" type="CanvasLayer" node_paths=PackedStringArray("_playButton", "_settingsButton", "_exitButton")]
+script = ExtResource("1_flyhv")
+_playButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/PlayButton")
+_settingsButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton")
+_exitButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/ExitButton")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_y8l40")
+color = Color(0, 0, 0, 0.25)
+
+[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.5
+theme_override_font_sizes/font_size = 50
+text = "Pokemon
+Tower Defense"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="PlayButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Play"
+flat = true
+script = ExtResource("3_5lst2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/PlayButton"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_qo7a8")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="SettingsButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Settings"
+flat = true
+script = ExtResource("3_5lst2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_qo7a8")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="ExitButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(200, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Exit"
+flat = true
+script = ExtResource("3_5lst2")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/ExitButton"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_qo7a8")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10

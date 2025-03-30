@@ -1,0 +1,83 @@
+{
+    "Counter":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "When hit by a Physical Attack, user strikes back with 2x power."
+    },
+    "Double Kick":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 30,
+        "Accuracy": 100,
+        "PP": 30,
+        "Effect": "Hits twice in one turn."
+    },
+    "High Jump Kick":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 130,
+        "Accuracy": 90,
+        "PP": 10,
+        "Effect": "If it misses, the user loses half their HP."
+    },
+    "Jump Kick":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 100,
+        "Accuracy": 95,
+        "PP": 10,
+        "Effect": "If it misses, the user loses half their HP."
+    },
+    "Karate Chop":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 50,
+        "Accuracy": 100,
+        "PP": 25,
+        "Effect": "High critical hit ratio."
+    },
+    "Low Kick":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "The heavier the opponent, the stronger the attack."
+    },
+    "Rolling Kick":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 60,
+        "Accuracy": 85,
+        "PP": 15,
+        "Effect": "May cause flinching."
+    },
+    "Seismic Toss":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": null,
+        "Accuracy": 100,
+        "PP": 20,
+        "Effect": "Inflicts damage equal to user's level."
+    },
+    "Submission":
+    {
+        "Type": "Fighting",
+        "Category": "Physical",
+        "Power": 80,
+        "Accuracy": 80,
+        "PP": 20,
+        "Effect": "User receives recoil damage."
+    }
+}

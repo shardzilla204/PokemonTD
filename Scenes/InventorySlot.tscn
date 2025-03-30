@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcou0d0mxotei"]
+
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_w5qdp"]
+[ext_resource type="Script" path="res://Resources/Scripts/InventorySlot.cs" id="2_4hrak"]
+[ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="3_sj2xi"]
+[ext_resource type="Script" path="res://Resources/Scripts/InteractComponent.cs" id="3_y8cmg"]
+
+[sub_resource type="FontVariation" id="FontVariation_0jf1k"]
+base_font = ExtResource("3_sj2xi")
+variation_opentype = {
+1936486004: 0,
+2003265652: 650
+}
+
+[node name="InventorySlot" type="NinePatchRect" node_paths=PackedStringArray("_interactComponent", "_pokémonSprite", "_pokémonLevel")]
+self_modulate = Color(0.75, 0.75, 0.75, 1)
+custom_minimum_size = Vector2(100, 100)
+offset_right = 85.0
+offset_bottom = 85.0
+texture = ExtResource("1_w5qdp")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("2_4hrak")
+_interactComponent = NodePath("MarginContainer")
+"_pokémonSprite" = NodePath("MarginContainer/VBoxContainer/PokémonSprite")
+"_pokémonLevel" = NodePath("MarginContainer/VBoxContainer/PokémonLevel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("3_y8cmg")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PokémonSprite" type="TextureRect" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="PokémonLevel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_0jf1k")
+theme_override_font_sizes/font_size = 20
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1

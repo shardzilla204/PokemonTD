@@ -1,0 +1,222 @@
+[gd_scene load_steps=10 format=3 uid="uid://dj4c8rxpcemg6"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageInterface.cs" id="1_ijjim"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_r5l66"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/PokémonStageControls.cs" id="3_esk6q"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="4_l3yox"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_281dn"]
+[ext_resource type="Texture2D" uid="uid://decvlcj5dmndo" path="res://Assets/Images/RareCandy.png" id="6_a1xg6"]
+[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Scenes/StageTeamSlot.tscn" id="6_r1b7l"]
+[ext_resource type="Texture2D" uid="uid://j1oxdu6th12n" path="res://Assets/Images/PokéBall.png" id="7_m2uel"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokéBall.cs" id="8_qc3tw"]
+
+[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokémonSlotsContainer", "_waveCount", "_pokéDollars", "_rareCandy", "_stageTeamSlots", "_exitButton")]
+script = ExtResource("1_ijjim")
+"_pokémonSlotsContainer" = NodePath("MarginContainer/VBoxContainer/StageTeamSlots")
+_waveCount = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/WaveCount")
+"_pokéDollars" = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokéDollars")
+_rareCandy = NodePath("MarginContainer/HBoxContainer/HBoxContainer/RareCandy")
+_stageTeamSlots = NodePath("MarginContainer/VBoxContainer/StageTeamSlots")
+_exitButton = NodePath("MarginContainer/HBoxContainer/ExitButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_r5l66")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(925, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+alignment = 1
+
+[node name="WaveCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Wave 1 of 10"
+
+[node name="PokéDollars" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_font_sizes/font_size = 32
+text = "₽ 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PokémonStageControls" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer" node_paths=PackedStringArray("_gameToggle", "_speedToggle", "_visiblityToggle")]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/separation = 20
+script = ExtResource("3_esk6q")
+_gameToggle = NodePath("GameToggle")
+_speedToggle = NodePath("SpeedToggle")
+_visiblityToggle = NodePath("VisibilityToggle")
+
+[node name="GameToggle" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls"]
+custom_minimum_size = Vector2(100, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Play"
+flat = true
+script = ExtResource("4_l3yox")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls/GameToggle"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_281dn")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="SpeedToggle" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "1x"
+flat = true
+script = ExtResource("4_l3yox")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls/SpeedToggle"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_281dn")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VisibilityToggle" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls"]
+custom_minimum_size = Vector2(65, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Hide"
+flat = true
+script = ExtResource("4_l3yox")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/HBoxContainer/PokémonStageControls/VisibilityToggle"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_281dn")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="StageTeamSlots" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="StageTeamSlot" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="StageTeamSlot2" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="StageTeamSlot3" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="StageTeamSlot4" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="StageTeamSlot5" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="StageTeamSlot6" parent="MarginContainer/VBoxContainer/StageTeamSlots" instance=ExtResource("6_r1b7l")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(43, 43)
+layout_mode = 2
+size_flags_vertical = 0
+texture = ExtResource("6_a1xg6")
+stretch_mode = 5
+
+[node name="RareCandy" type="Label" parent="MarginContainer/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 32
+text = "100"
+
+[node name="ExitButton" type="Button" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+text = "X"
+flat = true
+script = ExtResource("4_l3yox")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HBoxContainer/ExitButton"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_281dn")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="PokéBall" type="TextureRect" parent="MarginContainer"]
+texture_filter = 1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+mouse_filter = 0
+texture = ExtResource("7_m2uel")
+expand_mode = 1
+stretch_mode = 5
+script = ExtResource("8_qc3tw")

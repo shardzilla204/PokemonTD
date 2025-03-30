@@ -1,0 +1,132 @@
+[gd_scene load_steps=6 format=3 uid="uid://devsee4klrmn8"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokémonMove/MovesetInterface.cs" id="1_0dro6"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="1_2mjsb"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_dsfnt"]
+[ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveButton.tscn" id="2_gww66"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="4_yvunl"]
+
+[node name="MovesetInterface" type="CanvasLayer" node_paths=PackedStringArray("_moveButtonsContainer", "_pokémonNameLabel", "_exitButton", "_effectLabel")]
+script = ExtResource("1_0dro6")
+_moveButtonsContainer = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/MoveButtonsContainer")
+"_pokémonNameLabel" = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/PokémonNameLabel")
+_exitButton = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
+_effectLabel = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer/EffectLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 3.0
+offset_right = 16.0
+offset_bottom = 3.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme = ExtResource("1_dsfnt")
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 60
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+self_modulate = Color(0.25, 0.25, 0.25, 1)
+custom_minimum_size = Vector2(325, 390)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+texture = ExtResource("1_2mjsb")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PokémonNameLabel" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 26
+text = "Venusaur Moveset"
+
+[node name="ExitButton" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 35)
+layout_mode = 2
+theme_override_font_sizes/font_size = 18
+text = "X"
+flat = true
+script = ExtResource("4_yvunl")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 155)
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="MoveButtonsContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="MoveButton" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/MoveButtonsContainer" instance=ExtResource("2_gww66")]
+layout_mode = 2
+
+[node name="MoveButton2" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/MoveButtonsContainer" instance=ExtResource("2_gww66")]
+layout_mode = 2
+
+[node name="MoveButton3" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/MoveButtonsContainer" instance=ExtResource("2_gww66")]
+layout_mode = 2
+
+[node name="MoveButton4" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/VBoxContainer/MoveButtonsContainer" instance=ExtResource("2_gww66")]
+layout_mode = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
+self_modulate = Color(0.15, 0.15, 0.15, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_2mjsb")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="EffectLabel" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/NinePatchRect/MarginContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 3
+text = "Power: 40
+Accuracy: 100%
+
+Only usable when all PP are gone. Hurts the user."
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2

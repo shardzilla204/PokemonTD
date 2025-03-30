@@ -1,0 +1,20 @@
+{
+    "Rock Slide":
+    {
+        "Type": "Rock",
+        "Category": "Physical",
+        "Power": 75,
+        "Accuracy": 90,
+        "PP": 10,
+        "Effect": "May cause flinching."
+    },
+    "Rock Throw":
+    {
+        "Type": "Rock",
+        "Category": "Physical",
+        "Power": 50,
+        "Accuracy": 90,
+        "PP": 15,
+        "Effect": ""
+    }
+}
