@@ -51,7 +51,7 @@
         "Power": 90,
         "Accuracy": 100,
         "PP": 15,
-        "Effect": "Hits all adjacent Pokémon."
+        "Effect": "Hits all adjacent Pokemon."
     },
     "Water Gun":
     {

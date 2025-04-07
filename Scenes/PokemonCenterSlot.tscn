@@ -1,0 +1,58 @@
+[gd_scene load_steps=6 format=3 uid="uid://dcou0d0mxotei"]
+
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_6mjjq"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokemonCenter/PokemonCenterSlot.cs" id="2_ajv44"]
+[ext_resource type="Script" path="res://Resources/Scripts/InteractComponent.cs" id="3_vyyrb"]
+[ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="4_xf2xb"]
+
+[sub_resource type="FontVariation" id="FontVariation_0jf1k"]
+base_font = ExtResource("4_xf2xb")
+variation_opentype = {
+1936486004: 0,
+2003265652: 650
+}
+
+[node name="PokemonCenterSlot" type="NinePatchRect" node_paths=PackedStringArray("_interactComponent", "_pokemonSprite", "_pokemonLevel")]
+self_modulate = Color(0.75, 0.75, 0.75, 1)
+custom_minimum_size = Vector2(75, 75)
+offset_right = 85.0
+offset_bottom = 85.0
+texture = ExtResource("1_6mjjq")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("2_ajv44")
+_interactComponent = NodePath("InteractComponent")
+_pokemonSprite = NodePath("InteractComponent/VBoxContainer/PokemonSprite")
+_pokemonLevel = NodePath("InteractComponent/VBoxContainer/PokemonLevel")
+
+[node name="InteractComponent" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("3_vyyrb")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent"]
+layout_mode = 2
+
+[node name="PokemonSprite" type="TextureRect" parent="InteractComponent/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+stretch_mode = 5
+
+[node name="PokemonLevel" type="Label" parent="InteractComponent/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = SubResource("FontVariation_0jf1k")
+theme_override_font_sizes/font_size = 20
+text = "
+"
+horizontal_alignment = 1
+vertical_alignment = 1

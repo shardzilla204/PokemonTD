@@ -2,7 +2,7 @@ using Godot;
 
 using System.Collections.Generic;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class StarterSelectionInterface : CanvasLayer
 {
@@ -20,17 +20,16 @@ public partial class StarterSelectionInterface : CanvasLayer
 	{
 		foreach (string starterOptionName in _starterOptionNames)
 		{
-			Pokémon pokémon = PokémonTD.PokémonManager.GetPokémon(starterOptionName);
-
-			StarterOption starterOption = PokémonTD.PackedScenes.GetStarterOption();
-			starterOption.Pokémon = pokémon;
+			StarterOption starterOption = PokemonTD.PackedScenes.GetStarterOption();
+			int starterPokemonLevel = PokemonTD.StarterPokemonLevel;
+			starterOption.Pokemon = PokemonTD.PokemonManager.GetPokemon(starterOptionName, starterPokemonLevel);
 
 			_starterOptions.AddChild(starterOption);
 		}
 
-		PokémonTD.Signals.PokémonStarterSelected += (pokémon) => 
+		PokemonTD.Signals.PokemonStarterSelected += (pokemon) => 
 		{
-			StageSelectInterface stageSelectInterface = PokémonTD.PackedScenes.GetStageSelectInterface();
+			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			AddSibling(stageSelectInterface);
 			QueueFree();
 		};

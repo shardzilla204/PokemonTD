@@ -10,20 +10,22 @@ config_version=5
 
 [application]
 
-config/name="Pokémon TD"
-run/main_scene="res://Scenes/GameCanvas.tscn"
+config/name="Pokemon TD"
+config/description="A recreation of a flash game that was a tower defense based off Pokemon"
+config/version="0.1.0"
+run/main_scene="res://Scenes/MenuInterface.tscn"
 config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
 config/icon="res://Assets/Images/GameIcon.png"
 
 [autoload]
 
-PokemonManager="*res://Resources/Scripts/Manager/PokémonManager.cs"
-PokemonMoveset="*res://Resources/Scripts/Manager/PokémonMoveset.cs"
-PokemonStages="*res://Resources/Scripts/Manager/PokémonStages.cs"
-PokemonTypes="*res://Resources/Scripts/Manager/PokémonTypes.cs"
-PokemonTeam="*res://Resources/Scripts/Pokémon/PokémonTeam.cs"
-PersonalComputer="*res://Resources/Scripts/PersonalComputer/PersonalComputer.cs"
-PokemonTD="*res://Scenes/PokémonTD.tscn"
+PokemonManager="*res://Resources/Scripts/Pokemon/PokemonManager.cs"
+PokemonMoveset="*res://Resources/Scripts/PokemonMove/PokemonMoveset.cs"
+PokemonStages="*res://Resources/Scripts/PokemonStage/PokemonStages.cs"
+PokemonTypes="*res://Resources/Scripts/Pokemon/PokemonTypes.cs"
+PokemonTeam="*res://Resources/Scripts/Pokemon/PokemonTeam.cs"
+PokemonCenter="*res://Resources/Scripts/PokemonCenter/PokemonCenter.cs"
+PokemonTD="*res://Scenes/PokemonTD.tscn"
 
 [display]
 
@@ -33,7 +35,7 @@ window/stretch/mode="viewport"
 
 [dotnet]
 
-project/assembly_name="PokémonTD"
+project/assembly_name="PokemonTD"
 
 [editor]
 

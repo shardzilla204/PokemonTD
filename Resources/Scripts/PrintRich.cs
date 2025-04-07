@@ -1,32 +1,32 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public enum TextColor
 {
-   Red, // Error
+   Red, // In-Game Error
    Orange, // Action
    Yellow, // General Event
-   Green, // Success
+   Green, // In-Game Success
    Blue,
-   Purple, // Pokémon Event
+   Purple, // Pokemon Event
 }
 
 public partial class PrintRich
 {
    public static void Print(TextColor textColor, string text)
    {
-      if (!PokémonTD.AreConsoleMessagesEnabled) return;
+      if (!PokemonTD.AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
    }
 
-   // Adds new lines for better readability
+   // Adds new lines for readability
    public static void PrintLine(TextColor textColor, string text)
    {
-      if (!PokémonTD.AreConsoleMessagesEnabled) return;
+      if (!PokemonTD.AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
@@ -35,34 +35,34 @@ public partial class PrintRich
 
    public static void PrintTeam(TextColor textColor)
 	{
-      if (!PokémonTD.AreConsoleMessagesEnabled) return;
+      if (!PokemonTD.AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
 
-      List<Pokémon> pokémonTeam = PokémonTD.PokémonTeam.Pokémon;
+      List<Pokemon> PokemonTeam = PokemonTD.PokemonTeam.Pokemon;
 
 		GD.PrintRich($"[color={textColorString}]New Team:[/color]");
-		for (int i = 0; i < pokémonTeam.Count; i++)
+		for (int i = 0; i < PokemonTeam.Count; i++)
 		{
-			GD.PrintRich($"[color={textColorString}]\t{i + 1}: {pokémonTeam[i].Name}[/color]");
+			GD.PrintRich($"[color={textColorString}]\t{i + 1}: {PokemonTeam[i].Name}[/color]");
 		}
-      GD.Print();
+      GD.Print(); // Spacing
 	}
 
-   public static void PrintStats(TextColor textColor, Pokémon pokémon)
+   public static void PrintStats(TextColor textColor, Pokemon pokemon)
    {
-      if (!PokémonTD.AreConsoleMessagesEnabled) return;
+      if (!PokemonTD.AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
 
-      GD.PrintRich($"[color={textColorString}]Level {pokémon.Level} {pokémon.Name} Stats:[/color]");
-      GD.PrintRich($"[color={textColorString}]HP: {pokémon.HP}[/color]");
-      GD.PrintRich($"[color={textColorString}]Attack: {pokémon.Attack}[/color]");
-      GD.PrintRich($"[color={textColorString}]Defense: {pokémon.Defense}[/color]");
-      GD.PrintRich($"[color={textColorString}]Special Attack: {pokémon.SpecialAttack}[/color]");
-      GD.PrintRich($"[color={textColorString}]Special Defense: {pokémon.SpecialDefense}[/color]");
-      GD.PrintRich($"[color={textColorString}]Speed: {pokémon.Speed}[/color]");
-      GD.Print();
+      GD.PrintRich($"[color={textColorString}]Level {pokemon.Level} {pokemon.Name} Stats:[/color]");
+      GD.PrintRich($"[color={textColorString}]HP: {pokemon.HP}[/color]");
+      GD.PrintRich($"[color={textColorString}]Attack: {pokemon.Attack}[/color]");
+      GD.PrintRich($"[color={textColorString}]Defense: {pokemon.Defense}[/color]");
+      GD.PrintRich($"[color={textColorString}]Special Attack: {pokemon.SpecialAttack}[/color]");
+      GD.PrintRich($"[color={textColorString}]Special Defense: {pokemon.SpecialDefense}[/color]");
+      GD.PrintRich($"[color={textColorString}]Speed: {pokemon.Speed}[/color]");
+      GD.Print(); // Spacing
    }
 
    public static void PrintEffectiveness(TextColor textColor, EffectiveType effectiveType)

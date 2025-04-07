@@ -1,0 +1,2903 @@
+{
+	"Bulbasaur": 
+	{
+		"National Number": "0001",
+		"Type": 
+		[
+			"Grass",
+			"Poison"
+		],
+		"Species": "Seed",
+		"Height": 0.7,
+		"Weight": 6.9,
+		"Description": "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 49,
+			"Defense": 49,
+			"Special Attack": 65,
+			"Special Defense": 65,
+			"Speed": 45
+		},
+		"Base Experience Yield": 64,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Ivysaur":
+	{
+		"National Number": "0002",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Seed",
+		"Height": 1,
+		"Weight": 13,
+		"Description": "When the bulb on its back grows large, it appears to lose the ability to stand on its hind legs.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 62,
+			"Defense": 63,
+			"Special Attack": 80,
+			"Special Defense": 80,
+			"Speed": 60
+		},
+		"Base Experience Yield": 141,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Venusaur": 
+	{
+		"National Number": "0003",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Seed",
+		"Height": 2,
+		"Weight": 100,
+		"Description": "The plant blooms when it is absorbing solar energy. It stays on the move to seek sunlight.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 82,
+			"Defense": 83,
+			"Special Attack": 100,
+			"Special Defense": 100,
+			"Speed": 80
+		},
+		"Base Experience Yield": 208,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Charmander":
+	{
+		"National Number": "0004",
+		"Type": [ "Fire" ],
+		"Species": "Lizard",
+		"Height": 0.6,
+		"Weight": 8.5,
+		"Description": "Obviously prefers hot places. When it rains, steam is said to spout from the tip of its tail.",
+		"Base Stats":
+		{
+			"HP": 39,
+			"Attack": 52,
+			"Defense": 43,
+			"Special Attack": 60,
+			"Special Defense": 50,
+			"Speed": 65
+		},
+		"Base Experience Yield": 64,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Charmeleon": 
+	{
+		"National Number": "0005",
+		"Type": [ "Fire" ],
+		"Species": "Flame",
+		"Height": 1.1,
+		"Weight": 19,
+		"Description": "When it swings its burning tail, it elevates the temperature to unbearably high levels.",
+		"Base Stats":
+		{
+			"HP": 58,
+			"Attack": 64,
+			"Defense": 58,
+			"Special Attack": 80,
+			"Special Defense": 65,
+			"Speed": 80
+		},
+		"Base Experience Yield": 65,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Charizard": 
+	{
+		"National Number": "0006",
+		"Type": [ "Fire", "Flying" ],
+		"Species": "Flame",
+		"Height": 1.7,
+		"Weight": 90.5,
+		"Description": "Spits fire that is hot enough to melt boulders. Known to cause forest fires unintentionally.",
+		"Base Stats":
+		{
+			"HP": 78,
+			"Attack": 84,
+			"Defense": 78,
+			"Special Attack": 109,
+			"Special Defense": 85,
+			"Speed": 100
+		},
+		"Base Experience Yield": 209,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Squirtle": {
+		"National Number": "0007",
+		"Type": [ "Water" ],
+		"Species": "Tiny Turtle",
+		"Height": 0.5,
+		"Weight": 9,
+		"Description": "After birth, its back swells and hardens into a shell. Powerfully sprays foam from its mouth.",
+		"Base Stats":
+		{
+			"HP": 44,
+			"Attack": 48,
+			"Defense": 65,
+			"Special Attack": 50,
+			"Special Defense": 64,
+			"Speed": 43
+		},
+		"Base Experience Yield": 66,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Wartortle": {
+		"National Number": "0008",
+		"Type": [ "Water" ],
+		"Species": "Turtle",
+		"Height": 1,
+		"Weight": 22.5,
+		"Description": "Often hides in water to stalk unwary prey. For swimming fast, it moves its ears to maintain balance.",
+		"Base Stats":
+		{
+			"HP": 59,
+			"Attack": 63,
+			"Defense": 80,
+			"Special Attack": 65,
+			"Special Defense": 80,
+			"Speed": 58
+		},
+		"Base Experience Yield": 143,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Blastoise": {
+		"National Number": "0009",
+		"Type": [ "Water" ],
+		"Species": "Shellfish",
+		"Height": 1.6,
+		"Weight": 85.5,
+		"Description": "A brutal Pokémon with pressurized water jets on its shell. They are used for high speed tackles.",
+		"Base Stats":
+		{
+			"HP": 79,
+			"Attack": 83,
+			"Defense": 100,
+			"Special Attack": 85,
+			"Special Defense": 105,
+			"Speed": 78
+		},
+		"Base Experience Yield": 210,
+		"Gender Ratio": 
+		{
+			"Male": 0.875,
+			"Female": 0.125
+		}
+	},
+	"Caterpie": {
+		"National Number": "0010",
+		"Type": [ "Bug" ],
+		"Species": "Worm",
+		"Height": 0.3,
+		"Weight": 2.9,
+		"Description": "Its short feet are tipped with suction pads that enable it to tirelessly climb slopes and walls.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 30,
+			"Defense": 35,
+			"Special Attack": 20,
+			"Special Defense": 20,
+			"Speed": 45
+		},
+		"Base Experience Yield": 53
+	},
+	"Metapod": {
+		"National Number": "0011",
+		"Type": [ "Bug" ],
+		"Species": "Cocoon",
+		"Height": 0.7,
+		"Weight": 9.9,
+		"Description": "This Pokémon is vulnerable to attack while its shell is soft, exposing its weak and tender body.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 20,
+			"Defense": 55,
+			"Special Attack": 25,
+			"Special Defense": 25,
+			"Speed": 30
+		},
+		"Base Experience Yield": 72
+	},
+	"Butterfree": {
+		"National Number": "0012",
+		"Type": [ "Bug", "Flying" ],
+		"Species": "Butterfly",
+		"Height": 1.1,
+		"Weight": 32,
+		"Description": "In battle, it flaps its wings at high speed to release highly toxic dust into the air.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 45,
+			"Defense": 50,
+			"Special Attack": 90,
+			"Special Defense": 80,
+			"Speed": 70
+		},
+		"Base Experience Yield": 160
+	},
+	"Weedle": {
+		"National Number": "0013",
+		"Type": [ "Bug", "Poison" ],
+		"Species": "Hairy Bug",
+		"Height": 0.3,
+		"Weight": 3.2,
+		"Description": "Often found in forests, eating leaves. It has a sharp venomous stinger on its head.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 35,
+			"Defense": 30,
+			"Special Attack": 20,
+			"Special Defense": 20,
+			"Speed": 50
+		},
+		"Base Experience Yield": 52
+	},
+	"Kakuna": {
+		"National Number": "0014",
+		"Type": [ "Bug", "Poison" ],
+		"Species": "Cocoon",
+		"Height": 0.6,
+		"Weight": 10,
+		"Description": "Almost incapable of moving, this Pokémon can only harden its shell to protect itself from predators.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 25,
+			"Defense": 50,
+			"Special Attack": 25,
+			"Special Defense": 25,
+			"Speed": 35
+		},
+		"Base Experience Yield": 71
+	},
+	"Beedrill": {
+		"National Number": "0015",
+		"Type": [ "Bug", "Poison" ],
+		"Species": "Poison Bee",
+		"Height": 1,
+		"Weight": 29.5,
+		"Description": "Flies at high speed and attacks using its large venomous stingers on its forelegs and tail.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 90,
+			"Defense": 40,
+			"Special Attack": 45,
+			"Special Defense": 80,
+			"Speed": 75
+		},
+		"Base Experience Yield": 159
+	},
+	"Pidgey": {
+		"National Number": "0016",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Tiny Bird",
+		"Height": 0.3,
+		"Weight": 1.8,
+		"Description": "A common sight in forests and woods. It flaps its wings at ground level to kick up blinding sand.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 45,
+			"Defense": 40,
+			"Special Attack": 35,
+			"Special Defense": 35,
+			"Speed": 56
+		},
+		"Base Experience Yield": 55
+	},
+	"Pidgeotto": {
+		"National Number": "0017",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Bird",
+		"Height": 1.1,
+		"Weight": 30,
+		"Description": "Very protective of its sprawling territorial area, this Pokémon will fiercely peck at any intruder.",
+		"Base Stats":
+		{
+			"HP": 63,
+			"Attack": 60,
+			"Defense": 55,
+			"Special Attack": 50,
+			"Special Defense": 50,
+			"Speed": 71
+		},
+		"Base Experience Yield": 113
+	},
+	"Pidgeot": {
+		"National Number": "0018",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Bird",
+		"Height": 1.5,
+		"Weight": 39.5,
+		"Description": "When hunting, it skims the surface of water at high speed to pick off unwary prey such as Magikarp.",
+		"Base Stats":
+		{
+			"HP": 83,
+			"Attack": 80,
+			"Defense": 75,
+			"Special Attack": 70,
+			"Special Defense": 70,
+			"Speed": 101
+		},
+		"Base Experience Yield": 172
+	},
+	"Rattata": {
+		"National Number": "0019",
+		"Type": [ "Normal" ],
+		"Species": "Mouse",
+		"Height": 0.3,
+		"Weight": 3.5,
+		"Description": "Bites anything when it attacks. Small and very quick, it is a common sight in many places.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 56,
+			"Defense": 35,
+			"Special Attack": 25,
+			"Special Defense": 35,
+			"Speed": 72
+		},
+		"Base Experience Yield": 57
+	},
+	"Raticate": {
+		"National Number": "0020",
+		"Type": [ "Normal" ],
+		"Species": "Mouse",
+		"Height": 0.7,
+		"Weight": 18.5,
+		"Description": "It uses its whiskers to maintain its balance. It apparently slows down if they are cut off.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 81,
+			"Defense": 60,
+			"Special Attack": 50,
+			"Special Defense": 70,
+			"Speed": 97
+		},
+		"Base Experience Yield": 116
+	},
+	"Spearow": {
+		"National Number": "0021",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Tiny Bird",
+		"Height": 0.3,
+		"Weight": 2,
+		"Description": "Eats bugs in grassy areas. It has to flap its short wings at high speed to stay airborne.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 60,
+			"Defense": 30,
+			"Special Attack": 31,
+			"Special Defense": 31,
+			"Speed": 70
+		},
+		"Base Experience Yield": 58
+	},
+	"Fearow": {
+		"National Number": "0022",
+		"Type": [
+			"Normal",
+			"Flying"
+		],
+		"Species": "Beak",
+		"Height": 1.2,
+		"Weight": 38,
+		"Description": "With its huge and magnificent wings, it can keep aloft without ever having to land for rest.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 90,
+			"Defense": 65,
+			"Special Attack": 61,
+			"Special Defense": 61,
+			"Speed": 100
+		},
+		"Base Experience Yield": 162
+	},
+	"Ekans": {
+		"National Number": "0023",
+		"Type": [ "Poison" ],
+		"Species": "Snake",
+		"Height": 2,
+		"Weight": 6.9,
+		"Description": "Moves silently and stealthily. Eats the eggs of birds, such as Pidgey and Spearow, whole.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 60,
+			"Defense": 44,
+			"Special Attack": 40,
+			"Special Defense": 54,
+			"Speed": 55
+		},
+		"Base Experience Yield": 62
+	},
+	"Arbok": {
+		"National Number": "0024",
+		"Type": [ "Poison" ],
+		"Species": "Cobra",
+		"Height": 3.5,
+		"Weight": 65,
+		"Description": "It is rumored that the ferocious warning markings on its belly differ from area to area.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 95,
+			"Defense": 69,
+			"Special Attack": 65,
+			"Special Defense": 79,
+			"Speed": 80
+		},
+		"Base Experience Yield": 147
+	},
+	"Pikachu": {
+		"National Number": "0025",
+		"Type": [ "Electric" ],
+		"Species": "Mouse",
+		"Height": 0.4,
+		"Weight": 6,
+		"Description": "When several of these Pokémon gather, their electricity could build and cause lightning storms.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 55,
+			"Defense": 40,
+			"Special Attack": 50,
+			"Special Defense": 50,
+			"Speed": 90
+		},
+		"Base Experience Yield": 82
+	},
+	"Raichu": {
+		"National Number": "0026",
+		"Type": [ "Electric" ],
+		"Species": "Mouse",
+		"Height": 0.8,
+		"Weight": 30,
+		"Description": "Its long tail serves as a ground to protect itself from its own high voltage power.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 90,
+			"Defense": 55,
+			"Special Attack": 90,
+			"Special Defense": 80,
+			"Speed": 110
+		},
+		"Base Experience Yield": 122
+	},
+	"Sandshrew":
+	{
+		"National Number": "0027",
+		"Type": [ "Ground" ],
+		"Species": "Mouse",
+		"Height": 0.6,
+		"Weight": 12,
+		"Description": "Burrows deep underground in arid locations far from water. It only emerges to hunt for food.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 75,
+			"Defense": 85,
+			"Special Attack": 20,
+			"Special Defense": 30,
+			"Speed": 40
+		},
+		"Base Experience Yield": 93
+	},
+	"Sandslash":
+	{
+		"National Number": "0028",
+		"Type": [ "Ground" ],
+		"Species": "Mouse",
+		"Height": 1,
+		"Weight": 29.5,
+		"Description": "Curls up into a spiny ball when threatened. It can roll while curled up to attack or escape.",
+		"Base Stats":
+		{
+			"HP": 75,
+			"Attack": 100,
+			"Defense": 110,
+			"Special Attack": 45,
+			"Special Defense": 55,
+			"Speed": 65
+		},
+		"Base Experience Yield": 163
+	},
+	"Nidoran♀":
+	{
+		"National Number": "0029",
+		"Type": [ "Poison" ],
+		"Species": "Poison Pin",
+		"Height": 0.4,
+		"Weight": 7,
+		"Description": "Although small, its venomous barbs render this Pokémon dangerous. The female has smaller horns.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 47,
+			"Defense": 52,
+			"Special Attack": 40,
+			"Special Defense": 40,
+			"Speed": 41
+		},
+		"Base Experience Yield": 59
+	},
+	"Nidorina":
+	{
+		"National Number": "0030",
+		"Type": [ "Poison" ],
+		"Species": "Poison Pin",
+		"Height": 0.8,
+		"Weight": 20,
+		"Description": "The female’s horn develops slowly. Prefers physical attacks such as clawing and biting.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 62,
+			"Defense": 67,
+			"Special Attack": 55,
+			"Special Defense": 55,
+			"Speed": 56
+		},
+		"Base Experience Yield": 117
+	},
+	"Nidoqueen":
+	{
+		"National Number": "0031",
+		"Type": [ "Poison", "Ground" ],
+		"Species": "Drill",
+		"Height": 1.3,
+		"Weight": 60,
+		"Description": "Its hard scales provide strong protection. It uses its hefty bulk to execute powerful moves.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 92,
+			"Defense": 87,
+			"Special Attack": 75,
+			"Special Defense": 85,
+			"Speed": 76
+		},
+		"Base Experience Yield": 194
+	},
+	"Nidoran♂":
+	{
+		"National Number": "0032",
+		"Type": [ "Poison" ],
+		"Species": "Poison Pin",
+		"Height": 0.5,
+		"Weight": 9,
+		"Description": "Stiffens its ears to sense danger. The larger its horns, the more powerful its secreted venom.",
+		"Base Stats":
+		{
+			"HP": 46,
+			"Attack": 57,
+			"Defense": 40,
+			"Special Attack": 40,
+			"Special Defense": 40,
+			"Speed": 50
+		},
+		"Base Experience Yield": 60
+	},
+	"Nidorino":
+	{
+		"National Number": "0033",
+		"Type": [ "Poison" ],
+		"Species": "Poison Pin",
+		"Height": 0.9,
+		"Weight": 19.5,
+		"Description": "An aggressive Pokémon that is quick to attack. The horn on its head secretes a powerful venom.",
+		"Base Stats":
+		{
+			"HP": 61,
+			"Attack": 72,
+			"Defense": 57,
+			"Special Attack": 55,
+			"Special Defense": 55,
+			"Speed": 65
+		},
+		"Base Experience Yield": 118
+	},
+	"Nidoking":
+	{
+		"National Number": "0034",
+		"Type": [ "Poison", "Ground" ],
+		"Species": "Drill",
+		"Height": 1.4,
+		"Weight": 62,
+		"Description": "It uses its powerful tail in battle to smash, constrict, then break the prey’s bones.",
+		"Base Stats":
+		{
+			"HP": 81,
+			"Attack": 102,
+			"Defense": 77,
+			"Special Attack": 85,
+			"Special Defense": 75,
+			"Speed": 85
+		},
+		"Base Experience Yield": 195
+	},
+	"Clefairy":
+	{
+		"National Number": "0035",
+		"Type": [ "Normal" ],
+		"Species": "Fairy",
+		"Height": 0.6,
+		"Weight": 7.5,
+		"Description": "Its magical and cute appeal has many admirers. It is rare and found only in certain areas.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 45,
+			"Defense": 48,
+			"Special Attack": 60,
+			"Special Defense": 65,
+			"Speed": 35
+		},
+		"Base Experience Yield": 68
+	},
+	"Clefable":
+	{
+		"National Number": "0036",
+		"Type": [ "Normal" ],
+		"Species": "Fairy",
+		"Height": 1.3,
+		"Weight": 40,
+		"Description": "A timid fairy Pokémon that is rarely seen. It will run and hide the moment it senses people.",
+		"Base Stats":
+		{
+			"HP": 95,
+			"Attack": 70,
+			"Defense": 73,
+			"Special Attack": 95,
+			"Special Defense": 90,
+			"Speed": 60
+		},
+		"Base Experience Yield": 129
+	},
+	"Vulpix":
+	{
+		"National Number": "0037",
+		"Type": [ "Fire" ],
+		"Species": "Fox",
+		"Height": 0.6,
+		"Weight": 9.9,
+		"Description": "At the time of birth, it has just one tail. The tail splits from its tip as it grows older.",
+		"Base Stats":
+		{
+			"HP": 38,
+			"Attack": 41,
+			"Defense": 40,
+			"Special Attack": 50,
+			"Special Defense": 65,
+			"Speed": 65
+		},
+		"Base Experience Yield": 63
+	},
+	"Ninetales":
+	{
+		"National Number": "0038",
+		"Type": [ "Fire" ],
+		"Species": "Fox",
+		"Height": 1.1,
+		"Weight": 19.9,
+		"Description": "Very smart and very vengeful. Grabbing one of its many tails could result in a 1000-year curse.",
+		"Base Stats":
+		{
+			"HP": 73,
+			"Attack": 76,
+			"Defense": 75,
+			"Special Attack": 81,
+			"Special Defense": 100,
+			"Speed": 100
+		},
+		"Base Experience Yield": 178
+	},
+	"Jigglypuff":
+	{
+		"National Number": "0039",
+		"Type": [ "Normal" ],
+		"Species": "Balloon",
+		"Height": 0.5,
+		"Weight": 5.5,
+		"Description": "When its huge eyes light up, it sings a mysteriously soothing melody that lulls its enemies to sleep.",
+		"Base Stats":
+		{
+			"HP": 115,
+			"Attack": 45,
+			"Defense": 20,
+			"Special Attack": 45,
+			"Special Defense": 25,
+			"Speed": 20
+		},
+		"Base Experience Yield": 76
+	},
+	"Wigglytuff":
+	{
+		"National Number": "0040",
+		"Type": [ "Normal" ],
+		"Species": "Balloon",
+		"Height": 1,
+		"Weight": 12,
+		"Description": "The body is soft and rubbery. When angered, it will suck in air and inflate itself to an enormous size.",
+		"Base Stats":
+		{
+			"HP": 140,
+			"Attack": 70,
+			"Defense": 45,
+			"Special Attack": 85,
+			"Special Defense": 50,
+			"Speed": 45
+		},
+		"Base Experience Yield": 109
+	},
+	"Zubat":
+	{
+		"National Number": "0041",
+		"Type": [ "Poison", "Flying" ],
+		"Species": "Bat",
+		"Height": 0.8,
+		"Weight": 7.5,
+		"Description": "Forms colonies in perpetually dark places. Uses ultrasonic waves to identify and approach targets.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 45,
+			"Defense": 35,
+			"Special Attack": 30,
+			"Special Defense": 40,
+			"Speed": 55
+		},
+		"Base Experience Yield": 54
+	},
+	"Golbat":
+	{
+		"National Number": "0042",
+		"Type": [ "Poison", "Flying" ],
+		"Species": "Bat",
+		"Height": 1.6,
+		"Weight": 55,
+		"Description": "Once it strikes, it will not stop draining energy from the victim even if it gets too heavy to fly.",
+		"Base Stats":
+		{
+			"HP": 75,
+			"Attack": 80,
+			"Defense": 70,
+			"Special Attack": 65,
+			"Special Defense": 75,
+			"Speed": 90
+		},
+		"Base Experience Yield": 171
+	},
+	"Oddish":
+	{
+		"National Number": "0043",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Weed",
+		"Height": 0.5,
+		"Weight": 5.4,
+		"Description": "During the day, it keeps its face buried in the ground. At night, it wanders around sowing its seeds.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 50,
+			"Defense": 55,
+			"Special Attack": 75,
+			"Special Defense": 65,
+			"Speed": 30
+		},
+		"Base Experience Yield": 78
+	},
+	"Gloom":
+	{
+		"National Number": "0044",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Weed",
+		"Height": 0.8,
+		"Weight": 8.6,
+		"Description": "The fluid that oozes from its mouth isn’t drool. It is a nectar that is used to attract prey.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 65,
+			"Defense": 70,
+			"Special Attack": 85,
+			"Special Defense": 75,
+			"Speed": 40
+		},
+		"Base Experience Yield": 132
+	},
+	"Vileplume":
+	{
+		"National Number": "0045",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Flower",
+		"Height": 1.2,
+		"Weight": 18.6,
+		"Description": "The larger its petals, the more toxic pollen it contains. Its big head is heavy and hard to hold up.",
+		"Base Stats":
+		{
+			"HP": 75,
+			"Attack": 80,
+			"Defense": 85,
+			"Special Attack": 100,
+			"Special Defense": 90,
+			"Speed": 50
+		},
+		"Base Experience Yield": 184
+	},
+	"Paras":
+	{
+		"National Number": "0046",
+		"Type": [ "Bug", "Grass" ],
+		"Species": "Mushroom",
+		"Height": 0.3,
+		"Weight": 5.4,
+		"Description": "Burrows to suck tree roots. The mushrooms on its back grow by drawing nutrients from the bug host.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 70,
+			"Defense": 55,
+			"Special Attack": 45,
+			"Special Defense": 55,
+			"Speed": 25
+		},
+		"Base Experience Yield": 70
+	},
+	"Parasect":
+	{
+		"National Number": "0047",
+		"Type": [ "Bug", "Grass" ],
+		"Species": "Mushroom",
+		"Height": 1,
+		"Weight": 29.5,
+		"Description": "A host-parasite pair in which the parasite mushroom has taken over the host bug. Prefers damp places.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 95,
+			"Defense": 80,
+			"Special Attack": 60,
+			"Special Defense": 80,
+			"Speed": 30
+		},
+		"Base Experience Yield": 128
+	},
+	"Venonat":
+	{
+		"National Number": "0048",
+		"Type": [ "Bug", "Poison" ],
+		"Species": "Insect",
+		"Height": 1,
+		"Weight": 30,
+		"Description": "Lives in the shadows of tall trees where it eats insects. It is attracted by light at night.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 55,
+			"Defense": 50,
+			"Special Attack": 40,
+			"Special Defense": 55,
+			"Speed": 45
+		},
+		"Base Experience Yield": 75
+	},
+	"Venomoth":
+	{
+		"National Number": "0049",
+		"Type": [ "Bug", "Poison" ],
+		"Species": "Poison Moth",
+		"Height": 1.5,
+		"Weight": 12.5,
+		"Description": "The dust-like scales covering its wings are color coded to indicate the kinds of poison it has.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 65,
+			"Defense": 60,
+			"Special Attack": 90,
+			"Special Defense": 75,
+			"Speed": 90
+		},
+		"Base Experience Yield": 138
+	},
+	"Diglett":
+	{
+		"National Number": "0050",
+		"Type": [ "Ground" ],
+		"Species": "Mole",
+		"Height": 0.2,
+		"Weight": 0.8,
+		"Description": "Lives about one yard underground where it feeds on plant roots. It sometimes appears above ground.",
+		"Base Stats":
+		{
+			"HP": 10,
+			"Attack": 55,
+			"Defense": 25,
+			"Special Attack": 35,
+			"Special Defense": 45,
+			"Speed": 90
+		},
+		"Base Experience Yield": 81
+	},
+	"Dugtrio":
+	{
+		"National Number": "0051",
+		"Type": [ "Ground" ],
+		"Species": "Mole",
+		"Height": 0.7,
+		"Weight": 33.3,
+		"Description": "A team of Diglett triplets. It triggers huge earthquakes by burrowing 60 miles underground.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 80,
+			"Defense": 50,
+			"Special Attack": 50,
+			"Special Defense": 70,
+			"Speed": 120
+		},
+		"Base Experience Yield": 153
+	},
+	"Meowth":
+	{
+		"National Number": "0052",
+		"Type": [ "Normal" ],
+		"Species": "Scratch Cat",
+		"Height": 0.4,
+		"Weight": 4.2,
+		"Description": "Adores circular objects. Wanders the streets on a nightly basis to look for dropped loose change.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 45,
+			"Defense": 35,
+			"Special Attack": 40,
+			"Special Defense": 40,
+			"Speed": 90
+		},
+		"Base Experience Yield": 69
+	},
+	"Persian":
+	{
+		"National Number": "0053",
+		"Type": [ "Normal" ],
+		"Species": "Classy Cat",
+		"Height": 1,
+		"Weight": 32,
+		"Description": "Although its fur has many admirers, it is tough to raise as a pet because of its fickle meanness.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 70,
+			"Defense": 60,
+			"Special Attack": 65,
+			"Special Defense": 65,
+			"Speed": 115
+		},
+		"Base Experience Yield": 148
+	},
+	"Psyduck":
+	{
+		"National Number": "0054",
+		"Type": [ "Water" ],
+		"Species": "Duck",
+		"Height": 0.8,
+		"Weight": 19.6,
+		"Description": "While lulling its enemies with its vacant look, this wily Pokémon will use psychokinetic powers.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 52,
+			"Defense": 48,
+			"Special Attack": 65,
+			"Special Defense": 50,
+			"Speed": 55
+		},
+		"Base Experience Yield": 80
+	},
+	"Golduck":
+	{
+		"National Number": "0055",
+		"Type": [ "Water" ],
+		"Species": "Duck",
+		"Height": 1.7,
+		"Weight": 76.6,
+		"Description": "Often seen swimming elegantly by lake shores. It is often mistaken for the Japanese monster, Kappa.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 82,
+			"Defense": 78,
+			"Special Attack": 95,
+			"Special Defense": 80,
+			"Speed": 85
+		},
+		"Base Experience Yield": 174
+	},
+	"Mankey":
+	{
+		"National Number": "0056",
+		"Type": [ "Fighting" ],
+		"Species": "Pig Monkey",
+		"Height": 0.5,
+		"Weight": 28,
+		"Description": "Extremely quick to anger. It could be docile one moment then thrashing away the next instant.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 80,
+			"Defense": 35,
+			"Special Attack": 35,
+			"Special Defense": 45,
+			"Speed": 70
+		},
+		"Base Experience Yield": 74
+	},
+	"Primeape":
+	{
+		"National Number": "0057",
+		"Type": [ "Fighting" ],
+		"Species": "Pig Monkey",
+		"Height": 1,
+		"Weight": 32,
+		"Description": "Always furious and tenacious to boot. It will not abandon chasing its quarry until it is caught.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 105,
+			"Defense": 60,
+			"Special Attack": 60,
+			"Special Defense": 70,
+			"Speed": 95
+		},
+		"Base Experience Yield": 149
+	},
+	"Growlithe":
+	{
+		"National Number": "0058",
+		"Type": [ "Fire" ],
+		"Species": "Puppy",
+		"Height": 0.7,
+		"Weight": 19,
+		"Description": "Very protective of its territory. It will bark and bite to repel intruders from its space.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 70,
+			"Defense": 45,
+			"Special Attack": 70,
+			"Special Defense": 50,
+			"Speed": 60
+		},
+		"Base Experience Yield": 91
+	},
+	"Arcanine":
+	{
+		"National Number": "0059",
+		"Type": [ "Fire" ],
+		"Species": "Legendary",
+		"Height": 0.8,
+		"Weight": 30,
+		"Description": "A Pokémon that has been admired since the past for its beauty. It runs agilely as if on wings.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 110,
+			"Defense": 80,
+			"Special Attack": 100,
+			"Special Defense": 80,
+			"Speed": 95
+		},
+		"Base Experience Yield": 213
+	},
+	"Poliwag":
+	{
+		"National Number": "0060",
+		"Type": [ "Water" ],
+		"Species": "Tadpole",
+		"Height": 0.6,
+		"Weight": 12.4,
+		"Description": "Its newly grown legs prevent it from running. It appears to prefer swimming than trying to stand.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 50,
+			"Defense": 40,
+			"Special Attack": 40,
+			"Special Defense": 40,
+			"Speed": 90
+		},
+		"Base Experience Yield": 77
+	},
+	"Poliwhirl":
+	{
+		"National Number": "0061",
+		"Type": [ "Water" ],
+		"Species": "Tadpole",
+		"Height": 1,
+		"Weight": 10,
+		"Description": "Capable of living in or out of water. When out of water, it sweats to keep its body slimy.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 65,
+			"Defense": 65,
+			"Special Attack": 50,
+			"Special Defense": 50,
+			"Speed": 90
+		},
+		"Base Experience Yield": 131
+	},
+	"Poliwrath":
+	{
+		"National Number": "0062",
+		"Type": [ "Water", "Fighting" ],
+		"Species": "Mouse",
+		"Height": 1.3,
+		"Weight": 54,
+		"Description": "An adept swimmer at both the front crawl and breast stroke. Easily overtakes the best human swimmers.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 85,
+			"Defense": 95,
+			"Special Attack": 70,
+			"Special Defense": 90,
+			"Speed": 70
+		},
+		"Base Experience Yield": 185
+	},
+	"Abra":
+	{
+		"National Number": "0063",
+		"Type": [ "Psychic" ],
+		"Species": "Psi",
+		"Height": 0.9,
+		"Weight": 19.5,
+		"Description": "Using its ability to read minds, it will identify impending danger and Teleport to safety.",
+		"Base Stats":
+		{
+			"HP": 25,
+			"Attack": 20,
+			"Defense": 15,
+			"Special Attack": 105,
+			"Special Defense": 55,
+			"Speed": 90
+		},
+		"Base Experience Yield": 73
+	},
+	"Kadabra":
+	{
+		"National Number": "0064",
+		"Type": [ "Psychic" ],
+		"Species": "Psi",
+		"Height": 1.3,
+		"Weight": 56.5,
+		"Description": "It emits special alpha waves from its body that induce headaches just by being close by.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 35,
+			"Defense": 30,
+			"Special Attack": 120,
+			"Special Defense": 70,
+			"Speed": 105
+		},
+		"Base Experience Yield": 145
+	},
+	"Alakazam":
+	{
+		"National Number": "0065",
+		"Type": [ "Psychic" ],
+		"Species": "Psi",
+		"Height": 1.5,
+		"Weight": 48,
+		"Description": "Its brain can outperform a supercomputer. Its intelligence quotient is said to be 5,000.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 50,
+			"Defense": 45,
+			"Special Attack": 135,
+			"Special Defense": 85,
+			"Speed": 120
+		},
+		"Base Experience Yield": 186
+	},
+	"Machop":
+	{
+		"National Number": "0066",
+		"Type": [ "Fighting" ],
+		"Species": "Superpower",
+		"Height": 0.8,
+		"Weight": 19.5,
+		"Description": "Loves to build its muscles. It trains in all styles of martial arts to become even stronger.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 80,
+			"Defense": 50,
+			"Special Attack": 35,
+			"Special Defense": 35,
+			"Speed": 35
+		},
+		"Base Experience Yield": 88
+	},
+	"Machoke":
+	{
+		"National Number": "0067",
+		"Type": [ "Fighting" ],
+		"Species": "Superpower",
+		"Height": 1.5,
+		"Weight": 70.5,
+		"Description": "Its muscular body is so powerful, it must wear a power save belt to be able to regulate its motions.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 100,
+			"Defense": 70,
+			"Special Attack": 50,
+			"Special Defense": 60,
+			"Speed": 45
+		},
+		"Base Experience Yield": 146
+	},
+	"Machamp":
+	{
+		"National Number": "0068",
+		"Type": [ "Fighting" ],
+		"Species": "Superpower",
+		"Height": 1.6,
+		"Weight": 130,
+		"Description": "Using its heavy muscles, it throws powerful punches that can send the victim clear over the horizon.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 130,
+			"Defense": 80,
+			"Special Attack": 65,
+			"Special Defense": 85,
+			"Speed": 55
+		},
+		"Base Experience Yield": 193
+	},
+	"Bellsprout":
+	{
+		"National Number": "0069",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Flower",
+		"Height": 0.7,
+		"Weight": 4,
+		"Description": "A carnivorous Pokémon that traps and eats bugs. It uses its root feet to soak up needed moisture.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 75,
+			"Defense": 35,
+			"Special Attack": 70,
+			"Special Defense": 30,
+			"Speed": 40
+		},
+		"Base Experience Yield": 84
+	},
+	"Weepinbell":
+	{
+		"National Number": "0070",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Flycatcher",
+		"Height": 1,
+		"Weight": 6.4,
+		"Description": "It spits out poison powder to immobilize the enemy and then finishes it with a spray of acid.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 90,
+			"Defense": 50,
+			"Special Attack": 85,
+			"Special Defense": 45,
+			"Speed": 55
+		},
+		"Base Experience Yield": 151
+	},
+	"Victreebel":
+	{
+		"National Number": "0071",
+		"Type": [ "Grass", "Poison" ],
+		"Species": "Flycatcher",
+		"Height": 1.7,
+		"Weight": 15.5,
+		"Description": "Said to live in huge colonies deep in jungles, although no one has ever returned from there.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 105,
+			"Defense": 65,
+			"Special Attack": 100,
+			"Special Defense": 60,
+			"Speed": 70
+		},
+		"Base Experience Yield": 191
+	},
+	"Tentacool":
+	{
+		"National Number": "0072",
+		"Type": [ "Water", "Poison" ],
+		"Species": "Jellyfish",
+		"Height": 0.9,
+		"Weight": 45.5,
+		"Description": "Drifts in shallow seas. Anglers who hook them by accident are often punished by its stinging acid.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 40,
+			"Defense": 35,
+			"Special Attack": 50,
+			"Special Defense": 100,
+			"Speed": 70
+		},
+		"Base Experience Yield": 105
+	},
+	"Tentacruel":
+	{
+		"National Number": "0073",
+		"Type": [ "Water", "Poison" ],
+		"Species": "Jellyfish",
+		"Height": 1.6,
+		"Weight": 55,
+		"Description": "Its brain can outperform a supercomputer. Its intelligence quotient is said to be 5,000.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 70,
+			"Defense": 65,
+			"Special Attack": 80,
+			"Special Defense": 120,
+			"Speed": 100
+		},
+		"Base Experience Yield": 205
+	},
+	"Geodude":
+	{
+		"National Number": "0074",
+		"Type": [ "Rock", "Ground" ],
+		"Species": "Rock",
+		"Height": 0.4,
+		"Weight": 20,
+		"Description": "Found in fields and mountains. Mistaking them for boulders, people often step or trip on them.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 80,
+			"Defense": 100,
+			"Special Attack": 30,
+			"Special Defense": 30,
+			"Speed": 20
+		},
+		"Base Experience Yield": 86
+	},
+	"Graveler":
+	{
+		"National Number": "0075",
+		"Type": [ "Rock", "Ground" ],
+		"Species": "Rock",
+		"Height": 1,
+		"Weight": 105,
+		"Description": "Rolls down slopes to move. It rolls over any obstacle without slowing or changing its direction.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 95,
+			"Defense": 115,
+			"Special Attack": 45,
+			"Special Defense": 45,
+			"Speed": 35
+		},
+		"Base Experience Yield": 134
+	},
+	"Golem":
+	{
+		"National Number": "0076",
+		"Type": [ "Rock", "Ground" ],
+		"Species": "Megaton",
+		"Height": 1.4,
+		"Weight": 300,
+		"Description": "Its boulder-like body is extremely hard. It can easily withstand dynamite blasts without damage.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 110,
+			"Defense": 130,
+			"Special Attack": 55,
+			"Special Defense": 65,
+			"Speed": 45
+		},
+		"Base Experience Yield": 177
+	},
+	"Ponyta":
+	{
+		"National Number": "0077",
+		"Type": [ "Fire" ],
+		"Species": "Fire Horse",
+		"Height": 1,
+		"Weight": 30,
+		"Description": "Its hooves are 10 times harder than diamonds. It can trample anything completely flat in little time.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 85,
+			"Defense": 55,
+			"Special Attack": 65,
+			"Special Defense": 65,
+			"Speed": 90
+		},
+		"Base Experience Yield": 152
+	},
+	"Rapidash":
+	{
+		"National Number": "0078",
+		"Type": [ "Fire" ],
+		"Species": "Fire Horse",
+		"Height": 1.7,
+		"Weight": 95,
+		"Description": "Very competitive, this Pokémon will chase anything that moves fast in the hopes of racing it.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 100,
+			"Defense": 70,
+			"Special Attack": 80,
+			"Special Defense": 80,
+			"Speed": 105
+		},
+		"Base Experience Yield": 192
+	},
+	"Slowpoke":
+	{
+		"National Number": "0079",
+		"Type": [ "Water", "Psychic" ],
+		"Species": "Dopey",
+		"Height": 1.2,
+		"Weight": 36,
+		"Description": "Incredibly slow and dopey. It takes 5 seconds for it to feel pain when under attack.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 65,
+			"Defense": 65,
+			"Special Attack": 40,
+			"Special Defense": 40,
+			"Speed": 15
+		},
+		"Base Experience Yield": 99
+	},
+	"Slowbro":
+	{
+		"National Number": "0080",
+		"Type": [ "Water", "Psychic" ],
+		"Species": "Hermit Crab",
+		"Height": 1.6,
+		"Weight": 78.5,
+		"Description": "The Shellder that is latched onto Slowpoke's tail is said to feed on the host's left over scraps.",
+		"Base Stats":
+		{
+			"HP": 95,
+			"Attack": 75,
+			"Defense": 110,
+			"Special Attack": 100,
+			"Special Defense": 80,
+			"Speed": 30
+		},
+		"Base Experience Yield": 164
+	},
+	"Magnemite":
+	{
+		"National Number": "0081",
+		"Type": [ "Electric" ],
+		"Species": "Magnet",
+		"Height": 0.3,
+		"Weight": 6,
+		"Description": "Uses anti-gravity to stay suspended. Appears without warning and uses Thunder Wave and similar moves.",
+		"Base Stats":
+		{
+			"HP": 25,
+			"Attack": 35,
+			"Defense": 70,
+			"Special Attack": 95,
+			"Special Defense": 55,
+			"Speed": 45
+		},
+		"Base Experience Yield": 89
+	},
+	"Magneton":
+	{
+		"National Number": "0082",
+		"Type": [ "Electric" ],
+		"Species": "Magnet",
+		"Height": 1,
+		"Weight": 60,
+		"Description": "Formed by several Magnemites linked together. They frequently appear when sunspots flare up.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 60,
+			"Defense": 95,
+			"Special Attack": 120,
+			"Special Defense": 70,
+			"Speed": 70
+		},
+		"Base Experience Yield": 161
+	},
+	"Farfetch'd":
+	{
+		"National Number": "0083",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Wild Duck",
+		"Height": 0.8,
+		"Weight": 15,
+		"Description": "The sprig of green onions it holds is its weapon. It is used much like a metal sword.",
+		"Base Stats":
+		{
+			"HP": 52,
+			"Attack": 65,
+			"Defense": 55,
+			"Special Attack": 58,
+			"Special Defense": 62,
+			"Speed": 60
+		},
+		"Base Experience Yield": 94
+	},
+	"Doduo":
+	{
+		"National Number": "0084",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Twin Bird",
+		"Height": 1.4,
+		"Weight": 39.2,
+		"Description": "A bird that makes up for its poor flying with its fast foot speed. Leaves giant footprints.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 85,
+			"Defense": 45,
+			"Special Attack": 35,
+			"Special Defense": 35,
+			"Speed": 75
+		},
+		"Base Experience Yield": 96
+	},
+	"Dodrio":
+	{
+		"National Number": "0085",
+		"Type": [ "Normal", "Flying" ],
+		"Species": "Triple Bird",
+		"Height": 1.8,
+		"Weight": 85.2,
+		"Description": "Uses its three brains to execute complex plans. While two heads sleep, one head stays awake.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 110,
+			"Defense": 70,
+			"Special Attack": 60,
+			"Special Defense": 60,
+			"Speed": 100
+		},
+		"Base Experience Yield": 158
+	},
+	"Seel":
+	{
+		"National Number": "0086",
+		"Type": [ "Water" ],
+		"Species": "Sea Lion",
+		"Height": 1.1,
+		"Weight": 90,
+		"Description": "The protruding horn on its head is very hard. It is used for bashing through thick ice.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 45,
+			"Defense": 55,
+			"Special Attack": 45,
+			"Special Defense": 70,
+			"Speed": 45
+		},
+		"Base Experience Yield": 100
+	},
+	"Dewgong":
+	{
+		"National Number": "0087",
+		"Type": [ "Water", "Ice" ],
+		"Species": "Sea Lion",
+		"Height": 1.7,
+		"Weight": 120,
+		"Description": "Stores thermal energy in its body. Swims at a steady 8 knots even in intensely cold waters.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 70,
+			"Defense": 80,
+			"Special Attack": 70,
+			"Special Defense": 95,
+			"Speed": 70
+		},
+		"Base Experience Yield": 176
+	},
+	"Grimer":
+	{
+		"National Number": "0088",
+		"Type": [ "Poison" ],
+		"Species": "Sludge",
+		"Height": 0.9,
+		"Weight": 30,
+		"Description": "Appears in filthy areas. Thrives by sucking up polluted sludge that is pumped out of factories.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 80,
+			"Defense": 50,
+			"Special Attack": 40,
+			"Special Defense": 50,
+			"Speed": 25
+		},
+		"Base Experience Yield": 90
+	},
+	"Muk":
+	{
+		"National Number": "0089",
+		"Type": [ "Poison" ],
+		"Species": "Sludge",
+		"Height": 1.2,
+		"Weight": 30,
+		"Description": "Thickly covered with a filthy, vile sludge. It is so toxic, even its footprints contain poison.",
+		"Base Stats":
+		{
+			"HP": 105,
+			"Attack": 105,
+			"Defense": 75,
+			"Special Attack": 65,
+			"Special Defense": 100,
+			"Speed": 50
+		},
+		"Base Experience Yield": 157
+	},
+	"Shellder":
+	{
+		"National Number": "0090",
+		"Type": [ "Water" ],
+		"Species": "Bivalve",
+		"Height": 0.3,
+		"Weight": 4,
+		"Description": "Its hard shell repels any kind of attack. It is vulnerable only when its shell is open.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 65,
+			"Defense": 100,
+			"Special Attack": 45,
+			"Special Defense": 25,
+			"Speed": 40
+		},
+		"Base Experience Yield": 97
+	},
+	"Cloyster":
+	{
+		"National Number": "0091",
+		"Type": [ "Water", "Ice" ],
+		"Species": "Bivalve",
+		"Height": 1.5,
+		"Weight": 132.5,
+		"Description": "When attacked, it launches its horns in quick volleys. Its innards have never been seen.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 95,
+			"Defense": 180,
+			"Special Attack": 85,
+			"Special Defense": 45,
+			"Speed": 70
+		},
+		"Base Experience Yield": 203
+	},
+	"Gastly":
+	{
+		"National Number": "0092",
+		"Type": [ "Ghost", "Poison" ],
+		"Species": "Gas",
+		"Height": 1.3,
+		"Weight": 0.1,
+		"Description": "Almost invisible, this gaseous Pokémon cloaks the target and puts it to sleep without notice.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 35,
+			"Defense": 30,
+			"Special Attack": 100,
+			"Special Defense": 35,
+			"Speed": 80
+		},
+		"Base Experience Yield": 95
+	},
+	"Haunter":
+	{
+		"National Number": "0093",
+		"Type": [ "Ghost", "Poison" ],
+		"Species": "Gas",
+		"Height": 1.6,
+		"Weight": 0.1,
+		"Description": "Because of its ability to slip through block walls, it is said to be from another dimension.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 50,
+			"Defense": 45,
+			"Special Attack": 115,
+			"Special Defense": 55,
+			"Speed": 95
+		},
+		"Base Experience Yield": 126
+	},
+	"Gengar":
+	{
+		"National Number": "0094",
+		"Type": [ "Ghost", "Poison" ],
+		"Species": "Shadow",
+		"Height": 1.5,
+		"Weight": 40.5,
+		"Description": "Under a full moon, this Pokémon likes to mimic the shadows of people and laugh at their fright.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 65,
+			"Defense": 60,
+			"Special Attack": 130,
+			"Special Defense": 75,
+			"Speed": 110
+		},
+		"Base Experience Yield": 190
+	},
+	"Onix":
+	{
+		"National Number": "0095",
+		"Type": [ "Rock", "Ground" ],
+		"Species": "Rock Snake",
+		"Height": 8.8,
+		"Weight": 210,
+		"Description": "As it grows, the stone portions of its body harden to become similar to a diamond, but colored black.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 45,
+			"Defense": 160,
+			"Special Attack": 30,
+			"Special Defense": 45,
+			"Speed": 70
+		},
+		"Base Experience Yield": 108
+	},
+	"Drowzee":
+	{
+		"National Number": "0096",
+		"Type": [ "Psychic" ],
+		"Species": "Hypnosis",
+		"Height": 1,
+		"Weight": 32.4,
+		"Description": "Puts enemies to sleep then eats their dreams. Occasionally gets sick from eating bad dreams.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 48,
+			"Defense": 45,
+			"Special Attack": 43,
+			"Special Defense": 90,
+			"Speed": 42
+		},
+		"Base Experience Yield": 102
+	},
+	"Hypno":
+	{
+		"National Number": "0097",
+		"Type": [ "Psychic" ],
+		"Species": "Hypnosis",
+		"Height": 1.6,
+		"Weight": 75.6,
+		"Description": "When it locks eyes with an enemy, it will use a mix of psychic moves such as hypnosis and confusion.",
+		"Base Stats":
+		{
+			"HP": 85,
+			"Attack": 73,
+			"Defense": 70,
+			"Special Attack": 73,
+			"Special Defense": 115,
+			"Speed": 67
+		},
+		"Base Experience Yield": 165
+	},
+	"Krabby":
+	{
+		"National Number": "0098",
+		"Type": [ "Water" ],
+		"Species": "River Crab",
+		"Height": 0.4,
+		"Weight": 6.5,
+		"Description": "Its pincers are not only powerful weapons, they are used for balance when walking sideways.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 105,
+			"Defense": 90,
+			"Special Attack": 25,
+			"Special Defense": 25,
+			"Speed": 50
+		},
+		"Base Experience Yield": 115
+	},
+	"Kingler":
+	{
+		"National Number": "0099",
+		"Type": [ "Water" ],
+		"Species": "Pincer",
+		"Height": 1.3,
+		"Weight": 60,
+		"Description": "The large pincer has 10,000 hp of crushing power. However, its huge size makes it unwieldy to use.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 130,
+			"Defense": 115,
+			"Special Attack": 50,
+			"Special Defense": 50,
+			"Speed": 75
+		},
+		"Base Experience Yield": 206
+	},
+	"Voltorb":
+	{
+		"National Number": "0100",
+		"Type": [ "Electric" ],
+		"Species": "Ball",
+		"Height": 0.5,
+		"Weight": 10.4,
+		"Description": "Usually found in power plants. Easily mistaken for a Poke Ball, they have zapped many people.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 30,
+			"Defense": 50,
+			"Special Attack": 55,
+			"Special Defense": 55,
+			"Speed": 100
+		},
+		"Base Experience Yield": 103
+	},
+	"Electrode":
+	{
+		"National Number": "0101",
+		"Type": [ "Electric" ],
+		"Species": "Ball",
+		"Height": 1.2,
+		"Weight": 66.6,
+		"Description": "It stores electric energy under very high pressure. It often explodes with little or no provocation.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 50,
+			"Defense": 70,
+			"Special Attack": 80,
+			"Special Defense": 80,
+			"Speed": 140
+		},
+		"Base Experience Yield": 150
+	},
+	"Exeggcute":
+	{
+		"National Number": "0102",
+		"Type": [ "Grass", "Psychic" ],
+		"Species": "Egg",
+		"Height": 0.4,
+		"Weight": 2.5,
+		"Description": "Often mistaken for eggs. When disturbed, they quickly gather and attack in swarms.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 40,
+			"Defense": 80,
+			"Special Attack": 60,
+			"Special Defense": 45,
+			"Speed": 40
+		},
+		"Base Experience Yield": 98
+	},
+	"Exeggcutor":
+	{
+		"National Number": "0103",
+		"Type": [ "Grass", "Psychic" ],
+		"Species": "Coconut",
+		"Height": 2,
+		"Weight": 120,
+		"Description": "Legend has it that on rare occasions, one of its heads will drop off and continue on as an Exeggcute.",
+		"Base Stats":
+		{
+			"HP": 95,
+			"Attack": 95,
+			"Defense": 85,
+			"Special Attack": 125,
+			"Special Defense": 65,
+			"Speed": 55
+		},
+		"Base Experience Yield": 212
+	},
+	"Cubone":
+	{
+		"National Number": "0104",
+		"Type": [ "Ground" ],
+		"Species": "Lonely",
+		"Height": 0.4,
+		"Weight": 6.5,
+		"Description": "Because it never removes its skull helmet, no one has ever seen this Pokémon's real face.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 50,
+			"Defense": 95,
+			"Special Attack": 40,
+			"Special Defense": 50,
+			"Speed": 35
+		},
+		"Base Experience Yield": 87
+	},
+	"Marowak":
+	{
+		"National Number": "0105",
+		"Type": [ "Ground" ],
+		"Species": "Bone Keeper",
+		"Height": 1,
+		"Weight": 45,
+		"Description": "The bone it holds is its key weapon. It throws the bone skillfully like a boomerang to KO targets.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 80,
+			"Defense": 110,
+			"Special Attack": 50,
+			"Special Defense": 80,
+			"Speed": 45
+		},
+		"Base Experience Yield": 124
+	},
+	"Hitmonlee":
+	{
+		"National Number": "0106",
+		"Type": [ "Fighting" ],
+		"Species": "Kicking",
+		"Height": 1.5,
+		"Weight": 49.8,
+		"Description": "When in a hurry, its legs lengthen progressively. It runs smoothly with extra long, loping strides.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 120,
+			"Defense": 53,
+			"Special Attack": 35,
+			"Special Defense": 110,
+			"Speed": 87
+		},
+		"Base Experience Yield": 139
+	},
+	"Hitmonchan":
+	{
+		"National Number": "0107",
+		"Type": [ "Fighting" ],
+		"Species": "Punching",
+		"Height": 1.4,
+		"Weight": 50.2,
+		"Description": "While apparently doing nothing, it fires punches in lightning fast volleys that are impossible to see.",
+		"Base Stats":
+		{
+			"HP": 50,
+			"Attack": 105,
+			"Defense": 79,
+			"Special Attack": 35,
+			"Special Defense": 110,
+			"Speed": 76
+		},
+		"Base Experience Yield": 140
+	},
+	"Lickitung":
+	{
+		"National Number": "0108",
+		"Type": [ "Normal" ],
+		"Species": "Licking",
+		"Height": 1.2,
+		"Weight": 65.5,
+		"Description": "Its tongue can be extended like a chameleon's. It leaves a tingling sensation when it licks enemies.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 55,
+			"Defense": 75,
+			"Special Attack": 60,
+			"Special Defense": 75,
+			"Speed": 30
+		},
+		"Base Experience Yield": 127
+	},
+	"Koffing":
+	{
+		"National Number": "0109",
+		"Type": [ "Poison" ],
+		"Species": "Poison Gas",
+		"Height": 0.6,
+		"Weight": 1,
+		"Description": "Because it stores several kinds of toxic gases in its body, it is prone to exploding without warning.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 65,
+			"Defense": 95,
+			"Special Attack": 60,
+			"Special Defense": 45,
+			"Speed": 35
+		},
+		"Base Experience Yield": 114
+	},
+	"Weezing":
+	{
+		"National Number": "0110",
+		"Type": [ "Poison" ],
+		"Species": "Poison Gas",
+		"Height": 1.2,
+		"Weight": 9.5,
+		"Description": "Where two kinds of poison gases meet, 2 Koffings can fuse into a Weezing over many years.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 90,
+			"Defense": 120,
+			"Special Attack": 85,
+			"Special Defense": 70,
+			"Speed": 60
+		},
+		"Base Experience Yield": 173
+	},
+	"Rhyhorn":
+	{
+		"National Number": "0111",
+		"Type": [ "Ground", "Rock" ],
+		"Species": "Spikes",
+		"Height": 1,
+		"Weight": 115,
+		"Description": "Its massive bones are 1000 times harder than human bones. It can easily knock a trailer flying.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 85,
+			"Defense": 95,
+			"Special Attack": 30,
+			"Special Defense": 30,
+			"Speed": 25
+		},
+		"Base Experience Yield": 135
+	},
+	"Rhydon":
+	{
+		"National Number": "0112",
+		"Type": [ "Ground", "Rock" ],
+		"Species": "Drill",
+		"Height": 1.9,
+		"Weight": 120,
+		"Description": "Protected by an armor-like hide, it is capable of living in molten lava of 3,600 degrees.",
+		"Base Stats":
+		{
+			"HP": 105,
+			"Attack": 130,
+			"Defense": 120,
+			"Special Attack": 45,
+			"Special Defense": 45,
+			"Speed": 40
+		},
+		"Base Experience Yield": 204
+	},
+	"Chansey":
+	{
+		"National Number": "0113",
+		"Type": [ "Normal" ],
+		"Species": "Egg",
+		"Height": 1.1,
+		"Weight": 34.6,
+		"Description": "A rare and elusive Pokémon that is said to bring happiness to those who manage to get it.",
+		"Base Stats":
+		{
+			"HP": 250,
+			"Attack": 5,
+			"Defense": 5,
+			"Special Attack": 35,
+			"Special Defense": 105,
+			"Speed": 50
+		},
+		"Base Experience Yield": 255
+	},
+	"Tangela":
+	{
+		"National Number": "0114",
+		"Type": [ "Grass" ],
+		"Species": "Vine",
+		"Height": 1,
+		"Weight": 35,
+		"Description": "The whole body is swathed with wide vines that are similar to seaweed. Its vines shake as it walks.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 55,
+			"Defense": 115,
+			"Special Attack": 100,
+			"Special Defense": 40,
+			"Speed": 60
+		},
+		"Base Experience Yield": 166
+	},
+	"Kangaskhan":
+	{
+		"National Number": "0115",
+		"Type": [ "Normal" ],
+		"Species": "Parent",
+		"Height": 2.2,
+		"Weight": 80,
+		"Description": "The infant rarely ventures out of its mother's protective pouch until it is 3 years old.",
+		"Base Stats":
+		{
+			"HP": 105,
+			"Attack": 95,
+			"Defense": 80,
+			"Special Attack": 40,
+			"Special Defense": 80,
+			"Speed": 90
+		},
+		"Base Experience Yield": 175
+	},
+	"Horsea":
+	{
+		"National Number": "0116",
+		"Type": [ "Water" ],
+		"Species": "Dragon",
+		"Height": 0.4,
+		"Weight": 8,
+		"Description": "Known to shoot down flying bugs with precision blasts of ink from the surface of the water.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 40,
+			"Defense": 70,
+			"Special Attack": 70,
+			"Special Defense": 25,
+			"Speed": 60
+		},
+		"Base Experience Yield": 83
+	},
+	"Seadra":
+	{
+		"National Number": "0117",
+		"Type": [ "Water" ],
+		"Species": "Dragon",
+		"Height": 1.2,
+		"Weight": 25,
+		"Description": "Capable of swimming backwards by rapidly flapping its wing-like pectoral fins and stout tail.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 65,
+			"Defense": 95,
+			"Special Attack": 95,
+			"Special Defense": 45,
+			"Speed": 85
+		},
+		"Base Experience Yield": 155
+	},
+	"Goldeen":
+	{
+		"National Number": "0065",
+		"Type": [ "Water" ],
+		"Species": "Goldfish",
+		"Height": 1.5,
+		"Weight": 48,
+		"Description": "Its tail fin billows like an elegant ballroom dress, giving it the nickname of the Water Queen.",
+		"Base Stats":
+		{
+			"HP": 45,
+			"Attack": 67,
+			"Defense": 60,
+			"Special Attack": 35,
+			"Special Defense": 50,
+			"Speed": 63
+		},
+		"Base Experience Yield": 111
+	},
+	"Seaking":
+	{
+		"National Number": "0119",
+		"Type": [ "Water" ],
+		"Species": "Goldfish",
+		"Height": 1.3,
+		"Weight": 39,
+		"Description": "In the autumn spawning season, they can be seen swimming powerfully up rivers and creeks.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 92,
+			"Defense": 65,
+			"Special Attack": 65,
+			"Special Defense": 80,
+			"Speed": 68
+		},
+		"Base Experience Yield": 170
+	},
+	"Staryu":
+	{
+		"National Number": "0120",
+		"Type": [ "Water" ],
+		"Species": "Star Shape",
+		"Height": 0.8,
+		"Weight": 34.5,
+		"Description": "An enigmatic Pokémon that can effortlessly regenerate any appendage it loses in battle.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 45,
+			"Defense": 55,
+			"Special Attack": 70,
+			"Special Defense": 55,
+			"Speed": 85
+		},
+		"Base Experience Yield": 106
+	},
+	"Starmie":
+	{
+		"National Number": "0121",
+		"Type": [ "Water", "Psychic" ],
+		"Species": "Mysterious",
+		"Height": 1.1,
+		"Weight": 80,
+		"Description": "Its central core glows with the seven colors of the rainbow. Some people value the core as a gem.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 75,
+			"Defense": 85,
+			"Special Attack": 100,
+			"Special Defense": 85,
+			"Speed": 115
+		},
+		"Base Experience Yield": 207
+	},
+	"Mr. Mime":
+	{
+		"National Number": "0122",
+		"Type": [ "Psychic" ],
+		"Species": "Barrier",
+		"Height": 1.3,
+		"Weight": 54.5,
+		"Description": "If interrupted while it is miming, it will slap around the offender with its broad hands.",
+		"Base Stats":
+		{
+			"HP": 40,
+			"Attack": 45,
+			"Defense": 65,
+			"Special Attack": 100,
+			"Special Defense": 120,
+			"Speed": 90
+		},
+		"Base Experience Yield": 136
+	},
+	"Scyther":
+	{
+		"National Number": "0123",
+		"Type": [ "Bug", "Flying" ],
+		"Species": "Mantis",
+		"Height": 1.5,
+		"Weight": 56,
+		"Description": "With ninja-like agility and speed, it can create the illusion that there is more than one.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 110,
+			"Defense": 80,
+			"Special Attack": 55,
+			"Special Defense": 80,
+			"Speed": 105
+		},
+		"Base Experience Yield": 187
+	},
+	"Jynx":
+	{
+		"National Number": "0124",
+		"Type": [ "Ice", "Psychic" ],
+		"Species": "Human Shape",
+		"Height": 1.4,
+		"Weight": 40.6,
+		"Description": "It seductively wiggles its hips as it walks. It can cause people to dance in unison with it.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 50,
+			"Defense": 45,
+			"Special Attack": 135,
+			"Special Defense": 85,
+			"Speed": 120
+		},
+		"Base Experience Yield": 137
+	},
+	"Electabuzz":
+	{
+		"National Number": "0125",
+		"Type": [ "Electric" ],
+		"Species": "Electric",
+		"Height": 1.1,
+		"Weight": 30,
+		"Description": "Normally found near power plants, they can wander away and cause major blackouts in cities.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 83,
+			"Defense": 57,
+			"Special Attack": 95,
+			"Special Defense": 85,
+			"Speed": 105
+		},
+		"Base Experience Yield": 156
+	},
+	"Magmar":
+	{
+		"National Number": "0126",
+		"Type": [ "Fire" ],
+		"Species": "Spitfire",
+		"Height": 1.3,
+		"Weight": 44.5,
+		"Description": "Its body always burns with an orange glow that enables it to hide perfectly among flames.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 95,
+			"Defense": 57,
+			"Special Attack": 100,
+			"Special Defense": 85,
+			"Speed": 93
+		},
+		"Base Experience Yield": 167
+	},
+	"Pinsir":
+	{
+		"National Number": "0127",
+		"Type": [ "Bug" ],
+		"Species": "Stag Beetle",
+		"Height": 1.5,
+		"Weight": 55,
+		"Description": "If it fails to crush the victim in its pincers, it will swing it around and toss it hard.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 125,
+			"Defense": 100,
+			"Special Attack": 55,
+			"Special Defense": 70,
+			"Speed": 85
+		},
+		"Base Experience Yield": 200
+	},
+	"Tauros":
+	{
+		"National Number": "0128",
+		"Type": [ "Normal" ],
+		"Species": "Wild Bull",
+		"Height": 1.3,
+		"Weight": 88.4,
+		"Description": "When it targets an enemy, it charges furiously while whipping its body with its long tails.",
+		"Base Stats":
+		{
+			"HP": 75,
+			"Attack": 100,
+			"Defense": 95,
+			"Special Attack": 40,
+			"Special Defense": 70,
+			"Speed": 110
+		},
+		"Base Experience Yield": 211
+	},
+	"Magikarp":
+	{
+		"National Number": "0129",
+		"Type": [ "Water" ],
+		"Species": "Fish",
+		"Height": 0.9,
+		"Weight": 10,
+		"Description": "In the distant past, it was somewhat stronger than the horribly weak descendants that exist today.",
+		"Base Stats":
+		{
+			"HP": 20,
+			"Attack": 10,
+			"Defense": 55,
+			"Special Attack": 15,
+			"Special Defense": 20,
+			"Speed": 80
+		},
+		"Base Experience Yield": 20
+	},
+	"Gyarados":
+	{
+		"National Number": "0130",
+		"Type": [ "Water", "Flying" ],
+		"Species": "Atrocious",
+		"Height": 6.5,
+		"Weight": 235,
+		"Description": "Rarely seen in the wild. Huge and vicious, it is capable of destroying entire cities in a rage.",
+		"Base Stats":
+		{
+			"HP": 95,
+			"Attack": 125,
+			"Defense": 79,
+			"Special Attack": 60,
+			"Special Defense": 100,
+			"Speed": 81
+		},
+		"Base Experience Yield": 214
+	},
+	"Lapras":
+	{
+		"National Number": "0131",
+		"Type": [ "Water", "Ice" ],
+		"Species": "Transport",
+		"Height": 2.5,
+		"Weight": 220,
+		"Description": "A Pokémon that has been overhunted almost to extinction. It can ferry people across the water.",
+		"Base Stats":
+		{
+			"HP": 130,
+			"Attack": 85,
+			"Defense": 80,
+			"Special Attack": 85,
+			"Special Defense": 95,
+			"Speed": 60
+		},
+		"Base Experience Yield": 219
+	},
+	"Ditto":
+	{
+		"National Number": "0132",
+		"Type": [ "Normal" ],
+		"Species": "Transform",
+		"Height": 0.3,
+		"Weight": 4,
+		"Description": "Capable of copying an enemy's genetic code to instantly transform itself into a duplicate of the enemy.",
+		"Base Stats":
+		{
+			"HP": 48,
+			"Attack": 48,
+			"Defense": 48,
+			"Special Attack": 48,
+			"Special Defense": 48,
+			"Speed": 48
+		},
+		"Base Experience Yield": 61
+	},
+	"Eevee":
+	{
+		"National Number": "0133",
+		"Type": [ "Normal" ],
+		"Species": "Evolution",
+		"Height": 0.3,
+		"Weight": 6.5,
+		"Description": "Its genetic code is irregular. It may mutate if it is exposed to radiation from element Stones.",
+		"Base Stats":
+		{
+			"HP": 55,
+			"Attack": 55,
+			"Defense": 50,
+			"Special Attack": 45,
+			"Special Defense": 65,
+			"Speed": 55
+		},
+		"Base Experience Yield": 92
+	},
+	"Vaporeon":
+	{
+		"National Number": "0134",
+		"Type": [ "Water" ],
+		"Species": "Bubble Jet",
+		"Height": 1,
+		"Weight": 29,
+		"Description": "Lives close to water. Its long tail is ridged with a fin which is often mistaken for a mermaid's.",
+		"Base Stats":
+		{
+			"HP": 130,
+			"Attack": 65,
+			"Defense": 60,
+			"Special Attack": 110,
+			"Special Defense": 95,
+			"Speed": 65
+		},
+		"Base Experience Yield": 196
+	},
+	"Jolteon":
+	{
+		"National Number": "0135",
+		"Type": [ "Electric" ],
+		"Species": "Lightning",
+		"Height": 0.8,
+		"Weight": 24.5,
+		"Description": "It accumulates negative ions in the atmosphere to blast out 10000-volt lightning bolts.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 65,
+			"Defense": 60,
+			"Special Attack": 110,
+			"Special Defense": 95,
+			"Speed": 130
+		},
+		"Base Experience Yield": 197
+	},
+	"Flareon":
+	{
+		"National Number": "0136",
+		"Type": [ "Fire" ],
+		"Species": "Flame",
+		"Height": 0.9,
+		"Weight": 25,
+		"Description": "When storing thermal energy in its body, its temperature could soar to over 1600 degrees.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 130,
+			"Defense": 60,
+			"Special Attack": 95,
+			"Special Defense": 110,
+			"Speed": 65
+		},
+		"Base Experience Yield": 198
+	},
+	"Porygon":
+	{
+		"National Number": "0137",
+		"Type": [ "Normal" ],
+		"Species": "Virtual",
+		"Height": 0.8,
+		"Weight": 36.5,
+		"Description": "A Pokémon that consists entirely of programming code. Capable of moving freely in cyberspace.",
+		"Base Stats":
+		{
+			"HP": 65,
+			"Attack": 60,
+			"Defense": 70,
+			"Special Attack": 85,
+			"Special Defense": 75,
+			"Speed": 40
+		},
+		"Base Experience Yield": 130
+	},
+	"Omanyte":
+	{
+		"National Number": "0138",
+		"Type": [ "Rock", "Water" ],
+		"Species": "Spiral",
+		"Height": 0.4,
+		"Weight": 7.5,
+		"Description": "Although long extinct, in rare cases, it can be genetically resurrected from fossils.",
+		"Base Stats":
+		{
+			"HP": 35,
+			"Attack": 40,
+			"Defense": 100,
+			"Special Attack": 90,
+			"Special Defense": 55,
+			"Speed": 35
+		},
+		"Base Experience Yield": 120
+	},
+	"Omastar":
+	{
+		"National Number": "0139",
+		"Type": [ "Rock", "Water" ],
+		"Species": "Spiral",
+		"Height": 1,
+		"Weight": 35,
+		"Description": "A prehistoric Pokémon that died out when its heavy shell made it impossible to catch prey.",
+		"Base Stats":
+		{
+			"HP": 70,
+			"Attack": 60,
+			"Defense": 125,
+			"Special Attack": 115,
+			"Special Defense": 70,
+			"Speed": 55
+		},
+		"Base Experience Yield": 199
+	},
+	"Kabuto":
+	{
+		"National Number": "0140",
+		"Type": [ "Rock", "Water" ],
+		"Species": "Shellfish",
+		"Height": 0.5,
+		"Weight": 11.5,
+		"Description": "A Pokémon that was resurrected from a fossil found in what was once the ocean floor eons ago.",
+		"Base Stats":
+		{
+			"HP": 30,
+			"Attack": 80,
+			"Defense": 90,
+			"Special Attack": 55,
+			"Special Defense": 45,
+			"Speed": 55
+		},
+		"Base Experience Yield": 119
+	},
+	"Kabutops":
+	{
+		"National Number": "0141",
+		"Type": [ "Rock", "Water" ],
+		"Species": "Shellfish",
+		"Height": 1.3,
+		"Weight": 40.5,
+		"Description": "Its sleek shape is perfect for swimming. It slashes prey with its claws and drains the body fluids.",
+		"Base Stats":
+		{
+			"HP": 60,
+			"Attack": 115,
+			"Defense": 105,
+			"Special Attack": 65,
+			"Special Defense": 70,
+			"Speed": 80
+		},
+		"Base Experience Yield": 201
+	},
+	"Aerodactyl":
+	{
+		"National Number": "0142",
+		"Type": [ "Rock", "Flying" ],
+		"Species": "Fossil",
+		"Height": 1.8,
+		"Weight": 59,
+		"Description": "A ferocious, prehistoric Pokémon that goes for the enemy's throat with its serrated saw-like fangs.",
+		"Base Stats":
+		{
+			"HP": 80,
+			"Attack": 105,
+			"Defense": 65,
+			"Special Attack": 60,
+			"Special Defense": 75,
+			"Speed": 130
+		},
+		"Base Experience Yield": 202
+	},
+	"Snorlax":
+	{
+		"National Number": "0143",
+		"Type": [ "Normal" ],
+		"Species": "Sleeping",
+		"Height": 2.1,
+		"Weight": 460,
+		"Description": "Very lazy. Just eats and sleeps. As its rotund bulk builds, it becomes steadily more slothful.",
+		"Base Stats":
+		{
+			"HP": 160,
+			"Attack": 110,
+			"Defense": 65,
+			"Special Attack": 65,
+			"Special Defense": 110,
+			"Speed": 30
+		},
+		"Base Experience Yield": 154
+	},
+	"Articuno":
+	{
+		"National Number": "0144",
+		"Type": [ "Ice", "Flying" ],
+		"Species": "Freeze",
+		"Height": 1.7,
+		"Weight": 55.4,
+		"Description": "A legendary bird Pokémon that is said to appear to doomed people who are lost in icy mountains.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 85,
+			"Defense": 100,
+			"Special Attack": 95,
+			"Special Defense": 125,
+			"Speed": 85
+		},
+		"Base Experience Yield": 215
+	},
+	"Zapdos":
+	{
+		"National Number": "0145",
+		"Type": [ "Electric", "Flying" ],
+		"Species": "Electric",
+		"Height": 1.6,
+		"Weight": 52.6,
+		"Description": "A legendary bird Pokémon that is said to appear from clouds while dropping enormous lightning bolts.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 90,
+			"Defense": 85,
+			"Special Attack": 125,
+			"Special Defense": 90,
+			"Speed": 100
+		},
+		"Base Experience Yield": 216
+	},
+	"Moltres":
+	{
+		"National Number": "0146",
+		"Type": [ "Fire", "Flying" ],
+		"Species": "Flame",
+		"Height": 2,
+		"Weight": 60,
+		"Description": "Known as the legendary bird of fire. Every flap of its wings creates a dazzling flash of flames.",
+		"Base Stats":
+		{
+			"HP": 90,
+			"Attack": 100,
+			"Defense": 90,
+			"Special Attack": 125,
+			"Special Defense": 85,
+			"Speed": 90
+		},
+		"Base Experience Yield": 217
+	},
+	"Dratini":
+	{
+		"National Number": "0147",
+		"Type": [ "Dragon" ],
+		"Species": "Dragon",
+		"Height": 1.8,
+		"Weight": 3.3,
+		"Description": "Long considered a mythical Pokémon until recently when a small colony was found living underwater.",
+		"Base Stats":
+		{
+			"HP": 41,
+			"Attack": 64,
+			"Defense": 45,
+			"Special Attack": 50,
+			"Special Defense": 50,
+			"Speed": 50
+		},
+		"Base Experience Yield": 67
+	},
+	"Dragonair":
+	{
+		"National Number": "0148",
+		"Type": [ "Dragon" ],
+		"Species": "Dragon",
+		"Height": 4,
+		"Weight": 16.5,
+		"Description": "A mystical Pokémon that exudes a gentle aura. Has the ability to change climate conditions.",
+		"Base Stats":
+		{
+			"HP": 61,
+			"Attack": 84,
+			"Defense": 65,
+			"Special Attack": 70,
+			"Special Defense": 70,
+			"Speed": 70
+		},
+		"Base Experience Yield": 144
+	},
+	"Dragonite":
+	{
+		"National Number": "0149",
+		"Type": [ "Dragon", "Flying" ],
+		"Species": "Dragon",
+		"Height": 2.2,
+		"Weight": 210,
+		"Description": "An extremely rarely seen marine Pokémon. Its intelligence is said to match that of humans.",
+		"Base Stats":
+		{
+			"HP": 91,
+			"Attack": 134,
+			"Defense": 95,
+			"Special Attack": 100,
+			"Special Defense": 100,
+			"Speed": 80
+		},
+		"Base Experience Yield": 218
+	},
+	"Mewtwo":
+	{
+		"National Number": "0150",
+		"Type": [ "Psychic" ],
+		"Species": "Genetic",
+		"Height": 2,
+		"Weight": 122,
+		"Description": "It was created by a scientist after years of horrific gene splicing and DNA engineering experiments.",
+		"Base Stats":
+		{
+			"HP": 106,
+			"Attack": 110,
+			"Defense": 90,
+			"Special Attack": 154,
+			"Special Defense": 90,
+			"Speed": 130
+		},
+		"Base Experience Yield": 220
+	},
+	"Mew":
+	{
+		"National Number": "0151",
+		"Type": [ "Psychic" ],
+		"Species": "New Species",
+		"Height": 0.4,
+		"Weight": 4,
+		"Description": "So rare that it is still said to be a mirage by many experts. Only a few people have seen it worldwide.",
+		"Base Stats":
+		{
+			"HP": 100,
+			"Attack": 100,
+			"Defense": 100,
+			"Special Attack": 100,
+			"Special Defense": 100,
+			"Speed": 100
+		},
+		"Base Experience Yield": 64
+	}
+}

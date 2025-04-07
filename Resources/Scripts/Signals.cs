@@ -1,44 +1,36 @@
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class Signals : Node
 {
     [Signal]
-    public delegate void PokémonStarterSelectedEventHandler(Pokémon pokémon);
+    public delegate void PokemonStarterSelectedEventHandler(Pokemon pokemon);
 
     [Signal]
-    public delegate void PokémonTeamUpdatedEventHandler();
+    public delegate void PokemonTeamUpdatedEventHandler();
 
     [Signal]
-    public delegate void PokémonEnemyCapturedEventHandler(PokémonEnemy pokémonEnemy);
-    // Pokémon
+    public delegate void PokemonEnemyCapturedEventHandler(PokemonEnemy pokemonEnemy);
+    
+    // Pokemon
     [Signal]
-    public delegate void PokémonUpdatedEventHandler();
+    public delegate void PokemonUpdatedEventHandler();
 
     [Signal]
-    public delegate void PokémonLeveledUpEventHandler(Pokémon pokémon);
+    public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon);
 
     [Signal]
-    public delegate void PokémonEvolvedEventHandler(Pokémon pokémon);
+    public delegate void PokemonEvolvedEventHandler(Pokemon pokemon);
 
     [Signal]
-    public delegate void PokémonGainedExperienceEventHandler(Pokémon pokémon);
+    public delegate void PokemonGainedExperienceEventHandler(Pokemon pokemon);
 
-    // Enemy Pokémon
-	[Signal]
-    public delegate void PokémonEnemyPassedEventHandler(PokémonEnemy pokémonEnemy);
-
+    // Enemy Pokemon
     [Signal]
-    public delegate void PokémonEnemyFaintedEventHandler(PokémonEnemy pokémonEnemy);
+    public delegate void PokemonEnemyFaintedEventHandler(PokemonEnemy pokemonEnemy);
 
     // Stage
-    [Signal]
-    public delegate void StartedWaveEventHandler();
-
-    [Signal]
-    public delegate void FinishedWaveEventHandler();
-
     [Signal]
     public delegate void HasWonEventHandler();
 
@@ -46,10 +38,10 @@ public partial class Signals : Node
     public delegate void HasLostEventHandler();
 
     [Signal]
-    public delegate void PokémonOnStageEventHandler(int teamSlotID);
+    public delegate void PokemonOnStageEventHandler(int teamSlotID);
 
     [Signal]
-    public delegate void PokémonOffStageEventHandler(int teamSlotID);
+    public delegate void PokemonOffStageEventHandler(int teamSlotID);
 
     [Signal]
     public delegate void ChangeMovesetPressedEventHandler();
@@ -65,20 +57,14 @@ public partial class Signals : Node
     public delegate void SpeedToggledEventHandler(float speed);
 
     [Signal]
-    public delegate void PokémonEnemyAttackedEventHandler();
-
-    [Signal]
     public delegate void VisibilityToggledEventHandler(bool isVisible);
 
     [Signal]
-    public delegate void InventorySlotAddedEventHandler(Pokémon pokémon);
+    public delegate void MoveSwappedEventHandler();
 
     [Signal]
-    public delegate void InventoryTeamSlotAddedEventHandler(Pokémon pokémon, int teamSlotID);
+    public delegate void PokemonLearnedMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
 
     [Signal]
-    public delegate void InventorySlotRemovedEventHandler(Pokémon pokémon);
-
-    [Signal]
-    public delegate void InventoryTeamSlotRemovedEventHandler(Pokémon pokémon, int teamSlotID);
+    public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
 }

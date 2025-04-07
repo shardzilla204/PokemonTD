@@ -1,0 +1,1433 @@
+{
+    "Bulbasaur": 
+    {
+      "Growl": [1],
+      "Tackle": [1],
+      "Leech Seed": [7],
+      "Vine Whip": [13],
+      "Poison Powder": [20],
+      "Razor Leaf": [27],
+      "Growth": [34],
+      "Sleep Powder": [41],
+      "Solar Beam": [48]
+    },
+    "Ivysaur": 
+    {
+      "Growl": [1],
+      "Tackle": [1],
+      "Leech Seed": [1, 7],
+      "Vine Whip": [13],
+      "Poison Powder": [22],
+      "Razor Leaf": [30],
+      "Growth": [38],
+      "Sleep Powder": [46],
+      "Solar Beam": [54]
+    },
+    "Venusaur": 
+    {
+      "Growl": [1],
+      "Tackle": [1],
+      "Leech Seed": [1, 7],
+      "Vine Whip": [1, 13],
+      "Poison Powder": [22],
+      "Razor Leaf": [30],
+      "Growth": [43],
+      "Sleep Powder": [55],
+      "Solar Beam": [65]
+    },
+    "Charmander":
+    {
+      "Growl": [1],
+      "Scratch": [1],
+      "Ember": [9],
+      "Leer": [15],
+      "Rage": [22],
+      "Slash": [30],
+      "Flamethrower": [38],
+      "Fire Spin": [46]
+    },
+    "Charmeleon":
+    {
+      "Growl": [1],
+      "Scratch": [1],
+      "Ember": [1, 9],
+      "Leer": [15],
+      "Rage": [24],
+      "Slash": [33],
+      "Flamethrower": [42],
+      "Fire Spin": [56]
+    },
+    "Charizard":
+    {
+      "Ember": [1, 9],
+      "Growl": [1],
+      "Scratch": [1],
+      "Leer": [1, 15],
+      "Rage": [24],
+      "Slash": [36],
+      "Flamethrower": [46],
+      "Fire Spin": [55]
+    },
+    "Squirtle":
+    {
+      "Tackle": [1],
+      "Tail Whip": [1],
+      "Bubble": [8],
+      "Water Gun": [15],
+      "Bite": [22],
+      "Withdraw": [28],
+      "Skull Bash": [35],
+      "Hydro Pump": [42]
+    },
+    "Wartortle":
+    {
+      "Tackle": [1],
+      "Tail Whip": [1],
+      "Bubble": [1, 8],
+      "Water Gun": [15],
+      "Bite": [24],
+      "Withdraw": [31],
+      "Skull Bash": [39],
+      "Hydro Pump": [47]
+    },
+    "Blastoise":
+    {
+      "Tackle": [1],
+      "Tail Whip": [1],
+      "Bubble": [1, 8],
+      "Water Gun": [1, 15],
+      "Bite": [24],
+      "Withdraw": [31],
+      "Skull Bash": [42],
+      "Hydro Pump": [52]
+    },
+    "Caterpie":
+    {
+      "String Shot": [1],
+      "Tackle": [1]
+    },
+    "Metapod":
+    {
+      "Harden": [1]
+    },
+    "Butterfree":
+    {
+      "Confusion": [1, 12],
+      "Poison Powder": [15],
+      "Stun Spore": [16],
+      "Sleep Powder": [17],
+      "Supersonic": [21],
+      "Whirlwind": [26],
+      "Psybeam": [32]
+    },
+    "Weedle":
+    {
+      "Poison Sting": [1],
+      "String Shot": [1]
+    },
+    "Kakuna":
+    {
+      "Harden": [1]
+    },
+    "Beedrill":
+    {
+      "Fury Attack": [1, 12],
+      "Focus Energy": [16],
+      "Twineedle": [20],
+      "Rage": [25],
+      "Pin Missile": [30],
+      "Agility": [35]
+    },
+    "Pidgey":
+    {
+      "Gust": [1],
+      "Sand Attack": [5],
+      "Quick Attack": [12],
+      "Whirlwind": [19],
+      "Wing Attack": [28],
+      "Agility": [36],
+      "Mirror Move": [44]
+    },
+    "Pidgeotto":
+    {
+      "Gust": [1],
+      "Sand Attack": [1, 5],
+      "Quick Attack": [12],
+      "Whirlwind": [21],
+      "Wing Attack": [31],
+      "Agility": [40],
+      "Mirror Move": [49]
+    },
+    "Pidgeot":
+    {
+      "Gust": [1],
+      "Sand Attack": [1, 5],
+      "Quick Attack": [1, 12],
+      "Whirlwind": [21],
+      "Wing Attack": [31],
+      "Agility": [44],
+      "Mirror Move": [54]
+    },
+    "Rattata":
+    {
+      "Tackle": [1],
+      "Tail Whip": [1],
+      "Quick Attack": [7],
+      "Hyper Fang": [14],
+      "Focus Energy": [23],
+      "Super Fang": [34]
+    },
+    "Raticate":
+    {
+      "Tackle": [1],
+      "Tail Whip": [1],
+      "Quick Attack": [1, 7],
+      "Hyper Fang": [14],
+      "Focus Energy": [27],
+      "Super Fang": [41]
+    },
+    "Spearow":
+    {
+     "Growl": [1],
+      "Peck": [1],
+      "Leer": [9],
+      "Fury Attack": [15],
+      "Mirror Move": [22],
+      "Drill Peck": [29],
+      "Agility": [36]
+    },
+    "Fearow":
+    {
+      "Growl": [1],
+      "Peck": [1],
+      "Leer": [1, 9],
+      "Fury Attack": [15],
+      "Mirror Move": [25],
+      "Drill Peck": [34],
+      "Agility": [43]
+    },
+    "Ekans":
+    {
+      "Leer": [1],
+      "Wrap": [1],
+      "Poison Sting": [10],
+      "Bite": [17],
+      "Glare": [24],
+      "Screech": [31],
+      "Acid": [38]
+    },
+    "Arbok":
+    {
+      "Leer": [1],
+      "Wrap": [1],
+      "Poison Sting": [1, 10],
+      "Bite": [17],
+      "Glare": [27],
+      "Screech": [36],
+      "Acid": [47]
+    },
+    "Pikachu":
+    {
+      "Growl": [1],
+      "Thunder Shock": [1],
+      "Thunder Wave": [9],
+      "Quick Attack": [16],
+      "Swift": [26],
+      "Agility": [33],
+      "Thunder": [43]
+    },
+    "Raichu":
+    {
+      "Growl": [1],
+      "Thunder Shock": [1],
+      "Thunder Wave": [1]
+    },
+    "Sandshrew":
+    {
+      "Scratch": [1],
+      "Sand Attack": [10],
+      "Slash": [17],
+      "Poison Sting": [24],
+      "Swift": [31],
+      "Fury Swiptes": [38]
+    },
+    "Sandslash":
+    {
+      "Scratch": [1],
+      "Sand Attack": [1, 10],
+      "Slash": [17],
+      "Poison Sting": [27],
+      "Swift": [36],
+      "Fury Swiptes": [47]
+    },
+    "Nidoran♀":
+    {
+      "Growl": [1],
+      "Tackle": [1],
+      "Scratch": [8],
+      "Poison Sting": [14],
+      "Tail Whip": [21],
+      "Bite": [29],
+      "Fury Swipes": [36],
+      "Double Kick": [43]
+    },
+    "Nidorina":
+    {
+      "Growl": [1],
+      "Tackle": [1],
+      "Scratch": [1, 8],
+      "Poison Sting": [14],
+      "Tail Whip": [23],
+      "Bite": [32],
+      "Fury Swipes": [41],
+      "Double Kick": [50]
+    },
+    "Nidoqueen":
+    {
+      "Body Slam": [1, 23],
+      "Tackle": [1],
+      "Scratch": [1, 8],
+      "Tail Whip": [1],
+      "Poison Sting": [14]
+    },
+    "Nidoran♂":
+    {
+      "Leer": [1],
+      "Tackle": [1],
+      "Horn Attack": [8],
+      "Poison Sting": [14],
+      "Focus Energy": [21],
+      "Fury Attack": [29],
+      "Horn Drill": [36],
+      "Double Kick": [43]
+    },
+    "Nidorino":
+    {
+      "Leer": [1],
+      "Tackle": [1],
+      "Horn Attack": [1, 8],
+      "Poison Sting": [14],
+      "Focus Energy": [23],
+      "Fury Attack": [32],
+      "Horn Drill": [41],
+      "Double Kick": [50]
+    },
+    "Nidoking":
+    {
+      "Tackle": [1, 23],
+      "Thrash": [1],
+      "Horn Attack": [1, 8],
+      "Poison Sting": [1, 14]
+    },
+    "Clefairy":
+    {
+      "Growl": [1],
+      "Pound": [1],
+      "Sing": [13],
+      "Double Slap": [18],
+      "Minimize": [24],
+      "Metronome": [31],
+      "Defense Curl": [39],
+      "Light Screen": [48]
+    },
+    "Clefable":
+    {
+      "Double Slap": [1],
+      "Metronome": [1],
+      "Minimize": [1],
+      "Sing": [1]
+    },
+    "Vulpix":
+    {
+      "Ember": [1],
+      "Tail Whip": [1],
+      "Quick Attack": [16],
+      "Roar": [21],
+      "Confuse Ray": [28],
+      "Flamethrower": [35],
+      "Fire Spin": [42]
+    },
+    "Ninetales":
+    {
+      "Ember": [1],
+      "Tail Whip": [1],
+      "Quick Attack": [1],
+      "Roar": [1]
+    },
+    "Jigglypuff":
+    {
+      "Sing": [1],
+      "Pound": [9],
+      "Disable": [14],
+      "Defense Curl": [19],
+      "Double Slap": [24],
+      "Rest": [29],
+      "Body Slam": [34],
+      "Double-Edge": [39]
+    },
+    "Wigglytuff":
+    {
+      "Sing": [1],
+      "Disable": [1],
+      "Defense Curl": [1],
+      "Double Slap": [1]
+    },
+    "Zubat":
+    {
+      "Leech Life": [1],
+      "Supersonic": [10],
+      "Bite": [15],
+      "Confuse Ray": [21],
+      "Wing Attack": [28],
+      "Haze": [36]
+    },
+    "Golbat":
+    {
+      "Leech Life": [1],
+      "Screech": [1],
+      "Supersonic": [10],
+      "Bite": [1, 15],
+      "Confuse Ray": [21],
+      "Wing Attack": [32],
+      "Haze": [43]
+    },
+    "Oddish":
+    {
+      "Absorb": [1],
+      "Poison Powder": [15],
+      "Stun Spore": [17],
+      "Sleep Powder": [19],
+      "Acid": [24],
+      "Petal Dance": [33],
+      "Solar Beam": [46]
+    },
+    "Gloom":
+    {
+      "Absorb": [1],
+      "Poison Powder": [1, 15],
+      "Stun Spore": [1, 17],
+      "Sleep Powder": [19],
+      "Acid": [28],
+      "Petal Dance": [38],
+      "Solar Beam": [52]
+    },
+    "Vileplume":
+    {
+      "Poison Powder": [15],
+      "Stun Spore": [1, 17],
+      "Sleep Powder": [1, 19],
+      "Acid": [1],
+      "Petal Dance": [1]
+    },
+    "Paras":
+    {
+      "Scratch": [1],
+      "Stun Spore": [13],
+      "Leech Life": [20],
+      "Spore": [27],
+      "Slash": [34],
+      "Growth": [41]
+    },
+    "Parasect":
+    {
+      "Scratch": [1],
+      "Stun Spore": [1, 13],
+      "Leech Life": [1, 20],
+      "Spore": [30],
+      "Slash": [39],
+      "Growth": [48]
+    },
+    "Venonat":
+    {
+      "Disable": [1],
+      "Tackle": [1],
+      "Poison Powder": [24],
+      "Leech Life": [27],
+      "Stun Spore": [30],
+      "Psybeam": [35],
+      "Sleep Powder": [38],
+      "Psychic": [43]
+    },
+    "Venomoth":
+    {
+      "Disable": [1],
+      "Tackle": [1],
+      "Poison Powder": [1, 24],
+      "Leech Life": [1, 27],
+      "Stun Spore": [30],
+      "Psybeam": [38],
+      "Sleep Powder": [43],
+      "Psychic": [50]
+    },
+    "Diglett":
+    {
+      "Scratch": [1],
+      "Growl": [15],
+      "Dig": [19],
+      "Sand Attack": [24],
+      "Slash": [31],
+      "Earthquake": [40]
+    },
+    "Dugtrio":
+    {
+      "Scratch": [1],
+      "Growl": [1, 15],
+      "Dig": [1, 19],
+      "Sand Attack": [24],
+      "Slash": [35],
+      "Earthquake": [47]
+    },
+    "Meowth":
+    {
+      "Growth": [1],
+      "Scratch": [1],
+      "Bite": [12],
+      "Pay Day": [17],
+      "Screech": [24],
+      "Fury Swipes": [33],
+      "Slash": [44]
+    },
+    "Persian":
+    {
+      "Bite": [1, 12],
+      "Growl": [1],
+      "Scratch": [1],
+      "Screech": [1, 24],
+      "Fury Swipes": [37],
+      "Slash": [51]
+    },
+    "Psyduck":
+    {
+      "Screech": [1],
+      "Tail Whip": [28],
+      "Disable": [31],
+      "Confusion": [36],
+      "Fury Swipes": [43],
+      "Hydro Pump": [51]
+    },
+    "Golduck":
+    {
+      "Screech": [1],
+      "Tail Whip": [1, 28],
+      "Disable": [1, 31],
+      "Confusion": [39],
+      "Fury Swipes": [48],
+      "Hydro Pump": [59]
+    },
+    "Mankey":
+    {
+      "Leer": [1],
+      "Scratch": [1],
+      "Karate Chop": [15],
+      "Fury Swipes": [21],
+      "Focus Energy": [27],
+      "Seismic Toss": [33],
+      "Thrash": [39]
+    },
+    "Primeape":
+    {
+      "Leer": [1],
+      "Scratch": [1],
+      "Karate Chop": [1, 15],
+      "Fury Swipes": [1, 21],
+      "Focus Energy": [27],
+      "Seismic Toss": [37],
+      "Thrash": [46]
+    },
+    "Growlithe":
+    {
+      "Bite": [1],
+      "Roar": [1],
+      "Ember": [18],
+      "Leer": [23],
+      "Take Down": [30],
+      "Agility": [39],
+      "Flamethrower": [50]
+    },
+    "Arcanine":
+    {
+      "Roar": [1],
+      "Ember": [1],
+      "Leer": [1],
+      "Take Down": [1]
+    },
+    "Poliwag":
+    {
+      "Bubble": [1],
+      "Hypnosis": [16],
+      "Water Gun": [19],
+      "Double Slap": [25],
+      "Body Slam": [31],
+      "Amnesia": [38],
+      "Hydro Pump": [45]
+    },
+    "Poliwhirl":
+    {
+      "Bubble": [1],
+      "Hypnosis": [1, 16],
+      "Water Gun": [1, 19],
+      "Double Slap": [26],
+      "Body Slam": [33],
+      "Amnesia": [41],
+      "Hydro Pump": [49]
+    },
+    "Poliwrath":
+    {
+      "Hypnosis": [1, 16],
+      "Water Gun": [1, 19],
+      "Double Slap": [1],
+      "Body Slam": [1]
+    },
+    "Abra":
+    {
+      "Teleport": [1]
+    },
+    "Kadabra":
+    {
+      "Confusion": [1, 16],
+      "Disable": [1, 20],
+      "Teleport": [1],
+      "Psybeam": [27],
+      "Recover": [31],
+      "Psychic": [38],
+      "Reflect": [42]
+    },
+    "Alakazam":
+    {
+      "Confusion": [1, 16],
+      "Disable": [1, 20],
+      "Teleport": [1],
+      "Psybeam": [27],
+      "Recover": [31],
+      "Psychic": [38],
+      "Reflect": [42]
+    },
+    "Machop":
+    {
+      "Karate Chop": [1],
+      "Low Kick": [20],
+      "Leer": [25],
+      "Focus Energy": [32],
+      "Seismic Toss": [39],
+      "Submission": [46]
+    },
+    "Machoke":
+    {
+      "Karate Chop": [1],
+      "Low Kick": [1, 20],
+      "Leer": [1, 25],
+      "Focus Energy": [36],
+      "Seismic Toss": [44],
+      "Submission": [52]
+    },
+    "Machamp":
+    {
+      "Karate Chop": [1],
+      "Low Kick": [1, 20],
+      "Leer": [1, 25],
+      "Focus Energy": [36],
+      "Seismic Toss": [44],
+      "Submission": [52]
+    },
+    "Bellsprout":
+    {
+      "Growth": [1],
+      "Vine Whip": [1],
+      "Wrap": [13],
+      "Poison Powder": [15],
+      "Sleep Powder": [18],
+      "Stun Spore": [21],
+      "Acid": [26],
+      "Razor Leaf": [33],
+      "Slam": [42]
+    },
+    "Weepinbell":
+    {
+      "Growth": [1],
+      "Vine Whip": [1],
+      "Wrap": [1, 13],
+      "Poison Powder": [15],
+      "Sleep Powder": [18],
+      "Stun Spore": [23],
+      "Acid": [29],
+      "Razor Leaf": [38],
+      "Slam": [49]
+    },
+    "Victreebel":
+    {
+      "Acid": [1],
+      "Razor Leaf": [1],
+      "Stun Spore": [1],
+      "Sleep Powder": [1, 18],
+      "Wrap": [13],
+      "Poison Powder": [15]
+    },
+    "Tentacool":
+    {
+      "Acid": [1],
+      "Supersonic": [7],
+      "Wrap": [13],
+      "Poison Sting": [18],
+      "Water Gun": [22],
+      "Constrict ": [27],
+      "Barrier": [33],
+      "Screech": [40],
+      "Hydro Pump": [48]
+    },
+    "Tentacruel":
+    {
+      "Acid": [1],
+      "Supersonic": [1, 7],
+      "Wrap": [1, 13],
+      "Poison Sting": [18],
+      "Water Gun": [22],
+      "Constrict ": [27],
+      "Barrier": [35],
+      "Screech": [43],
+      "Hydro Pump": [50]
+    },
+    "Geodude":
+    {
+      "Tackle": [1],
+      "Defense Curl": [11],
+      "Rock Throw": [16],
+      "Self-Destruct": [21],
+      "Harden": [26],
+      "Earthquake ": [31],
+      "Explosion": [36]
+    },
+    "Graveler":
+    {
+      "Tackle": [1],
+      "Defense Curl": [1, 11],
+      "Rock Throw": [16],
+      "Self-Destruct": [21],
+      "Harden": [29],
+      "Earthquake ": [36],
+      "Explosion": [43]
+    },
+    "Golem":
+    {
+      "Tackle": [1],
+      "Defense Curl": [1, 11],
+      "Rock Throw": [16],
+      "Self-Destruct": [21],
+      "Harden": [29],
+      "Earthquake ": [36],
+      "Explosion": [43]
+    },
+    "Ponyta":
+    {
+      "Ember": [1],
+      "Tail Whip": [30],
+      "Stomp": [32],
+      "Growl": [35],
+      "Fire Spin": [39],
+      "Take Down ": [43],
+      "Agility": [48]
+    },
+    "Rapidash":
+    {
+      "Ember": [1],
+      "Tail Whip": [1, 30],
+      "Stomp": [1, 32],
+      "Growl": [1, 35],
+      "Fire Spin": [39],
+      "Take Down ": [47],
+      "Agility": [55]
+    },
+    "Slowpoke":
+    {
+      "Confusion": [1],
+      "Disable": [18],
+      "Headbutt": [22],
+      "Growl": [27],
+      "Water Gun": [33],
+      "Amnesia": [40],
+      "Psychic": [48]
+    },
+    "Slowbro":
+    {
+      "Confusion": [1],
+      "Disable": [1, 18],
+      "Headbutt": [1, 22],
+      "Growl": [27],
+      "Water Gun": [33],
+      "Withdraw": [37],
+      "Amnesia": [44],
+      "Psychic": [55]
+    },
+    "Magnemite":
+    {
+      "Tackle": [1],
+      "Sonic Boom": [21],
+      "Thunder Shock": [25],
+      "Supersonic": [29],
+      "Thunder Wave": [35],
+      "Swift": [41],
+      "Screech": [47]
+    },
+    "Magneton":
+    {
+      "Tackle": [1],
+      "Sonic Boom": [1, 21],
+      "Thunder Shock": [1, 25],
+      "Supersonic": [29],
+      "Thunder Wave": [38],
+      "Swift": [46],
+      "Screech": [54]
+    },
+    "Farfetch'd":
+    {
+      "Peck": [1],
+      "Sand Attack": [1],
+      "Leer": [7],
+      "Fury Attack": [15],
+      "Swords Dance": [23],
+      "Agility": [31],
+      "Slash": [39]
+    },
+    "Doduo":
+    {
+      "Peck": [1],
+      "Growl": [20],
+      "Fury Attack": [24],
+      "Drill Peck": [30],
+      "Rage": [36],
+      "Tri Attack": [40],
+      "Agility": [44]
+    },
+    "Dodrio":
+    {
+      "Peck": [1],
+      "Growl": [1, 20],
+      "Fury Attack": [1, 24],
+      "Drill Peck": [30],
+      "Rage": [39],
+      "Tri Attack": [45],
+      "Agility": [51]
+    },
+    "Seel":
+    {
+      "Headbutt": [1],
+      "Growl": [30],
+      "Aurora Beam": [35],
+      "Rest": [40],
+      "Take Down": [45],
+      "Ice Beam": [50]
+    },
+    "Dewgong":
+    {
+      "Headbutt": [1],
+      "Growl": [1, 30],
+      "Aurora Beam": [1, 35],
+      "Rest": [44],
+      "Take Down": [50],
+      "Ice Beam": [56]
+    },
+    "Grimer":
+    {
+      "Disable": [1],
+      "Pound": [1],
+      "Poison Gas": [30],
+      "Minimize": [33],
+      "Sludge": [37],
+      "Harden": [42],
+      "Screech": [48],
+      "Acid Armor": [55]
+    },
+    "Muk":
+    {
+      "Disable": [1],
+      "Pound": [1],
+      "Poison Gas": [1, 30],
+      "Minimize": [33],
+      "Sludge": [37],
+      "Harden": [45],
+      "Screech": [53],
+      "Acid Armor": [60]
+    },
+    "Shellder":
+    {
+      "Tackle": [1],
+      "Withdraw": [1],
+      "Supersonic": [18],
+      "Clamp": [23],
+      "Aurora Beam": [30],
+      "Leer": [39],
+      "Ice Beam": [50]
+    },
+    "Cloyster":
+    {
+      "Withdraw": [1],
+      "Supersonic": [18],
+      "Clamp": [1],
+      "Aurora Beam": [1],
+      "Spike Cannon": [50]
+    },
+    "Gastly":
+    {
+      "Confuse Ray": [1],
+      "Lick": [1],
+      "Night Shade": [1],
+      "Hypnosis": [27],
+      "Dream Eater": [35]
+    },
+    "Haunter":
+    {
+      "Confuse Ray": [1],
+      "Lick": [1],
+      "Night Shade": [1],
+      "Hypnosis": [29],
+      "Dream Eater": [38]
+    },
+    "Gengar":
+    {
+      "Confuse Ray": [1],
+      "Lick": [1],
+      "Night Shade": [1],
+      "Hypnosis": [29],
+      "Dream Eater": [38]
+    },
+    "Onix":
+    {
+      "Screech": [1],
+      "Tackle": [1],
+      "Bind": [15],
+      "Rock Throw": [19],
+      "Rage": [25],
+      "Slam": [33],
+      "Harden": [43]
+    },
+    "Drowzee":
+    {
+      "Hypnosis": [1],
+      "Pound": [1],
+      "Disable": [12],
+      "Confusion": [17],
+      "Headbutt": [24],
+      "Poison Gas": [29],
+      "Psychic": [32],
+      "Meditate": [37]
+    },
+    "Hypno":
+    {
+      "Hypnosis": [1],
+      "Pound": [1],
+      "Disable": [1, 12],
+      "Confusion": [1, 17],
+      "Headbutt": [24],
+      "Poison Gas": [33],
+      "Psychic": [37],
+      "Meditate": [43]
+    },
+    "Krabby":
+    {
+      "Bubble": [1],
+      "Leer": [1],
+      "Vice Grip": [20],
+      "Guillotine": [25],
+      "Stomp": [30],
+      "Crabhamnmer": [35],
+      "Harden": [40]
+    },
+    "Kingler":
+    {
+      "Bubble": [1],
+      "Leer": [1],
+      "Vice Grip": [1, 20],
+      "Guillotine": [25],
+      "Stomp": [34],
+      "Crabhamnmer": [42],
+      "Harden": [49]
+    },
+    "Voltorb":
+    {
+      "Screech": [1],
+      "Tackle": [1],
+      "Sonic Boom": [17],
+      "Self-Destruct": [22],
+      "Light Screen": [29],
+      "Swift": [36],
+      "Explosion": [43]
+    },
+    "Electrode":
+    {
+      "Screech": [1],
+      "Tackle": [1],
+      "Sonic Boom": [1, 17],
+      "Self-Destruct": [22],
+      "Light Screen": [29],
+      "Swift": [40],
+      "Explosion": [50]
+    },
+    "Exeggcute":
+    {
+      "Barrage": [1],
+      "Hypnosis": [1],
+      "Reflect": [25],
+      "Leech Seed": [28],
+      "Stun Spore": [32],
+      "Poison Powder": [37],
+      "Solar Beam": [42],
+      "Sleep Powder": [48]
+    },
+    "Exeggutor":
+    {
+      "Barrage": [1],
+      "Hypnosis": [1],
+      "Stomp": [28]
+    },
+    "Cubone":
+    {
+      "Bone Club": [1],
+      "Growl": [1],
+      "Leer": [25],
+      "Focus Energy": [31],
+      "Thrash": [38],
+      "Bonemerang": [43],
+      "Rage": [46]
+    },
+    "Marowak":
+    {
+      "Bone Club": [1],
+      "Growl": [1],
+      "Leer": [1, 25],
+      "Focus Energy": [1, 33],
+      "Thrash": [41],
+      "Bonemerang": [48],
+      "Rage": [55]
+    },
+    "Hitmonlee":
+    {
+      "Double Kick": [1],
+      "Meditate": [1],
+      "Rolling Kick": [33],
+      "Jump Kick": [38],
+      "Focus Energy": [43],
+      "High Jump Kick": [48],
+      "Mega Kick": [53]
+    },
+    "Hitmonchan":
+    {
+      "Agility": [1],
+      "Comet Punch": [1],
+      "Fire Punch": [33],
+      "Ice Punch": [38],
+      "Thunder Punch": [43],
+      "Mega Punch": [48],
+      "Counter": [53]
+    },
+    "Lickitung":
+    {
+      "Supersonic": [1],
+      "Wrap": [1],
+      "Stomp": [7],
+      "Disable": [15],
+      "Defense Curl": [23],
+      "Slam": [31],
+      "Screech": [39]
+    },
+    "Koffing":
+    {
+      "Smog": [1],
+      "Tackle": [1],
+      "Sludge": [32],
+      "Smokescreen": [37],
+      "Self-Destruct": [40],
+      "Haze": [45],
+      "Explosion": [48]
+    },
+    "Weezing":
+    {
+      "Sludge": [1, 32],
+      "Smog": [1],
+      "Tackle": [1],
+      "Smokescreen": [39],
+      "Self-Destruct": [43],
+      "Haze": [43],
+      "Explosion": [53]
+    },
+    "Rhyhorn":
+    {
+      "Horn Attack": [1],
+      "Stomp": [30],
+      "Tail Whip": [35],
+      "Fury Attack": [40],
+      "Horn Drill": [45],
+      "Leer": [50],
+      "Take Down": [55]
+    },
+    "Rhydon":
+    {
+      "Horn Attack": [1],
+      "Stomp": [1, 30],
+      "Tail Whip": [1, 35],
+      "Fury Attack": [1, 40],
+      "Horn Drill": [48],
+      "Leer": [55],
+      "Take Down": [64]
+    },
+    "Chansey":
+    {
+      "Double Slap": [1],
+      "Pound": [1],
+      "Sing": [24],
+      "Growl": [30],
+      "Minimize": [38],
+      "Defense Curl": [44],
+      "Light Screen": [48],
+      "Double-Edge": [54]
+    },
+    "Tangela":
+    {
+      "Bind": [1],
+      "Constrict": [1],
+      "Absorb": [29],
+      "Poison Powder": [32],
+      "Stun Spore": [36],
+      "Sleep Powder": [39],
+      "Slam": [45],
+      "Growth": [49]
+    },
+    "Kangaskhan":
+    {
+      "Comet Punch": [1],
+      "Rage": [1],
+      "Bite": [26],
+      "Tail Whip": [31],
+      "Mega Punch": [36],
+      "Leer": [41],
+      "Dizzy Punch": [46]
+    },
+    "Horsea":
+    {
+      "Bubble": [1],
+      "Smokescreen": [19],
+      "Leer": [24],
+      "Water Gun": [30],
+      "Agility": [37],
+      "Hydro Pump": [45]
+    },
+    "Seadra":
+    {
+      "Bubble": [1],
+      "Smokescreen": [1, 19],
+      "Leer": [24],
+      "Water Gun": [30],
+      "Agility": [41],
+      "Hydro Pump": [52]
+    },
+    "Goldeen":
+    {
+      "Peck": [1],
+      "Tail Whip": [1],
+      "Supersonic": [19],
+      "Horn Attack": [24],
+      "Fury Attack": [30],
+      "Waterfall": [37],
+      "Horn Drill": [45],
+      "Agility": [54]
+    },
+    "Seaking":
+    {
+      "Peck": [1],
+      "Tail Whip": [1],
+      "Supersonic": [1, 19],
+      "Horn Attack": [24],
+      "Fury Attack": [30],
+      "Waterfall": [39],
+      "Horn Drill": [48],
+      "Agility": [54]
+    },
+    "Staryu":
+    {
+      "Tackle": [1],
+      "Water Gun": [17],
+      "Harden": [22],
+      "Recover": [27],
+      "Swift": [32],
+      "Minimize": [37],
+      "Light Screen": [42],
+      "Hydro Pump": [47]
+    },
+    "Starmie":
+    {
+      "Tackle": [1],
+      "Water Gun": [1],
+      "Harden": [1]
+    },
+    "Mr. Mime":
+    {
+      "Barrier": [1],
+      "Confusion": [1, 15],
+      "Light Screen": [23],
+      "Double Slap": [31],
+      "Meditate": [39],
+      "Substitute": [47]
+    },
+    "Jynx":
+    {
+      "Lovely Kiss": [1],
+      "Pound": [1],
+      "Lick": [18],
+      "Double Slap": [23],
+      "Ice Punch": [31],
+      "Body Slam": [39],
+      "Thrash": [47],
+      "Blizzard": [58]
+    },
+    "Electabuzz":
+    {
+      "Leer": [1],
+      "Quick Attack": [1],
+      "Thunder Shock": [34],
+      "Screech": [37],
+      "Thunder Punch": [42],
+      "Light Screen": [49],
+      "Thunder": [54]
+    },
+    "Magmar":
+    {
+      "Ember": [1],
+      "Leer": [36],
+      "Confuse Ray": [39],
+      "Fire Punch": [43],
+      "Smokescreen": [48],
+      "Smog": [52],
+      "Flamethrower": [55]
+    },
+    "Pinsir":
+    {
+      "Vice Grip": [1],
+      "Seismic Toss": [25],
+      "Guillotine": [30],
+      "Focus Energy": [36],
+      "Harden": [43],
+      "Slash": [49],
+      "Swords Dance": [54]
+    },
+    "Tauros":
+    {
+      "Tackle": [1],
+      "Stomp": [21],
+      "Tail Whip": [28],
+      "Leer": [35],
+      "Rage": [44],
+      "Take Down": [51]
+    },
+    "Magikarp":
+    {
+      "Splash": [1],
+      "Tackle": [15]
+    },
+    "Gyarados":
+    {
+      "Bite": [1, 20],
+      "Dragon Rage": [1, 25],
+      "Leer": [1, 32],
+      "Hydro Pump": [1, 41],
+      "Hyper Beam": [43]
+    },
+    "Lapras":
+    {
+      "Growl": [1],
+      "Water Gun": [1],
+      "Sing": [16],
+      "Mist": [20],
+      "Body Slam": [25],
+      "Confuse Ray": [31],
+      "Ice Beam": [38],
+      "Hydro Pump": [46]
+    },
+    "Ditto":
+    {
+      "Transform": [1]
+    },
+    "Eevee":
+    {
+      "Sand Attack": [1],
+      "Tackle": [1],
+      "Quick Attack": [27],
+      "Tail Whip": [31],
+      "Bite": [37],
+      "Take Down": [45]
+    },
+    "Vaporeon":
+    {
+      "Sand Attack": [1],
+      "Tackle": [1],
+      "Quick Attack": [1, 27],
+      "Water Gun": [1, 31],
+      "Tail Whip": [37],
+      "Bite": [40],
+      "Acid Armor": [42],
+      "Haze": [44],
+      "Mist": [48],
+      "Hydro Pump": [54]
+    },
+    "Jolteon":
+    {
+      "Sand Attack": [1],
+      "Tackle": [1],
+      "Quick Attack": [1, 27],
+      "Thunder Shock": [1, 31],
+      "Tail Whip": [37],
+      "Thunder Wave": [40],
+      "Double Kick": [42],
+      "Agility": [44],
+      "Pin Missle": [48],
+      "Thunder": [54]
+    },
+    "Flareon":
+    {
+      "Sand Attack": [1],
+      "Tackle": [1],
+      "Quick Attack": [1, 27],
+      "Ember": [1, 31],
+      "Tail Whip": [37],
+      "Bite": [40],
+      "Leer": [42],
+      "Fire Spin": [44],
+      "Rage": [48],
+      "Flamethrower": [54]
+    },
+    "Porygon":
+    {
+      "Conversion": [1],
+      "Sharpen": [1],
+      "Tackle": [1],
+      "Psybeam": [23],
+      "Recover": [28],
+      "Agility": [35],
+      "Tri Attack": [42]
+    },
+    "Omanyte":
+    {
+      "Water Gun": [1],
+      "Withdraw": [1],
+      "Horn Attack": [34],
+      "Leer": [39],
+      "Spike Cannon": [46],
+      "Hydro Pump": [53]
+    },
+    "Omastar":
+    {
+      "Water Gun": [1],
+      "Withdraw": [1],
+      "Horn Attack": [1, 34],
+      "Leer": [39],
+      "Spike Cannon": [44],
+      "Hydro Pump": [49]
+    },
+    "Kabuto":
+    {
+      "Harden": [1],
+      "Scratch": [1],
+      "Absorb": [34],
+      "Slash": [39],
+      "Leer": [44],
+      "Hydro Pump": [49]
+    },
+    "Kabutops":
+    {
+      "Harden": [1],
+      "Scratch": [1],
+      "Absorb": [1, 34],
+      "Slash": [39],
+      "Leer": [46],
+      "Hydro Pump": [53]
+    },
+    "Aerodactyl":
+    {
+      "Agility": [1],
+      "Wing Attack": [1],
+      "Supersonic": [33],
+      "Bite": [38],
+      "Take Down": [45],
+      "Hyper Beam": [54]
+    },
+    "Snorlax":
+    {
+      "Amnesia": [1],
+      "Headbutt": [1],
+      "Rest": [1],
+      "Body Slam": [34],
+      "Harden": [41],
+      "Double-Edge": [48],
+      "Hyper Beam": [56]
+    },
+    "Articuno":
+    {
+      "Ice Beam": [1],
+      "Peck": [1],
+      "Blizzard": [51],
+      "Agility": [55],
+      "Mist": [60]
+    },
+    "Zapdos":
+    {
+      "Drill Peck": [1],
+      "Thunder Shock": [1],
+      "Thunder": [51],
+      "Agility": [55],
+      "Light Screen": [60]
+    },
+    "Moltres":
+    {
+      "Fire Spin": [1],
+      "Peck": [1],
+      "Leer": [51],
+      "Agility": [55],
+      "Sky Attack": [60]
+    },
+    "Dratini":
+    {
+      "Leer": [1],
+      "Wrap": [1],
+      "Thunder Wave": [10],
+      "Agility": [20],
+      "Slam": [30],
+      "Dragon Rage": [40],
+      "Hyper Beam": [50]
+    },
+    "Dragonair":
+    {
+      "Leer": [1],
+      "Wrap": [1],
+      "Thunder Wave": [1, 10],
+      "Agility": [20],
+      "Slam": [35],
+      "Dragon Rage": [45],
+      "Hyper Beam": [55]
+    },
+    "Dragonite":
+    {
+      "Leer": [1],
+      "Wrap": [1],
+      "Thunder Wave": [1, 10],
+      "Agility": [1, 20],
+      "Slam": [35],
+      "Dragon Rage": [45],
+      "Hyper Beam": [60]
+    },
+    "Mewtwo":
+    {
+      "Confusion": [1],
+      "Disable": [1],
+      "Swift": [1],
+      "Barrier": [63],
+      "Psychic": [1, 66],
+      "Recover": [70],
+      "Mist": [75],
+      "Amnesia": [81]
+    },
+    "Mew":
+    {
+      "Pound": [1],
+      "Transform": [10],
+      "Mega Punch": [20],
+      "Metronome": [30],
+      "Psychic": [40]
+    }
+}

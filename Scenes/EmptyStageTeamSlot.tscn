@@ -1,10 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://i1ue4yt2cgs2"]
+[gd_scene load_steps=3 format=3 uid="uid://i1ue4yt2cgs2"]
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_rtirl"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_t4021"]
-[ext_resource type="Script" path="res://Resources/Scripts/InteractComponent.cs" id="3_hvhtf"]
 
-[node name="StageTeamSlotEmpty" type="NinePatchRect"]
+[node name="EmptyStageTeamSlot" type="NinePatchRect"]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0.2, 0.2, 0.2, 1)
 custom_minimum_size = Vector2(150, 200)
@@ -18,7 +17,7 @@ patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
 
-[node name="InteractComponent" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -29,9 +28,8 @@ theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
-script = ExtResource("3_hvhtf")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="InteractComponent"]
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
 self_modulate = Color(0.75, 0.75, 0.75, 1)
 layout_mode = 2
 texture = ExtResource("2_t4021")
@@ -40,7 +38,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="InteractComponent/NinePatchRect"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -52,7 +50,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="Label" type="Label" parent="InteractComponent/NinePatchRect/MarginContainer"]
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 25
 text = "Capture 

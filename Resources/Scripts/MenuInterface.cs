@@ -1,6 +1,6 @@
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class MenuInterface : CanvasLayer
 {
@@ -15,24 +15,24 @@ public partial class MenuInterface : CanvasLayer
 
 	public override void _Ready()
 	{
-		_playButton.Pressed += OnPressedPlay;
-		_settingsButton.Pressed += OnPressedSettings;
-		_exitButton.Pressed += OnPressedExit;
+		_playButton.Pressed += OnPlayPressed;
+		_settingsButton.Pressed += OnSettingsPressed;
+		_exitButton.Pressed += OnExitPressed;
 	}
 
-	private void OnPressedPlay()
+	private void OnPlayPressed()
 	{
-		StarterSelectionInterface starterSelectionInterface = PokémonTD.PackedScenes.GetStarterSelectionInterface();
+		StarterSelectionInterface starterSelectionInterface = PokemonTD.PackedScenes.GetStarterSelectionInterface();
 		AddSibling(starterSelectionInterface);
 		QueueFree();
 	}
 
-	private void OnPressedSettings()
+	private void OnSettingsPressed()
 	{
 
 	}
 
-	private void OnPressedExit()
+	private void OnExitPressed()
 	{
 		GetTree().Quit();
 	}

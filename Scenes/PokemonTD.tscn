@@ -1,0 +1,49 @@
+[gd_scene load_steps=20 format=3 uid="uid://hvrq7bqyr4x8"]
+
+[ext_resource type="Script" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
+[ext_resource type="Script" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
+[ext_resource type="PackedScene" uid="uid://cj4tssggis6bf" path="res://Scenes/MenuInterface.tscn" id="3_abxj0"]
+[ext_resource type="PackedScene" uid="uid://devsee4klrmn8" path="res://Scenes/MovesetInterface.tscn" id="3_uti41"]
+[ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="4_twou7"]
+[ext_resource type="PackedScene" uid="uid://dcou0d0mxotei" path="res://Scenes/PokemonCenterSlot.tscn" id="5_ayvqx"]
+[ext_resource type="PackedScene" uid="uid://dionk6n8v1pii" path="res://Scenes/StageSelectInterface.tscn" id="6_fochk"]
+[ext_resource type="PackedScene" uid="uid://dejp0ypq88xe4" path="res://Scenes/StageSelectButton.tscn" id="7_21ucs"]
+[ext_resource type="PackedScene" uid="uid://csavuq02w7qrm" path="res://Scenes/StarterSelectionInterface.tscn" id="8_gfuil"]
+[ext_resource type="PackedScene" uid="uid://jcfh6tp6od31" path="res://Scenes/StageStateInterface.tscn" id="8_joyph"]
+[ext_resource type="PackedScene" uid="uid://d27ld10r6gsup" path="res://Scenes/StarterOption.tscn" id="9_omcsq"]
+[ext_resource type="PackedScene" uid="uid://bc0jpdpmf1kc0" path="res://Scenes/PokemonEnemy.tscn" id="11_cedxp"]
+[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Scenes/StageTeamSlot.tscn" id="12_xaqc1"]
+[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Scenes/EmptyStageTeamSlot.tscn" id="13_aqow5"]
+[ext_resource type="PackedScene" uid="uid://bwvg6bl137m4m" path="res://Scenes/Stages/PokemonStage1.tscn" id="13_pgy84"]
+[ext_resource type="PackedScene" uid="uid://b5yi0qb8amvcj" path="res://Scenes/Stages/PokemonStage2.tscn" id="14_1mgql"]
+[ext_resource type="PackedScene" uid="uid://cd50k3xub1ea7" path="res://Scenes/PokemonCenterInterface.tscn" id="15_130gf"]
+[ext_resource type="PackedScene" uid="uid://ccoosttiq6n6v" path="res://Scenes/Stages/PokemonStage3.tscn" id="15_yuice"]
+[ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Scenes/ForgetMoveInterface.tscn" id="18_8nrjv"]
+
+[node name="PokemonTD" type="Node" node_paths=PackedStringArray("_packedScenes")]
+script = ExtResource("1_22f5f")
+_packedScenes = NodePath("PackedScenes")
+_areConsoleMessagesEnabled = true
+_createRandomTeam = true
+_randomTeamCount = 4
+_starterPokemonLevel = 19
+_isPokemonCenterRandomized = true
+_pokemonCenterCount = 45
+
+[node name="PackedScenes" type="Node" parent="."]
+script = ExtResource("2_aafqp")
+_menuInterface = ExtResource("3_abxj0")
+_movesetInterface = ExtResource("3_uti41")
+_moveOption = ExtResource("4_twou7")
+_pokemonCenterInterface = ExtResource("15_130gf")
+_pokemonCenterSlot = ExtResource("5_ayvqx")
+_starterSelectionInterface = ExtResource("8_gfuil")
+_starterOption = ExtResource("9_omcsq")
+_stageSelectInterface = ExtResource("6_fochk")
+_stageSelectButton = ExtResource("7_21ucs")
+_stageStateInterface = ExtResource("8_joyph")
+_pokemonStages = Array[PackedScene]([ExtResource("13_pgy84"), ExtResource("14_1mgql"), ExtResource("15_yuice")])
+_pokemonEnemy = ExtResource("11_cedxp")
+_stageTeamSlot = ExtResource("12_xaqc1")
+_emptyStageTeamSlot = ExtResource("13_aqow5")
+_forgetMoveInterface = ExtResource("18_8nrjv")

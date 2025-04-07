@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dejp0ypq88xe4"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokémonStage/StageSelectButton.cs" id="1_dco7j"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageSelectButton.cs" id="1_dco7j"]
 
 [node name="StageSelectButton" type="Button"]
 custom_minimum_size = Vector2(75, 75)

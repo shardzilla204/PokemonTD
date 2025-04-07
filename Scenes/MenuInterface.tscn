@@ -7,11 +7,11 @@
 
 [node name="MenuInterface" type="CanvasLayer" node_paths=PackedStringArray("_playButton", "_settingsButton", "_exitButton")]
 script = ExtResource("1_flyhv")
-_playButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/PlayButton")
-_settingsButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton")
-_exitButton = NodePath("ColorRect/MarginContainer/VBoxContainer/VBoxContainer/ExitButton")
+_playButton = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/PlayButton")
+_settingsButton = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton")
+_exitButton = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/ExitButton")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -20,7 +20,7 @@ grow_vertical = 2
 theme = ExtResource("2_y8l40")
 color = Color(0, 0, 0, 0.25)
 
-[node name="MarginContainer" type="MarginContainer" parent="ColorRect"]
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,28 +32,34 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Label" type="Label" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 size_flags_stretch_ratio = 0.5
-theme_override_font_sizes/font_size = 50
-text = "Pokemon
-Tower Defense"
+theme_override_font_sizes/font_size = 100
+text = "Pokemon"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="Label2" type="Label" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 75
+text = "Tower Defense"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorRect/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/separation = 25
 alignment = 1
 
-[node name="PlayButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="PlayButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -62,7 +68,7 @@ text = "Play"
 flat = true
 script = ExtResource("3_5lst2")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/PlayButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PlayButton"]
 self_modulate = Color(0.35, 0.35, 0.35, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -77,7 +83,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="SettingsButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -86,7 +92,7 @@ text = "Settings"
 flat = true
 script = ExtResource("3_5lst2")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SettingsButton"]
 self_modulate = Color(0.35, 0.35, 0.35, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -101,7 +107,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="ExitButton" type="Button" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(200, 75)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -110,7 +116,7 @@ text = "Exit"
 flat = true
 script = ExtResource("3_5lst2")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="ColorRect/MarginContainer/VBoxContainer/VBoxContainer/ExitButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/ExitButton"]
 self_modulate = Color(0.35, 0.35, 0.35, 1)
 show_behind_parent = true
 layout_mode = 1

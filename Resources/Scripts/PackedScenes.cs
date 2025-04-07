@@ -1,7 +1,7 @@
 using Godot;
 using Godot.Collections;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class PackedScenes : Node
 {
@@ -12,13 +12,13 @@ public partial class PackedScenes : Node
 	private PackedScene _movesetInterface;
 
 	[Export]
-	private PackedScene _moveButton;
+	private PackedScene _moveOption;
 
 	[Export]
-	private PackedScene _personalComputerInterface;
+	private PackedScene _pokemonCenterInterface;
 	
 	[Export]
-	private PackedScene _inventorySlot;
+	private PackedScene _pokemonCenterSlot;
 
 	[Export]
 	private PackedScene _starterSelectionInterface;
@@ -36,10 +36,10 @@ public partial class PackedScenes : Node
 	private PackedScene _stageStateInterface;
 
 	[Export]
-	private Array<PackedScene> _pokémonStages;
+	private Array<PackedScene> _pokemonStages;
 
 	[Export]
-	private PackedScene _pokémonEnemy;
+	private PackedScene _pokemonEnemy;
 
 	[Export]
 	private PackedScene _stageTeamSlot;
@@ -47,6 +47,8 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _emptyStageTeamSlot;
 
+	[Export]
+	private PackedScene _forgetMoveInterface;
 
 	public MenuInterface GetMenuInterface()
 	{
@@ -58,19 +60,24 @@ public partial class PackedScenes : Node
 		return _starterSelectionInterface.Instantiate<StarterSelectionInterface>();
 	}
 
+	public ForgetMoveInterface GetForgetMoveInterface()
+	{
+		return _forgetMoveInterface.Instantiate<ForgetMoveInterface>();
+	}
+
 	public StarterOption GetStarterOption()
 	{
 		return _starterOption.Instantiate<StarterOption>();
 	}
 
-    public InventorySlot GetInventorySlot()
+    public PokemonCenterSlot GetPokemonCenterSlot()
 	{
-		return _inventorySlot.Instantiate<InventorySlot>();
+		return _pokemonCenterSlot.Instantiate<PokemonCenterSlot>();
 	}
 
-	public PokémonEnemy GetPokémonEnemy()
+	public PokemonEnemy GetPokemonEnemy()
 	{
-		return _pokémonEnemy.Instantiate<PokémonEnemy>();
+		return _pokemonEnemy.Instantiate<PokemonEnemy>();
 	}
 
 	public MovesetInterface GetMovesetInterface()
@@ -78,9 +85,9 @@ public partial class PackedScenes : Node
 		return _movesetInterface.Instantiate<MovesetInterface>();
 	}
 
-	public MoveButton GetMoveButton()
+	public MoveOption GetMoveOption()
 	{
-		return _moveButton.Instantiate<MoveButton>();
+		return _moveOption.Instantiate<MoveOption>();
 	}
 
 	public StageSelectInterface GetStageSelectInterface()
@@ -98,9 +105,9 @@ public partial class PackedScenes : Node
 		return _stageStateInterface.Instantiate<StageStateInterface>();
 	}
 
-	public PokémonStage GetPokémonStage(int pokémonStageID)
+	public PokemonStage GetPokemonStage(int PokemonStageID)
 	{
-		return _pokémonStages[pokémonStageID].Instantiate<PokémonStage>();
+		return _pokemonStages[PokemonStageID].Instantiate<PokemonStage>();
 	}
 	
 	public StageTeamSlot GetStageTeamSlot()
@@ -113,8 +120,8 @@ public partial class PackedScenes : Node
 		return _emptyStageTeamSlot.Instantiate<Control>();
 	}
 
-	public PersonalComputerInterface GetPersonalComputerInterface()
+	public PokemonCenterInterface GetPokemonCenterInterface()
 	{
-		return _personalComputerInterface.Instantiate<PersonalComputerInterface>();
+		return _pokemonCenterInterface.Instantiate<PokemonCenterInterface>();
 	}
 }

@@ -1,10 +1,10 @@
 [gd_scene load_steps=3 format=3 uid="uid://csavuq02w7qrm"]
 
-[ext_resource type="Script" path="res://StarterSelectionInterface.cs" id="1_s1mku"]
+[ext_resource type="Script" path="res://Resources/Scripts/StarterSelectionInterface.cs" id="1_5ad5v"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_av1h0"]
 
 [node name="StarterSelectionInterface" type="CanvasLayer" node_paths=PackedStringArray("_starterOptions")]
-script = ExtResource("1_s1mku")
+script = ExtResource("1_5ad5v")
 _starterOptions = NodePath("ColorRect/MarginContainer/VBoxContainer/StarterOptions")
 
 [node name="ColorRect" type="ColorRect" parent="."]

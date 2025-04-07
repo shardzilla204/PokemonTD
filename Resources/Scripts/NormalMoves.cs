@@ -1,12 +1,12 @@
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class NormalMoves 
 {
-   public static void Barrage(PokémonEnemy pokémonEnemy)
+   public static void Barrage(PokemonEnemy pokemonEnemy)
    {
-      PokémonMove pokémonMove = PokémonTD.PokémonMoveset.GetPokémonMove("Barrage");
+      PokemonMove pokemonMove = PokemonTD.PokemonMoveset.GetPokemonMove("Barrage");
       int minCount = 2;
       int maxCount = 5;
 

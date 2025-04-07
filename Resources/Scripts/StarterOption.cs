@@ -1,6 +1,6 @@
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class StarterOption : VBoxContainer
 {
@@ -13,13 +13,12 @@ public partial class StarterOption : VBoxContainer
 	[Export]
 	private TextureRect _sprite;
 
-	public Pokémon Pokémon;
+	public Pokemon Pokemon;
 
 	public override void _Ready()
 	{
-		Pokémon.Level = 5;
-		_name.Text = $"{Pokémon.Name}";
-		_sprite.Texture = PokémonTD.GetPokémonSprite(Pokémon.Name);
-		_button.Pressed += () => PokémonTD.Signals.EmitSignal(Signals.SignalName.PokémonStarterSelected, Pokémon);
+		_name.Text = $"{Pokemon.Name}";
+		_sprite.Texture = PokemonTD.GetPokemonSprite(Pokemon.Name);
+		_button.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonStarterSelected, Pokemon);
 	}
 }

@@ -1,0 +1,44 @@
+{
+    "1":
+    {
+        "Pokemon Per Wave": 5,
+        "Wave Count": 10,
+        "Pokemon Levels": [1, 2],
+        "Pokemon": 
+        {
+            "Pidgey": 300,
+            "Rattata": 200,
+            "Caterpie": 150,
+            "Squirtle": 10
+        }
+    },
+    "2":
+    {
+        "Pokemon Per Wave": 7,
+        "Wave Count": 15,
+        "Pokemon Levels": [4, 7],
+        "Pokemon": 
+        {
+            "Pidgey": 250,
+            "Rattata": 150,
+            "Raticate": 100,
+            "Bulbasaur": 25,
+            "Pikachu": 10
+        }
+    },
+    "3":
+    {
+        "Pokemon Per Wave": 10,
+        "Wave Count": 7,
+        "Pokemon Levels": [7, 16],
+        "Pokemon":
+        {
+            "Caterpie": 300,
+            "Weedle": 300,
+            "Metapod": 150,
+            "Kakuna": 150,
+            "Butterfree": 50,
+            "Beedrill": 50
+        }
+    }
+}

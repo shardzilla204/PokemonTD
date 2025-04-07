@@ -393,7 +393,7 @@
         "Power": null,
         "Accuracy": null,
         "PP": 20,
-        "Effect": "In battles, the opponent switches. In the wild, the Pokémon runs."
+        "Effect": "In battles, the opponent switches. In the wild, the Pokemon runs."
     },
     "Scratch":
     {
@@ -654,7 +654,7 @@
         "Power": null,
         "Accuracy": null,
         "PP": 20,
-        "Effect": "In battles, the opponent switches. In the wild, the Pokémon runs."
+        "Effect": "In battles, the opponent switches. In the wild, the Pokemon runs."
     },
     "Wrap":
     {

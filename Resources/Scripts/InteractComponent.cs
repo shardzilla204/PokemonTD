@@ -1,6 +1,6 @@
 using Godot;
 
-namespace PokémonTD;
+namespace PokemonTD;
 
 public partial class InteractComponent : Control
 {
