@@ -4,15 +4,6 @@ namespace PokemonTD;
 
 public partial class PokemonEnemy : TextureRect
 {
-	[Signal]
-	public delegate void FaintedEventHandler(PokemonEnemy pokemonEnemy);
-
-	[Signal]
-	public delegate void CapturedEventHandler(PokemonEnemy pokemonEnemy);
-
-	[Signal]
-	public delegate void PassedEventHandler(PokemonEnemy pokemonEnemy);
-
 	[Export]
 	private TextureProgressBar _healthBar;
 
@@ -46,7 +37,7 @@ public partial class PokemonEnemy : TextureRect
 			string passedMessage = $"{Pokemon.Name} Has Breached The Defenses";
 			PrintRich.PrintLine(TextColor.Yellow, passedMessage);
 
-			EmitSignal(SignalName.Passed, this);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyPassed, this);
 			QueueFree();
 		};
 
@@ -64,15 +55,14 @@ public partial class PokemonEnemy : TextureRect
 		string capturedMessage = $"{Pokemon.Name} Has Been Captured";
 		PrintRich.PrintLine(TextColor.Yellow, capturedMessage);
 
-		EmitSignal(SignalName.Captured, this);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyCaptured, this);
 	}
 
     private void OnAreaEntered(Area2D area)
 	{
 		StageSlot stageSlot = area.GetParentOrNull<StageSlot>();
-		int PokemonEnemyQueue = stageSlot.PokemonEnemyQueue.Count;
-		stageSlot.PokemonEnemyQueue.Insert(PokemonEnemyQueue, this);
+		int pokemonEnemyQueue = stageSlot.PokemonEnemyQueue.Count;
+		stageSlot.PokemonEnemyQueue.Insert(pokemonEnemyQueue, this);
 	}
 
 	private void OnAreaExited(Area2D area)
@@ -118,7 +108,6 @@ public partial class PokemonEnemy : TextureRect
 		string faintMessage = $"{Pokemon.Name} Has Fainted";
 		PrintRich.PrintLine(TextColor.Yellow, faintMessage);
 
-		EmitSignal(SignalName.Fainted, this);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this);
 		QueueFree();
 	}

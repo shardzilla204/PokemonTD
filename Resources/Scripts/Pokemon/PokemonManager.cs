@@ -2,14 +2,12 @@ using Godot;
 using GC = Godot.Collections;
 
 using System.Collections.Generic;
-using System.Linq;
 
 namespace PokemonTD;
 
 public partial class PokemonManager : Node
 {
     private GC.Dictionary<string, Variant> _pokemonDictionaries = new GC.Dictionary<string, Variant>();
-    private GC.Dictionary<string, Variant> _pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>();
 
     public override void _EnterTree()
     {
@@ -19,9 +17,8 @@ public partial class PokemonManager : Node
     public override void _Ready()
     {
         LoadPokemonFile();
-        LoadLearnsetFile();
 
-        PokemonTD.Signals.ForgetMove += OnForgetMove;
+        PokemonTD.Signals.PokemonLeveledUp += SetPokemonStats;
     }
 
     private void LoadPokemonFile()
@@ -41,52 +38,57 @@ public partial class PokemonManager : Node
 		_pokemonDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
-    private void LoadLearnsetFile()
-    {
-        string filePath = "res://JSON/PokemonLearnset.json";
-
-        Json json = new Json();
-
-		using FileAccess file = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-		string jsonString = file.GetAsText();
-
-		if (json.Parse(jsonString) != Error.Ok) return;
-
-        string loadSuccessMessage = "Pokemon Learnset File Successfully Loaded";
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-
-		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
-    }
-
-    public Pokemon GetPokemonData(string pokemonName)
+    public Pokemon GetPokemon(string pokemonName)
     {
         GC.Dictionary<string, Variant> pokemonDictionary = _pokemonDictionaries[pokemonName].As<GC.Dictionary<string, Variant>>();
         GC.Array<string> pokemonTypes = pokemonDictionary["Type"].As<GC.Array<string>>();
         GC.Dictionary<string, Variant> pokemonStats = pokemonDictionary["Base Stats"].As<GC.Dictionary<string, Variant>>();
 
         Pokemon pokemon = new Pokemon(pokemonName, pokemonDictionary, pokemonTypes, pokemonStats);
+        pokemon.MaxExperience = GetExperienceRequired(pokemon);
         return pokemon;
     }
 
     public Pokemon GetPokemon(string pokemonName, int pokemonLevel)
     {
-        Pokemon pokemon = new Pokemon(pokemonName, pokemonLevel);
-        Pokemon pokemonData = GetPokemonData(pokemonName);
+        Pokemon pokemon = GetPokemon(pokemonName);
+        pokemon.SetLevel(pokemonLevel);
+        
+        List<PokemonMove> pokemonMoves = PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
+        pokemon.SetMoves(pokemonMoves);
 
-        pokemon.Name = pokemonName;
-        pokemon.Species = pokemonData.Species;
-        pokemon.Height = pokemonData.Height;
-        pokemon.Weight = pokemonData.Weight;
-        pokemon.Description = pokemonData.Description;
-        pokemon.Sprite = pokemonData.Sprite;
-        pokemon.ExperienceYield = pokemonData.ExperienceYield;
-        pokemon.MaxExperience = pokemonData.MaxExperience;
-
-        pokemon.Types = pokemonData.Types;
-
-        pokemon.SetStats();
+        SetPokemonStats(pokemon);
 
         return pokemon;
+    }
+
+    public Pokemon GetRandomPokemon()
+    {
+        string randomPokemonName = GetRandomPokemonName();
+        int randomLevel = GetRandomLevel();
+        
+        Pokemon randomPokemon = GetPokemon(randomPokemonName, randomLevel);
+        randomPokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonTD.PokemonMoveset.GetRandomMoveset() : PokemonTD.PokemonMoveset.GetPokemonMoveset(randomPokemon);
+        
+        return randomPokemon;
+    }
+
+    public int GetRandomLevel()
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
+    }
+
+    private void SetPokemonStats(Pokemon pokemon)
+    {
+		pokemon.HP = GetPokemonHP(pokemon);
+		pokemon.Attack = GetOtherPokemonStat(pokemon, PokemonStat.Attack);
+		pokemon.Defense = GetOtherPokemonStat(pokemon, PokemonStat.Defense);
+		pokemon.SpecialAttack = GetOtherPokemonStat(pokemon, PokemonStat.SpecialAttack);
+		pokemon.SpecialDefense = GetOtherPokemonStat(pokemon, PokemonStat.SpecialDefense);
+		pokemon.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
+
+		PrintRich.PrintStats(TextColor.Purple, pokemon);
     }
 
     public string GetRandomPokemonName()
@@ -100,101 +102,26 @@ public partial class PokemonManager : Node
         return pokemonDictionaryKeys[randomValue];
     }
 
-    public List<PokemonMove> GetPokemonMoves(Pokemon pokemon)
-    {
-        List<PokemonMove> pokemonMoves = new List<PokemonMove>();
-
-        List<string> pokemonLearnsetNames = GetPokemonLearnsetNames(pokemon);
-
-        foreach (string pokemonLearnsetName in pokemonLearnsetNames)
-        {
-            PokemonMove pokemonMove = PokemonTD.PokemonMoveset.GetPokemonMove(pokemonLearnsetName);
-            pokemonMoves.Add(pokemonMove);
-
-            if (pokemonMoves.Count > PokemonTD.MaxMoveCount) break;
-        }
-
-        return pokemonMoves;
-    }
-
-    private void OnForgetMove(Pokemon pokemon, PokemonMove pokemonMove)
+	public List<PokemonMove> GetRandomPokemonMoveset(List<PokemonMove> pokemonMoves)
 	{
-		ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface();
-		forgetMoveInterface.Pokemon = pokemon;
-		forgetMoveInterface.MoveToLearn = pokemonMove;
-		AddSibling(forgetMoveInterface);
-        
-        Node parent = GetParent<Node>();
-        parent.MoveChild(forgetMoveInterface, parent.GetChildCount());
+		List<PokemonMove> randomPokemonMoves = new List<PokemonMove>();
+		RandomNumberGenerator RNG = new RandomNumberGenerator();
+		for (int i = 0; i < PokemonTD.MaxMoveCount; i++)
+		{
+			while (true)
+			{
+				int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
+				PokemonMove randomPokemonMove = pokemonMoves[randomMoveIndex];
+
+				if (!randomPokemonMoves.Contains(randomPokemonMove)) 
+				{
+					randomPokemonMoves.Add(randomPokemonMove);
+					break;
+				}
+			}
+		}
+		return randomPokemonMoves;
 	}
-
-    public PokemonMove GetPokemonMoveFromLevelUp(Pokemon pokemon, List<PokemonMove> oldMoves)
-    {
-        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.Name);
-        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.Name);
-        foreach (PokemonMove oldPokemonMove in oldMoves)
-        {
-            pokemonMoveNames.Remove(oldPokemonMove.Name);
-        }
-
-        PokemonMove pokemonMove = null;
-        foreach (string pokemonMoveName in pokemonMoveNames)
-        {
-            List<int> levelRequirements = pokemonLearnsetDictionary[pokemonMoveName].As<GC.Array<int>>().ToList();
-            bool hasPassed = HasPassed(levelRequirements, pokemon);
-
-            if (!hasPassed) continue;
-
-            pokemonMove = PokemonTD.PokemonMoveset.GetPokemonMove(pokemonMoveName);
-            break;
-        }
-
-        return pokemonMove;
-    }
-
-    private List<string> GetPokemonLearnsetNames(Pokemon pokemon)
-    {
-        List<string> pokemonLearnsetNames = new List<string>();
-
-        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.Name);
-        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.Name);
-
-        // Filter out moves that have a higher level required to learn
-        foreach (string pokemonMoveName in pokemonMoveNames)
-        {
-            List<int> levelRequirements = pokemonLearnsetDictionary[pokemonMoveName].As<GC.Array<int>>().ToList();
-
-            // Get the name of the move when it passes the level requirement
-            if (HasPassed(levelRequirements, pokemon)) pokemonLearnsetNames.Add(pokemonMoveName);
-        }
-        return pokemonLearnsetNames;
-    }
-
-    // Check level requirement
-    private bool HasPassed(List<int> levelRequirements, Pokemon pokemon)
-    {
-        foreach (int levelRequirement in levelRequirements)
-        {
-            if (pokemon.Level >= levelRequirement) return true;
-        }
-
-        return false;
-    }
-
-    private GC.Dictionary<string, Variant> GetPokemonLearnsetDictionary(string pokemonName)
-    {
-        GD.Print($"Pokemon Name: {pokemonName}");
-        return _pokemonLearnsetDictionaries[pokemonName].As<GC.Dictionary<string, Variant>>();
-    }
-
-    // Get all the moves the pokemon can learn
-    private List<string> GetPokemonMoveNames(string pokemonName)
-    {
-        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemonName);
-        List<string> moveNames = pokemonLearnsetDictionary.Keys.ToList();
-
-        return moveNames;
-    }
 
     public bool IsPokemonMoveLanding(PokemonMove pokemonMove)
     {
@@ -209,7 +136,7 @@ public partial class PokemonManager : Node
     {
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemon);
         float attackDefenseRatio = GetAttackDefenseRatio(pokemon, pokemonMove, pokemonEnemy);
-        float damage = (((2 * pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
+        float damage = (((5 * pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
         
         List<float> typeMultipliers = PokemonTD.PokemonTypes.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
@@ -220,7 +147,7 @@ public partial class PokemonManager : Node
         return Mathf.RoundToInt(damage);
     }
 
-    public float GetAttackDefenseRatio(Pokemon pokemon, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
+    private float GetAttackDefenseRatio(Pokemon pokemon, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
     {
         if (pokemonMove.Category == MoveCategory.Special)
         {
@@ -232,12 +159,12 @@ public partial class PokemonManager : Node
         }
     }
     
-    public float GetCriticalDamageMultiplier(Pokemon pokemon)
+    private float GetCriticalDamageMultiplier(Pokemon pokemon)
     {
         return IsCriticalHit(pokemon) ? ((2 * pokemon.Level) + 5) / pokemon.Level + 5 : 1;
     }
 
-    public bool IsCriticalHit(Pokemon pokemon)
+    private bool IsCriticalHit(Pokemon pokemon)
     {
         float minThreshold = pokemon.Speed / 2;
         float maxThreshold = 255;
@@ -261,9 +188,9 @@ public partial class PokemonManager : Node
     // (Base * 2 + Level / 100) + Level + 10
     // Base = Stat 
     // Level = Pokemon Level
-    public int GetPokemonHP(Pokemon pokemon)
+    private int GetPokemonHP(Pokemon pokemon)
     {
-        Pokemon pokemonData = GetPokemonData(pokemon.Name);
+        Pokemon pokemonData = GetPokemon(pokemon.Name);
         return pokemonData.HP * 2 + pokemon.Level / 100 + pokemon.Level + 10;
     }
 
@@ -271,9 +198,9 @@ public partial class PokemonManager : Node
     // (Base * 2 + Level / 100) + 5
     // Base = Stat 
     // Level = Pokemon Level
-    public int GetOtherPokemonStat(Pokemon pokemon, PokemonStat pokemonStat)
+    private int GetOtherPokemonStat(Pokemon pokemon, PokemonStat pokemonStat)
     {
-        Pokemon pokemonData = GetPokemonData(pokemon.Name);
+        Pokemon pokemonData = GetPokemon(pokemon.Name);
 
         int baseStatValue = pokemonStat switch 
         {
@@ -287,4 +214,14 @@ public partial class PokemonManager : Node
 
         return baseStatValue * 2 + pokemon.Level / 100 + 5;
     }
+
+    // ? EXP Formula
+	// EXP = 6/5n^3 - 15n^2 + 100n - 140
+	// n = Next Pokemon Level
+	public int GetExperienceRequired(Pokemon pokemon)
+	{
+		int nextLevel = pokemon.Level + 1;
+		int experience = Mathf.RoundToInt(6 / 5 * Mathf.Pow(nextLevel, 3) - 15 * Mathf.Pow(nextLevel, 2) + (100 * nextLevel) - 140);
+		return experience;
+	}
 }

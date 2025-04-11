@@ -1166,6 +1166,16 @@
       "Meditate": [39],
       "Substitute": [47]
     },
+    "Scyther":
+    {
+      "Quick Attack": [1],
+      "Leer": [17],
+      "Focus Energy": [20],
+      "Double Team": [24],
+      "Slash": [29],
+      "Swords Dance": [35],
+      "Agility": [42]
+    },
     "Jynx":
     {
       "Lovely Kiss": [1],

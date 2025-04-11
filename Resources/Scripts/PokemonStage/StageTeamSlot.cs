@@ -5,9 +5,6 @@ namespace PokemonTD;
 
 public partial class StageTeamSlot : NinePatchRect
 {
-	[Signal]
-	public delegate void DraggingEventHandler(bool isDragging);
-
 	[Export]
 	private TextureRect _genderSprite;
 
@@ -46,7 +43,7 @@ public partial class StageTeamSlot : NinePatchRect
 		if (what != NotificationDragEnd || !_isDragging) return;
 
 		_isDragging = false;
-		EmitSignal(SignalName.Dragging, false);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingTeamStageSlot, _isDragging);
 
 		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonOnStage, ID);
 	}
@@ -54,7 +51,7 @@ public partial class StageTeamSlot : NinePatchRect
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
 		_isDragging = true; 
-		EmitSignal(SignalName.Dragging, true);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingTeamStageSlot, true);
 		
 		SetDragPreview(GetDragPreview());
 		return GetDragData();
@@ -165,7 +162,7 @@ public partial class StageTeamSlot : NinePatchRect
 			Pokemon.Level++;
 
 			_experienceBar.Value -= _experienceBar.MaxValue;
-			_experienceBar.MaxValue = Pokemon.GetExperienceRequired();
+			_experienceBar.MaxValue = PokemonTD.PokemonManager.GetExperienceRequired(Pokemon);
 
 			Pokemon.MinExperience = (int) _experienceBar.Value;
 			Pokemon.MaxExperience = (int) _experienceBar.MaxValue;
@@ -173,10 +170,6 @@ public partial class StageTeamSlot : NinePatchRect
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, Pokemon);
 
 			UpdateControls();
-
-			// Update stats and moves
-			Pokemon.SetStats();
-			Pokemon.FindAndAddPokemonMove();
 
 			string pokemonLeveledUpMessage = $"{Pokemon.Name} Has Leveled Up To Level {Pokemon.Level}";
 			PrintRich.PrintLine(TextColor.Purple, pokemonLeveledUpMessage); ;

@@ -5,6 +5,9 @@ namespace PokemonTD;
 
 public partial class StageControls : HBoxContainer
 {
+	[Signal]
+	public delegate void VisibilityToggledEventHandler(bool isVisible);
+
 	[Export]
 	private CustomButton _gameToggle;
 
@@ -72,6 +75,6 @@ public partial class StageControls : HBoxContainer
 		_isVisible = !_isVisible;
 		_visiblityToggle.Text = _isVisible ? "Hide" : "Show";
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.VisibilityToggled, _isVisible);
+		EmitSignal(SignalName.VisibilityToggled, _isVisible);
 	}
 }

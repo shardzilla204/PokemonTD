@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cqxjof4uxv6vo"]
+[gd_scene load_steps=6 format=3 uid="uid://cdfv2agri4jy7"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_88lx8"]
 [ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageSlot.cs" id="2_cyh1f"]
@@ -34,6 +34,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_bottom = 32
 script = ExtResource("3_mna3b")
 
 [node name="Sprite" type="TextureRect" parent="InteractComponent"]

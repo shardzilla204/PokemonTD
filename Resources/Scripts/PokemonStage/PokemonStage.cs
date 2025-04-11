@@ -49,16 +49,31 @@ public partial class PokemonStage : Node2D
 	{
 		StageInterface = _stageInterface;
 
+		PokemonTD.Signals.ForgetMove += OnForgetMove;
+		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyPassed += OnPokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyCaptured += OnPokemonEnemyEvent;
+		PokemonTD.Signals.DraggingStageSlot += SetLayersAlpha;
+		PokemonTD.Signals.DraggingTeamStageSlot += SetLayersAlpha;
+
 		foreach (Node child in _stageSlots.GetChildren())
 		{
 			if (child is StageSlot stageSlot) StageSlots.Add(stageSlot);
 		}
 	}
 
+    public override void _ExitTree()
+    {
+		PokemonTD.Signals.ForgetMove -= OnForgetMove;
+		PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyPassed -= OnPokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyCaptured -= OnPokemonEnemyEvent;
+		PokemonTD.Signals.DraggingStageSlot -= SetLayersAlpha;
+		PokemonTD.Signals.DraggingTeamStageSlot -= SetLayersAlpha;
+    }
+
    	public override void _Ready()
 	{
-		AddPokemonEnemySignals();
-
 		if (PokemonNames.Count == 0)
 		{
 			PrintRich.PrintLine(TextColor.Red, "Found No Pokemon To Spawn");
@@ -66,16 +81,6 @@ public partial class PokemonStage : Node2D
 		}
 		
 		if (PokemonTD.AreStagesEnabled) WaveInterval();
-
-		foreach (StageSlot stageSlot in StageSlots)
-		{
-			stageSlot.Dragging += SetLayersAlpha;
-		}
-
-		foreach (StageTeamSlot stageTeamSlot in StageInterface.GetStageTeamSlots())
-		{
-			stageTeamSlot.Dragging += SetLayersAlpha;	
-		}
 	}
 
 	public override void _Process(double delta)
@@ -89,19 +94,20 @@ public partial class PokemonStage : Node2D
 		}
 	}
 
+	private void OnForgetMove(Pokemon pokemon, PokemonMove pokemonMove)
+	{
+		ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface();
+		forgetMoveInterface.Pokemon = pokemon;
+		forgetMoveInterface.MoveToLearn = pokemonMove;
+
+		AddSibling(forgetMoveInterface);
+	}
+
 	private void SetLayersAlpha(bool isDragging)
 	{
 		Color color = Colors.White;
 		color.A = isDragging ? 0.75f : 1; 
 		_transparentLayers.Modulate = color;
-	}
-
-	public void AddPokemonEnemySignals()
-	{
-		foreach (PokemonEnemy pokemonEnemy in PokemonEnemies)
-		{
-			pokemonEnemy.Passed += (pokemonEnemy) => IsWaveFinished();
-		}
 	}
 
 	private void OnPokemonEnemyEvent(PokemonEnemy pokemonEnemy)
@@ -159,21 +165,11 @@ public partial class PokemonStage : Node2D
 	{
 		string randomPokemonName = GetRandomPokemonName();
 		int randomLevel = GetRandomLevel();
-
 		Pokemon randomPokemon = PokemonTD.PokemonManager.GetPokemon(randomPokemonName, randomLevel);
 		
 		PokemonEnemy pokemonEnemy = GetPokemonEnemy(randomPokemon);
-		pokemonEnemy.Fainted += (pokemonEnemy) => 
-		{
-			OnPokemonEnemyEvent(pokemonEnemy);
-		};
-		pokemonEnemy.Captured += OnPokemonEnemyEvent;
-
 		PokemonEnemies.Add(pokemonEnemy);
 		
-		AddPokemonEnemySignals();
-		StageInterface.AddPokemonEnemySignals();
-
 		AddPathFollow(pokemonEnemy);
 
 		string spawnMessage = $"Spawning Level {randomPokemon.Level} {randomPokemon.Name}";

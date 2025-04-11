@@ -5,8 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cj4tssggis6bf" path="res://Scenes/MenuInterface.tscn" id="3_abxj0"]
 [ext_resource type="PackedScene" uid="uid://devsee4klrmn8" path="res://Scenes/MovesetInterface.tscn" id="3_uti41"]
 [ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="4_twou7"]
-[ext_resource type="PackedScene" uid="uid://dcou0d0mxotei" path="res://Scenes/PokemonCenterSlot.tscn" id="5_ayvqx"]
 [ext_resource type="PackedScene" uid="uid://dionk6n8v1pii" path="res://Scenes/StageSelectInterface.tscn" id="6_fochk"]
+[ext_resource type="PackedScene" uid="uid://cd50k3xub1ea7" path="res://Scenes/PokeCenterInterface.tscn" id="6_wc3ch"]
+[ext_resource type="PackedScene" uid="uid://dcou0d0mxotei" path="res://Scenes/PokeCenterSlot.tscn" id="7_3wscv"]
 [ext_resource type="PackedScene" uid="uid://dejp0ypq88xe4" path="res://Scenes/StageSelectButton.tscn" id="7_21ucs"]
 [ext_resource type="PackedScene" uid="uid://csavuq02w7qrm" path="res://Scenes/StarterSelectionInterface.tscn" id="8_gfuil"]
 [ext_resource type="PackedScene" uid="uid://jcfh6tp6od31" path="res://Scenes/StageStateInterface.tscn" id="8_joyph"]
@@ -16,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Scenes/EmptyStageTeamSlot.tscn" id="13_aqow5"]
 [ext_resource type="PackedScene" uid="uid://bwvg6bl137m4m" path="res://Scenes/Stages/PokemonStage1.tscn" id="13_pgy84"]
 [ext_resource type="PackedScene" uid="uid://b5yi0qb8amvcj" path="res://Scenes/Stages/PokemonStage2.tscn" id="14_1mgql"]
-[ext_resource type="PackedScene" uid="uid://cd50k3xub1ea7" path="res://Scenes/PokemonCenterInterface.tscn" id="15_130gf"]
 [ext_resource type="PackedScene" uid="uid://ccoosttiq6n6v" path="res://Scenes/Stages/PokemonStage3.tscn" id="15_yuice"]
 [ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Scenes/ForgetMoveInterface.tscn" id="18_8nrjv"]
 
@@ -24,19 +24,14 @@
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _areConsoleMessagesEnabled = true
-_createRandomTeam = true
-_randomTeamCount = 4
-_starterPokemonLevel = 19
-_isPokemonCenterRandomized = true
-_pokemonCenterCount = 45
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
 _menuInterface = ExtResource("3_abxj0")
 _movesetInterface = ExtResource("3_uti41")
 _moveOption = ExtResource("4_twou7")
-_pokemonCenterInterface = ExtResource("15_130gf")
-_pokemonCenterSlot = ExtResource("5_ayvqx")
+_pokeCenterInterface = ExtResource("6_wc3ch")
+_pokeCenterSlot = ExtResource("7_3wscv")
 _starterSelectionInterface = ExtResource("8_gfuil")
 _starterOption = ExtResource("9_omcsq")
 _stageSelectInterface = ExtResource("6_fochk")

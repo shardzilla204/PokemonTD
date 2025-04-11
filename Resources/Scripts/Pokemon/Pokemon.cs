@@ -8,7 +8,6 @@ namespace PokemonTD;
 
 public enum EvolutionStone
 {
-	None,
 	Fire,
 	Water,
 	Thunder,
@@ -60,18 +59,18 @@ public partial class Pokemon : Node
 
 	public PokemonMove Move;
 
-	private List<PokemonMove> _oldMoves = new List<PokemonMove>();
+	public List<PokemonMove> OldMoves = new List<PokemonMove>();
 
 	public Pokemon(string pokemonName, GC.Dictionary<string, Variant> pokemonDictionary, GC.Array<string> pokemonTypes, GC.Dictionary<string, Variant> pokemonStats)
 	{
 		Name = pokemonName;
+		NationalNumber = pokemonDictionary["National Number"].As<string>();
 		Species = pokemonDictionary["Species"].As<string>();
 		Height = pokemonDictionary["Height"].As<float>();
 		Weight = pokemonDictionary["Weight"].As<float>();
 		Description = pokemonDictionary["Description"].As<string>();
-		Sprite = PokemonTD.GetPokemonSprite(pokemonName);
+		Sprite = GetPokemonSprite(pokemonName);
 		ExperienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
-		MaxExperience = GetExperienceRequired();
 
 		foreach (string pokemonType in pokemonTypes) 
 		{
@@ -84,17 +83,13 @@ public partial class Pokemon : Node
 		SpecialAttack = pokemonStats["Special Attack"].As<int>();
 		SpecialDefense = pokemonStats["Special Defense"].As<int>();
 		Speed = pokemonStats["Speed"].As<int>();
-	}
-
-	public Pokemon(string pokemonName, int pokemonLevel)
-	{
-		Name = pokemonName;
 
 		Gender = GetRandomGender();
+	}
 
-		Level = pokemonLevel;
-		Moves = GetMoveset();
-
+	public void SetMoves(List<PokemonMove> pokemonMoves)
+	{
+		Moves = pokemonMoves;
 		Move = Moves[0];
 	}
 
@@ -105,77 +100,11 @@ public partial class Pokemon : Node
 		Level = PokemonTD.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
 	}
 
-	// Call when leveled up
-	public void FindAndAddPokemonMove()
-	{
-		PokemonMove pokemonMove = PokemonTD.PokemonManager.GetPokemonMoveFromLevelUp(this, _oldMoves);
-
-		if (pokemonMove is null) return;
-
-		if (Moves.Contains(pokemonMove)) return;
-
-		AddPokemonMove(pokemonMove);
-		_oldMoves.Add(pokemonMove);
-	}
-
-	public List<PokemonMove> GetMoveset()
-	{
-		List<PokemonMove> pokemonMoves = PokemonTD.PokemonManager.GetPokemonMoves(this);
-		_oldMoves.AddRange(pokemonMoves);
-
-		if (pokemonMoves.Count > PokemonTD.MaxMoveCount)
-		{
-			pokemonMoves = GetRandomMoveset(pokemonMoves);
-		}
-		return pokemonMoves;
-	}
-
-	public List<PokemonMove> GetRandomMoveset(List<PokemonMove> pokemonMoves)
-	{
-		List<PokemonMove> randomPokemonMoves = new List<PokemonMove>();
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		for (int i = 0; i < PokemonTD.MaxMoveCount; i++)
-		{
-			while (true)
-			{
-				int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
-				PokemonMove randomPokemonMove = pokemonMoves[randomMoveIndex];
-
-				if (!randomPokemonMoves.Contains(randomPokemonMove)) 
-				{
-					randomPokemonMoves.Add(randomPokemonMove);
-					break;
-				}
-			}
-		}
-		return randomPokemonMoves;
-	}
-
-	private void AddPokemonMove(PokemonMove pokemonMove)
-	{
-		if (Moves.Count < PokemonTD.MaxMoveCount) 
-		{
-			Moves.Add(pokemonMove);
-		}
-		else
-		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.ForgetMove, this, pokemonMove);
-		}
-	}
-
-	public void SetStats()
-	{
-		Pokemon pokemonData = PokemonTD.PokemonManager.GetPokemonData(Name);
-
-		HP = PokemonTD.PokemonManager.GetPokemonHP(pokemonData);
-		Attack = PokemonTD.PokemonManager.GetOtherPokemonStat(pokemonData, PokemonStat.Attack);
-		Defense = PokemonTD.PokemonManager.GetOtherPokemonStat(pokemonData, PokemonStat.Defense);
-		SpecialAttack = PokemonTD.PokemonManager.GetOtherPokemonStat(pokemonData, PokemonStat.SpecialAttack);
-		SpecialDefense = PokemonTD.PokemonManager.GetOtherPokemonStat(pokemonData, PokemonStat.SpecialDefense);
-		Speed = PokemonTD.PokemonManager.GetOtherPokemonStat(pokemonData, PokemonStat.Speed);
-
-		PrintRich.PrintStats(TextColor.Purple, this);
-	}
+	private Texture2D GetPokemonSprite(string pokemonName)
+    {
+		string filePath = $"res://Assets/Images/Pokemon/{pokemonName}.png";
+        return ResourceLoader.Load<Texture2D>(filePath);
+    }
 
 	private Gender GetRandomGender()
 	{
@@ -183,15 +112,5 @@ public partial class Pokemon : Node
 		int randomValue = RNG.RandiRange((int) Gender.Male, (int) Gender.Female);
 
 		return (Gender) randomValue;
-	}
-
-	// ? EXP Formula
-	// EXP = 6/5n^3 - 15n^2 + 100n - 140
-	// n = Next Pokemon Level
-	public int GetExperienceRequired()
-	{
-		int nextLevel = Level + 1;
-		int experience = Mathf.RoundToInt(6 / 5 * Mathf.Pow(nextLevel, 3) - 15 * Mathf.Pow(nextLevel, 2) + (100 * nextLevel) - 140);
-		return experience;
 	}
 }

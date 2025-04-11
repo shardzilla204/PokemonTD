@@ -15,10 +15,10 @@ public partial class PackedScenes : Node
 	private PackedScene _moveOption;
 
 	[Export]
-	private PackedScene _pokemonCenterInterface;
+	private PackedScene _pokeCenterInterface;
 	
 	[Export]
-	private PackedScene _pokemonCenterSlot;
+	private PackedScene _pokeCenterSlot;
 
 	[Export]
 	private PackedScene _starterSelectionInterface;
@@ -70,9 +70,9 @@ public partial class PackedScenes : Node
 		return _starterOption.Instantiate<StarterOption>();
 	}
 
-    public PokemonCenterSlot GetPokemonCenterSlot()
+    public PokeCenterSlot GetPokeCenterSlot()
 	{
-		return _pokemonCenterSlot.Instantiate<PokemonCenterSlot>();
+		return _pokeCenterSlot.Instantiate<PokeCenterSlot>();
 	}
 
 	public PokemonEnemy GetPokemonEnemy()
@@ -120,8 +120,8 @@ public partial class PackedScenes : Node
 		return _emptyStageTeamSlot.Instantiate<Control>();
 	}
 
-	public PokemonCenterInterface GetPokemonCenterInterface()
+	public PokeCenterInterface GetPokeCenterInterface()
 	{
-		return _pokemonCenterInterface.Instantiate<PokemonCenterInterface>();
+		return _pokeCenterInterface.Instantiate<PokeCenterInterface>();
 	}
 }

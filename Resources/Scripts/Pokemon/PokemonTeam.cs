@@ -14,8 +14,10 @@ public partial class PokemonTeam : Node
 
 	public override void _Ready()
 	{
-		PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
+		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
+
 		PokemonTD.Signals.PokemonStarterSelected += AddStarterPokemon;
+		PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
 	}
 
 	private void AddStarterPokemon(Pokemon pokemon)
@@ -39,5 +41,21 @@ public partial class PokemonTeam : Node
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+	}
+
+	private void GetRandomTeam(int teamCount)
+	{
+		for (int i = 0; i < teamCount; i++)
+		{
+			Pokemon pokemon = PokemonTD.PokemonManager.GetRandomPokemon();
+			pokemon.Level = PokemonTD.PokemonManager.GetRandomLevel();
+            pokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonTD.PokemonMoveset.GetRandomMoveset() : PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
+			Pokemon.Add(pokemon);
+		}
+	}
+
+	public bool IsFull()
+	{
+		return PokemonTD.PokemonTeam.Pokemon.Count >= PokemonTD.MaxTeamSize;
 	}
 }

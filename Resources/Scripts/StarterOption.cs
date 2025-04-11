@@ -18,7 +18,7 @@ public partial class StarterOption : VBoxContainer
 	public override void _Ready()
 	{
 		_name.Text = $"{Pokemon.Name}";
-		_sprite.Texture = PokemonTD.GetPokemonSprite(Pokemon.Name);
+		_sprite.Texture = Pokemon.Sprite;
 		_button.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonStarterSelected, Pokemon);
 	}
 }

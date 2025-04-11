@@ -7,9 +7,6 @@ namespace PokemonTD;
 
 public partial class StageSlot : NinePatchRect
 {
-	[Signal]
-	public delegate void DraggingEventHandler(bool isDragging);
-	
 	[Export]
 	private Area2D _area;
 
@@ -32,13 +29,24 @@ public partial class StageSlot : NinePatchRect
 
 	private int _teamSlotID = -1;
 
+    public override void _EnterTree()
+    {
+		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyFainted;
+        PokemonTD.Signals.PokemonEnemyPassed += UpdatePokemonQueue;
+        PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
+		PokemonTD.Signals.DraggingTeamStageSlot += SetStageSlotAlpha;
+    }
+
+	public override void _ExitTree()
+    {
+        PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyFainted;
+        PokemonTD.Signals.PokemonEnemyPassed -= UpdatePokemonQueue;
+        PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
+		PokemonTD.Signals.DraggingTeamStageSlot -= SetStageSlotAlpha;
+    }
+
 	public override void _Ready()
 	{
-		AddStageSlotSignals();
-		AddPokemonEnemySignals();
-		
-		PokemonTD.Signals.PokemonTeamUpdated += OnTeamUpdated;
-
 		_interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) => 
 		{
 			if (!isDoubleClick || !isLeftClick || Pokemon is null) return;
@@ -51,7 +59,7 @@ public partial class StageSlot : NinePatchRect
 		};
 		_attackTimer.Timeout += AttackEnemy;
 
-		UpdateSlot(Pokemon);
+		UpdateSlot(null);
 	}
 
 	public void SetWaitTime()
@@ -66,45 +74,21 @@ public partial class StageSlot : NinePatchRect
 		_attackTimer.Start();
 	}
 
-	// Whenever either a team slot or stage slot is being dragged, show stage slots
-	public void AddStageSlotSignals()
+	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy)
 	{
-		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		foreach (StageSlot stageSlot in pokemonStage.StageSlots)
-		{
-			stageSlot.Dragging += SetStageSlotAlpha;
-		}
-
-		// Stage team slots
-		List<StageTeamSlot> stageTeamSlots = pokemonStage.StageInterface.GetStageTeamSlots();
-		foreach (StageTeamSlot stageTeamSlot in stageTeamSlots) 
-		{
-			stageTeamSlot.Dragging += SetStageSlotAlpha;
-		}
+		AddExperience(pokemonEnemy);
+		UpdatePokemonQueue(pokemonEnemy);
 	}
 
-	// Remove pokemon enemy from queue when it passes
-	public void AddPokemonEnemySignals()
+	private void UpdatePokemonQueue(PokemonEnemy pokemonEnemy)
 	{
-		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		foreach (PokemonEnemy pokemonEnemy in pokemonStage.PokemonEnemies)
-		{
-			pokemonEnemy.Passed += (pokemonEnemy) => PokemonEnemyQueue.Remove(pokemonEnemy);
-		}
-	}
-
-	private void OnTeamUpdated()
-	{
-		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		List<StageTeamSlot> stageTeamSlots = pokemonStage.StageInterface.GetStageTeamSlots();
-		foreach (StageTeamSlot stageTeamSlot in stageTeamSlots) 
-		{
-			stageTeamSlot.Dragging += SetStageSlotAlpha;
-		}
+		PokemonEnemyQueue.Remove(pokemonEnemy);
 	}
 
 	private void AddExperience(PokemonEnemy pokemonEnemy)
 	{
+		if (Pokemon is null) return;
+
 		if (Pokemon.Level >= PokemonTD.MaxPokemonLevel) return;
 		
 		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
@@ -121,7 +105,7 @@ public partial class StageSlot : NinePatchRect
 
 		_isDragging = false; 
 		SetStageSlotAlpha(false);
-		EmitSignal(SignalName.Dragging, false);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, false);
 		
 		if (IsDragSuccessful()) UpdateSlot(null);
 	}
@@ -130,7 +114,7 @@ public partial class StageSlot : NinePatchRect
 	{
 		_isDragging = true;
 		SetStageSlotAlpha(true);
-		EmitSignal(SignalName.Dragging, true);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, true);
 
 		SetDragPreview(GetDragPreview());
 		return GetDragData();
@@ -222,12 +206,6 @@ public partial class StageSlot : NinePatchRect
 		if (PokemonEnemyQueue.Count == 0 || PokemonTD.IsGamePaused) return;
 
 		_focusedPokemonEnemy = PokemonEnemyQueue[0];
-		_focusedPokemonEnemy.Fainted += (pokemonEnemy) => 
-		{
-			AddExperience(pokemonEnemy);
-			PokemonEnemyQueue.Remove(pokemonEnemy);
-		};
-		_focusedPokemonEnemy.Captured += (pokemonEnemy) => PokemonEnemyQueue.Remove(pokemonEnemy);
 
 		PokemonMove pokemonMove = GetPokemonMoveFromTeam();
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://ccoosttiq6n6v"]
+[gd_scene load_steps=11 format=4 uid="uid://ccoosttiq6n6v"]
 
 [ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/PokemonStage.cs" id="1_tee56"]
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Default.tres" id="2_11y1x"]
@@ -6,7 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://cqxjof4uxv6vo" path="res://Scenes/StageSlot.tscn" id="4_pkejf"]
 [ext_resource type="Texture2D" uid="uid://61fbayn4qi1p" path="res://Assets/Images/Pokemon/Pikachu.png" id="5_xa71n"]
 [ext_resource type="Texture2D" uid="uid://becmmpngvsl8v" path="res://Assets/Images/Pokemon/Fearow.png" id="6_76sly"]
-[ext_resource type="Texture2D" uid="uid://cye3pu35cj86u" path="res://Assets/Images/Pokemon/Raichu.png" id="6_xd4my"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="6_uhl0i"]
+[ext_resource type="Texture2D" uid="uid://bntqnul1plp84" path="res://Assets/Images/Pokemon/Raichu.png" id="6_xd4my"]
+[ext_resource type="Texture2D" uid="uid://b4w136lcq6p5h" path="res://Assets/Images/Pokemon/Lapras.png" id="7_qgdqs"]
 
 [sub_resource type="Curve2D" id="Curve2D_h2wtm"]
 _data = {
@@ -63,7 +65,6 @@ curve = SubResource("Curve2D_h2wtm")
 metadata/_edit_lock_ = true
 
 [node name="StageInterface" parent="." node_paths=PackedStringArray("_pokemonStage") instance=ExtResource("3_vd8t6")]
-visible = false
 _pokemonStage = NodePath("..")
 
 [node name="StageSlots" type="Control" parent="."]
@@ -75,49 +76,49 @@ mouse_filter = 2
 [node name="StageSlot" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 608.0
-offset_top = 240.0
+offset_top = 256.0
 offset_right = 672.0
-offset_bottom = 304.0
+offset_bottom = 320.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot2" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 952.0
-offset_top = 457.0
+offset_top = 473.0
 offset_right = 1016.0
-offset_bottom = 521.0
+offset_bottom = 537.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot3" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 320.0
-offset_top = 464.0
+offset_top = 480.0
 offset_right = 384.0
-offset_bottom = 528.0
+offset_bottom = 544.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot4" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 160.0
-offset_top = 144.0
+offset_top = 160.0
 offset_right = 224.0
-offset_bottom = 208.0
+offset_bottom = 224.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot5" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 1024.0
-offset_top = 48.0
+offset_top = 64.0
 offset_right = 1088.0
-offset_bottom = 112.0
+offset_bottom = 128.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot6" parent="StageSlots" instance=ExtResource("4_pkejf")]
 layout_mode = 0
 offset_left = 1184.0
-offset_top = 303.0
+offset_top = 320.0
 offset_right = 1248.0
-offset_bottom = 367.0
+offset_bottom = 384.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot7" parent="StageSlots" instance=ExtResource("4_pkejf")]
@@ -134,13 +135,69 @@ anchors_preset = 0
 mouse_filter = 2
 
 [node name="Pikachu" type="TextureRect" parent="Pokemon"]
-y_sort_enabled = true
 layout_mode = 0
 offset_left = 746.0
 offset_top = 74.0
 offset_right = 811.0
 offset_bottom = 139.0
 texture = ExtResource("5_xa71n")
+
+[node name="Mask" type="TextureRect" parent="Pokemon"]
+clip_children = 1
+layout_mode = 0
+offset_left = 338.0
+offset_top = 46.0
+offset_right = 438.0
+offset_bottom = 146.0
+texture = ExtResource("6_uhl0i")
+
+[node name="Lapras" type="TextureRect" parent="Pokemon/Mask"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 41.0
+offset_right = 98.0
+offset_bottom = 137.0
+texture = ExtResource("7_qgdqs")
+
+[node name="Mask2" type="TextureRect" parent="Pokemon"]
+clip_children = 1
+layout_mode = 0
+offset_left = 930.0
+offset_top = 328.0
+offset_right = 1030.0
+offset_bottom = 428.0
+texture = ExtResource("6_uhl0i")
+metadata/_edit_group_ = true
+
+[node name="Lapras" type="TextureRect" parent="Pokemon/Mask2"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 9.0
+offset_top = 45.0
+offset_right = 98.0
+offset_bottom = 134.0
+texture = ExtResource("7_qgdqs")
+
+[node name="Mask3" type="TextureRect" parent="Pokemon"]
+clip_children = 1
+layout_mode = 0
+offset_left = 379.0
+offset_top = 611.0
+offset_right = 479.0
+offset_bottom = 711.0
+texture = ExtResource("6_uhl0i")
+metadata/_edit_group_ = true
+
+[node name="Lapras" type="TextureRect" parent="Pokemon/Mask3"]
+y_sort_enabled = true
+layout_mode = 0
+offset_left = 6.0
+offset_top = 29.0
+offset_right = 119.0
+offset_bottom = 142.0
+texture = ExtResource("7_qgdqs")
+flip_h = true
 
 [node name="Fearow" type="TextureRect" parent="Pokemon"]
 y_sort_enabled = true

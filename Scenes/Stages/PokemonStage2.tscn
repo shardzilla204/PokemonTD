@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Default.tres" id="1_cf84c"]
 [ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/PokemonStage.cs" id="1_npfgn"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Scenes/StageInterface.tscn" id="2_s7ddb"]
-[ext_resource type="PackedScene" uid="uid://cqxjof4uxv6vo" path="res://Scenes/StageSlot.tscn" id="3_gpemn"]
+[ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Scenes/StageSlot.tscn" id="3_gpemn"]
 [ext_resource type="Texture2D" uid="uid://b62chyo8sy2j1" path="res://Assets/Images/Pokemon/Ekans.png" id="4_at06o"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_ef1i1"]
 [ext_resource type="Texture2D" uid="uid://cce2j7a4dbv8" path="res://Assets/Images/Pokemon/Spearow.png" id="6_kuyar"]
@@ -72,6 +72,7 @@ y_sort_enabled = true
 curve = SubResource("Curve2D_6iuan")
 
 [node name="StageInterface" parent="." node_paths=PackedStringArray("_pokemonStage") instance=ExtResource("2_s7ddb")]
+visible = false
 _pokemonStage = NodePath("..")
 
 [node name="StageSlots" type="Control" parent="."]
@@ -82,40 +83,40 @@ mouse_filter = 2
 [node name="StageSlot" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 352.0
-offset_top = 337.0
+offset_top = 352.0
 offset_right = 416.0
-offset_bottom = 401.0
+offset_bottom = 416.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot2" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 315.0
+offset_top = 316.0
 offset_right = 256.0
-offset_bottom = 379.0
+offset_bottom = 380.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot3" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 448.0
-offset_top = 496.0
+offset_top = 512.0
 offset_right = 512.0
-offset_bottom = 560.0
+offset_bottom = 576.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot4" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 800.0
-offset_top = 496.0
+offset_top = 512.0
 offset_right = 864.0
-offset_bottom = 560.0
+offset_bottom = 576.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot5" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
-offset_left = 963.0
+offset_left = 960.0
 offset_top = 316.0
-offset_right = 1027.0
+offset_right = 1024.0
 offset_bottom = 380.0
 metadata/_edit_lock_ = true
 
@@ -130,9 +131,9 @@ metadata/_edit_lock_ = true
 [node name="StageSlot7" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 1056.0
-offset_top = 48.0
+offset_top = 64.0
 offset_right = 1120.0
-offset_bottom = 112.0
+offset_bottom = 128.0
 metadata/_edit_lock_ = true
 
 [node name="Pokemon" type="Control" parent="."]

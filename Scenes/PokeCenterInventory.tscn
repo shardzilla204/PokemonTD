@@ -1,0 +1,378 @@
+[gd_scene load_steps=11 format=3 uid="uid://dfrmi3148mhmv"]
+
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_kg3hq"]
+[ext_resource type="Script" path="res://Resources/Scripts/PokeCenter/PokeCenterInventory.cs" id="1_wcgl0"]
+[ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="3_3eusi"]
+[ext_resource type="Script" path="res://Scenes/SortButton.cs" id="3_t08dr"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_bjjwm"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="4_p4wm6"]
+[ext_resource type="PackedScene" uid="uid://dcou0d0mxotei" path="res://Scenes/PokeCenterSlot.tscn" id="5_aa2oj"]
+[ext_resource type="Texture2D" uid="uid://cid8emm0n7q5e" path="res://Assets/Images/LeftArrow.png" id="5_ss2by"]
+[ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="6_6v6r1"]
+
+[sub_resource type="FontVariation" id="FontVariation_wdty5"]
+base_font = ExtResource("3_3eusi")
+variation_opentype = {
+1936486004: 0,
+2003265652: 650
+}
+
+[node name="PokeCenterInventory" type="VBoxContainer" node_paths=PackedStringArray("_cycleLeftButton", "_cycleRightButton", "_pokeCenterSlots", "_sortByLevel", "_sortByNumber", "_sortByName", "_sortByType")]
+size_flags_horizontal = 3
+theme = ExtResource("1_kg3hq")
+theme_override_constants/separation = 10
+script = ExtResource("1_wcgl0")
+_cycleLeftButton = NodePath("Background/MarginContainer/CycleLeftButton")
+_cycleRightButton = NodePath("Background/MarginContainer/CycleRightButton")
+_pokeCenterSlots = NodePath("Background/MarginContainer/PokeCenterSlots")
+_sortByLevel = NodePath("SortButtons/SortLevelButton")
+_sortByNumber = NodePath("SortButtons/SortNumberButton")
+_sortByName = NodePath("SortButtons/SortNameButton")
+_sortByType = NodePath("SortButtons/SortTypeButton")
+
+[node name="SortButtons" type="HBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_constants/separation = 10
+
+[node name="SortLevelButton" type="Button" parent="SortButtons"]
+custom_minimum_size = Vector2(125, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Level"
+flat = true
+script = ExtResource("3_t08dr")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="SortButtons/SortLevelButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="SortNumberButton" type="Button" parent="SortButtons"]
+custom_minimum_size = Vector2(125, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Number"
+flat = true
+script = ExtResource("4_p4wm6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="SortButtons/SortNumberButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="SortNameButton" type="Button" parent="SortButtons"]
+custom_minimum_size = Vector2(125, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Name"
+flat = true
+script = ExtResource("4_p4wm6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="SortButtons/SortNameButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="SortTypeButton" type="Button" parent="SortButtons"]
+custom_minimum_size = Vector2(125, 35)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Type"
+flat = true
+script = ExtResource("4_p4wm6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="SortButtons/SortTypeButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Background" type="NinePatchRect" parent="."]
+self_modulate = Color(0, 0.5, 1, 1)
+custom_minimum_size = Vector2(0, 305)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="PokeCenterSlots" type="FlowContainer" parent="Background/MarginContainer"]
+custom_minimum_size = Vector2(850, 350)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="PokeCenterSlot" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot2" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot3" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot4" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot5" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot6" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot7" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot8" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot9" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot10" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot11" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot12" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot13" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot14" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot15" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot16" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot17" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot18" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot19" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot20" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot21" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot22" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot23" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot24" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot25" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot26" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot27" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot28" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot29" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="PokeCenterSlot30" parent="Background/MarginContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
+layout_mode = 2
+script = null
+
+[node name="CycleLeftButton" type="Button" parent="Background/MarginContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_fonts/font = SubResource("FontVariation_wdty5")
+theme_override_font_sizes/font_size = 25
+text = "
+"
+flat = true
+script = ExtResource("4_p4wm6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/CycleLeftButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/CycleLeftButton/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/CycleLeftButton/NinePatchRect/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("5_ss2by")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="CycleRightButton" type="Button" parent="Background/MarginContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+theme_override_fonts/font = SubResource("FontVariation_wdty5")
+theme_override_font_sizes/font_size = 25
+flat = true
+script = ExtResource("4_p4wm6")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/CycleRightButton"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("4_bjjwm")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/CycleRightButton/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 15
+theme_override_constants/margin_top = 15
+theme_override_constants/margin_right = 15
+theme_override_constants/margin_bottom = 15
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/CycleRightButton/NinePatchRect/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("6_6v6r1")
+expand_mode = 1
+stretch_mode = 5

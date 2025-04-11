@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageSelectInterface.cs" id="1_gq7qg"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_jby32"]
 [ext_resource type="Texture2D" uid="uid://qh66tbyu5083" path="res://Assets/Images/StageThumbnail/Stage1Thumbnail.png" id="3_o0bm3"]
-[ext_resource type="Texture2D" uid="uid://xcrj3nubd0a7" path="res://Assets/Images/Pokemon/Charizard.png" id="3_sd67l"]
+[ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="3_sd67l"]
 [ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="3_y72j3"]
 [ext_resource type="Texture2D" uid="uid://cinjd53htdwrp" path="res://Assets/Images/Pokemon/Pidgey.png" id="4_w7rh7"]
 [ext_resource type="Texture2D" uid="uid://61fbayn4qi1p" path="res://Assets/Images/Pokemon/Pikachu.png" id="5_kr1ba"]

@@ -1,0 +1,100 @@
+[gd_scene load_steps=6 format=3 uid="uid://dshtma5523e1b"]
+
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_abnre"]
+[ext_resource type="Script" path="res://Scenes/EvolutionInterface.cs" id="1_rcwvo"]
+[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="2_d8dhp"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_abhnc"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_pr8nn"]
+
+[node name="EvolutionInterface" type="CanvasLayer"]
+script = ExtResource("1_rcwvo")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_abnre")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 25
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 0
+text = "X"
+flat = true
+script = ExtResource("2_d8dhp")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/ExitButton"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_abhnc")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="EvolveLabel" type="Label" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "[Pokemon Name] 
+is evolving!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PokemonSprite" type="TextureRect" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(100, 350)
+layout_mode = 2
+texture = ExtResource("4_pr8nn")
+stretch_mode = 5
+
+[node name="SkipButton" type="Button" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 25
+text = "Skip"
+flat = true
+script = ExtResource("2_d8dhp")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/SkipButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_abhnc")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="EvolutionTimer" type="Timer" parent="."]
+wait_time = 5.0

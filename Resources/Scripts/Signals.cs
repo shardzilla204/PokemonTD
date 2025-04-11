@@ -10,9 +10,6 @@ public partial class Signals : Node
     [Signal]
     public delegate void PokemonTeamUpdatedEventHandler();
 
-    [Signal]
-    public delegate void PokemonEnemyCapturedEventHandler(PokemonEnemy pokemonEnemy);
-    
     // Pokemon
     [Signal]
     public delegate void PokemonUpdatedEventHandler();
@@ -30,18 +27,36 @@ public partial class Signals : Node
     [Signal]
     public delegate void PokemonEnemyFaintedEventHandler(PokemonEnemy pokemonEnemy);
 
-    // Stage
     [Signal]
-    public delegate void HasWonEventHandler();
+    public delegate void PokemonEnemyPassedEventHandler(PokemonEnemy pokemonEnemy);
+    
+    [Signal]
+    public delegate void PokemonEnemyCapturedEventHandler(PokemonEnemy pokemonEnemy);
 
     [Signal]
-    public delegate void HasLostEventHandler();
+    public delegate void DraggingTeamStageSlotEventHandler(bool isDragging);
+
+    [Signal]
+    public delegate void DraggingStageSlotEventHandler(bool isDragging);
 
     [Signal]
     public delegate void PokemonOnStageEventHandler(int teamSlotID);
 
     [Signal]
     public delegate void PokemonOffStageEventHandler(int teamSlotID);
+
+    [Signal]
+    public delegate void PokeCenterTeamSlotRemovedEventHandler(Pokemon pokemon);
+
+    [Signal]
+    public delegate void PokeCenterSlotRemovedEventHandler(Pokemon pokemon); 
+
+    // Stage
+    [Signal]
+    public delegate void HasWonEventHandler();
+
+    [Signal]
+    public delegate void HasLostEventHandler();
 
     [Signal]
     public delegate void ChangeMovesetPressedEventHandler();
@@ -55,9 +70,6 @@ public partial class Signals : Node
 
     [Signal]
     public delegate void SpeedToggledEventHandler(float speed);
-
-    [Signal]
-    public delegate void VisibilityToggledEventHandler(bool isVisible);
 
     [Signal]
     public delegate void MoveSwappedEventHandler();

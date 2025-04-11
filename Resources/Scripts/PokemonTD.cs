@@ -29,10 +29,10 @@ public partial class PokemonTD : Node
     private bool _areConsoleMessagesEnabled = false;
 
 	[Export]
-	private bool _createRandomTeam;
+	private bool _isTeamRandom;
 
 	[Export(PropertyHint.Range, "0,5,1")]
-	private int _randomTeamCount = MaxTeamSize;
+	private int _teamCount = MaxTeamSize;
 
     [Export]
 	private bool _areStagesEnabled = true;
@@ -51,10 +51,10 @@ public partial class PokemonTD : Node
 
     [ExportCategory("Personal Computer")]
     [Export]
-    private bool _isPokemonCenterRandomized = false;
+    private bool _isPokeCenterRandomized = false;
 
     [Export(PropertyHint.Range, "0,60,1")]
-    private int _pokemonCenterCount;
+    private int _pokeCenterCount;
 
     [ExportCategory("Pokemon Level")]
     [Export(PropertyHint.Range, "1,100,1")]
@@ -77,6 +77,7 @@ public partial class PokemonTD : Node
     public static float GameSpeed = 1;
     public static bool IsGamePaused = false;
 
+    public static bool IsTeamRandom = false;
     public static bool AreStagesEnabled = true;
     public static bool IsCaptureModeEnabled = false;
     public static bool AreLevelsRandomized = false;
@@ -84,15 +85,16 @@ public partial class PokemonTD : Node
 
     public static int StarterPokemonLevel = 5;
 
-    public static int PokemonCenterCount;
-    public static bool IsPokemonCenterRandomized = false;
+    public static int PokeCenterCount;
+    public static bool IsPokeCenterRandomized = false;
 
     public static PokemonManager PokemonManager;
     public static PokemonTypes PokemonTypes;
+    public static PokemonMoves PokemonMoves;
     public static PokemonMoveset PokemonMoveset;
     public static PokemonTeam PokemonTeam;
     public static PokemonStages PokemonStages;
-    public static PokemonCenter PokemonCenter;
+    public static PokeCenter PokeCenter;
     
     public static Signals Signals = new Signals();
 
@@ -106,6 +108,7 @@ public partial class PokemonTD : Node
 
     public static int MinPokemonEnemyLevel = 1;
     public static int MaxPokemonEnemyLevel = 100;
+    public static int TeamCount = 1;
 
     public const int MaxTeamSize = 6;
 
@@ -116,6 +119,7 @@ public partial class PokemonTD : Node
         PackedScenes = _packedScenes;
         
         AreStagesEnabled = _areStagesEnabled;
+        IsTeamRandom = _isTeamRandom;
         AreConsoleMessagesEnabled = _areConsoleMessagesEnabled;
         IsCaptureModeEnabled = _isCaptureModeEnabled;
         AreLevelsRandomized = _areLevelsRandomized;
@@ -123,30 +127,24 @@ public partial class PokemonTD : Node
 
         StarterPokemonLevel = _starterPokemonLevel;
 
-        PokemonCenterCount = _pokemonCenterCount;
-        IsPokemonCenterRandomized = _isPokemonCenterRandomized;
+        PokeCenterCount = _pokeCenterCount;
+        IsPokeCenterRandomized = _isPokeCenterRandomized;
 
         MinRandomPokemonLevel = _minPokemonLevel;
         MaxPokemonEnemyLevel = _maxPokemonLevel;
 
         MinPokemonEnemyLevel = _minPokemonEnemyLevel;
         MaxPokemonEnemyLevel = _maxPokemonEnemyLevel;
+
+        TeamCount = _teamCount;
     }
 
     public override void _Ready()
     {
-        if (_createRandomTeam) GetRandomTeam(_randomTeamCount);
-
         Signals.PressedPlay += () => IsGamePaused = false;
         Signals.PressedPause += () => IsGamePaused = true;
         Signals.SpeedToggled += (speed) => GameSpeed = speed;
         Signals.ForgetMove += (pokemon, pokemonMove) => IsGamePaused = true;
-    }
-
-    public static Texture2D GetPokemonSprite(string PokemonName)
-    {
-		string filePath = $"res://Assets/Images/Pokemon/{PokemonName}.png";
-        return ResourceLoader.Load<Texture2D>(filePath);
     }
 
     public static void AddPokeDollars(Pokemon pokemon)
@@ -156,13 +154,6 @@ public partial class PokemonTD : Node
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         PokeDollars += RNG.RandiRange(minPokeDollars, maxPokeDollars);
-    }
-
-    public static Pokemon GetRandomPokemon()
-    {
-        string pokemonName = PokemonManager.GetRandomPokemonName();
-        int pokemonLevel = GetRandomLevel();
-        return PokemonManager.GetPokemon(pokemonName, pokemonLevel);
     }
 
     public static int GetRandomLevel()
@@ -176,25 +167,4 @@ public partial class PokemonTD : Node
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         return RNG.RandiRange(minLevel, maxLevel);
     }
-
-    public static void GetRandomTeam(int teamCount)
-	{
-		for (int i = 0; i < teamCount; i++)
-		{
-			Pokemon pokemon = GetRandomPokemon();
-			pokemon.Level = GetRandomLevel();
-            pokemon.Moves = AreMovesRandomized ? GetRandomMoveset() : pokemon.GetMoveset();
-			PokemonTeam.Pokemon.Add(pokemon);
-		}
-	}
-
-    public static List<PokemonMove> GetRandomMoveset()
-	{
-        List<PokemonMove> pokemonMoves = new List<PokemonMove>();
-		for (int i = 0; i < MaxMoveCount; i++)
-		{
-			pokemonMoves.Add(PokemonMoveset.GetRandomPokemonMove());
-		}
-        return pokemonMoves;
-	}
 }

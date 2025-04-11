@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Scenes/StageInterface.tscn" id="3_6jc8b"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_jamll"]
 [ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_ge4dk"]
-[ext_resource type="PackedScene" uid="uid://cqxjof4uxv6vo" path="res://Scenes/StageSlot.tscn" id="4_x3e7x"]
+[ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Scenes/StageSlot.tscn" id="4_x3e7x"]
 [ext_resource type="Texture2D" uid="uid://dow40neyh11lf" path="res://Assets/Images/Pokemon/Rattata.png" id="5_1v1a7"]
 [ext_resource type="Texture2D" uid="uid://dgrgeeph534kp" path="res://Assets/Images/Pokemon/Ivysaur.png" id="7_gv0t2"]
 [ext_resource type="Texture2D" uid="uid://cinjd53htdwrp" path="res://Assets/Images/Pokemon/Pidgey.png" id="9_k7wwq"]
@@ -78,25 +78,25 @@ metadata/_edit_lock_ = true
 [node name="StageSlot2" parent="StageSlots" instance=ExtResource("4_x3e7x")]
 layout_mode = 0
 offset_left = 128.0
-offset_top = 336.0
+offset_top = 352.0
 offset_right = 192.0
-offset_bottom = 400.0
+offset_bottom = 416.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot3" parent="StageSlots" instance=ExtResource("4_x3e7x")]
 layout_mode = 0
 offset_left = 1056.0
-offset_top = 496.0
+offset_top = 512.0
 offset_right = 1120.0
-offset_bottom = 560.0
+offset_bottom = 576.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot4" parent="StageSlots" instance=ExtResource("4_x3e7x")]
 layout_mode = 0
 offset_left = 384.0
-offset_top = 336.0
+offset_top = 352.0
 offset_right = 448.0
-offset_bottom = 400.0
+offset_bottom = 416.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot5" parent="StageSlots" instance=ExtResource("4_x3e7x")]
@@ -118,9 +118,9 @@ metadata/_edit_lock_ = true
 [node name="StageSlot7" parent="StageSlots" instance=ExtResource("4_x3e7x")]
 layout_mode = 0
 offset_left = 608.0
-offset_top = 16.0
+offset_top = 32.0
 offset_right = 672.0
-offset_bottom = 80.0
+offset_bottom = 96.0
 metadata/_edit_lock_ = true
 
 [node name="Pokemon" type="Control" parent="."]

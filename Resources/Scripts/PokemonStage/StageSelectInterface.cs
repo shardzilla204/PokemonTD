@@ -23,8 +23,8 @@ public partial class StageSelectInterface : Node
 	{
 		_pokemonTeamButton.Pressed += () =>
 		{
-			PokemonCenterInterface pokemonCenterINterPokemonCenterInterface = PokemonTD.PackedScenes.GetPokemonCenterInterface();
-			AddSibling(pokemonCenterINterPokemonCenterInterface);
+			PokeCenterInterface pokeCenterInterface = PokemonTD.PackedScenes.GetPokeCenterInterface();
+			AddSibling(pokeCenterInterface);
 			QueueFree();
 		};
 		_exitButton.Pressed += () => 
@@ -36,8 +36,10 @@ public partial class StageSelectInterface : Node
 
 		ClearPokemonEnemySprites();
 		ClearStageSelectButtons();
+
 		AddPokemonEnemySprites(1);
 		AddStageSelectButtons();
+		
 		SetStageThumbnailTexture(1);
 	}
 
@@ -53,28 +55,30 @@ public partial class StageSelectInterface : Node
 	public void AddPokemonEnemySprites(int pokemonStageID)
 	{
 		pokemonStageID = pokemonStageID < 1 ? 1 : pokemonStageID; // Default to 1 if lower than 1
-		PokemonStage PokemonStage = PokemonTD.PokemonStages.GetPokemonStage(pokemonStageID);
-		foreach (string pokemonEnemyName in PokemonStage.PokemonNames)
+
+		PokemonStage pokemonStage = PokemonTD.PokemonStages.GetPokemonStage(pokemonStageID);
+		foreach (string pokemonEnemyName in pokemonStage.PokemonNames)
 		{
 			TextureRect enemyPokemonSprite = GetEnemyPokemonSprite(pokemonEnemyName);
 			_pokemonEnemySprites.AddChild(enemyPokemonSprite);
 		}
 	}
 
-   public TextureRect GetEnemyPokemonSprite(string pokemonName)
+   	private TextureRect GetEnemyPokemonSprite(string pokemonName)
 	{
-		const int MinimumSizeValue = 65;
+		Vector2 minimumSize = new Vector2(65, 65);
 		TextureRect textureRect = new TextureRect()
 		{
 			ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
 			StretchMode = TextureRect.StretchModeEnum.KeepAspect,
-			CustomMinimumSize = new Vector2(MinimumSizeValue, MinimumSizeValue)
+			CustomMinimumSize = minimumSize
 		};
 
 		if (pokemonName is null) return textureRect; // Return an empty TextureRect 
 
-		Texture2D PokemonSprite = PokemonTD.GetPokemonSprite(pokemonName);
-		textureRect.Texture = PokemonSprite;
+		Pokemon pokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName);
+		Texture2D pokemonSprite = pokemon.Sprite;
+		textureRect.Texture = pokemonSprite;
 		return textureRect;
 	}
 
@@ -100,11 +104,7 @@ public partial class StageSelectInterface : Node
 
 	private Texture2D GetStageThumbnailTexture(int pokemonStageID)
 	{
-		string fileDirectory = "res://Assets/Images/StageThumbnail/";
-		string fileName = $"Stage{pokemonStageID}Thumbnail";
-		string fileExtension = ".png";
-
-		string filePath = $"{fileDirectory}{fileName}{fileExtension}";
+		string filePath = $"res://Assets/Images/StageThumbnail/Stage{pokemonStageID}Thumbnail.png";
 		return ResourceLoader.Load<CompressedTexture2D>(filePath);
 	}
 

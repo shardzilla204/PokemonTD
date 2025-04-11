@@ -436,13 +436,3 @@ theme_override_font_sizes/font_size = 25
 text = "Swap
 "
 script = ExtResource("6_8uw42")
-
-[node name="Cancel" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/VBoxContainer2"]
-visible = false
-custom_minimum_size = Vector2(0, 65)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_font_sizes/font_size = 25
-text = "Cancel"
-script = ExtResource("6_8uw42")
