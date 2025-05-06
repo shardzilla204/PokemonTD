@@ -5,8 +5,8 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 30,
-        "Effect": "May lower opponent's Special Defense."
+        "Effect": "May lower opponent's Special Defense.",
+        "Status Condition": {}
     },
     "Acid Armor":
     {
@@ -14,8 +14,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 20,
-        "Effect": "Sharply raises user's Defense."
+        "Effect": "Sharply raises user's Defense.",
+        "Status Condition": {}
     },
     "Poison Gas":
     {
@@ -23,8 +23,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 90,
-        "PP": 40,
-        "Effect": "Poisons opponent."
+        "Effect": "Poisons opponent.",
+        "Status Condition": { "Poison": 1 }
     },
     "Poison Powder":
     {
@@ -32,8 +32,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 75,
-        "PP": 35,
-        "Effect": "Poisons opponent."
+        "Effect": "Poisons opponent.",
+        "Status Condition": { "Poison": 1 }
     },
     "Poison Sting":
     {
@@ -41,8 +41,8 @@
         "Category": "Physical",
         "Power": 15,
         "Accuracy": 100,
-        "PP": 35,
-        "Effect": "May poison opponent."
+        "Effect": "May poison opponent.",
+        "Status Condition": { "Poison": 0.25 }
     },
     "Sludge":
     {
@@ -50,8 +50,8 @@
         "Category": "Special",
         "Power": 65,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "May poison opponent."
+        "Effect": "May poison opponent.",
+        "Status Condition": { "Poison": 0.25 }
     },
     "Smog":
     {
@@ -59,8 +59,8 @@
         "Category": "Special",
         "Power": 30,
         "Accuracy": 70,
-        "PP": 20,
-        "Effect": "May poison opponent."
+        "Effect": "May poison opponent.",
+        "Status Condition": { "Poison": 0.25 }
     },
     "Toxic":
     {
@@ -68,7 +68,7 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 90,
-        "PP": 10,
-        "Effect": "Badly poisons opponent."
+        "Effect": "Badly poisons opponent.",
+        "Status Condition": { "BadlyPoisoned": 1 }
     }
 }

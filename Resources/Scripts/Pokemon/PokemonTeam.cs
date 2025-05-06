@@ -5,11 +5,22 @@ namespace PokemonTD;
 
 public partial class PokemonTeam : Node
 {
+	private static PokemonTeam _instance;
+
+    public static PokemonTeam Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
 	public List<Pokemon> Pokemon = new List<Pokemon>();
 
 	public override void _EnterTree()
 	{
-		PokemonTD.PokemonTeam = this;
+		Instance = this;
 	}
 
 	public override void _Ready()
@@ -25,7 +36,7 @@ public partial class PokemonTeam : Node
 		string pokemonName = pokemon.Name;
 		int pokemonLevel = pokemon.Level;
 
-		Pokemon starterPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
+		Pokemon starterPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(starterPokemon);
 
 		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
@@ -41,7 +52,7 @@ public partial class PokemonTeam : Node
 		string pokemonName = pokemonEnemy.Pokemon.Name;
 		int pokemonLevel = pokemonEnemy.Pokemon.Level;
 
-		Pokemon capturedPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
+		Pokemon capturedPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(capturedPokemon);
 
 		string addedMessage = $"{capturedPokemon.Name} Was Added To The Team";
@@ -54,16 +65,16 @@ public partial class PokemonTeam : Node
 	{
 		for (int i = 0; i < teamCount; i++)
 		{
-			Pokemon pokemon = PokemonTD.PokemonManager.GetRandomPokemon();
-			pokemon.Level = PokemonTD.PokemonManager.GetRandomLevel();
-            pokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonTD.PokemonMoveset.GetRandomMoveset() : PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
+			Pokemon pokemon = PokemonManager.Instance.GetRandomPokemon();
+			pokemon.Level = PokemonManager.Instance.GetRandomLevel();
+            pokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
 			Pokemon.Add(pokemon);
 		}
 	}
 
 	public void AddPokemon(Pokemon pokemon)
 	{
-		PokemonTD.PokemonTeam.Pokemon.Add(pokemon);
+		PokemonTeam.Instance.Pokemon.Add(pokemon);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
 		string addToTeamMessage = $"Adding {pokemon.Name} To Team";
@@ -72,7 +83,7 @@ public partial class PokemonTeam : Node
 
 	public void RemovePokemon(Pokemon pokemon)
 	{
-		PokemonTD.PokemonTeam.Pokemon.Remove(pokemon);
+		PokemonTeam.Instance.Pokemon.Remove(pokemon);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
 		string removeFromTeamMessage = $"Removing {pokemon.Name} From Team";
@@ -81,7 +92,7 @@ public partial class PokemonTeam : Node
 
 	public bool IsFull()
 	{
-		return PokemonTD.PokemonTeam.Pokemon.Count >= PokemonTD.MaxTeamSize;
+		return PokemonTeam.Instance.Pokemon.Count >= PokemonTD.MaxTeamSize;
 	}
 
 	public Pokemon FindPokemon(Pokemon pokemonToFind)

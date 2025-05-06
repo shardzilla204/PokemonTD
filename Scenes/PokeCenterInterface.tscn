@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cd50k3xub1ea7"]
+[gd_scene load_steps=9 format=3 uid="uid://cd50k3xub1ea7"]
 
 [ext_resource type="Script" uid="uid://maedijrkjx2y" path="res://Resources/Scripts/PokeCenter/PokeCenterInterface.cs" id="1_ioffn"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_21tt3"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b2rlwk224nsy4" path="res://Scenes/PokeCenterTeam.tscn" id="5_yres4"]
 [ext_resource type="PackedScene" uid="uid://bmcelavbxx1ih" path="res://Scenes/PokemonAnalysis.tscn" id="6_ehif2"]
 [ext_resource type="PackedScene" uid="uid://dfrmi3148mhmv" path="res://Scenes/PokeCenterInventory.tscn" id="6_nk1rt"]
+[ext_resource type="PackedScene" uid="uid://ch1up66iv8m4g" path="res://Scenes/PokemonMoveAnalysis.tscn" id="7_ehif2"]
 
 [node name="PokeCenterInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton")]
 script = ExtResource("1_ioffn")
@@ -72,17 +73,24 @@ text = "Poke Center"
 [node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 15
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 15
-
-[node name="PokeCenterTeam" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("5_yres4")]
-layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="PokemonAnalysis" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("6_ehif2")]
+custom_minimum_size = Vector2(355, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PokeCenterTeam" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_yres4")]
+layout_mode = 2
+
+[node name="PokemonMoveAnalysis" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_ehif2")]
 layout_mode = 2
 
 [node name="PokeCenterInventory" parent="Background/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_nk1rt")]
+custom_minimum_size = Vector2(870, 0)
 layout_mode = 2

@@ -111,4 +111,7 @@ public partial class Signals : Node
 
     [Signal]
     public delegate void StageSelectButtonPressedEventHandler(PokemonStage pokemonStage);
+
+    [Signal]
+    public delegate void PokemonAnalyzedEventHandler(Pokemon pokemon);
 }

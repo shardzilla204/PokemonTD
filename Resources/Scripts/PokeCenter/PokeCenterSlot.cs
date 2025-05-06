@@ -25,11 +25,11 @@ public partial class PokeCenterSlot : NinePatchRect
 
 		_interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) =>
 		{
-			if (PokemonTD.PokemonTeam.Pokemon.Count >= PokemonTD.MaxTeamSize) return;
+			if (PokemonTeam.Instance.Pokemon.Count >= PokemonTD.MaxTeamSize) return;
 			
 			if (!isLeftClick || !isDoubleClick) return;
 			
-			PokemonTD.PokeCenter.RemovePokemon(Pokemon);
+			PokeCenter.Instance.RemovePokemon(Pokemon);
 			QueueFree();
 		};
 	}

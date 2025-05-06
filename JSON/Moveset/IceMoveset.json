@@ -5,8 +5,8 @@
         "Category": "Special",
         "Power": 65,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "May lower opponent's Attack."
+        "Effect": "May lower opponent's Attack.",
+        "Status Condition": {}
     },
     "Blizzard":
     {
@@ -14,8 +14,11 @@
         "Category": "Special",
         "Power": 110,
         "Accuracy": 70,
-        "PP": 5,
-        "Effect": "May freeze opponent."
+        "Effect": "May freeze opponent.",
+        "Status Condition": 
+        {
+            "Freeze": 0.25
+        }
     },
     "Haze":
     {
@@ -23,8 +26,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 30,
-        "Effect": "Resets all stat changes."
+        "Effect": "Resets all stat changes.",
+        "Status Condition": {}
     },
     "Ice Beam":
     {
@@ -33,7 +36,11 @@
         "Power": 90,
         "Accuracy": 100,
         "PP": 10,
-        "Effect": "May freeze opponent."
+        "Effect": "May freeze opponent.",
+        "Status Condition": 
+        {
+            "Freeze": 0.25
+        }
     },
     "Ice Punch":
     {
@@ -41,8 +48,8 @@
         "Category": "Physical",
         "Power": 75,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "May freeze opponent."
+        "Effect": "May freeze opponent.",
+        "Status Condition": { "Freeze": 0.25 }
     },
     "Mist":
     {
@@ -50,7 +57,7 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 30,
-        "Effect": "User's stats cannot be changed for a period of time."
+        "Effect": "User's stats cannot be changed for a period of time.",
+        "Status Condition": {}
     }
 }

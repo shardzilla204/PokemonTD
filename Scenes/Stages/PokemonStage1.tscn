@@ -57,7 +57,6 @@ tile_set = ExtResource("1_1ui1h")
 [node name="Path" type="Path2D" parent="."]
 y_sort_enabled = true
 curve = SubResource("Curve2D_h2wtm")
-metadata/_edit_lock_ = true
 
 [node name="StageInterface" parent="." node_paths=PackedStringArray("_pokemonStage") instance=ExtResource("3_6jc8b")]
 _pokemonStage = NodePath("..")

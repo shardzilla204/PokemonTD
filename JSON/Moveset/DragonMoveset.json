@@ -5,7 +5,7 @@
         "Category": "Special",
         "Power": null,
         "Accuracy": 100,
-        "PP": 10,
-        "Effect": "Always inflicts 40 HP."
+        "Effect": "Always inflicts 40 HP.",
+        "Status Condition": {}
     }
 }

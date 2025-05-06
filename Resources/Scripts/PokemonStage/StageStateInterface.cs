@@ -28,7 +28,7 @@ public partial class StageStateInterface : CanvasLayer
 	{
 		PokemonTD.IsGamePaused = true;
 		
-		List<PokemonStage> pokemonStages = PokemonTD.PokemonStages.GetPokemonStages();
+		List<PokemonStage> pokemonStages = PokemonStages.Instance.GetPokemonStages();
 
 		int stageIndex = StageID - 1;
 

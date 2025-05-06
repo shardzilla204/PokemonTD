@@ -39,11 +39,14 @@ public partial class PokemonTD : Node
     [Export(PropertyHint.Range, "1,100,1")]
     private int _starterPokemonLevel = 5;
 
-    [ExportCategory("Personal Computer")]
+    [Export]
+    private bool _isScreenshotModeOn = false;
+
+    [ExportCategory("Poke Center")]
     [Export]
     private bool _isPokeCenterRandomized = false;
 
-    [Export(PropertyHint.Range, "0,60,1")]
+    [Export(PropertyHint.Range, "0,120,1")]
     private int _pokeCenterCount;
 
     [ExportCategory("Pokemon Level")]
@@ -53,7 +56,6 @@ public partial class PokemonTD : Node
     [Export(PropertyHint.Range, "1,100,1")]
     private int _maxPokemonLevel = 100;
 
-    [ExportCategory("Pokemon Enemy Level")]
     [Export(PropertyHint.Range, "1,100,1")]
     private int _minPokemonEnemyLevel = 1;
 
@@ -72,6 +74,7 @@ public partial class PokemonTD : Node
     public static bool IsCaptureModeEnabled = false;
     public static bool AreLevelsRandomized = false;
     public static bool AreMovesRandomized = false;
+    public static bool IsScreenshotModeOn = false;
 
     public static int StarterPokemonLevel = 5;
 
@@ -79,14 +82,6 @@ public partial class PokemonTD : Node
     public static bool IsPokeCenterRandomized = false;
     public static bool HasSelectedStarter = false;
 
-    public static PokemonManager PokemonManager;
-    public static PokemonTypes PokemonTypes;
-    public static PokemonMoves PokemonMoves;
-    public static PokemonMoveset PokemonMoveset;
-    public static PokemonTeam PokemonTeam;
-    public static PokemonEvolution PokemonEvolution;
-    public static PokemonStages PokemonStages;
-    public static PokeCenter PokeCenter;
     public static AudioManager AudioManager;
     
     public static Signals Signals = new Signals();
@@ -119,6 +114,7 @@ public partial class PokemonTD : Node
         IsCaptureModeEnabled = _isCaptureModeEnabled;
         AreLevelsRandomized = _areLevelsRandomized;
         AreMovesRandomized = _areMovesRandomized;
+        IsScreenshotModeOn = _isScreenshotModeOn;
 
         StarterPokemonLevel = _starterPokemonLevel;
 

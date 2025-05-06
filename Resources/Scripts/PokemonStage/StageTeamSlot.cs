@@ -194,7 +194,7 @@ public partial class StageTeamSlot : Button
 			Pokemon.Level++;
 
 			_experienceBar.Value -= _experienceBar.MaxValue;
-			_experienceBar.MaxValue = PokemonTD.PokemonManager.GetExperienceRequired(Pokemon);
+			_experienceBar.MaxValue = PokemonManager.Instance.GetExperienceRequired(Pokemon);
 
 			Pokemon.MinExperience = (int) _experienceBar.Value;
 			Pokemon.MaxExperience = (int) _experienceBar.MaxValue;

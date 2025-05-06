@@ -73,9 +73,11 @@ public partial class MovesetInterface : CanvasLayer
 
 	private void SetEffectText(PokemonMove pokemonMove)
 	{
-		string powerString = pokemonMove.Power == 0 ? "" : $"Power: {pokemonMove.Power}\n";
-		string accuracyString = pokemonMove.Accuracy == 0 ? "" : $"Accuracy: {pokemonMove.Accuracy}%\n\n";
-		_effect.Text = $"{powerString}{accuracyString}{pokemonMove.Effect}";
+		string power = pokemonMove.Power == 0 ? "" : $"Power: {pokemonMove.Power}\n";
+		string accuracy = pokemonMove.Accuracy == 0 ? "" : $"Accuracy: {pokemonMove.Accuracy}%";
+		string effect = pokemonMove.Effect == "" ? "" : $"{pokemonMove.Effect}";
+		if (effect != "") accuracy += "\n\n";
+		_effect.Text = $"{power}{accuracy}{effect}";
 	}
 
 	private void OnDragging(bool isDragging)

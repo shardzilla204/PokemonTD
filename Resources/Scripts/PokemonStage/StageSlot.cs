@@ -2,6 +2,8 @@ using Godot;
 using GC = Godot.Collections;
 
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace PokemonTD;
 
@@ -259,7 +261,7 @@ public partial class StageSlot : NinePatchRect
 
 		PokemonMove pokemonMove = GetPokemonMoveFromTeam();
 
-		if (!PokemonTD.PokemonManager.IsPokemonMoveLanding(pokemonMove))
+		if (!PokemonManager.Instance.IsPokemonMoveLanding(pokemonMove))
 		{
 			MissedPokemonMove(pokemonMove);
 			return;
@@ -272,7 +274,8 @@ public partial class StageSlot : NinePatchRect
 		if (!_isMuted) PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
 
 		TweenAttack(_focusedPokemonEnemy);
-
+		DealStatusCondition(pokemonMove);
+		
 		if (pokemonMove.Power != 0) DealDamage(pokemonMove);
 	}
 
@@ -287,8 +290,6 @@ public partial class StageSlot : NinePatchRect
 		Vector2 positionOne = originalPosition - (direction * 5);
 		Vector2 positionTwo = originalPosition + (direction * 15);
 
-		// TODO: Create a ratio between the position of the enemy and the slot
-		// TODO: Use the ratio and use a set offset to display the attacking animation
 		Tween tween = CreateTween().SetEase(Tween.EaseType.InOut);
 		tween.TweenProperty(_sprite, "position", positionOne, _attackTimer.WaitTime / 4);
 		tween.TweenProperty(_sprite, "position", positionTwo, _attackTimer.WaitTime / 4);
@@ -297,17 +298,17 @@ public partial class StageSlot : NinePatchRect
 
 	private void DealDamage(PokemonMove pokemonMove)
 	{
-		int damage = PokemonTD.PokemonManager.GetDamage(Pokemon, pokemonMove, _focusedPokemonEnemy);
+		int damage = PokemonManager.Instance.GetDamage(Pokemon, pokemonMove, _focusedPokemonEnemy);
 		
-		float firstTypeMultiplier = PokemonTD.PokemonTypes.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[0]);
+		float firstTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[0]);
 		if (_focusedPokemonEnemy.Pokemon.Types.Count > 1)
 		{
-			float secondTypeMultiplier = PokemonTD.PokemonTypes.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[1]);
+			float secondTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[1]);
 
 			if (firstTypeMultiplier < secondTypeMultiplier) firstTypeMultiplier = secondTypeMultiplier;
 		}
 
-		EffectiveType effectiveType = PokemonTD.PokemonTypes.GetEffectiveType(firstTypeMultiplier);
+		EffectiveType effectiveType = PokemonTypes.Instance.GetEffectiveType(firstTypeMultiplier);
 
 		string damageMessage = $"For {damage} Damage ";
 
@@ -319,6 +320,25 @@ public partial class StageSlot : NinePatchRect
 
 		_focusedPokemonEnemy.DamagePokemon(damage, _teamSlotID);
 
+	}
+
+	private void DealStatusCondition(PokemonMove pokemonMove)
+	{
+		List<string> statusNames = pokemonMove.StatusCondition.Keys.ToList();
+		if (statusNames.Count == 0) return;
+		
+		RandomNumberGenerator RNG = new RandomNumberGenerator();
+		foreach (string statusName in statusNames)
+		{
+			float hitThreshold = pokemonMove.StatusCondition[statusName].As<float>();
+			float randomValue = RNG.RandfRange(0, 1);
+			randomValue -= hitThreshold;
+
+			if (randomValue > 0) continue;
+			
+			StatusCondition statusCondition = Enum.Parse<StatusCondition>(statusName);
+			_focusedPokemonEnemy.AddStatusCondition(statusCondition, _teamSlotID);
+		}
 	}
 
 	private void MissedPokemonMove(PokemonMove pokemonMove)

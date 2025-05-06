@@ -12,7 +12,7 @@ public partial class PokeCenterInterface : CanvasLayer
 		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_exitButton.Pressed += () => 
 		{
-			if (PokemonTD.PokemonTeam.Pokemon.Count == 0) return;
+			if (PokemonTeam.Instance.Pokemon.Count == 0) return;
 
 			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			AddSibling(stageSelectInterface);

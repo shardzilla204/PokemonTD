@@ -58,6 +58,8 @@ public partial class StageInterface : CanvasLayer
 
 	public override void _Ready()
 	{
+		Visible = !PokemonTD.IsScreenshotModeOn;
+		
 		ClearStageTeamSlots();
 		AddStageTeamSlots();
 
@@ -133,12 +135,12 @@ public partial class StageInterface : CanvasLayer
 
 	private void AddStageTeamSlots()
 	{
-		int emptyTeamSlots = PokemonTD.MaxTeamSize - PokemonTD.PokemonTeam.Pokemon.Count;
-		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
+		int emptyTeamSlots = PokemonTD.MaxTeamSize - PokemonTeam.Instance.Pokemon.Count;
+		for (int i = 0; i < PokemonTeam.Instance.Pokemon.Count; i++)
 		{
 			StageTeamSlot stageTeamSlot = PokemonTD.PackedScenes.GetStageTeamSlot();
 			stageTeamSlot.ID = i;
-			stageTeamSlot.Pokemon = PokemonTD.PokemonTeam.Pokemon[i];
+			stageTeamSlot.Pokemon = PokemonTeam.Instance.Pokemon[i];
 
 			_stageTeamSlotContainer.AddChild(stageTeamSlot);
 			_stageTeamSlots.Add(stageTeamSlot);

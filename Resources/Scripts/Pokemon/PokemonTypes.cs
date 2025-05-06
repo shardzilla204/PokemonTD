@@ -33,11 +33,22 @@ public enum EffectiveType
 
 public partial class PokemonTypes : Node
 {
+	private static PokemonTypes _instance;
+
+    public static PokemonTypes Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
 	private GC.Dictionary<string, Variant> _typeMatchupDictionary = new GC.Dictionary<string, Variant>();
 
 	public override void _EnterTree()
 	{
-		PokemonTD.PokemonTypes = this;
+		Instance = this;
 	}
 
 	public override void _Ready()

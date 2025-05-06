@@ -7,20 +7,30 @@ namespace PokemonTD;
 
 public partial class PokemonEvolution : Node
 {
-	private GC.Dictionary<string, Variant> _pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>();
+	private static PokemonEvolution _instance;
 
+    public static PokemonEvolution Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
+	private GC.Dictionary<string, Variant> _pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>();
 	private List<EvolutionInterface> _evolutionQueue = new List<EvolutionInterface>();
 
     public override void _EnterTree()
     {
-        PokemonTD.PokemonEvolution = this;
+        Instance = this;
     }
 
     public override void _Ready()
     {
         LoadEvolutionFile();
 
-		// Pokemon pokemon = PokemonTD.PokemonManager.GetPokemon("Eevee");
+		// Pokemon pokemon = PokemonManager.Instance.GetPokemon("Eevee");
 		// CanEvolve(pokemon);
 
 		PokemonTD.Signals.EvolutionFinished += (pokemon, teamSlotID) => IsQueueEmpty();
@@ -61,7 +71,7 @@ public partial class PokemonEvolution : Node
 	{
 		GC.Dictionary<string, Variant> pokemonEvolutionDictionary = _pokemonEvolutionDictionaries[pokemon.Name].As<GC.Dictionary<string, Variant>>();
 		string pokemonEvolutionNameString = pokemonEvolutionDictionary.Keys.ToList()[0];
-		return PokemonTD.PokemonManager.GetPokemon(pokemonEvolutionNameString);
+		return PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString);
 	}
 
 	public Pokemon EvolvePokemon(Pokemon pokemon, int teamSlotID)
@@ -74,8 +84,8 @@ public partial class PokemonEvolution : Node
 		pokemonEvolution.Move = pokemon.Move;
 		pokemonEvolution.OldMoves.AddRange(pokemon.OldMoves);
 
-		PokemonTD.PokemonTeam.Pokemon.RemoveAt(teamSlotID);
-		PokemonTD.PokemonTeam.Pokemon.Insert(teamSlotID, pokemonEvolution);
+		PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotID);
+		PokemonTeam.Instance.Pokemon.Insert(teamSlotID, pokemonEvolution);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 

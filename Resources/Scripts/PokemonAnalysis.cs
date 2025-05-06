@@ -39,12 +39,17 @@ public partial class PokemonAnalysis : NinePatchRect
 
     public override void _ExitTree()
     {
-        PokemonTD.PokeCenter.Pokemon.Insert(0, Pokemon);
+        if (Pokemon is not null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
     }
 
     public override void _Ready()
     {
-        _releaseButton.Pressed += () => SetPokemon(null);
+        _releaseButton.Pressed += () => 
+        {
+            if (PokeCenter.Instance.Pokemon.Count == 0) return;
+            
+            SetPokemon(null);
+        };
 
         SetPokemon(null);
     }
@@ -107,13 +112,13 @@ public partial class PokemonAnalysis : NinePatchRect
         {
             PokeCenterTeamSlot pokeCenterTeamSlot = dataDictionary["Slot"].As<PokeCenterTeamSlot>();
             if (pokeCenterTeamSlot.Pokemon is not null) pokemon = pokeCenterTeamSlot.Pokemon;
-            PokemonTD.PokemonTeam.Pokemon.Remove(pokemon);
+            PokemonTeam.Instance.Pokemon.Remove(pokemon);
         }
         else
         {
             PokeCenterSlot pokeCenterSlot = dataDictionary["Slot"].As<PokeCenterSlot>();
             if (pokeCenterSlot.Pokemon is not null) pokemon = pokeCenterSlot.Pokemon;
-            PokemonTD.PokeCenter.Pokemon.Remove(pokemon);
+            PokeCenter.Instance.Pokemon.Remove(pokemon);
             pokeCenterSlot.QueueFree();
         }
 
@@ -122,19 +127,22 @@ public partial class PokemonAnalysis : NinePatchRect
 
     public void SetPokemon(Pokemon pokemon)
     {
+        string pokemonName = pokemon == null ? "" : pokemon.Name;
+        if (pokemon != null) pokemonName = pokemon.Name.Contains("Nidoran") ? "Nidoran" : pokemon.Name;
+
         // Check if a pokemon is going in and there is already a pokemon in the slot, remove and add the pokemon to the inventory
         if (Pokemon != null)
         {
             if (pokemon != null) 
             {
-                PokemonTD.PokeCenter.Pokemon.Insert(0, Pokemon);
+                PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
             }
         }
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
         Pokemon = pokemon;
-        _pokemonName.Text = pokemon == null ? "" : pokemon.Name;
+        _pokemonName.Text = pokemonName;
         _pokemonLevel.Text = pokemon == null ? "" : $"LVL. {pokemon.Level}";
         _genderIcon.Texture = pokemon == null ? null : PokemonTD.GetGenderSprite(pokemon);
         _pokemonNumber.Text = pokemon == null ? "" : $"#{pokemon.NationalNumber}";
@@ -143,6 +151,8 @@ public partial class PokemonAnalysis : NinePatchRect
         _pokemonStats.Text = pokemon == null ? "" : GetStatsString(pokemon);
         _pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
         _pokemonDescription.Text = pokemon == null ? "" : pokemon.Description;
+
+        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonAnalyzed, pokemon);
     }
 
     private string GetStatsString(Pokemon pokemon)

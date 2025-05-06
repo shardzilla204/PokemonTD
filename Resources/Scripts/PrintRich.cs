@@ -39,12 +39,12 @@ public partial class PrintRich
 
       string textColorString = GetColorHex(textColor);
 
-      List<Pokemon> PokemonTeam = PokemonTD.PokemonTeam.Pokemon;
+      List<Pokemon> pokemonTeam = PokemonTeam.Instance.Pokemon;
 
 		GD.PrintRich($"[color={textColorString}]New Team:[/color]");
-		for (int i = 0; i < PokemonTeam.Count; i++)
+		for (int i = 0; i < pokemonTeam.Count; i++)
 		{
-			GD.PrintRich($"[color={textColorString}]\t{i + 1}: {PokemonTeam[i].Name}[/color]");
+			GD.PrintRich($"[color={textColorString}]\t{i + 1}: {pokemonTeam[i].Name}[/color]");
 		}
       GD.Print(); // Spacing
 	}
@@ -88,5 +88,17 @@ public partial class PrintRich
       TextColor.Blue => "6495ED",
       TextColor.Purple => "CA9BF7",
       _ => "FFFFFF",
+   };
+
+   public static string GetStatusConditionMessage(StatusCondition statusCondition) => statusCondition switch
+   {
+      StatusCondition.Burn => "Burn",
+      StatusCondition.Freeze => "Frozen",
+      StatusCondition.Paralysis => "Paralyzed",
+      StatusCondition.Poison => "Poisoned",
+      StatusCondition.BadlyPoisoned => "Badly Poisoned",
+      StatusCondition.Sleep => "Asleep",
+      StatusCondition.Confuse => "Confused",
+      _ => ""
    };
 }

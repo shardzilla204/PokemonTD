@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 namespace PokemonTD;
 
@@ -16,6 +17,6 @@ public partial class PokemonMove : Node
 	public MoveCategory Category;
 	public int Power;
 	public int Accuracy;
-	public int PP;
 	public string Effect;
+	public Dictionary<string, Variant> StatusCondition;
 }

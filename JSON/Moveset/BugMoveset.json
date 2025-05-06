@@ -5,8 +5,8 @@
 		"Category": "Physical",
 		"Power": 80,
 		"Accuracy": 100,
-		"PP": 10,
-		"Effect": "User recovers half the HP inflicted on opponent."
+		"Effect": "User recovers half the HP inflicted on opponent.",
+		"Status Condition": {}
 	},
 	"Pin Missle":
 	{
@@ -14,8 +14,8 @@
 		"Category": "Physical",
 		"Power": 25,
 		"Accuracy": 95,
-		"PP": 20,
-		"Effect": "Hits 2-5 times in one turn."
+		"Effect": "Hits 2-5 times in one turn.",
+		"Status Condition": {}
 	},
 	"String Shot":
 	{
@@ -23,8 +23,8 @@
 		"Category": "Status",
 		"Power": null,
 		"Accuracy": 95,
-		"PP": 40,
-		"Effect": "Sharply lowers opponent's Speed."
+		"Effect": "Sharply lowers opponent's Speed.",
+		"Status Condition": {}
 	},
 	"Twineedle":
 	{
@@ -32,7 +32,7 @@
 		"Category": "Physical",
 		"Power": 25,
 		"Accuracy": 100,
-		"PP": 20,
-		"Effect": "Hits twice in one turn. May poison opponent."
+		"Effect": "Hits twice in one turn. May poison opponent.",
+		"Status Condition": {}
 	}
 }

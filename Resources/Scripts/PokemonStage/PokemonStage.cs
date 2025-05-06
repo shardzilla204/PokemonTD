@@ -92,7 +92,15 @@ public partial class PokemonStage : Node2D
 		foreach (PathFollow2D pathFollow in _pathFollows)
 		{
 			PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
-			pathFollow.Progress += (float) delta * pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed;
+			Vector2 previousPosition = pokemonEnemy.GlobalPosition;
+			float progressSpeed = (float) delta * pokemonEnemy.Speed * PokemonTD.GameSpeed;
+			
+			if (!pokemonEnemy.CanMove) continue;
+			
+			pathFollow.Progress += progressSpeed;
+
+			Vector2 direction = previousPosition.DirectionTo(pokemonEnemy.GlobalPosition);
+			pokemonEnemy.FlipH = direction.X > 0;
 		}
 	}
 
@@ -102,14 +110,14 @@ public partial class PokemonStage : Node2D
 		forgetMoveInterface.Pokemon = pokemon;
 		forgetMoveInterface.MoveToLearn = pokemonMove;
 
-		if (!PokemonTD.PokemonEvolution.IsQueueEmpty()) 
+		if (!PokemonEvolution.Instance.IsQueueEmpty()) 
 		{
 			await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionQueueCleared);
 		}
 
 		AddSibling(forgetMoveInterface);
 
-		PokemonTD.PokemonMoves.AddToQueue(forgetMoveInterface);
+		PokemonMoves.Instance.AddToQueue(forgetMoveInterface);
 	}
 
 	private void OnEvolutionStarted(Pokemon pokemon)
@@ -119,7 +127,7 @@ public partial class PokemonStage : Node2D
 		AddSibling(evolutionInterface);
 		GetParentOrNull<Node>().MoveChild(evolutionInterface, GetParentOrNull<Node>().GetChildCount());
 
-		PokemonTD.PokemonEvolution.AddToQueue(evolutionInterface);
+		PokemonEvolution.Instance.AddToQueue(evolutionInterface);
 	}
 
 	private void SetLayersAlpha(bool isDragging)
@@ -192,7 +200,7 @@ public partial class PokemonStage : Node2D
 	{
 		string randomPokemonName = GetRandomPokemonName();
 		int randomLevel = GetRandomLevel();
-		Pokemon randomPokemon = PokemonTD.PokemonManager.GetPokemon(randomPokemonName, randomLevel);
+		Pokemon randomPokemon = PokemonManager.Instance.GetPokemon(randomPokemonName, randomLevel);
 		
 		PokemonEnemy pokemonEnemy = GetPokemonEnemy(randomPokemon);
 		PokemonEnemies.Add(pokemonEnemy);

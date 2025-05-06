@@ -8,11 +8,22 @@ namespace PokemonTD;
 
 public partial class PokemonMoveset : Node
 {
+    private static PokemonMoveset _instance;
+
+    public static PokemonMoveset Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
 	private GC.Dictionary<string, Variant> _pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>();
 
     public override void _EnterTree()
     {
-        PokemonTD.PokemonMoveset = this;
+        Instance = this;
     }
 
     public override void _Ready()
@@ -72,7 +83,7 @@ public partial class PokemonMoveset : Node
 
             if (!hasPassed) continue;
 
-            pokemonMove = PokemonTD.PokemonMoves.GetPokemonMove(pokemonMoveName);
+            pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
             break;
         }
 
@@ -102,7 +113,7 @@ public partial class PokemonMoveset : Node
 
         foreach (string pokemonLearnsetName in pokemonLearnsetNames)
         {
-            PokemonMove pokemonMove = PokemonTD.PokemonMoves.GetPokemonMove(pokemonLearnsetName);
+            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonLearnsetName);
             pokemonMoves.Add(pokemonMove);
         }
 
@@ -204,7 +215,7 @@ public partial class PokemonMoveset : Node
         List<PokemonMove> pokemonMoves = new List<PokemonMove>();
 		for (int i = 0; i < PokemonTD.MaxMoveCount; i++)
 		{
-			pokemonMoves.Add(PokemonTD.PokemonMoves.GetRandomPokemonMove());
+			pokemonMoves.Add(PokemonMoves.Instance.GetRandomPokemonMove());
 		}
         return pokemonMoves;
     }

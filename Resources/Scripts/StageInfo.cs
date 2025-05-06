@@ -25,7 +25,7 @@ public partial class StageInfo : Container
     {
         PokemonTD.Signals.StageSelectButtonHovered += SetStage;
 
-        PokemonStage pokemonStage = PokemonTD.PokemonStages.GetPokemonStage(1);
+        PokemonStage pokemonStage = PokemonStages.Instance.GetPokemonStage(1);
         SetStage(pokemonStage);
     }
 
@@ -53,7 +53,7 @@ public partial class StageInfo : Container
 	{
 		pokemonStageID = pokemonStageID < 1 ? 1 : pokemonStageID; // Default to 1 if lower than 1
 
-		PokemonStage pokemonStage = PokemonTD.PokemonStages.GetPokemonStage(pokemonStageID);
+		PokemonStage pokemonStage = PokemonStages.Instance.GetPokemonStage(pokemonStageID);
 		foreach (string pokemonEnemyName in pokemonStage.PokemonNames)
 		{
 			TextureRect enemyPokemonSprite = GetEnemyPokemonSprite(pokemonEnemyName);
@@ -74,7 +74,7 @@ public partial class StageInfo : Container
 
 		if (pokemonName is null) return textureRect; // Return an empty TextureRect 
 
-		Pokemon pokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName);
+		Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName);
 		Texture2D pokemonSprite = pokemon.Sprite;
 		textureRect.Texture = pokemonSprite;
 		return textureRect;

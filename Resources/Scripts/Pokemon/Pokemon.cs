@@ -85,7 +85,32 @@ public partial class Pokemon : Node
 		SpecialDefense = pokemonStats["Special Defense"].As<int>();
 		Speed = pokemonStats["Speed"].As<int>();
 
+		if (pokemonName.Contains("Nido"))
+		{
+			AssignGender(pokemonName);
+			return;
+		}
 		Gender = GetRandomGender();
+	}
+
+	// For Nidoran Female & Nidoran Male
+	private void AssignGender(string pokemonName)
+	{
+		foreach (string nidoranFemaleString in PokemonManager.Instance.NidoranFemaleStrings)
+		{
+			if (!pokemonName.Contains(nidoranFemaleString)) continue;
+			
+			Gender = Gender.Female;
+			return;
+		}
+
+		foreach (string nidoranMaleString in PokemonManager.Instance.NidoranMaleStrings)
+		{
+			if (!pokemonName.Contains(nidoranMaleString)) continue;
+			
+			Gender = Gender.Male;
+			return;
+		}
 	}
 
 	public void SetMoves(List<PokemonMove> pokemonMoves)

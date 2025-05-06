@@ -98,7 +98,7 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="PokeCenterSlots" type="FlowContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(850, 350)
+custom_minimum_size = Vector2(840, 350)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 10

@@ -110,7 +110,7 @@ text = "Weight"
 
 [node name="PokemonStats" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/line_spacing = -2
+theme_override_constants/line_spacing = -4
 theme_override_font_sizes/font_size = 17
 text = "HP: 200
 Attack: 100

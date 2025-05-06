@@ -41,13 +41,13 @@ public partial class EvolutionInterface : CanvasLayer
 
     public override void _ExitTree()
     {
-        PokemonTD.PokemonEvolution.RemoveFromQueue(this);
-		PokemonTD.PokemonEvolution.IsQueueEmpty();
+        PokemonEvolution.Instance.RemoveFromQueue(this);
+		PokemonEvolution.Instance.IsQueueEmpty();
     }
 
 	public override void _Ready()
 	{
-		_pokemonEvolution = PokemonTD.PokemonEvolution.GetPokemonEvolution(Pokemon);
+		_pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(Pokemon);
 
 		_pokemonSprite.Texture = Pokemon.Sprite;
 		_pokemonSilhouette.Texture = Pokemon.Sprite;

@@ -57,7 +57,7 @@ public partial class StarterSelectionInterface : CanvasLayer
 	{
 		StarterOption starterOption = PokemonTD.PackedScenes.GetStarterOption();
 		int starterPokemonLevel = PokemonTD.StarterPokemonLevel;
-		starterOption.Pokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, starterPokemonLevel);
+		starterOption.Pokemon = PokemonManager.Instance.GetPokemon(pokemonName, starterPokemonLevel);
 
 		_starterOptions.AddChild(starterOption);
 	}

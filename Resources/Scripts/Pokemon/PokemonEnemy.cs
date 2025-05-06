@@ -14,9 +14,11 @@ public partial class PokemonEnemy : TextureRect
 	private Area2D _area;
 
 	public Pokemon Pokemon;
-	public StatusEffect StatusEffect;
 	public bool IsCatchable = false;
 	public VisibleOnScreenNotifier2D ScreenNotifier => _screenNotifier;
+	public int TeamSlotID = -1;
+	public bool CanMove = true;
+	public int Speed;
 
 	public override void _Ready()
 	{
@@ -45,6 +47,8 @@ public partial class PokemonEnemy : TextureRect
 
 		_area.AreaEntered += OnAreaEntered;
 		_area.AreaExited += OnAreaExited;
+
+		Speed = Pokemon.Speed;
 	}
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -82,12 +86,53 @@ public partial class PokemonEnemy : TextureRect
 		Texture = pokemon is null ? null : pokemon.Sprite;
 	}
 
-	public void DamagePokemon(int damage, int teamSlotID)
+	public void DamagePokemon(int damage)
 	{
 		_healthBar.Value -= damage;
 
 		CheckIsCatchable();
-		CheckHasFainted(teamSlotID);
+		CheckHasFainted();
+	}
+
+	public void DamagePokemon(int damage, int teamSlotID)
+	{
+		TeamSlotID = teamSlotID;
+		_healthBar.Value -= damage;
+
+		CheckIsCatchable();
+		CheckHasFainted();
+	}
+
+	public void AddStatusCondition(StatusCondition statusCondition, int teamSlotID)
+	{
+		TeamSlotID = teamSlotID;
+		switch (statusCondition)
+		{
+			case StatusCondition.Burn: 
+				PokemonStatusCondition.Instance.ApplyBurnCondition(this); 
+			break;
+			case StatusCondition.Freeze: 
+				PokemonStatusCondition.Instance.ApplyFreezeCondition(this); 
+			break;
+			case StatusCondition.Paralysis: 
+				PokemonStatusCondition.Instance.ApplyParalysisCondition(this); 
+			break;
+			case StatusCondition.Poison: 
+				PokemonStatusCondition.Instance.ApplyPoisonCondition(this); 
+			break;
+			case StatusCondition.BadlyPoisoned: 
+				PokemonStatusCondition.Instance.ApplyBadlyPoisonedCondition(this); 
+			break;
+			case StatusCondition.Sleep: 
+				PokemonStatusCondition.Instance.ApplySleepCondition(this); 
+			break;
+			case StatusCondition.Confuse: 
+				PokemonStatusCondition.Instance.ApplyConfuseCondition(this); 
+			break;
+		}
+
+		string conditionMessage = $"{Pokemon.Name} Is Now {PrintRich.GetStatusConditionMessage(statusCondition)}";
+		PrintRich.PrintLine(TextColor.Yellow, conditionMessage);
 	}
 
 	private void CheckIsCatchable()
@@ -104,7 +149,7 @@ public partial class PokemonEnemy : TextureRect
 		PrintRich.PrintLine(TextColor.Yellow, catchMessage);
 	}
 
-	private void CheckHasFainted(int teamSlotID)
+	private void CheckHasFainted()
 	{
 		if (_healthBar.Value > 0) return;
 
@@ -113,7 +158,7 @@ public partial class PokemonEnemy : TextureRect
 		string faintMessage = $"{Pokemon.Name} Has Fainted";
 		PrintRich.PrintLine(TextColor.Yellow, faintMessage);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this, teamSlotID);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this, TeamSlotID);
 		QueueFree();
 
 		PokemonTD.AudioManager.PlayPokemonFaint();

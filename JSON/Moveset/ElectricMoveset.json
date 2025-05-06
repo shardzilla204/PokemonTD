@@ -6,7 +6,8 @@
         "Power": 110,
         "Accuracy": 70,
         "PP": 10,
-        "Effect": "May paralyze opponent."
+        "Effect": "May paralyze opponent.",
+        "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Punch":
     {
@@ -15,7 +16,8 @@
         "Power": 75,
         "Accuracy": 100,
         "PP": 15,
-        "Effect": "May paralyze opponent."
+        "Effect": "May paralyze opponent.",
+        "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Shock":
     {
@@ -24,7 +26,8 @@
         "Power": 40,
         "Accuracy": 100,
         "PP": 30,
-        "Effect": "May paralyze opponent."
+        "Effect": "May paralyze opponent.",
+        "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Wave":
     {
@@ -33,7 +36,8 @@
         "Power": null,
         "Accuracy": 90,
         "PP": 20,
-        "Effect": "Paralyzes opponent."
+        "Effect": "Paralyzes opponent.",
+        "Status Condition": { "Paralysis": 1 }
     },
     "Thunderbolt":
     {
@@ -42,6 +46,7 @@
         "Power": 90,
         "Accuracy": 100,
         "PP": 15,
-        "Effect": "May paralyze opponent."
+        "Effect": "May paralyze opponent.",
+        "Status Condition": { "Paralysis": 0.25 }
     }
 }

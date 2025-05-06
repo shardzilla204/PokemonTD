@@ -5,8 +5,8 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 30,
-        "Effect": "May lower opponent's Speed."
+        "Effect": "May lower opponent's Speed.",
+        "Status Condition": {}
     },
     "Bubble Beam":
     {
@@ -14,8 +14,8 @@
         "Category": "Special",
         "Power": 65,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "May lower opponent's Speed."
+        "Effect": "May lower opponent's Speed.",
+        "Status Condition": {}
     },
     "Clamp":
     {
@@ -23,8 +23,8 @@
         "Category": "Physical",
         "Power": 35,
         "Accuracy": 85,
-        "PP": 15,
-        "Effect": "Traps opponent, damaging them for 4-5 turns."
+        "Effect": "Traps opponent, damaging them for 4-5 turns.",
+        "Status Condition": {}
     },
     "Crabhammer":
     {
@@ -32,8 +32,8 @@
         "Category": "Physical",
         "Power": 100,
         "Accuracy": 90,
-        "PP": 10,
-        "Effect": "High critical hit ratio."
+        "Effect": "High critical hit ratio.",
+        "Status Condition": {}
     },
     "Hydro Pump":
     {
@@ -41,8 +41,8 @@
         "Category": "Special",
         "Power": 110,
         "Accuracy": 80,
-        "PP": 5,
-        "Effect": ""
+        "Effect": "",
+        "Status Condition": {}
     },
     "Surf":
     {
@@ -50,8 +50,8 @@
         "Category": "Special",
         "Power": 90,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "Hits all adjacent Pokemon."
+        "Effect": "Hits all adjacent Pokemon.",
+        "Status Condition": {}
     },
     "Water Gun":
     {
@@ -59,8 +59,8 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 25,
-        "Effect": ""
+        "Effect": "",
+        "Status Condition": {}
     },
     "Waterfall":
     {
@@ -68,8 +68,8 @@
         "Category": "Physical",
         "Power": 80,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "May cause flinching."
+        "Effect": "May cause flinching.",
+        "Status Condition": {}
     },
     "Withdraw":
     {
@@ -77,7 +77,7 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 40,
-        "Effect": "Raises user's Defense."
+        "Effect": "Raises user's Defense.",
+        "Status Condition": {}
     }
 }

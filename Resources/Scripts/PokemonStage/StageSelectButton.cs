@@ -13,7 +13,7 @@ public partial class StageSelectButton : CustomButton
         Pressed += () => 
 		{
 			SetStage();
-
+			PokemonTD.IsGamePaused = true;
 			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 		MouseEntered += () => 

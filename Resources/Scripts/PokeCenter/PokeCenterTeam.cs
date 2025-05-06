@@ -27,7 +27,7 @@ public partial class PokeCenterTeam : Container
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
-		if (PokemonTD.PokemonTeam.IsFull()) return false;
+		if (PokemonTeam.Instance.IsFull()) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
@@ -45,13 +45,13 @@ public partial class PokeCenterTeam : Container
 		if (fromAnalysisSlot)
 		{
 			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
-			PokemonTD.PokemonTeam.AddPokemon(pokemonAnalysis.Pokemon);
+			PokemonTeam.Instance.AddPokemon(pokemonAnalysis.Pokemon);
 			pokemonAnalysis.SetPokemon(null);
 			return;
 		}
 
 		PokeCenterSlot pokeCenterSlot = dataDictionary["Slot"].As<PokeCenterSlot>();
-		PokemonTD.PokeCenter.RemovePokemon(pokeCenterSlot.Pokemon);
+		PokeCenter.Instance.RemovePokemon(pokeCenterSlot.Pokemon);
 
 		pokeCenterSlot.QueueFree();
     }
@@ -67,9 +67,9 @@ public partial class PokeCenterTeam : Container
 	// Show pokemon already in your team
 	private void DisplayPokemonTeam()
 	{
-		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
+		for (int i = 0; i < PokemonTeam.Instance.Pokemon.Count; i++)
 		{
-			Pokemon pokemon = PokemonTD.PokemonTeam.Pokemon[i];
+			Pokemon pokemon = PokemonTeam.Instance.Pokemon[i];
 			_teamSlots[i].UpdateSlot(pokemon);
 		}
 	}
@@ -82,9 +82,9 @@ public partial class PokeCenterTeam : Container
 			teamSlot.UpdateSlot(null);
 		}
 
-		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
+		for (int i = 0; i < PokemonTeam.Instance.Pokemon.Count; i++)
 		{
-			Pokemon pokemon = PokemonTD.PokemonTeam.Pokemon[i];
+			Pokemon pokemon = PokemonTeam.Instance.Pokemon[i];
 			_teamSlots[i].UpdateSlot(pokemon);
 		}
 		PrintRich.PrintTeam(TextColor.Orange);

@@ -26,6 +26,17 @@ namespace PokemonTD;
 
 public partial class PokemonMoves : Node
 {
+    private static PokemonMoves _instance;
+
+    public static PokemonMoves Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
     private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
     public List<PokemonMove> Moves = new List<PokemonMove>();
 
@@ -33,7 +44,7 @@ public partial class PokemonMoves : Node
 
     public override void _EnterTree()
 	{
-		PokemonTD.PokemonMoves = this;
+		Instance = this;
 	}
 
 	public override void _Ready()
@@ -103,17 +114,17 @@ public partial class PokemonMoves : Node
 
     private void AddPokemonMove(GC.Dictionary<string, Variant> typeMovesetDictionary, string moveName)
     {
-        PokemonMove PokemonMove = new PokemonMove()
+        PokemonMove pokemonMove = new PokemonMove()
         {
             Name = moveName,
             Type = Enum.Parse<PokemonType>(typeMovesetDictionary["Type"].As<string>()),
             Category = Enum.Parse<MoveCategory>(typeMovesetDictionary["Category"].As<string>()),
             Power = typeMovesetDictionary["Power"].As<int>(),
             Accuracy = typeMovesetDictionary["Accuracy"].As<int>(),
-            PP = typeMovesetDictionary["PP"].As<int>(),
-            Effect = typeMovesetDictionary["Effect"].As<string>()
+            Effect = typeMovesetDictionary["Effect"].As<string>(),
+            StatusCondition = typeMovesetDictionary["Status Condition"].As<GC.Dictionary<string, Variant>>(),
         };
-        Moves.Add(PokemonMove);
+        Moves.Add(pokemonMove);
     }
 
     public PokemonMove GetRandomPokemonMove()

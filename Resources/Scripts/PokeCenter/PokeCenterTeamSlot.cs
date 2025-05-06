@@ -25,11 +25,11 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 		{
 			if (Pokemon is null) return;
 			
-			if (PokemonTD.PokemonTeam.Pokemon.Count == 0) return;
+			if (PokemonTeam.Instance.Pokemon.Count == 0) return;
 			
 			if (!isLeftClick || !isDoubleClick) return;
 
-			PokemonTD.PokeCenter.AddPokemon(Pokemon);
+			PokeCenter.Instance.AddPokemon(Pokemon);
 		};
 	}
 

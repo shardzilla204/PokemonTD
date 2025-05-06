@@ -1,5 +1,4 @@
 using Godot;
-
 using System.Collections.Generic;
 using System.Linq;
 
@@ -7,32 +6,41 @@ namespace PokemonTD;
 
 public partial class PokeCenter : Node
 {
+	private static PokeCenter _instance;
+
+    public static PokeCenter Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
 	public List<Pokemon> Pokemon = new List<Pokemon>();
 
 	public int PokemonPerPage = 30;
 
     public override void _EnterTree()
     {
-        PokemonTD.PokeCenter = this;
+        Instance = this;
     }
 
     public override void _Ready()
     {
 		if (PokemonTD.IsPokeCenterRandomized) AddRandomPokemon();
 
-		OrderByLevel(false);
-
         PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
     }
 
 	private void AddCapturedPokemon(PokemonEnemy pokemonEnemy)
 	{
-		if (PokemonTD.PokemonTeam.Pokemon.Count < PokemonTD.MaxTeamSize) return;
+		if (PokemonTeam.Instance.Pokemon.Count < PokemonTD.MaxTeamSize) return;
 
 		string pokemonName = pokemonEnemy.Pokemon.Name;
 		int pokemonLevel = pokemonEnemy.Pokemon.Level;
 		
-		Pokemon capturedPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel);
+		Pokemon capturedPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
 		Pokemon.Add(capturedPokemon);
 
 		string transferredMessage = $"{capturedPokemon.Name} Was Transferred To The Pokemon Center";
@@ -63,20 +71,20 @@ public partial class PokeCenter : Node
 	{
 		for (int i = 0; i < PokemonTD.PokeCenterCount; i++)
 		{
-			Pokemon randomPokemon = PokemonTD.PokemonManager.GetRandomPokemon();
+			Pokemon randomPokemon = PokemonManager.Instance.GetRandomPokemon();
 			Pokemon.Add(randomPokemon);
 		}
 	}
 
 	public void AddPokemon(Pokemon pokemon)
 	{
-		PokemonTD.PokeCenter.Pokemon.Insert(0, pokemon);
-		PokemonTD.PokemonTeam.RemovePokemon(pokemon);
+		Pokemon.Insert(0, pokemon);
+		PokemonTeam.Instance.RemovePokemon(pokemon);
 	}
 
 	public void RemovePokemon(Pokemon pokemon)
 	{
-		PokemonTD.PokeCenter.Pokemon.Remove(pokemon);
-		PokemonTD.PokemonTeam.AddPokemon(pokemon);
+		Pokemon.Remove(pokemon);
+		PokemonTeam.Instance.AddPokemon(pokemon);
 	}
 }

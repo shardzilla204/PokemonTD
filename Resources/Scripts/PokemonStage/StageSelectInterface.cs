@@ -70,7 +70,7 @@ public partial class StageSelectInterface : Node
 
 	private void AddStageSelectButtons()
 	{
-		foreach (PokemonStage pokemonStage in PokemonTD.PokemonStages.GetPokemonStages())
+		foreach (PokemonStage pokemonStage in PokemonStages.Instance.GetPokemonStages())
 		{
 			StageSelectButton stageSelectButton = PokemonTD.PackedScenes.GetStageSelectButton();
 			stageSelectButton.PokemonStage = pokemonStage;

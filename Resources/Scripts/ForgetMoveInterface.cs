@@ -33,8 +33,8 @@ public partial class ForgetMoveInterface : CanvasLayer
 
     public override void _ExitTree()
     {
-        PokemonTD.PokemonMoves.RemoveFromQueue(this);
-		PokemonTD.PokemonMoves.IsQueueEmpty();
+        PokemonMoves.Instance.RemoveFromQueue(this);
+		PokemonMoves.Instance.IsQueueEmpty();
     }
 
 	public override void _Ready()

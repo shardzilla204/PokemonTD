@@ -47,8 +47,7 @@ public partial class SortButton : CustomButton
             PokemonTD.Signals.EmitSignal(Signals.SignalName.SortButtonPressed);
 
             IsDescending = !IsDescending;
-            _upArrow.Visible = IsDescending ? false : true;
-            _downArrow.Visible = IsDescending ? true : false;
+            UpdateArrows(IsDescending);
         };
 
         PokemonTD.Signals.SortButtonPressed += OnSortButtonPressed;
@@ -58,5 +57,11 @@ public partial class SortButton : CustomButton
     {
         _upArrow.Visible = true;
         _downArrow.Visible = true;
+    }
+
+    public void UpdateArrows(bool isDescending)
+    {
+        _upArrow.Visible = isDescending ? false : true;
+        _downArrow.Visible = isDescending ? true : false;
     }
 }

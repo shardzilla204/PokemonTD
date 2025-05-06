@@ -5,8 +5,8 @@
         "Category": "Special",
         "Power": 20,
         "Accuracy": 100,
-        "PP": 25,
-        "Effect": "User recovers half the HP inflicted on opponent."
+        "Effect": "User recovers half the HP inflicted on opponent.",
+        "Status Condition": {}
     },
     "Leech Seed":
     {
@@ -14,8 +14,8 @@
         "Category": "Status",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 10,
-        "Effect": "Drains HP from opponent each turn."
+        "Effect": "Drains HP from opponent each turn.",
+        "Status Condition": {}
     },
     "Mega Drain":
     {
@@ -23,8 +23,8 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "User recovers half the HP inflicted on opponent."
+        "Effect": "User recovers half the HP inflicted on opponent.",
+        "Status Condition": {}
     },
     "Petal Dance":
     {
@@ -32,8 +32,8 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 30,
-        "Effect": "User attacks for 2-3 turns but then becomes confused."
+        "Effect": "User attacks for 2-3 turns but then becomes confused.",
+        "Status Condition": {}
     },
     "Razor Leaf":
     {
@@ -41,8 +41,8 @@
         "Category": "Physical",
         "Power": 55,
         "Accuracy": 95,
-        "PP": 25,
-        "Effect": "High critical hit ratio."
+        "Effect": "High critical hit ratio.",
+        "Status Condition": {}
     },
     "Sleep Powder":
     {
@@ -50,8 +50,11 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 75,
-        "PP": 15,
-        "Effect": "Puts opponent to sleep."
+        "Effect": "Puts opponent to sleep.",
+        "Status Condition": 
+        {
+            "Sleep": 1
+        }
     },
     "Solar Beam":
     {
@@ -59,8 +62,8 @@
         "Category": "Special",
         "Power": 120,
         "Accuracy": 100,
-        "PP": 10,
-        "Effect": "Charges on first turn, attacks on second."
+        "Effect": "Charges on first turn, attacks on second.",
+        "Status Condition": {}
     },
     "Spore":
     {
@@ -68,8 +71,11 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "Puts opponent to sleep."
+        "Effect": "Puts opponent to sleep.",
+        "Status Condition": 
+        {
+            "Sleep": 1
+        }
     },
     "Stun Spore":
     {
@@ -77,8 +83,11 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 75,
-        "PP": 30,
-        "Effect": "Paralyzes opponent."
+        "Effect": "Paralyzes opponent.",
+        "Status Condition": 
+        {
+            "Paralysis": 1
+        }
     },
     "Vine Whip":
     {
@@ -86,7 +95,7 @@
         "Category": "Physical",
         "Power": 45,
         "Accuracy": 100,
-        "PP": 25,
-        "Effect": ""
+        "Effect": "",
+        "Status Condition": {}
     }
 }

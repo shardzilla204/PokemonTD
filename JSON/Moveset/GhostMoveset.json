@@ -5,8 +5,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 100,
-        "PP": 10,
-        "Effect": "Confuses opponent."
+        "Effect": "Confuses opponent.",
+        "Status Condition": {}
     },
     "Lick":
     {
@@ -14,8 +14,8 @@
         "Category": "Physical",
         "Power": 30,
         "Accuracy": 100,
-        "PP": 30,
-        "Effect": "May paralyze opponent."
+        "Effect": "May paralyze opponent.",
+        "Status Condition": {}
     },
     "Night Shade":
     {
@@ -23,7 +23,7 @@
         "Category": "Special",
         "Power": null,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "Inflicts damage equal to user's level."
+        "Effect": "Inflicts damage equal to user's level.",
+        "Status Condition": {}
     }
 }

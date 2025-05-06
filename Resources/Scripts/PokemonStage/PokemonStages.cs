@@ -8,12 +8,23 @@ namespace PokemonTD;
 
 public partial class PokemonStages : Node
 {
+	private static PokemonStages _instance;
+
+    public static PokemonStages Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
 	private GC.Dictionary<string, Variant> _stagesDictionary = new GC.Dictionary<string, Variant>();
 	private List<PokemonStage> _pokemonStages = new List<PokemonStage>();
 
 	public override void _EnterTree()
 	{
-		PokemonTD.PokemonStages = this;
+		Instance = this;
 	}
 
 	public override void _Ready()
@@ -23,7 +34,7 @@ public partial class PokemonStages : Node
 
 		PokemonTD.Signals.EvolutionQueueCleared += () => 
 		{
-			if (!PokemonTD.PokemonMoves.IsQueueEmpty()) return;
+			if (!PokemonMoves.Instance.IsQueueEmpty()) return;
 			
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 		};

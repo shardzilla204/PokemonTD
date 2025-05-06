@@ -13,6 +13,6 @@ public partial class PokemonMoveButton : CustomButton
 	public void Update(PokemonMove pokemonMove)
 	{
 		_pokemonMoveName.Text = pokemonMove.Name;
-		_pokemonMoveColor.SelfModulate = PokemonTD.PokemonTypes.GetTypeColor(pokemonMove.Type);
+		_pokemonMoveColor.SelfModulate = PokemonTypes.Instance.GetTypeColor(pokemonMove.Type);
 	}
 }

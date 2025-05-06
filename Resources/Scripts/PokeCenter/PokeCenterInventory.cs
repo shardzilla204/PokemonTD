@@ -58,46 +58,46 @@ public partial class PokeCenterInventory : Container
 		_cycleLeftButton.Visible = _pageIndex > 0 ? true : false;
 		_cycleRightButton.Visible = _pageIndex < _maxPageIndex ? true : false;
 
-		SetPokemonPages(0);
+		SortByLevel(false);
+		_sortByLevel.UpdateArrows(false);
     }
 
 	private void SortByLevel(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByLevel(isDescending);
+		PokeCenter.Instance.OrderByLevel(isDescending);
 
-		SetPokemonPages(0);
+		SetPokemonPages(_pageIndex);
 	}
 
 	private void SortByName(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByName(isDescending);
+		PokeCenter.Instance.OrderByName(isDescending);
 
-		SetPokemonPages(0);
+		SetPokemonPages(_pageIndex);
 	}
 
 	private void SortByNationalNumber(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByNationalNumber(isDescending);
+		PokeCenter.Instance.OrderByNationalNumber(isDescending);
 
-		SetPokemonPages(0);
+		SetPokemonPages(_pageIndex);
 	}
 
 	private void SortByType(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByType(isDescending);
+		PokeCenter.Instance.OrderByType(isDescending);
 
-		SetPokemonPages(0);
+		SetPokemonPages(_pageIndex);
 	}
 
 	private void OnPokemonTeamUpdated()
 	{
-		ResetInventory();
-		SetPokemonPages(0);
+		SetPokemonPages(_pageIndex);
 	}
 
 	private void SetPokemonPages(int index)
 	{
-		_maxPageIndex = GetPageCount(PokemonTD.PokeCenter.Pokemon.Count);
+		_maxPageIndex = GetPageCount(PokeCenter.Instance.Pokemon.Count);
 		Dictionary<int, List<Pokemon>> pokemonPages = GetPokemonPages(_maxPageIndex);
 
 		_pokemon.Clear();
@@ -111,14 +111,14 @@ public partial class PokeCenterInventory : Container
 		Dictionary<int, List<Pokemon>> pokemonPages = new Dictionary<int, List<Pokemon>>();
 
 		// Count of left to iterate through
-		int pokemonLeft = PokemonTD.PokeCenter.Pokemon.Count; 
+		int pokemonLeft = PokeCenter.Instance.Pokemon.Count; 
 
 		// Pokemons position in the list
 		int pokemonIndex = 0; 
 
 		for (int i = 0; i <= pageCount; i++)
 		{
-			int pokemonCount = pokemonLeft > PokemonTD.PokeCenter.PokemonPerPage ? PokemonTD.PokeCenter.PokemonPerPage : pokemonLeft;
+			int pokemonCount = pokemonLeft > PokeCenter.Instance.PokemonPerPage ? PokeCenter.Instance.PokemonPerPage : pokemonLeft;
 			List<Pokemon> pokemonPage = GetPokemonPage(pokemonCount, pokemonIndex);
 
 			pokemonPages.Add(i, pokemonPage);
@@ -135,10 +135,10 @@ public partial class PokeCenterInventory : Container
 	private int GetPageCount(int pokemonCount)
 	{
 		int pageCount = 0;
-		while (pokemonCount > PokemonTD.PokeCenter.PokemonPerPage)
+		while (pokemonCount > PokeCenter.Instance.PokemonPerPage)
 		{
 			pageCount++;
-			pokemonCount -= PokemonTD.PokeCenter.PokemonPerPage;
+			pokemonCount -= PokeCenter.Instance.PokemonPerPage;
 		}
 		return pageCount;
 	}
@@ -149,7 +149,7 @@ public partial class PokeCenterInventory : Container
 		List<Pokemon> pokemonPage = new List<Pokemon>();
 		for (int i = 0; i < pokemonCount; i++)
 		{
-			Pokemon pokemon = PokemonTD.PokeCenter.Pokemon[pokemonIndex];
+			Pokemon pokemon = PokeCenter.Instance.Pokemon[pokemonIndex];
 			pokemonPage.Add(pokemon);
 			pokemonIndex++;
 		}
@@ -158,7 +158,7 @@ public partial class PokeCenterInventory : Container
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
-		if (PokemonTD.PokemonTeam.Pokemon.Count == 0) return false;
+		if (PokemonTeam.Instance.Pokemon.Count == 0) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
@@ -176,14 +176,14 @@ public partial class PokeCenterInventory : Container
 		if (fromAnalysisSlot)
 		{
 			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
-			PokemonTD.PokeCenter.Pokemon.Insert(0, pokemonAnalysis.Pokemon);
+			PokeCenter.Instance.Pokemon.Insert(0, pokemonAnalysis.Pokemon);
 			pokemonAnalysis.SetPokemon(null);
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 			return;
 		}
 
 		PokeCenterTeamSlot pokeCenterTeamSlot = dataDictionary["Slot"].As<PokeCenterTeamSlot>();
-		PokemonTD.PokeCenter.AddPokemon(pokeCenterTeamSlot.Pokemon);
+		PokeCenter.Instance.AddPokemon(pokeCenterTeamSlot.Pokemon);
     }
 
 	// Go back and display the first page 
@@ -215,7 +215,7 @@ public partial class PokeCenterInventory : Container
 			AddPokeCenterSlot(pokemon);
 		}
 
-		_pageCountLabel.Text = $"Page {_pageIndex}/{_maxPageIndex}";
+		_pageCountLabel.Text = $"Page {_pageIndex + 1}/{_maxPageIndex + 1}";
 	}
 
 	private void ClearInventory()

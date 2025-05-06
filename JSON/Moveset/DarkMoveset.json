@@ -5,7 +5,7 @@
         "Category": "Physical",
         "Power": 60,
         "Accuracy": 100,
-        "PP": 25,
-        "Effect": "May cause flinching."
+        "Effect": "May cause flinching.",
+        "Status Condition": {}
     }
 }

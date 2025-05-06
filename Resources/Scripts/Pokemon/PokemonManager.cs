@@ -8,11 +8,25 @@ namespace PokemonTD;
 
 public partial class PokemonManager : Node
 {
+    private static PokemonManager _instance;
+
+    public static PokemonManager Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
     private GC.Dictionary<string, Variant> _pokemonDictionaries = new GC.Dictionary<string, Variant>();
+
+    public List<string> NidoranFemaleStrings = new List<string>(){ "Nidoran♀", "Nidorina", "Nidoqueen" };
+    public List<string> NidoranMaleStrings = new List<string>(){ "Nidoran♂", "Nidorino", "Nidoking" };
 
     public override void _EnterTree()
     {
-        PokemonTD.PokemonManager = this;
+        Instance = this;
     }
 
     public override void _Ready()
@@ -54,7 +68,7 @@ public partial class PokemonManager : Node
         Pokemon pokemon = GetPokemon(pokemonName);
         pokemon.SetLevel(pokemonLevel);
         
-        List<PokemonMove> pokemonMoves = PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
+        List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
         pokemon.SetMoves(pokemonMoves);
         
         // ? Comment out to level instantly
@@ -71,7 +85,7 @@ public partial class PokemonManager : Node
         int randomLevel = GetRandomLevel();
         
         Pokemon randomPokemon = GetPokemon(randomPokemonName, randomLevel);
-        randomPokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonTD.PokemonMoveset.GetRandomMoveset() : PokemonTD.PokemonMoveset.GetPokemonMoveset(randomPokemon);
+        randomPokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(randomPokemon);
         
         return randomPokemon;
     }
@@ -84,13 +98,13 @@ public partial class PokemonManager : Node
 
     private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotID)
     {
-        if (PokemonTD.PokemonEvolution.CanEvolve(pokemon))
+        if (PokemonEvolution.Instance.CanEvolve(pokemon))
         {
             PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionStarted, pokemon);
 
             await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolved);
             
-            Pokemon pokemonEvolution = PokemonTD.PokemonEvolution.EvolvePokemon(pokemon, teamSlotID);
+            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon, teamSlotID);
             
 		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotID);
         }
@@ -161,7 +175,7 @@ public partial class PokemonManager : Node
         float attackDefenseRatio = GetAttackDefenseRatio(pokemon, pokemonMove, pokemonEnemy);
         float damage = (((5 * pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
         
-        List<float> typeMultipliers = PokemonTD.PokemonTypes.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
+        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
         {
             damage *= typeMultiplier;

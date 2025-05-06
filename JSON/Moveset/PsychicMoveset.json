@@ -5,8 +5,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 30,
-        "Effect": "Sharply raises user's Speed."
+        "Effect": "Sharply raises user's Speed.",
+        "Status Condition": {}
     },
     "Amnesia":
     {
@@ -14,8 +14,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 20,
-        "Effect": "Sharply raises user's Special Defense."
+        "Effect": "Sharply raises user's Special Defense.",
+        "Status Condition": {}
     },
     "Barrier":
     {
@@ -23,8 +23,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 20,
-        "Effect": "Sharply raises user's Defense."
+        "Effect": "Sharply raises user's Defense.",
+        "Status Condition": {}
     },
     "Confusion":
     {
@@ -32,8 +32,8 @@
         "Category": "Special",
         "Power": 50,
         "Accuracy": 100,
-        "PP": 25,
-        "Effect": "May confuse opponent."
+        "Effect": "May confuse opponent.",
+        "Status Condition": {}
     },
     "Dream Eater":
     {
@@ -41,8 +41,8 @@
         "Category": "Special",
         "Power": 100,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "User recovers half the HP inflicted on a sleeping opponent."
+        "Effect": "User recovers half the HP inflicted on a sleeping opponent.",
+        "Status Condition": {}
     },
     "Hypnosis":
     {
@@ -50,8 +50,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 60,
-        "PP": 20,
-        "Effect": "Puts opponent to sleep."
+        "Effect": "Puts opponent to sleep.",
+        "Status Condition": {}
     },
     "Kinesis":
     {
@@ -60,7 +60,8 @@
         "Power": null,
         "Accuracy": 80,
         "PP":15,
-        "Effect": "Lowers opponent's Accuracy."
+        "Effect": "Lowers opponent's Accuracy.",
+        "Status Condition": {}
     },
     "Light Screen":
     {
@@ -68,8 +69,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": null,
-        "PP": 30,
-        "Effect": "Halves damage from Special attacks for 5 turns."
+        "Effect": "Halves damage from Special attacks for 5 turns.",
+        "Status Condition": {}
     },
     "Meditate":
     {
@@ -78,7 +79,8 @@
         "Power": null,
         "Accuracy": null,
         "PP": 40,
-        "Effect": "Raises user's Attack."
+        "Effect": "Raises user's Attack.",
+        "Status Condition": {}
     },
     "Psybeam":
     {
@@ -86,8 +88,8 @@
         "Category": "Special",
         "Power": 65,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "May confuse opponent."
+        "Effect": "May confuse opponent.",
+        "Status Condition": {}
     },
     "Psychic":
     {
@@ -95,8 +97,8 @@
         "Category": "Special",
         "Power": 90,
         "Accuracy": 100,
-        "PP": 10,
-        "Effect": "May lower opponent's Special Defense."
+        "Effect": "May lower opponent's Special Defense.",
+        "Status Condition": {}
     },
     "Psywave":
     {
@@ -104,8 +106,8 @@
         "Category": "Special",
         "Power": null,
         "Accuracy": 100,
-        "PP": 15,
-        "Effect": "Inflicts damage 50-150% of user's level."
+        "Effect": "Inflicts damage 50-150% of user's level.",
+        "Status Condition": {}
     },
     "Reflect":
     {
@@ -113,8 +115,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "Halves damage from Physical attacks for 5 turns."
+        "Effect": "Halves damage from Physical attacks for 5 turns.",
+        "Status Condition": {}
     },
     "Rest":
     {
@@ -122,8 +124,8 @@
         "Category": "Status",
         "Power": null,
         "Accuracy": 100,
-        "PP": 5,
-        "Effect": "User sleeps for 2 turns, but user is fully healed."
+        "Effect": "User sleeps for 2 turns, but user is fully healed.",
+        "Status Condition": {}
     },
     "Teleport":
     {
@@ -131,7 +133,7 @@
         "Category": "Status",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 20,
-        "Effect": "Allows user to flee wild battles; also warps player to last PokéCenter."
+        "Effect": "Allows user to flee wild battles; also warps player to last PokéCenter.",
+        "Status Condition": {}
     }
 }

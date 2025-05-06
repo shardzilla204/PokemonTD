@@ -27,8 +27,7 @@
 [node name="PokemonTD" type="Node" node_paths=PackedStringArray("_packedScenes")]
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
-_areConsoleMessagesEnabled = true
-_pokeCenterCount = 60
+_isPokeCenterRandomized = true
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
