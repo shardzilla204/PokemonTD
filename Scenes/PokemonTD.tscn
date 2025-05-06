@@ -28,7 +28,6 @@
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _areConsoleMessagesEnabled = true
-_isPokeCenterRandomized = true
 _pokeCenterCount = 60
 
 [node name="PackedScenes" type="Node" parent="."]

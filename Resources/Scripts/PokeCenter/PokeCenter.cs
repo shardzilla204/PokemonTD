@@ -28,13 +28,14 @@ public partial class PokeCenter : Node
 	private void AddCapturedPokemon(PokemonEnemy pokemonEnemy)
 	{
 		if (PokemonTD.PokemonTeam.Pokemon.Count < PokemonTD.MaxTeamSize) return;
-		
-		Pokemon pokemon = pokemonEnemy.Pokemon;
-		pokemon.SetLevel(10);
-		pokemon.Moves = PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
-		Pokemon.Add(pokemon);
 
-		string transferredMessage = $"{pokemon.Name} Was Transferred To The Pokemon Center";
+		string pokemonName = pokemonEnemy.Pokemon.Name;
+		int pokemonLevel = pokemonEnemy.Pokemon.Level;
+		
+		Pokemon capturedPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel);
+		Pokemon.Add(capturedPokemon);
+
+		string transferredMessage = $"{capturedPokemon.Name} Was Transferred To The Pokemon Center";
 		PrintRich.PrintLine(TextColor.Yellow, transferredMessage);
 	}
 

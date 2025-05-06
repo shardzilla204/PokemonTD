@@ -31,7 +31,7 @@ public partial class AudioManager : AudioStreamPlayer
     public override void _Ready()
     {
         AudioServer.SetBusVolumeDb((int) BusType.Master, -25f);
-		AudioServer.SetBusVolumeDb((int) BusType.Music, 0f);
+		AudioServer.SetBusVolumeDb((int) BusType.Music, -25f);
 		AudioServer.SetBusVolumeDb((int) BusType.Sound, -25f);
     }
 	

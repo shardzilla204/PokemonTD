@@ -6,7 +6,6 @@ namespace PokemonTD;
    TODO: Highlight Pokemon's stage slot when trying to drag Pokemon's team slot, if already out
    TODO: Add status effect functionality
    TODO: Add move effect functionality
-   TODO: Fix poke center duplication bug
    TODO: Add save and load functionality
    TODO: Add settings button while in pokemon stage
 */

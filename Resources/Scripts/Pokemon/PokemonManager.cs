@@ -58,7 +58,7 @@ public partial class PokemonManager : Node
         pokemon.SetMoves(pokemonMoves);
         
         // ? Comment out to level instantly
-        // pokemon.MaxExperience = GetExperienceRequired(pokemon);
+        pokemon.MaxExperience = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
 
