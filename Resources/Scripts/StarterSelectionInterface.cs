@@ -7,6 +7,9 @@ namespace PokemonTD;
 public partial class StarterSelectionInterface : CanvasLayer
 {
 	[Export]
+	private CustomButton _exitButton;
+
+	[Export]
 	private Container _starterOptions;
 
 	private List<string> _starterOptionNames = new List<string>()
@@ -16,22 +19,46 @@ public partial class StarterSelectionInterface : CanvasLayer
 		"Squirtle" 
 	};
 
+    public override void _ExitTree()
+    {
+		PokemonTD.Signals.PokemonStarterSelected -= OnPokemonStarterSelected;
+    }
+
 	public override void _Ready()
 	{
+		PokemonTD.Signals.PokemonStarterSelected += OnPokemonStarterSelected;
+
+		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_exitButton.Pressed += OnExitPressed;
+
 		foreach (string starterOptionName in _starterOptionNames)
 		{
-			StarterOption starterOption = PokemonTD.PackedScenes.GetStarterOption();
-			int starterPokemonLevel = PokemonTD.StarterPokemonLevel;
-			starterOption.Pokemon = PokemonTD.PokemonManager.GetPokemon(starterOptionName, starterPokemonLevel);
-
-			_starterOptions.AddChild(starterOption);
+			AddStarterOption(starterOptionName);
 		}
+	}
 
-		PokemonTD.Signals.PokemonStarterSelected += (pokemon) => 
-		{
-			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
-			AddSibling(stageSelectInterface);
-			QueueFree();
-		};
+	private void OnPokemonStarterSelected(Pokemon pokemon)
+	{
+		PokemonTD.HasSelectedStarter = true;
+		StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
+		AddSibling(stageSelectInterface);
+		QueueFree();
+	}
+
+	private void OnExitPressed()
+	{
+		PokemonTD.AudioManager.PlayButtonPressed();
+		MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
+		AddSibling(menuInterface);
+		QueueFree();
+	}
+
+	private void AddStarterOption(string pokemonName)
+	{
+		StarterOption starterOption = PokemonTD.PackedScenes.GetStarterOption();
+		int starterPokemonLevel = PokemonTD.StarterPokemonLevel;
+		starterOption.Pokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, starterPokemonLevel);
+
+		_starterOptions.AddChild(starterOption);
 	}
 }

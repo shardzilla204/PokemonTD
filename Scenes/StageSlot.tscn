@@ -1,16 +1,15 @@
 [gd_scene load_steps=6 format=3 uid="uid://cdfv2agri4jy7"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_88lx8"]
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageSlot.cs" id="2_cyh1f"]
-[ext_resource type="Script" path="res://Resources/Scripts/InteractComponent.cs" id="3_mna3b"]
+[ext_resource type="Script" uid="uid://bijtn2qgen5e4" path="res://Resources/Scripts/PokemonStage/StageSlot.cs" id="2_cyh1f"]
+[ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_mna3b"]
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="4_afr68"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoqv1"]
-radius = 175.0
+radius = 150.0
 
-[node name="StageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_attackTimer")]
+[node name="StageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_attackTimer", "_pokemonMovePlayer")]
 self_modulate = Color(1, 1, 1, 0)
-y_sort_enabled = true
 custom_minimum_size = Vector2(64, 64)
 offset_right = 64.0
 offset_bottom = 64.0
@@ -21,9 +20,10 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 script = ExtResource("2_cyh1f")
 _area = NodePath("Area2D")
-_sprite = NodePath("InteractComponent/Sprite")
+_sprite = NodePath("InteractComponent/Control/Sprite")
 _interactComponent = NodePath("InteractComponent")
 _attackTimer = NodePath("AttackTimer")
+_pokemonMovePlayer = NodePath("PokemonMovePlayer")
 metadata/_edit_group_ = true
 
 [node name="InteractComponent" type="MarginContainer" parent="."]
@@ -37,10 +37,20 @@ grow_vertical = 2
 theme_override_constants/margin_bottom = 32
 script = ExtResource("3_mna3b")
 
-[node name="Sprite" type="TextureRect" parent="InteractComponent"]
-y_sort_enabled = true
+[node name="Control" type="Control" parent="InteractComponent"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
+mouse_filter = 2
+
+[node name="Sprite" type="TextureRect" parent="InteractComponent/Control"]
+y_sort_enabled = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(50, 50)
 texture = ExtResource("4_afr68")
 expand_mode = 1
 
@@ -54,3 +64,6 @@ debug_color = Color(0, 0.6, 0.7, 0)
 
 [node name="AttackTimer" type="Timer" parent="."]
 wait_time = 0.75
+
+[node name="PokemonMovePlayer" type="AudioStreamPlayer" parent="."]
+bus = &"Sound"

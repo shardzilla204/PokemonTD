@@ -19,22 +19,32 @@ public partial class StageSlot : NinePatchRect
 	[Export]
 	private Timer _attackTimer;
 
+	[Export]
+	private AudioStreamPlayer _pokemonMovePlayer;
+
 	public Pokemon Pokemon;
 
 	public List<PokemonEnemy> PokemonEnemyQueue = new List<PokemonEnemy>();
 
 	private bool _isDragging;
 	private bool _isFilled;
+	private bool _isMuted;
 	private PokemonEnemy _focusedPokemonEnemy;
 
 	private int _teamSlotID = -1;
+
+	private Control _dragPreview;
 
     public override void _EnterTree()
     {
 		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyFainted;
         PokemonTD.Signals.PokemonEnemyPassed += UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingTeamStageSlot += SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageTeamSlot += SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageSlot += SetStageSlotAlpha;
+		PokemonTD.Signals.EvolutionFinished += OnEvolutionFinished;
+		PokemonTD.Signals.SpeedToggled += OnSpeedToggled;
+		PokemonTD.Signals.StageTeamSlotMuted += OnStageTeamSlotMuted;
     }
 
 	public override void _ExitTree()
@@ -42,7 +52,11 @@ public partial class StageSlot : NinePatchRect
         PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyFainted;
         PokemonTD.Signals.PokemonEnemyPassed -= UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingTeamStageSlot -= SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageTeamSlot -= SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageSlot -= SetStageSlotAlpha;
+		PokemonTD.Signals.EvolutionFinished -= OnEvolutionFinished;
+		PokemonTD.Signals.SpeedToggled -= OnSpeedToggled;
+		PokemonTD.Signals.StageTeamSlotMuted -= OnStageTeamSlotMuted;
     }
 
 	public override void _Ready()
@@ -62,6 +76,30 @@ public partial class StageSlot : NinePatchRect
 		UpdateSlot(null);
 	}
 
+	public override void _Process(double delta)
+	{
+		if (_dragPreview is not null) TweenRotate();
+	}
+
+	private void OnStageTeamSlotMuted(int teamSlotID, bool isToggled)
+	{
+		if (_teamSlotID != teamSlotID) return;
+
+		_isMuted = isToggled;
+	}
+
+	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotID)
+	{
+		if (_teamSlotID != teamSlotID) return;
+
+		UpdateSlot(pokemonEvolution);
+	}
+
+	private void OnSpeedToggled(float speed)
+	{
+		SetWaitTime();
+	}
+
 	public void SetWaitTime()
 	{
 		if (Pokemon is null) 
@@ -74,8 +112,10 @@ public partial class StageSlot : NinePatchRect
 		_attackTimer.Start();
 	}
 
-	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy)
+	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy, int teamSlotID)
 	{
+		if (_teamSlotID != teamSlotID) return;
+		
 		AddExperience(pokemonEnemy);
 		UpdatePokemonQueue(pokemonEnemy);
 	}
@@ -104,6 +144,8 @@ public partial class StageSlot : NinePatchRect
 		if (!_isDragging) return;
 
 		_isDragging = false; 
+		_dragPreview = null;
+
 		SetStageSlotAlpha(false);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, false);
 		
@@ -116,7 +158,8 @@ public partial class StageSlot : NinePatchRect
 		SetStageSlotAlpha(true);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, true);
 
-		SetDragPreview(GetDragPreview());
+		_dragPreview = GetDragPreview();
+		SetDragPreview(_dragPreview);
 		return GetDragData();
 	}
 
@@ -126,6 +169,7 @@ public partial class StageSlot : NinePatchRect
 		{
 			{ "TeamSlotID", _teamSlotID },
 			{ "FromTeamSlot", false },
+			{ "IsMuted", _isMuted },
 			{ "Pokemon", Pokemon }
 		};
 		return data;
@@ -140,7 +184,8 @@ public partial class StageSlot : NinePatchRect
 			CustomMinimumSize = minSize,
 			Texture = Pokemon.Sprite,
 			TextureFilter = TextureFilterEnum.Nearest,
-			Position = -minSize / 2
+			Position = -new Vector2(minSize.X / 2, minSize.Y / 4),
+			PivotOffset = new Vector2(minSize.X / 2, 0)
 		};
 
 		Control control = new Control();
@@ -149,7 +194,7 @@ public partial class StageSlot : NinePatchRect
 		return control;
 	}
 
-   public override bool _CanDropData(Vector2 atPosition, Variant data)
+   	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
 
@@ -173,8 +218,11 @@ public partial class StageSlot : NinePatchRect
 
 		Pokemon = dataDictionary["Pokemon"].As<Pokemon>();
 		_teamSlotID = dataDictionary["TeamSlotID"].As<int>();
+		_isMuted = dataDictionary["IsMuted"].As<bool>();
 
 		UpdateSlot(Pokemon);
+
+		PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
 	}
 
 	private bool IsPokemonOnStage(int teamSlotID)
@@ -198,6 +246,8 @@ public partial class StageSlot : NinePatchRect
 		_teamSlotID = pokemon is null ? -1 : _teamSlotID;
 		_isFilled = pokemon is null ? false : true;
 
+		if (pokemon is null) _isMuted = false;
+
 		SetWaitTime();
 	}
 
@@ -217,8 +267,32 @@ public partial class StageSlot : NinePatchRect
 
 		string usedMessage = $"{Pokemon.Name} Used {pokemonMove.Name} On {_focusedPokemonEnemy.Pokemon.Name}";
 		PrintRich.PrintLine(TextColor.Orange, usedMessage);
+		PokemonTD.AddStageConsoleMessage(TextColor.Orange, usedMessage);
+
+		if (!_isMuted) PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
+
+		TweenAttack(_focusedPokemonEnemy);
 
 		if (pokemonMove.Power != 0) DealDamage(pokemonMove);
+	}
+
+	private void TweenAttack(PokemonEnemy pokemonEnemy)
+	{
+		Vector2 originalPosition = _sprite.Position;
+		Vector2 originalGlobalPosition = _sprite.GlobalPosition;
+
+		Vector2 direction = originalGlobalPosition.DirectionTo(pokemonEnemy.GlobalPosition);
+		_sprite.FlipH = direction.X > 0;
+
+		Vector2 positionOne = originalPosition - (direction * 5);
+		Vector2 positionTwo = originalPosition + (direction * 15);
+
+		// TODO: Create a ratio between the position of the enemy and the slot
+		// TODO: Use the ratio and use a set offset to display the attacking animation
+		Tween tween = CreateTween().SetEase(Tween.EaseType.InOut);
+		tween.TweenProperty(_sprite, "position", positionOne, _attackTimer.WaitTime / 4);
+		tween.TweenProperty(_sprite, "position", positionTwo, _attackTimer.WaitTime / 4);
+		tween.TweenProperty(_sprite, "position", originalPosition, _attackTimer.WaitTime / 4);
 	}
 
 	private void DealDamage(PokemonMove pokemonMove)
@@ -235,12 +309,16 @@ public partial class StageSlot : NinePatchRect
 
 		EffectiveType effectiveType = PokemonTD.PokemonTypes.GetEffectiveType(firstTypeMultiplier);
 
-		string damageMessage = $"For {damage} Damage";
+		string damageMessage = $"For {damage} Damage ";
+
+		string effectiveMessage = PrintRich.GetEffectiveMessage(effectiveType);
+		damageMessage += effectiveMessage;
 
 		PrintRich.Print(TextColor.Orange, damageMessage);
-		PrintRich.PrintEffectiveness(TextColor.Orange, effectiveType);
+		PokemonTD.AddStageConsoleMessage(TextColor.Orange, damageMessage);
 
-		_focusedPokemonEnemy.DamagePokemon(damage);
+		_focusedPokemonEnemy.DamagePokemon(damage, _teamSlotID);
+
 	}
 
 	private void MissedPokemonMove(PokemonMove pokemonMove)
@@ -257,5 +335,27 @@ public partial class StageSlot : NinePatchRect
 		StageTeamSlot stageTeamSlot = PokemonStage.StageInterface.FindStageTeamSlot(_teamSlotID);
 		
 		return stageTeamSlot.Pokemon.Move;
+	}
+
+	private async void TweenRotate()
+	{
+		Vector2 initialPosition = _dragPreview.Position;
+
+		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+
+		if (!_isDragging) return;
+
+		Vector2 finalPosition = _dragPreview.Position;
+		Vector2 direction = finalPosition.DirectionTo(initialPosition);
+
+		float rotationValue = 25;
+		float degrees = direction.X > 0 ? -rotationValue : rotationValue;
+		degrees = direction.X == 0 ? 0 : degrees;
+
+		float rotation = Mathf.DegToRad(degrees);
+
+		float duration = 0.5f;
+		Tween tween = CreateTween();
+		tween.TweenProperty(_dragPreview, "rotation", rotation, duration);
 	}
 }

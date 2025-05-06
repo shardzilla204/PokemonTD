@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://jvre1g61bw2v"
+path="res://.godot/imported/14. Kuchiba City Theme.mp3-b6ede42ae5e1ea29edaffbbe7eb1ba3e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/14. Kuchiba City Theme.mp3"
+dest_files=["res://.godot/imported/14. Kuchiba City Theme.mp3-b6ede42ae5e1ea29edaffbbe7eb1ba3e.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

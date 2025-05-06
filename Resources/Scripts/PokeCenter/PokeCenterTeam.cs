@@ -10,33 +10,19 @@ public partial class PokeCenterTeam : Container
 	[Export]
 	private Container _teamSlotContainer;
 
-	public List<PokeCenterTeamSlot> TeamSlots = new List<PokeCenterTeamSlot>();
-
-    public override void _EnterTree()
-    {
-		PokemonTD.Signals.PokeCenterSlotRemoved += AddPokemon;
-		PokemonTD.Signals.PokeCenterTeamSlotRemoved += RemovePokemon;
-
-		foreach (Node child in _teamSlotContainer.GetChildren())
-		{
-			if (child is PokeCenterTeamSlot teamSlot) TeamSlots.Add(teamSlot);
-		}
-    }
+	private List<PokeCenterTeamSlot> _teamSlots = new List<PokeCenterTeamSlot>();
 
     public override void _ExitTree()
     {
-        PokemonTD.Signals.PokeCenterSlotRemoved -= AddPokemon;
-		PokemonTD.Signals.PokeCenterTeamSlotRemoved -= RemovePokemon;
+		PokemonTD.Signals.PokemonTeamUpdated -= OnPokemonTeamUpdated;
     }
 
     public override void _Ready()
     {
-		// Show pokemon already in your team
-		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
-		{
-			Pokemon pokemon = PokemonTD.PokemonTeam.Pokemon[i];
-			TeamSlots[i].UpdateSlot(pokemon);
-		}
+		PokemonTD.Signals.PokemonTeamUpdated += OnPokemonTeamUpdated;
+
+		FillTeamSlotList();
+		DisplayPokemonTeam();
     }
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -44,48 +30,54 @@ public partial class PokeCenterTeam : Container
 		if (PokemonTD.PokemonTeam.IsFull()) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
-		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
+		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 
+		if (fromAnalysisSlot) return true;
+
+		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
 		return !fromTeamSlot;
     }
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
+		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
+		if (fromAnalysisSlot)
+		{
+			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
+			PokemonTD.PokemonTeam.AddPokemon(pokemonAnalysis.Pokemon);
+			pokemonAnalysis.SetPokemon(null);
+			return;
+		}
 
 		PokeCenterSlot pokeCenterSlot = dataDictionary["Slot"].As<PokeCenterSlot>();
+		PokemonTD.PokeCenter.RemovePokemon(pokeCenterSlot.Pokemon);
+
 		pokeCenterSlot.QueueFree();
-		
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeCenterSlotRemoved, pokeCenterSlot.Pokemon);
     }
 
-	private void AddPokemon(Pokemon pokemon)
+	private void FillTeamSlotList()
 	{
-		string addToTeamMessage = $"Adding {pokemon.Name} To Team";
-		PrintRich.PrintLine(TextColor.Purple, addToTeamMessage);
-
-      	PokemonTD.PokemonTeam.Pokemon.Add(pokemon);
-
-		ResetTeamSlots();
-
-		PrintRich.PrintTeam(TextColor.Orange);
+		foreach (Node child in _teamSlotContainer.GetChildren())
+		{
+			if (child is PokeCenterTeamSlot teamSlot) _teamSlots.Add(teamSlot);
+		}
 	}
 
-	private void RemovePokemon(Pokemon pokemon)
+	// Show pokemon already in your team
+	private void DisplayPokemonTeam()
 	{
-		string removeFromTeamMessage = $"Removing {pokemon.Name} From Team";
-		PrintRich.PrintLine(TextColor.Purple, removeFromTeamMessage);
-
-		PokemonTD.PokemonTeam.Pokemon.Remove(pokemon);
-
-		ResetTeamSlots();
-
-		PrintRich.PrintTeam(TextColor.Orange);
+		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
+		{
+			Pokemon pokemon = PokemonTD.PokemonTeam.Pokemon[i];
+			_teamSlots[i].UpdateSlot(pokemon);
+		}
 	}
 
-	private void ResetTeamSlots()
+	// Update display of each slot
+	private void OnPokemonTeamUpdated()
 	{
-		foreach (PokeCenterTeamSlot teamSlot in TeamSlots)
+		foreach (PokeCenterTeamSlot teamSlot in _teamSlots)
 		{
 			teamSlot.UpdateSlot(null);
 		}
@@ -93,7 +85,8 @@ public partial class PokeCenterTeam : Container
 		for (int i = 0; i < PokemonTD.PokemonTeam.Pokemon.Count; i++)
 		{
 			Pokemon pokemon = PokemonTD.PokemonTeam.Pokemon[i];
-			TeamSlots[i].UpdateSlot(pokemon);
+			_teamSlots[i].UpdateSlot(pokemon);
 		}
+		PrintRich.PrintTeam(TextColor.Orange);
 	}
 }

@@ -1,33 +1,32 @@
-using Godot;
-
 namespace PokemonTD;
 
 public partial class StageSelectButton : CustomButton
 {
 	public PokemonStage PokemonStage;
 
-	private StageSelectInterface _stageSelectInterface;
-
     public override void _Ready()
     {
+		base._Ready();
+		
 		Text = $"{PokemonStage.ID}";
 
-		_stageSelectInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageSelectInterface>();
+        Pressed += () => 
+		{
+			SetStage();
 
-        Pressed += SetStage;
+			PokemonTD.AudioManager.PlayButtonPressed();
+		};
 		MouseEntered += () => 
 		{
-			SetPokemonEnemies();
-			SetStageThumbnail();
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonHovered, PokemonStage);
+			PokemonTD.AudioManager.PlayButtonHovered();
 		};
     }
 
 	private void SetStage()
 	{
 		PokemonStage pokemonStage = GetPokemonStage();
-
-		_stageSelectInterface.AddSibling(pokemonStage);
-		_stageSelectInterface.QueueFree();
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonPressed, pokemonStage);
 	}
 
 	// Create a scene and copy and paste the variables
@@ -40,16 +39,5 @@ public partial class StageSelectButton : CustomButton
 		pokemonStage.PokemonLevels = PokemonStage.PokemonLevels;
 
 		return pokemonStage;
-	}
-
-	private void SetPokemonEnemies()
-	{
-		_stageSelectInterface.ClearPokemonEnemySprites();
-		_stageSelectInterface.AddPokemonEnemySprites(PokemonStage.ID);
-	}
-
-	private void SetStageThumbnail()
-	{
-		_stageSelectInterface.SetStageThumbnailTexture(PokemonStage.ID);
 	}
 }

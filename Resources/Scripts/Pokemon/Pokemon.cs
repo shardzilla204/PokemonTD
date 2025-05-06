@@ -33,6 +33,7 @@ public enum PokemonStat
 
 public partial class Pokemon : Node
 {
+	public string BaseName;
 	public new string Name;
 	public string NationalNumber;
 	public string Species;
@@ -53,16 +54,16 @@ public partial class Pokemon : Node
 
    	public int Level = PokemonTD.MinPokemonLevel;
 	public int MinExperience;
-	public int MaxExperience = 100;
+	public int MaxExperience = 10;
 
 	public Gender Gender;
 
 	public PokemonMove Move;
-
 	public List<PokemonMove> OldMoves = new List<PokemonMove>();
 
 	public Pokemon(string pokemonName, GC.Dictionary<string, Variant> pokemonDictionary, GC.Array<string> pokemonTypes, GC.Dictionary<string, Variant> pokemonStats)
 	{
+		BaseName = pokemonName;
 		Name = pokemonName;
 		NationalNumber = pokemonDictionary["National Number"].As<string>();
 		Species = pokemonDictionary["Species"].As<string>();
@@ -89,7 +90,7 @@ public partial class Pokemon : Node
 
 	public void SetMoves(List<PokemonMove> pokemonMoves)
 	{
-		Moves = pokemonMoves;
+		Moves.AddRange(pokemonMoves);
 		Move = Moves[0];
 	}
 

@@ -1,7 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=24 format=3 uid="uid://hvrq7bqyr4x8"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
-[ext_resource type="Script" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
+[ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
+[ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
 [ext_resource type="PackedScene" uid="uid://cj4tssggis6bf" path="res://Scenes/MenuInterface.tscn" id="3_abxj0"]
 [ext_resource type="PackedScene" uid="uid://devsee4klrmn8" path="res://Scenes/MovesetInterface.tscn" id="3_uti41"]
 [ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="4_twou7"]
@@ -19,11 +19,17 @@
 [ext_resource type="PackedScene" uid="uid://b5yi0qb8amvcj" path="res://Scenes/Stages/PokemonStage2.tscn" id="14_1mgql"]
 [ext_resource type="PackedScene" uid="uid://ccoosttiq6n6v" path="res://Scenes/Stages/PokemonStage3.tscn" id="15_yuice"]
 [ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Scenes/ForgetMoveInterface.tscn" id="18_8nrjv"]
+[ext_resource type="PackedScene" uid="uid://dshtma5523e1b" path="res://Scenes/EvolutionInterface.tscn" id="20_g5jc2"]
+[ext_resource type="PackedScene" uid="uid://bdr3w0l16iq73" path="res://Scenes/StageConsoleLabel.tscn" id="21_ecryk"]
+[ext_resource type="Script" uid="uid://cvxcgipru1spg" path="res://Resources/Scripts/AudioManager.cs" id="22_s4j0d"]
+[ext_resource type="PackedScene" uid="uid://cy3202rr3ei8h" path="res://Scenes/SettingsInterface.tscn" id="22_u4bgx"]
 
 [node name="PokemonTD" type="Node" node_paths=PackedStringArray("_packedScenes")]
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _areConsoleMessagesEnabled = true
+_isPokeCenterRandomized = true
+_pokeCenterCount = 60
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
@@ -42,3 +48,17 @@ _pokemonEnemy = ExtResource("11_cedxp")
 _stageTeamSlot = ExtResource("12_xaqc1")
 _emptyStageTeamSlot = ExtResource("13_aqow5")
 _forgetMoveInterface = ExtResource("18_8nrjv")
+_evolutionInterface = ExtResource("20_g5jc2")
+_stageConsoleLabel = ExtResource("21_ecryk")
+_settingsInterface = ExtResource("22_u4bgx")
+
+[node name="AudioManager" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("_musicStreamPlayer", "_soundStreamPlayer")]
+script = ExtResource("22_s4j0d")
+_musicStreamPlayer = NodePath("Music")
+_soundStreamPlayer = NodePath("Sound")
+
+[node name="Music" type="AudioStreamPlayer" parent="AudioManager"]
+bus = &"Music"
+
+[node name="Sound" type="AudioStreamPlayer" parent="AudioManager"]
+bus = &"Sound"

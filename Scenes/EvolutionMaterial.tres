@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cmlmhke2ynq4k"]
+
+[ext_resource type="Shader" uid="uid://cvw18ediy5mr7" path="res://Scenes/EvolutionShader.gdshader" id="1_frlu4"]
+
+[resource]
+shader = ExtResource("1_frlu4")

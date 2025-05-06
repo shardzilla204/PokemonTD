@@ -5,8 +5,6 @@ using System.Linq;
 
 namespace PokemonTD;
 
-// TODO: Add order functionality
-
 public partial class PokeCenter : Node
 {
 	public List<Pokemon> Pokemon = new List<Pokemon>();
@@ -22,7 +20,7 @@ public partial class PokeCenter : Node
     {
 		if (PokemonTD.IsPokeCenterRandomized) AddRandomPokemon();
 
-		OrderByLevel();
+		OrderByLevel(false);
 
         PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
     }
@@ -40,24 +38,24 @@ public partial class PokeCenter : Node
 		PrintRich.PrintLine(TextColor.Yellow, transferredMessage);
 	}
 
-    public void OrderByLevel()
+    public void OrderByLevel(bool isDescending)
 	{
-		Pokemon = Pokemon.OrderBy(pokemon => pokemon.Level).ToList();
+		Pokemon = isDescending ? Pokemon.OrderByDescending(pokemon => pokemon.Level).ToList() : Pokemon.OrderBy(pokemon => pokemon.Level).ToList();
 	}
 
-	public void OrderByNationalNumber()
+	public void OrderByNationalNumber(bool isDescending)
 	{
-		Pokemon = Pokemon.OrderBy(pokemon => pokemon.NationalNumber).ToList();
+		Pokemon = isDescending ? Pokemon.OrderByDescending(pokemon => pokemon.NationalNumber).ToList() : Pokemon.OrderBy(pokemon => pokemon.NationalNumber).ToList();
 	}
 
-	public void OrderByName()
+	public void OrderByName(bool isDescending)
 	{
-		Pokemon = Pokemon.OrderBy(pokemon => pokemon.Name).ToList();
+		Pokemon = isDescending ? Pokemon.OrderByDescending(pokemon => pokemon.Name).ToList() : Pokemon.OrderBy(pokemon => pokemon.Name).ToList();
 	}
 
-	public void OrderByType()
+	public void OrderByType(bool isDescending)
 	{
-		Pokemon = Pokemon.OrderBy(pokemon => pokemon.Types[0]).ToList();
+		Pokemon = isDescending ? Pokemon.OrderByDescending(pokemon => pokemon.Types[0]).ToList() : Pokemon.OrderBy(pokemon => pokemon.Types[0]).ToList();
 	}
 
 	private void AddRandomPokemon()
@@ -67,5 +65,17 @@ public partial class PokeCenter : Node
 			Pokemon randomPokemon = PokemonTD.PokemonManager.GetRandomPokemon();
 			Pokemon.Add(randomPokemon);
 		}
+	}
+
+	public void AddPokemon(Pokemon pokemon)
+	{
+		PokemonTD.PokeCenter.Pokemon.Insert(0, pokemon);
+		PokemonTD.PokemonTeam.RemovePokemon(pokemon);
+	}
+
+	public void RemovePokemon(Pokemon pokemon)
+	{
+		PokemonTD.PokeCenter.Pokemon.Remove(pokemon);
+		PokemonTD.PokemonTeam.AddPokemon(pokemon);
 	}
 }

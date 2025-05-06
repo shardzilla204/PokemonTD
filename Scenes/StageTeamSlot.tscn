@@ -1,34 +1,50 @@
-[gd_scene load_steps=6 format=3 uid="uid://ch7esqyvvtk7g"]
+[gd_scene load_steps=8 format=3 uid="uid://ch7esqyvvtk7g"]
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_ydwpq"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_sjk7f"]
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageTeamSlot.cs" id="3_wpub2"]
+[ext_resource type="Script" uid="uid://ccvhp18lrvm38" path="res://Resources/Scripts/PokemonStage/StageTeamSlot.cs" id="3_wpub2"]
+[ext_resource type="Texture2D" uid="uid://dk8cit4n2mn5g" path="res://Assets/Images/Mute.png" id="5_cn6qm"]
 [ext_resource type="Texture2D" uid="uid://cy4jbowumnl7n" path="res://Assets/Images/Gender/FemaleIcon.png" id="5_d4yxp"]
 [ext_resource type="PackedScene" uid="uid://dnxdneoqwuy65" path="res://Scenes/PokemonMoveButton.tscn" id="5_f1db7"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="6_iutga"]
 
-[node name="StageTeamSlot" type="NinePatchRect" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonLevel", "_experienceBar", "_pokemonMoveButton")]
-self_modulate = Color(0.2, 0.2, 0.2, 1)
+[node name="StageTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonLevel", "_experienceBar", "_pokemonMoveButton", "_mutedTexture")]
 custom_minimum_size = Vector2(150, 200)
-offset_right = 150.0
-offset_bottom = 200.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1130.0
+offset_bottom = -520.0
+grow_horizontal = 2
+grow_vertical = 2
+toggle_mode = true
+script = ExtResource("3_wpub2")
+_genderSprite = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/MarginContainer/GenderSprite")
+_pokemonName = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/PokemonName")
+_pokemonSprite = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonSprite")
+_pokemonLevel = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2/PokemonLevel")
+_experienceBar = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2/ExperienceBar")
+_pokemonMoveButton = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonMoveButton")
+_mutedTexture = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonMoveButton/MutedTexture")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.2, 0.2, 0.2, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-mouse_filter = 0
 theme = ExtResource("1_ydwpq")
 texture = ExtResource("2_sjk7f")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
-script = ExtResource("3_wpub2")
-_genderSprite = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/MarginContainer/GenderSprite")
-_pokemonName = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/PokemonName")
-_pokemonSprite = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonSprite")
-_pokemonLevel = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2/PokemonLevel")
-_experienceBar = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2/ExperienceBar")
-_pokemonMoveButton = NodePath("MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonMoveButton")
 
-[node name="MarginContainer" type="MarginContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -40,7 +56,7 @@ theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="NinePatchRect/MarginContainer"]
 self_modulate = Color(0.75, 0.75, 0.75, 1)
 layout_mode = 2
 texture = ExtResource("2_sjk7f")
@@ -49,7 +65,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -61,54 +77,54 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 5
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3"]
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer"]
 layout_mode = 2
 
-[node name="PokemonName" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
+[node name="PokemonName" type="Label" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 20
 text = "Venusaur"
 vertical_alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="GenderSprite" type="TextureRect" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/MarginContainer"]
+[node name="GenderSprite" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
 texture = ExtResource("5_d4yxp")
 expand_mode = 2
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="PokemonLevel" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2"]
+[node name="PokemonLevel" type="Label" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(40, 0)
 layout_mode = 2
-theme_override_font_sizes/font_size = 12
-text = "Lvl. 100"
+theme_override_font_sizes/font_size = 15
+text = "LVL. 100"
 vertical_alignment = 1
 
-[node name="ExperienceBar" type="TextureProgressBar" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2"]
+[node name="ExperienceBar" type="TextureProgressBar" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(0, 7.5)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 4
-value = 86.0
 allow_greater = true
 nine_patch_stretch = true
 stretch_margin_left = 1
@@ -120,13 +136,27 @@ texture_progress = ExtResource("2_sjk7f")
 tint_under = Color(0.588235, 0.588235, 0.588235, 1)
 tint_progress = Color(0, 0.603922, 1, 1)
 
-[node name="PokemonSprite" type="TextureRect" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3"]
+[node name="PokemonSprite" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3"]
 texture_filter = 1
 custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
 size_flags_vertical = 3
+texture = ExtResource("6_iutga")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PokemonMoveButton" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3" instance=ExtResource("5_f1db7")]
+[node name="PokemonMoveButton" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3" instance=ExtResource("5_f1db7")]
 layout_mode = 2
+
+[node name="MutedTexture" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonMoveButton"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 1
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+texture = ExtResource("5_cn6qm")
+expand_mode = 1
+stretch_mode = 5

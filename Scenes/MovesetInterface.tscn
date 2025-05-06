@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://devsee4klrmn8"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonMove/MovesetInterface.cs" id="1_0dro6"]
+[ext_resource type="Script" uid="uid://cce4r50kfehqt" path="res://Resources/Scripts/PokemonMove/MovesetInterface.cs" id="1_0dro6"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="1_2mjsb"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_dsfnt"]
 [ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="2_gww66"]
-[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="4_yvunl"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_yvunl"]
 
 [node name="MovesetInterface" type="CanvasLayer" node_paths=PackedStringArray("_moveOptions", "_pokemonName", "_exitButton", "_effect")]
 script = ExtResource("1_0dro6")

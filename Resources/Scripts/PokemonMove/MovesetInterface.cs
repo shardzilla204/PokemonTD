@@ -22,6 +22,14 @@ public partial class MovesetInterface : CanvasLayer
 	public Pokemon Pokemon;
 	public int TeamSlotID;
 
+    public override void _ExitTree()
+    {
+        PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
+		PokemonTD.Signals.DraggingPokeBall -= OnDragging;
+		PokemonTD.Signals.DraggingStageSlot -= OnDragging;
+		PokemonTD.Signals.DraggingStageTeamSlot -= OnDragging;
+    }
+
 	public override void _Ready()
 	{
 		_exitButton.Pressed += QueueFree;
@@ -31,6 +39,9 @@ public partial class MovesetInterface : CanvasLayer
 		ClearMoveButtons();
 
 		PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
+		PokemonTD.Signals.DraggingPokeBall += OnDragging;
+		PokemonTD.Signals.DraggingStageSlot += OnDragging;
+		PokemonTD.Signals.DraggingStageTeamSlot += OnDragging;
 
 		foreach (PokemonMove pokemonMove in Pokemon.Moves)
 		{
@@ -65,5 +76,10 @@ public partial class MovesetInterface : CanvasLayer
 		string powerString = pokemonMove.Power == 0 ? "" : $"Power: {pokemonMove.Power}\n";
 		string accuracyString = pokemonMove.Accuracy == 0 ? "" : $"Accuracy: {pokemonMove.Accuracy}%\n\n";
 		_effect.Text = $"{powerString}{accuracyString}{pokemonMove.Effect}";
+	}
+
+	private void OnDragging(bool isDragging)
+	{
+		QueueFree();
 	}
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://b5yi0qb8amvcj"]
 
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Default.tres" id="1_cf84c"]
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/PokemonStage.cs" id="1_npfgn"]
+[ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/PokemonStage/PokemonStage.cs" id="1_npfgn"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Scenes/StageInterface.tscn" id="2_s7ddb"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Scenes/StageSlot.tscn" id="3_gpemn"]
 [ext_resource type="Texture2D" uid="uid://b62chyo8sy2j1" path="res://Assets/Images/Pokemon/Ekans.png" id="4_at06o"]
@@ -91,16 +91,16 @@ metadata/_edit_lock_ = true
 [node name="StageSlot2" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 192.0
-offset_top = 316.0
+offset_top = 256.0
 offset_right = 256.0
-offset_bottom = 380.0
+offset_bottom = 320.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot3" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
-offset_left = 448.0
+offset_left = 480.0
 offset_top = 512.0
-offset_right = 512.0
+offset_right = 544.0
 offset_bottom = 576.0
 metadata/_edit_lock_ = true
 
@@ -123,9 +123,9 @@ metadata/_edit_lock_ = true
 [node name="StageSlot6" parent="StageSlots" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 800.0
-offset_top = 228.0
+offset_top = 204.0
 offset_right = 864.0
-offset_bottom = 292.0
+offset_bottom = 268.0
 metadata/_edit_lock_ = true
 
 [node name="StageSlot7" parent="StageSlots" instance=ExtResource("3_gpemn")]
@@ -149,6 +149,7 @@ offset_left = 418.0
 offset_top = 655.0
 offset_right = 483.0
 offset_bottom = 720.0
+mouse_filter = 2
 texture = ExtResource("4_at06o")
 
 [node name="Mask" type="TextureRect" parent="Pokemon"]
@@ -158,6 +159,7 @@ offset_left = 651.0
 offset_top = 324.0
 offset_right = 691.0
 offset_bottom = 364.0
+mouse_filter = 2
 texture = ExtResource("5_ef1i1")
 
 [node name="Spearow" type="TextureRect" parent="Pokemon/Mask"]
@@ -169,6 +171,7 @@ offset_right = 63.9671
 offset_bottom = 124.967
 rotation = -0.261799
 pivot_offset = Vector2(31, 31)
+mouse_filter = 2
 texture = ExtResource("6_kuyar")
 flip_h = true
 
@@ -179,6 +182,7 @@ offset_left = 43.9671
 offset_top = 59.9671
 offset_right = 109.967
 offset_bottom = 125.967
+mouse_filter = 2
 texture = ExtResource("6_kuyar")
 
 [node name="Rattata" type="TextureRect" parent="Pokemon"]
@@ -190,6 +194,7 @@ offset_right = 164.0
 offset_bottom = 685.0
 rotation = 0.401426
 pivot_offset = Vector2(32, 32)
+mouse_filter = 2
 texture = ExtResource("7_nviuc")
 
 [node name="Raticate" type="TextureRect" parent="Pokemon"]
@@ -198,6 +203,7 @@ offset_left = 34.0
 offset_top = 610.0
 offset_right = 121.0
 offset_bottom = 697.0
+mouse_filter = 2
 texture = ExtResource("8_ohtgv")
 flip_h = true
 
@@ -208,4 +214,5 @@ offset_left = 997.0
 offset_top = 617.0
 offset_right = 1063.0
 offset_bottom = 683.0
+mouse_filter = 2
 texture = ExtResource("9_7nw44")

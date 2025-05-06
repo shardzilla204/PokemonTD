@@ -1,23 +1,14 @@
 using Godot;
 
-using System.Collections.Generic;
-
 namespace PokemonTD;
 
-/* General
-    TODO: Create capture mechanic | Done
-    TODO: Create level up mechanic
-    TODO: Create moveset mechanic
-    TODO: Fix experience error
-    TODO: Set moves not selected when instatiating pokemon to old/forgotten 
-*/
-
-/*
-/* Moveset
-    TODO: Choose between up to 4 moves | Done
-    TODO: Load move from the JSON file | Done
-    TODO: Check if move has advantage/disadvantage | Done
-    TODO: If learning another move above the move count, show swap interface 
+/* 
+   TODO: Highlight Pokemon's stage slot when trying to drag Pokemon's team slot, if already out
+   TODO: Add status effect functionality
+   TODO: Add move effect functionality
+   TODO: Fix poke center duplication bug
+   TODO: Add save and load functionality
+   TODO: Add settings button while in pokemon stage
 */
 
 public partial class PokemonTD : Node
@@ -75,7 +66,7 @@ public partial class PokemonTD : Node
     public static bool AreConsoleMessagesEnabled = false;
 
     public static float GameSpeed = 1;
-    public static bool IsGamePaused = false;
+    public static bool IsGamePaused = true;
 
     public static bool IsTeamRandom = false;
     public static bool AreStagesEnabled = true;
@@ -87,14 +78,17 @@ public partial class PokemonTD : Node
 
     public static int PokeCenterCount;
     public static bool IsPokeCenterRandomized = false;
+    public static bool HasSelectedStarter = false;
 
     public static PokemonManager PokemonManager;
     public static PokemonTypes PokemonTypes;
     public static PokemonMoves PokemonMoves;
     public static PokemonMoveset PokemonMoveset;
     public static PokemonTeam PokemonTeam;
+    public static PokemonEvolution PokemonEvolution;
     public static PokemonStages PokemonStages;
     public static PokeCenter PokeCenter;
+    public static AudioManager AudioManager;
     
     public static Signals Signals = new Signals();
 
@@ -113,6 +107,8 @@ public partial class PokemonTD : Node
     public const int MaxTeamSize = 6;
 
     public const int MaxMoveCount = 4;
+
+    public static StageConsole StageConsole;
 
     public override void _EnterTree()
     {
@@ -144,13 +140,14 @@ public partial class PokemonTD : Node
         Signals.PressedPlay += () => IsGamePaused = false;
         Signals.PressedPause += () => IsGamePaused = true;
         Signals.SpeedToggled += (speed) => GameSpeed = speed;
-        Signals.ForgetMove += (pokemon, pokemonMove) => IsGamePaused = true;
+
+        Signals.EmitSignal(Signals.SignalName.GameStarted);
     }
 
     public static void AddPokeDollars(Pokemon pokemon)
     {  
         int minPokeDollars = pokemon.Level * 10;
-        int maxPokeDollars = pokemon.Level * 15;
+        int maxPokeDollars = pokemon.Level * 20;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         PokeDollars += RNG.RandiRange(minPokeDollars, maxPokeDollars);
@@ -167,4 +164,21 @@ public partial class PokemonTD : Node
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         return RNG.RandiRange(minLevel, maxLevel);
     }
+
+    public static void AddStageConsoleMessage(TextColor textColor, string text)
+    {
+        if (StageConsole == null) return;
+
+        StageConsoleLabel stageConsoleLabel = PackedScenes.GetStageConsoleLabel();
+        stageConsoleLabel.Text = text;
+        stageConsoleLabel.SelfModulate = Color.FromHtml(PrintRich.GetColorHex(textColor));
+
+        StageConsole.AddMessage(stageConsoleLabel);
+    }
+
+    public static Texture2D GetGenderSprite(Pokemon pokemon)
+	{
+		string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
+		return ResourceLoader.Load<Texture2D>(filePath);
+	}
 }

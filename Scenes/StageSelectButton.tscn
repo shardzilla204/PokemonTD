@@ -1,9 +1,28 @@
-[gd_scene load_steps=2 format=3 uid="uid://dejp0ypq88xe4"]
+[gd_scene load_steps=3 format=3 uid="uid://dejp0ypq88xe4"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonStage/StageSelectButton.cs" id="1_dco7j"]
+[ext_resource type="Script" uid="uid://djde6y623swui" path="res://Resources/Scripts/PokemonStage/StageSelectButton.cs" id="1_dco7j"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_jkrme"]
 
 [node name="StageSelectButton" type="Button"]
-custom_minimum_size = Vector2(75, 75)
-theme_override_font_sizes/font_size = 30
+custom_minimum_size = Vector2(65, 65)
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 25
 text = "1"
+flat = true
 script = ExtResource("1_dco7j")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jkrme")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dhw7phrm4wy70"
+path="res://.godot/imported/23. The Final Path (Victory Road).mp3-953e4affe9c2d3e97ffdfc6b35eff0c1.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/23. The Final Path (Victory Road).mp3"
+dest_files=["res://.godot/imported/23. The Final Path (Victory Road).mp3-953e4affe9c2d3e97ffdfc6b35eff0c1.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

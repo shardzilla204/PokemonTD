@@ -50,6 +50,15 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _forgetMoveInterface;
 
+	[Export]
+	private PackedScene _evolutionInterface;
+
+	[Export]
+	private PackedScene _stageConsoleLabel;
+
+	[Export]
+	private PackedScene _settingsInterface;
+
 	public MenuInterface GetMenuInterface()
 	{
 		return _menuInterface.Instantiate<MenuInterface>();
@@ -68,6 +77,11 @@ public partial class PackedScenes : Node
 	public StarterOption GetStarterOption()
 	{
 		return _starterOption.Instantiate<StarterOption>();
+	}
+
+	public SettingsInterface GetSettingsInterface()
+	{
+		return _settingsInterface.Instantiate<SettingsInterface>();
 	}
 
     public PokeCenterSlot GetPokeCenterSlot()
@@ -105,6 +119,11 @@ public partial class PackedScenes : Node
 		return _stageStateInterface.Instantiate<StageStateInterface>();
 	}
 
+	public EvolutionInterface GetEvolutionInterface()
+	{
+		return _evolutionInterface.Instantiate<EvolutionInterface>();
+	}
+
 	public PokemonStage GetPokemonStage(int PokemonStageID)
 	{
 		return _pokemonStages[PokemonStageID].Instantiate<PokemonStage>();
@@ -123,5 +142,10 @@ public partial class PackedScenes : Node
 	public PokeCenterInterface GetPokeCenterInterface()
 	{
 		return _pokeCenterInterface.Instantiate<PokeCenterInterface>();
+	}
+
+	public StageConsoleLabel GetStageConsoleLabel()
+	{
+		return _stageConsoleLabel.Instantiate<StageConsoleLabel>();
 	}
 }

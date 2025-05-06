@@ -16,7 +16,7 @@ public partial class StageInterface : CanvasLayer
 	private Label _rareCandy;
 
 	[Export]
-	private Control _stageTeamSlots;
+	private Control _stageTeamSlotContainer;
 
 	[Export]
 	private StageControls _stageControls;
@@ -25,17 +25,21 @@ public partial class StageInterface : CanvasLayer
 	private CustomButton _exitButton;
 
 	[Export]
+	private Container _container;
+
+	[Export]
 	private PokemonStage _pokemonStage;
 
-	private List<StageTeamSlot> _activeStageTeamSlots = new List<StageTeamSlot>(); // Pokemon that are currently on the stage
+	private List<StageTeamSlot> _stageTeamSlots = new List<StageTeamSlot>();
 
     public override void _EnterTree()
     {
         PokemonTD.Signals.PokemonTeamUpdated += OnTeamUpdated;
 		PokemonTD.Signals.PokemonEnemyPassed += OnPokemonEnemyPassed;
 		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyFainted;
-		PokemonTD.Signals.DraggingStageSlot += OnDraggingSlot;
-		PokemonTD.Signals.DraggingTeamStageSlot += OnDraggingSlot;
+		PokemonTD.Signals.DraggingStageSlot += OnDragging;
+		PokemonTD.Signals.DraggingStageTeamSlot += OnDragging;
+		PokemonTD.Signals.DraggingPokeBall += OnDragging;
 		PokemonTD.Signals.PokemonOnStage += OnPokemonOnStage;
 		PokemonTD.Signals.PokemonOffStage += OnPokemonOffStage;
     }
@@ -45,8 +49,9 @@ public partial class StageInterface : CanvasLayer
         PokemonTD.Signals.PokemonTeamUpdated -= OnTeamUpdated;
 		PokemonTD.Signals.PokemonEnemyPassed -= OnPokemonEnemyPassed;
 		PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyFainted;
-		PokemonTD.Signals.DraggingStageSlot -= OnDraggingSlot;
-		PokemonTD.Signals.DraggingTeamStageSlot -= OnDraggingSlot;
+		PokemonTD.Signals.DraggingStageSlot -= OnDragging;
+		PokemonTD.Signals.DraggingStageTeamSlot -= OnDragging;
+		PokemonTD.Signals.DraggingPokeBall -= OnDragging;
 		PokemonTD.Signals.PokemonOnStage -= OnPokemonOnStage;
 		PokemonTD.Signals.PokemonOffStage -= OnPokemonOffStage;
     }
@@ -56,58 +61,55 @@ public partial class StageInterface : CanvasLayer
 		ClearStageTeamSlots();
 		AddStageTeamSlots();
 
-		_waveCount.Text = $"Wave {_pokemonStage.CurrentWave - 1} of {_pokemonStage.WaveCount}";
+		_waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 		
-        _pokemonStage.StartedWave += () => _waveCount.Text = $"Wave {_pokemonStage.CurrentWave - 1} of {_pokemonStage.WaveCount}";
+        _pokemonStage.StartedWave += () => _waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
 		_exitButton.Pressed += () => 
 		{
 			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			_pokemonStage.AddSibling(stageSelectInterface);
 			_pokemonStage.QueueFree();
+
+			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 
-		_stageControls.VisibilityToggled += (isVisible) => _stageTeamSlots.Visible = isVisible;
+		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+
+		_stageControls.VisibilityToggled += (isVisible) => _stageTeamSlotContainer.Visible = isVisible;
 	}
 
 	private void OnTeamUpdated()
 	{
+		List<StageTeamSlot> slotsInUse = _stageTeamSlots.FindAll(stageTeamSlot => stageTeamSlot.InUse == true);
+
 		ClearStageTeamSlots();
 		AddStageTeamSlots();
+
+		foreach (StageTeamSlot slotInUse in slotsInUse)
+		{
+			StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == slotInUse.ID);
+			stageTeamSlot.InUse = true;
+		}
 	}
 
 	private void OnPokemonOnStage(int teamSlotID)
 	{
-		List<StageTeamSlot> stageTeamSlots = GetStageTeamSlots();
-		StageTeamSlot stageTeamSlot = stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
-		_activeStageTeamSlots.Add(stageTeamSlot);
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		stageTeamSlot.InUse = true;
 	}
 
 	private void OnPokemonOffStage(int teamSlotID)
 	{
-		List<StageTeamSlot> stageTeamSlots = GetStageTeamSlots();
-		StageTeamSlot stageTeamSlot = stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
-		_activeStageTeamSlots.Remove(stageTeamSlot);
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		stageTeamSlot.InUse = false;
 	}
 
-	public List<StageTeamSlot> GetStageTeamSlots()
+	public bool IsStageTeamSlotInUse(int teamSlotID)
 	{
-		List<StageTeamSlot> stageTeamSlots = new List<StageTeamSlot>();
-		foreach (Node child in _stageTeamSlots.GetChildren())
-		{
-			if (child is StageTeamSlot stageTeamSlot) 
-			{
-				stageTeamSlots.Add(stageTeamSlot);
-			}
-		}
-		return stageTeamSlots;
-	}
-
-	public bool IsStageTeamSlotInUse(int id)
-	{
-		StageTeamSlot stageTeamSlot = _activeStageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == id);
-		return stageTeamSlot != null ? true : false;
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		return stageTeamSlot.InUse;
 	}
 
 	private void OnPokemonEnemyPassed(PokemonEnemy pokemonEnemy)
@@ -115,16 +117,16 @@ public partial class StageInterface : CanvasLayer
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 	}
 
-	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy)
+	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy, int teamSlotID)
 	{
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
 	}
 
 	private void ClearStageTeamSlots()
 	{
-		foreach (Node child in _stageTeamSlots.GetChildren())
+		_stageTeamSlots.Clear();
+		foreach (Node child in _stageTeamSlotContainer.GetChildren())
 		{
-			_stageTeamSlots.RemoveChild(child);
 			child.QueueFree();
 		}
 	}
@@ -138,29 +140,25 @@ public partial class StageInterface : CanvasLayer
 			stageTeamSlot.ID = i;
 			stageTeamSlot.Pokemon = PokemonTD.PokemonTeam.Pokemon[i];
 
-			_stageTeamSlots.AddChild(stageTeamSlot);
+			_stageTeamSlotContainer.AddChild(stageTeamSlot);
+			_stageTeamSlots.Add(stageTeamSlot);
 		}
 
 		// Fill the rest of the slots with an empty slot state
 		for (int i = 0; i < emptyTeamSlots; i++)
 		{
 			Control emptyStageTeamSlot = PokemonTD.PackedScenes.GetEmptyStageTeamSlot();		
-			_stageTeamSlots.AddChild(emptyStageTeamSlot);
+			_stageTeamSlotContainer.AddChild(emptyStageTeamSlot);
 		}
 	}
 
-	private void OnDraggingSlot(bool isDragging)
+	private void OnDragging(bool isDragging)
 	{
-		_stageTeamSlots.Visible = !isDragging;
+		_container.Visible = !isDragging;
 	}
 
 	public StageTeamSlot FindStageTeamSlot(int id)
 	{
-		List<StageTeamSlot> stageTeamSlots = new List<StageTeamSlot>();
-		foreach (Node child in _stageTeamSlots.GetChildren())
-		{
-			if (child is StageTeamSlot stageTeamSlot) stageTeamSlots.Add(stageTeamSlot);
-		}
-		return stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == id);
+		return _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == id);
 	}
 }

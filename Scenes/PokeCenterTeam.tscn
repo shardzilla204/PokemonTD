@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://b2rlwk224nsy4"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokeCenter/PokeCenterTeam.cs" id="1_00tn6"]
+[ext_resource type="Script" uid="uid://kogofyjxf2dq" path="res://Resources/Scripts/PokeCenter/PokeCenterTeam.cs" id="1_00tn6"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_068ir"]
 [ext_resource type="PackedScene" uid="uid://dcou0d0mxotei" path="res://Scenes/PokeCenterSlot.tscn" id="2_s7cs2"]
-[ext_resource type="Script" path="res://Resources/Scripts/PokeCenter/PokeCenterTeamSlot.cs" id="3_xfwd4"]
+[ext_resource type="Script" uid="uid://drgdknwwxhmcs" path="res://Resources/Scripts/PokeCenter/PokeCenterTeamSlot.cs" id="3_xfwd4"]
 
 [node name="PokeCenterTeam" type="VBoxContainer" node_paths=PackedStringArray("_teamSlotContainer")]
 mouse_filter = 0
@@ -16,7 +16,7 @@ _teamSlotContainer = NodePath("PokeCenterTeamSlots")
 custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Current Team"
+text = "Team"
 vertical_alignment = 1
 
 [node name="PokeCenterTeamSlots" type="GridContainer" parent="."]
@@ -28,31 +28,25 @@ theme_override_constants/v_separation = 10
 columns = 2
 
 [node name="PokeCenterTeamSlot" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot2" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot3" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot4" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot5" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot6" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
-custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 script = ExtResource("3_xfwd4")

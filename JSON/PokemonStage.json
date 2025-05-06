@@ -3,25 +3,25 @@
     {
         "Pokemon Per Wave": 5,
         "Wave Count": 10,
-        "Pokemon Levels": [1, 2],
+        "Pokemon Levels": [3, 4],
         "Pokemon": 
         {
-            "Pidgey": 1000,
-            "Rattata": 1000,
+            "Pidgey": 200,
+            "Rattata": 2000,
             "Caterpie": 150,
             "Weedle": 150,
-            "Squirtle": 10
+            "Squirtle": 5
         }
     },
     "2":
     {
         "Pokemon Per Wave": 7,
         "Wave Count": 15,
-        "Pokemon Levels": [4, 7],
+        "Pokemon Levels": [5, 7],
         "Pokemon": 
         {
-            "Spearow": 1000,
-            "Rattata": 500,
+            "Spearow": 2000,
+            "Rattata": 1000,
             "Raticate": 50,
             "Bulbasaur": 15,
             "Pikachu": 5
@@ -34,8 +34,8 @@
         "Pokemon Levels": [8, 17],
         "Pokemon":
         {
-            "Magikarp": 2500,
-            "Poliwag": 250,
+            "Magikarp": 5000,
+            "Poliwag": 1000,
             "Goldeen": 250,
             "Fearow": 50,
             "Lapras": 5

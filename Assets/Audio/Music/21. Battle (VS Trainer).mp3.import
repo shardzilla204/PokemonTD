@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://djjoah0qsdv14"
+path="res://.godot/imported/21. Battle (VS Trainer).mp3-f3b27b040090a3dae9c0a221df112ffc.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/21. Battle (VS Trainer).mp3"
+dest_files=["res://.godot/imported/21. Battle (VS Trainer).mp3-f3b27b040090a3dae9c0a221df112ffc.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

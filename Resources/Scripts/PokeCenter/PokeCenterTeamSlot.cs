@@ -28,8 +28,8 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 			if (PokemonTD.PokemonTeam.Pokemon.Count == 0) return;
 			
 			if (!isLeftClick || !isDoubleClick) return;
-			
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeCenterTeamSlotRemoved, Pokemon);
+
+			PokemonTD.PokeCenter.AddPokemon(Pokemon);
 		};
 	}
 
@@ -39,12 +39,13 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 		Dictionary<string, Variant> dataDictionary = new Dictionary<string, Variant>()
 		{
 			{ "FromTeamSlot", true },
+			{ "FromAnalysisSlot", false },
 			{ "Slot", this }
 		};
 		return dataDictionary;
     }
 
-	public Control GetDragPreview()
+	private Control GetDragPreview()
 	{
 		Control control = new Control();
 

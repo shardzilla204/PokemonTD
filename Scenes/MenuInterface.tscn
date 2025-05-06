@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://cj4tssggis6bf"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/MenuInterface.cs" id="1_flyhv"]
+[ext_resource type="Script" uid="uid://mg3svrmwuevb" path="res://Resources/Scripts/MenuInterface.cs" id="1_flyhv"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_y8l40"]
-[ext_resource type="Script" path="res://Resources/Scripts/CustomButton.cs" id="3_5lst2"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_5lst2"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_qo7a8"]
 
 [node name="MenuInterface" type="CanvasLayer" node_paths=PackedStringArray("_playButton", "_settingsButton", "_exitButton")]
@@ -18,7 +18,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_y8l40")
-color = Color(0, 0, 0, 0.25)
+color = Color(0, 0, 0, 0.5)
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
 layout_mode = 1

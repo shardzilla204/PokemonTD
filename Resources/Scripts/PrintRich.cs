@@ -65,7 +65,7 @@ public partial class PrintRich
       GD.Print(); // Spacing
    }
 
-   public static void PrintEffectiveness(TextColor textColor, EffectiveType effectiveType)
+   public static string GetEffectiveMessage(EffectiveType effectiveType)
    {
       string effectiveMessage = effectiveType switch
       {
@@ -76,7 +76,7 @@ public partial class PrintRich
          _ => "Effective" 
       };
 
-      PrintLine(textColor, effectiveMessage);
+      return effectiveMessage;
    }
 
    public static string GetColorHex(TextColor textColor) => textColor switch 

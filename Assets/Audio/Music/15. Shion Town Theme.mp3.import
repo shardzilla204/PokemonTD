@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cvyo3hn3cw7bo"
+path="res://.godot/imported/15. Shion Town Theme.mp3-488d243a9f7186d22fa14be8461ca2da.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/15. Shion Town Theme.mp3"
+dest_files=["res://.godot/imported/15. Shion Town Theme.mp3-488d243a9f7186d22fa14be8461ca2da.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

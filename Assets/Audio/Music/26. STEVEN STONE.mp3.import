@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://byt70waidboum"
+path="res://.godot/imported/26. STEVEN STONE.mp3-3104a04207f6872ee63b8f8c1a00d21d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/26. STEVEN STONE.mp3"
+dest_files=["res://.godot/imported/26. STEVEN STONE.mp3-3104a04207f6872ee63b8f8c1a00d21d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

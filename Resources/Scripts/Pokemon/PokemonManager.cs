@@ -2,6 +2,7 @@ using Godot;
 using GC = Godot.Collections;
 
 using System.Collections.Generic;
+using System;
 
 namespace PokemonTD;
 
@@ -18,7 +19,7 @@ public partial class PokemonManager : Node
     {
         LoadPokemonFile();
 
-        PokemonTD.Signals.PokemonLeveledUp += SetPokemonStats;
+        PokemonTD.Signals.PokemonLeveledUp += OnPokemonLeveledUp;
     }
 
     private void LoadPokemonFile()
@@ -45,7 +46,6 @@ public partial class PokemonManager : Node
         GC.Dictionary<string, Variant> pokemonStats = pokemonDictionary["Base Stats"].As<GC.Dictionary<string, Variant>>();
 
         Pokemon pokemon = new Pokemon(pokemonName, pokemonDictionary, pokemonTypes, pokemonStats);
-        pokemon.MaxExperience = GetExperienceRequired(pokemon);
         return pokemon;
     }
 
@@ -56,6 +56,9 @@ public partial class PokemonManager : Node
         
         List<PokemonMove> pokemonMoves = PokemonTD.PokemonMoveset.GetPokemonMoveset(pokemon);
         pokemon.SetMoves(pokemonMoves);
+        
+        // ? Comment out to level instantly
+        // pokemon.MaxExperience = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
 
@@ -77,6 +80,22 @@ public partial class PokemonManager : Node
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
+    }
+
+    private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotID)
+    {
+        if (PokemonTD.PokemonEvolution.CanEvolve(pokemon))
+        {
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionStarted, pokemon);
+
+            await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolved);
+            
+            Pokemon pokemonEvolution = PokemonTD.PokemonEvolution.EvolvePokemon(pokemon, teamSlotID);
+            
+		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotID);
+        }
+
+        SetPokemonStats(pokemon);
     }
 
     private void SetPokemonStats(Pokemon pokemon)
@@ -105,23 +124,27 @@ public partial class PokemonManager : Node
 	public List<PokemonMove> GetRandomPokemonMoveset(List<PokemonMove> pokemonMoves)
 	{
 		List<PokemonMove> randomPokemonMoves = new List<PokemonMove>();
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
 		for (int i = 0; i < PokemonTD.MaxMoveCount; i++)
 		{
 			while (true)
 			{
-				int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
-				PokemonMove randomPokemonMove = pokemonMoves[randomMoveIndex];
+				PokemonMove randomPokemonMove = GetRandomPokemonMove(pokemonMoves);
 
-				if (!randomPokemonMoves.Contains(randomPokemonMove)) 
-				{
-					randomPokemonMoves.Add(randomPokemonMove);
-					break;
-				}
+				if (randomPokemonMoves.Contains(randomPokemonMove)) continue;
+				
+                randomPokemonMoves.Add(randomPokemonMove);
+                break;
 			}
 		}
 		return randomPokemonMoves;
 	}
+
+    private PokemonMove GetRandomPokemonMove(List<PokemonMove> pokemonMoves)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
+		return pokemonMoves[randomMoveIndex];
+    }
 
     public bool IsPokemonMoveLanding(PokemonMove pokemonMove)
     {
@@ -149,14 +172,12 @@ public partial class PokemonManager : Node
 
     private float GetAttackDefenseRatio(Pokemon pokemon, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
     {
-        if (pokemonMove.Category == MoveCategory.Special)
-        {
-            return pokemon.SpecialAttack / pokemonEnemy.Pokemon.SpecialDefense;
-        }
-        else
-        {
-            return pokemon.Attack / pokemonEnemy.Pokemon.Defense;
-        }
+        float specialRatio = (float) pokemon.SpecialAttack / pokemonEnemy.Pokemon.SpecialDefense;
+        float normalRatio = (float) pokemon.Attack / pokemonEnemy.Pokemon.Defense;
+
+        float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
+
+        return (float) Math.Round(attackDefenseRatio, 2);
     }
     
     private float GetCriticalDamageMultiplier(Pokemon pokemon)
@@ -177,8 +198,10 @@ public partial class PokemonManager : Node
 
 		if (isCriticalHit) 
         {
-            string criticalHitMessage = $"{pokemon.Name} Has Landed A Critical Hit!";
+            string criticalHitMessage = $"{pokemon.Name} Has Landed A Critical Hit";
             PrintRich.PrintLine(TextColor.Purple, criticalHitMessage);
+
+            PokemonTD.AddStageConsoleMessage(TextColor.Purple, criticalHitMessage);
         }
 
         return isCriticalHit;

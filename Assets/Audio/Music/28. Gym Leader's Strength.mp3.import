@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bdon4h004vp46"
+path="res://.godot/imported/28. Gym Leader's Strength.mp3-4b28d407c7b9eacebc3b4ca66c6df1c8.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/28. Gym Leader's Strength.mp3"
+dest_files=["res://.godot/imported/28. Gym Leader's Strength.mp3-4b28d407c7b9eacebc3b4ca66c6df1c8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

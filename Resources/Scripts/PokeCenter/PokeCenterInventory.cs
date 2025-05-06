@@ -17,16 +17,19 @@ public partial class PokeCenterInventory : Container
 	private Container _pokeCenterSlots;
 
 	[Export]
-	private CustomButton _sortByLevel;
+	private Label _pageCountLabel;
 
 	[Export]
-	private CustomButton _sortByNumber;
+	private SortButton _sortByLevel;
 
 	[Export]
-	private CustomButton _sortByName;
+	private SortButton _sortByNumber;
+
+	[Export]
+	private SortButton _sortByName;
 	
 	[Export]
-	private CustomButton _sortByType;
+	private SortButton _sortByType;
 
 	public List<PokeCenterSlot> Slots = new List<PokeCenterSlot>();
 
@@ -35,25 +38,22 @@ public partial class PokeCenterInventory : Container
 	private int _pageIndex = 0;
 	private int _maxPageIndex = 999;
 
-    public override void _EnterTree()
-    {
-        PokemonTD.Signals.PokeCenterTeamSlotRemoved += OnPokeCenterTeamSlotRemoved;
-    }
-
     public override void _ExitTree()
     {
-        PokemonTD.Signals.PokeCenterTeamSlotRemoved -= OnPokeCenterTeamSlotRemoved;
-    }
+		PokemonTD.Signals.PokemonTeamUpdated -= OnPokemonTeamUpdated;
+    }	
 
     public override void _Ready()
     {
+		PokemonTD.Signals.PokemonTeamUpdated += OnPokemonTeamUpdated;
+
         _cycleLeftButton.Pressed += () => CycleInventory(false);
         _cycleRightButton.Pressed += () => CycleInventory(true);
 
-		_sortByLevel.Pressed += SortByLevel;
-		_sortByName.Pressed += SortByName;
-		_sortByNumber.Pressed += SortByNationalNumber;
-		_sortByType.Pressed  += SortByType;
+		_sortByLevel.Pressed += () => SortByLevel(_sortByLevel.IsDescending);
+		_sortByName.Pressed += () => SortByName(_sortByName.IsDescending);
+		_sortByNumber.Pressed += () => SortByNationalNumber(_sortByNumber.IsDescending);
+		_sortByType.Pressed  += () => SortByType(_sortByType.IsDescending);
 
 		_cycleLeftButton.Visible = _pageIndex > 0 ? true : false;
 		_cycleRightButton.Visible = _pageIndex < _maxPageIndex ? true : false;
@@ -61,37 +61,36 @@ public partial class PokeCenterInventory : Container
 		SetPokemonPages(0);
     }
 
-	private void SortByLevel()
+	private void SortByLevel(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByLevel();
+		PokemonTD.PokeCenter.OrderByLevel(isDescending);
 
 		SetPokemonPages(0);
 	}
 
-	private void SortByName()
+	private void SortByName(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByName();
+		PokemonTD.PokeCenter.OrderByName(isDescending);
 
 		SetPokemonPages(0);
 	}
 
-	private void SortByNationalNumber()
+	private void SortByNationalNumber(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByNationalNumber();
+		PokemonTD.PokeCenter.OrderByNationalNumber(isDescending);
 
 		SetPokemonPages(0);
 	}
 
-	private void SortByType()
+	private void SortByType(bool isDescending)
 	{
-		PokemonTD.PokeCenter.OrderByType();
+		PokemonTD.PokeCenter.OrderByType(isDescending);
 
 		SetPokemonPages(0);
 	}
 
-	private void OnPokeCenterTeamSlotRemoved(Pokemon pokemon)
+	private void OnPokemonTeamUpdated()
 	{
-		PokemonTD.PokeCenter.Pokemon.Insert(0, pokemon);
 		ResetInventory();
 		SetPokemonPages(0);
 	}
@@ -162,19 +161,29 @@ public partial class PokeCenterInventory : Container
 		if (PokemonTD.PokemonTeam.Pokemon.Count == 0) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
-		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
+		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 
+		if (fromAnalysisSlot) return true;
+
+		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
 		return fromTeamSlot;
 	}
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
+		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
+		if (fromAnalysisSlot)
+		{
+			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
+			PokemonTD.PokeCenter.Pokemon.Insert(0, pokemonAnalysis.Pokemon);
+			pokemonAnalysis.SetPokemon(null);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+			return;
+		}
 
 		PokeCenterTeamSlot pokeCenterTeamSlot = dataDictionary["Slot"].As<PokeCenterTeamSlot>();
-		pokeCenterTeamSlot.UpdateSlot(null);
-		
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeCenterTeamSlotRemoved, pokeCenterTeamSlot.Pokemon);
+		PokemonTD.PokeCenter.AddPokemon(pokeCenterTeamSlot.Pokemon);
     }
 
 	// Go back and display the first page 
@@ -205,6 +214,8 @@ public partial class PokeCenterInventory : Container
 		{
 			AddPokeCenterSlot(pokemon);
 		}
+
+		_pageCountLabel.Text = $"Page {_pageIndex}/{_maxPageIndex}";
 	}
 
 	private void ClearInventory()

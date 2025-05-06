@@ -15,7 +15,6 @@ public partial class PokeCenterSlot : NinePatchRect
 	private Label _pokemonLevel;
 
 	public int ID;
-
 	public Pokemon Pokemon;
 	public bool IsFilled;
 
@@ -30,8 +29,7 @@ public partial class PokeCenterSlot : NinePatchRect
 			
 			if (!isLeftClick || !isDoubleClick) return;
 			
-			PokemonTD.PokeCenter.Pokemon.Remove(Pokemon);
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeCenterSlotRemoved, Pokemon);
+			PokemonTD.PokeCenter.RemovePokemon(Pokemon);
 			QueueFree();
 		};
 	}
@@ -42,6 +40,7 @@ public partial class PokeCenterSlot : NinePatchRect
 		Dictionary<string, Variant> dataDictionary = new Dictionary<string, Variant>()
 		{
 			{ "FromTeamSlot", false },
+			{ "FromAnalysisSlot", false },
 			{ "Slot", this }
 		};
 		return dataDictionary;

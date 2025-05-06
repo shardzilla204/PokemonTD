@@ -1,0 +1,171 @@
+[gd_scene load_steps=5 format=3 uid="uid://cy3202rr3ei8h"]
+
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_6a5kd"]
+[ext_resource type="Script" uid="uid://d0t3rr1ef78h3" path="res://Resources/Scripts/SettingsInterface.cs" id="1_8k044"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_jdd4j"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_lm3r0"]
+
+[node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_masterSlider", "_musicSlider", "_soundSlider")]
+script = ExtResource("1_8k044")
+_exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
+_masterSlider = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MasterAudio/Control/MasterSlider")
+_musicSlider = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MusicAudio/Control/MusicSlider")
+_soundSlider = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/SFXAudio/Control/SoundSlider")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6a5kd")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="Control" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 40
+text = "Settings"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -50.0
+offset_bottom = 50.0
+grow_horizontal = 0
+size_flags_vertical = 0
+text = "X"
+flat = true
+script = ExtResource("2_jdd4j")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_lm3r0")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 25
+alignment = 1
+
+[node name="MasterAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterAudio"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Master"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterAudio"]
+layout_mode = 2
+
+[node name="MasterSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterAudio/Control"]
+layout_mode = 2
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 22.0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(100, 9)
+min_value = -50.0
+max_value = 0.0
+step = 0.25
+value = -25.0
+
+[node name="MusicAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MusicAudio"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MusicAudio"]
+layout_mode = 2
+
+[node name="MusicSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MusicAudio/Control"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 22.0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(100, 9)
+min_value = -50.0
+max_value = 0.0
+step = 0.25
+value = -25.0
+
+[node name="SFXAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SFXAudio"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Sound Effects"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SFXAudio"]
+layout_mode = 2
+
+[node name="SoundSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SFXAudio/Control"]
+layout_mode = 0
+offset_top = 4.0
+offset_right = 300.0
+offset_bottom = 22.0
+scale = Vector2(2, 2)
+pivot_offset = Vector2(100, 9)
+min_value = -50.0
+max_value = 0.0
+step = 0.25
+value = -25.0

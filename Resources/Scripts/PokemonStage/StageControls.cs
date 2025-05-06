@@ -17,10 +17,26 @@ public partial class StageControls : HBoxContainer
 	[Export]
 	private CustomButton _visiblityToggle;
 
-	private bool _isPaused;
+	[Export]
+	private TextureRect _gameTexture;
+
+	[Export]
+	private TextureRect _visibilityTexture;
+
+	[Export]
+	private Texture2D _hideTexture;
+
+	[Export]
+	private Texture2D _showTexture;
+
+	[Export]
+	private Texture2D _playTexture;
+
+	[Export]
+	private Texture2D _pauseTexture;
+
 	private int _speedOption;
-	private List<int> _speedOptions = new List<int>(){ 1, 2, 4 };
-	private float _maxSpeed = 3;
+	private List<float> _speedOptions = new List<float>(){ 1, 2, 4, 0.5f };
 	private bool _isVisible = true;
 
 	public override void _Ready()
@@ -28,18 +44,36 @@ public partial class StageControls : HBoxContainer
 		// Default to speed of 1
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, 1);
 
-		_gameToggle.Pressed += OnGamePressed;
-		_speedToggle.Pressed += OnSpeedPressed;
-		_visiblityToggle.Pressed += OnVisibilityPressed;
+		_gameToggle.Pressed += () => 
+		{
+			OnGamePressed();
+			PokemonTD.AudioManager.PlayButtonPressed();
+		};
+		_speedToggle.Pressed += () => 
+		{
+			OnSpeedPressed();
+			PokemonTD.AudioManager.PlayButtonPressed();
+		};
+		_visiblityToggle.Pressed += () => 
+		{
+			OnVisibilityPressed();
+			PokemonTD.AudioManager.PlayButtonPressed();
+		};
+
+		_gameToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_speedToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_visiblityToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+
+		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 	}
 
 	private void OnGamePressed()
 	{
-		_isPaused = !_isPaused;
+		PokemonTD.IsGamePaused = !PokemonTD.IsGamePaused;
 
-		_gameToggle.Text = _isPaused ? "Pause" : "Play";
+		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 
-		if (_isPaused)
+		if (PokemonTD.IsGamePaused)
 		{
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 		}
@@ -57,7 +91,7 @@ public partial class StageControls : HBoxContainer
 
 		float speed = _speedOptions[_speedOption];
 
-		_speedToggle.Text = $"{speed}x";
+		_speedToggle.Text = speed != 0.5f ? $"{speed}x" : $"½x";
 
 		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
 		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
@@ -73,7 +107,7 @@ public partial class StageControls : HBoxContainer
 	private void OnVisibilityPressed()
 	{
 		_isVisible = !_isVisible;
-		_visiblityToggle.Text = _isVisible ? "Hide" : "Show";
+		_visibilityTexture.Texture = _isVisible ? _hideTexture : _showTexture;
 
 		EmitSignal(SignalName.VisibilityToggled, _isVisible);
 	}

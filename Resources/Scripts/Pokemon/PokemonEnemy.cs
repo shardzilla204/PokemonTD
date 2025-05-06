@@ -39,6 +39,8 @@ public partial class PokemonEnemy : TextureRect
 
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyPassed, this);
 			QueueFree();
+
+			PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
 		};
 
 		_area.AreaEntered += OnAreaEntered;
@@ -54,8 +56,11 @@ public partial class PokemonEnemy : TextureRect
 	{
 		string capturedMessage = $"{Pokemon.Name} Has Been Captured";
 		PrintRich.PrintLine(TextColor.Yellow, capturedMessage);
+		PokemonTD.AddStageConsoleMessage(TextColor.Yellow, capturedMessage);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyCaptured, this);
+
+		PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
 	}
 
     private void OnAreaEntered(Area2D area)
@@ -77,12 +82,12 @@ public partial class PokemonEnemy : TextureRect
 		Texture = pokemon is null ? null : pokemon.Sprite;
 	}
 
-	public void DamagePokemon(int damage)
+	public void DamagePokemon(int damage, int teamSlotID)
 	{
 		_healthBar.Value -= damage;
 
 		CheckIsCatchable();
-		CheckHasFainted();
+		CheckHasFainted(teamSlotID);
 	}
 
 	private void CheckIsCatchable()
@@ -92,14 +97,14 @@ public partial class PokemonEnemy : TextureRect
 		if (_healthBar.Value > _healthBar.MaxValue * capturePercentThreshold) return;
 
 		IsCatchable = true;
-
+		MouseFilter = MouseFilterEnum.Stop;
 		_healthBar.TintProgress = new Color(0.5f, 0, 0); // Red Color
 
 		string catchMessage = $"{Pokemon.Name} Is Now Catchable!";
 		PrintRich.PrintLine(TextColor.Yellow, catchMessage);
 	}
 
-	private void CheckHasFainted()
+	private void CheckHasFainted(int teamSlotID)
 	{
 		if (_healthBar.Value > 0) return;
 
@@ -108,8 +113,10 @@ public partial class PokemonEnemy : TextureRect
 		string faintMessage = $"{Pokemon.Name} Has Fainted";
 		PrintRich.PrintLine(TextColor.Yellow, faintMessage);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this, teamSlotID);
 		QueueFree();
+
+		PokemonTD.AudioManager.PlayPokemonFaint();
 	}
 
 	private void EnableCaptureMode()

@@ -22,9 +22,13 @@ public partial class PokemonTeam : Node
 
 	private void AddStarterPokemon(Pokemon pokemon)
 	{
-		Pokemon.Add(pokemon);
+		string pokemonName = pokemon.Name;
+		int pokemonLevel = pokemon.Level;
 
-		string addedMessage = $"{pokemon.Name} Was Selected As Your Starter";
+		Pokemon starterPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
+		Pokemon.Add(starterPokemon);
+
+		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
@@ -34,10 +38,13 @@ public partial class PokemonTeam : Node
 	{
 		if (Pokemon.Count >= PokemonTD.MaxTeamSize) return;
 
-		Pokemon pokemon = pokemonEnemy.Pokemon;
-		Pokemon.Add(pokemon);
+		string pokemonName = pokemonEnemy.Pokemon.Name;
+		int pokemonLevel = pokemonEnemy.Pokemon.Level;
 
-		string addedMessage = $"{pokemon.Name} Was Added To The Team";
+		Pokemon capturedPokemon = PokemonTD.PokemonManager.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
+		Pokemon.Add(capturedPokemon);
+
+		string addedMessage = $"{capturedPokemon.Name} Was Added To The Team";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
@@ -54,8 +61,31 @@ public partial class PokemonTeam : Node
 		}
 	}
 
+	public void AddPokemon(Pokemon pokemon)
+	{
+		PokemonTD.PokemonTeam.Pokemon.Add(pokemon);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+
+		string addToTeamMessage = $"Adding {pokemon.Name} To Team";
+		PrintRich.PrintLine(TextColor.Purple, addToTeamMessage);
+	}
+
+	public void RemovePokemon(Pokemon pokemon)
+	{
+		PokemonTD.PokemonTeam.Pokemon.Remove(pokemon);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+
+		string removeFromTeamMessage = $"Removing {pokemon.Name} From Team";
+		PrintRich.PrintLine(TextColor.Purple, removeFromTeamMessage);
+	}
+
 	public bool IsFull()
 	{
 		return PokemonTD.PokemonTeam.Pokemon.Count >= PokemonTD.MaxTeamSize;
+	}
+
+	public Pokemon FindPokemon(Pokemon pokemonToFind)
+	{
+		return Pokemon.Find(pokemon => pokemon == pokemonToFind);
 	}
 }

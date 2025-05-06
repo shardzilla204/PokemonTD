@@ -1,8 +1,8 @@
+using Godot;
+using GC = Godot.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Godot;
-using GC = Godot.Collections;
 
 namespace PokemonTD;
 
@@ -28,6 +28,8 @@ public partial class PokemonMoves : Node
 {
     private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
     public List<PokemonMove> Moves = new List<PokemonMove>();
+
+    private List<ForgetMoveInterface> _forgetMoveQueue = new List<ForgetMoveInterface>(); 
 
     public override void _EnterTree()
 	{
@@ -124,5 +126,24 @@ public partial class PokemonMoves : Node
     public PokemonMove GetPokemonMove(string pokemonMoveName)
     {
         return Moves.Find(pokemonMove => pokemonMove.Name == pokemonMoveName);
+    }
+
+    public void AddToQueue(ForgetMoveInterface forgetMoveInterface)
+    {
+        _forgetMoveQueue.Add(forgetMoveInterface);
+    }
+
+    public void RemoveFromQueue(ForgetMoveInterface forgetMoveInterface)
+    {
+        _forgetMoveQueue.Remove(forgetMoveInterface);
+    }
+    
+    public bool IsQueueEmpty()
+    {
+        if (_forgetMoveQueue.Count != 0) return false;
+
+        PokemonTD.Signals.EmitSignal(Signals.SignalName.ForgetMoveQueueCleared);
+
+        return true;
     }
 }

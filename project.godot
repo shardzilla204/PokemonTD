@@ -16,9 +16,9 @@ warnings/check_invalid_track_paths=false
 
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
-config/version="0.1.1"
+config/version="0.2.0"
 run/main_scene="res://Scenes/MenuInterface.tscn"
-config/features=PackedStringArray("4.3", "C#", "GL Compatibility")
+config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://Assets/Images/GameIcon.png"
 
 [autoload]
@@ -29,6 +29,7 @@ PokemonMoveset="*res://Resources/Scripts/PokemonMoveset.cs"
 PokemonStages="*res://Resources/Scripts/PokemonStage/PokemonStages.cs"
 PokemonTypes="*res://Resources/Scripts/Pokemon/PokemonTypes.cs"
 PokemonTeam="*res://Resources/Scripts/Pokemon/PokemonTeam.cs"
+PokemonEvolution="*res://Resources/Scripts/PokemonEvolution.cs"
 PokeCenter="*res://Resources/Scripts/PokeCenter/PokeCenter.cs"
 PokemonTD="*res://Scenes/PokemonTD.tscn"
 

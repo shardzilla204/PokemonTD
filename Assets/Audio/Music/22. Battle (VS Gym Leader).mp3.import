@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dygux4br1hfa3"
+path="res://.godot/imported/22. Battle (VS Gym Leader).mp3-acf5f9c55d529e2c84b7ac13ad3a06a7.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/22. Battle (VS Gym Leader).mp3"
+dest_files=["res://.godot/imported/22. Battle (VS Gym Leader).mp3-acf5f9c55d529e2c84b7ac13ad3a06a7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -1,0 +1,74 @@
+[gd_scene load_steps=5 format=3 uid="uid://dhgtfuwlxds64"]
+
+[ext_resource type="Script" uid="uid://cry5odvxddk4e" path="res://Resources/Scripts/SortButton.cs" id="1_jcxn8"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_bxe31"]
+[ext_resource type="Texture2D" uid="uid://xs7lw0hn5wxh" path="res://Assets/Images/UpArrow.png" id="3_0k3jr"]
+[ext_resource type="Texture2D" uid="uid://b3xkmlnqivdc7" path="res://Assets/Images/DownArrow.png" id="4_bxe31"]
+
+[node name="SortButton" type="Button" node_paths=PackedStringArray("_sortCategoryLabel", "_upArrow", "_downArrow")]
+custom_minimum_size = Vector2(125, 35)
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 20
+toggle_mode = true
+flat = true
+alignment = 0
+script = ExtResource("1_jcxn8")
+_sortCategoryLabel = NodePath("NinePatchRect/MarginContainer/HBoxContainer/SortCategoryLabel")
+_upArrow = NodePath("NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer/UpArrow")
+_downArrow = NodePath("NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer/DownArrow")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -0.00683625
+texture = ExtResource("2_bxe31")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="SortCategoryLabel" type="Label" parent="NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 22
+text = "
+"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="UpArrow" type="TextureRect" parent="NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+texture = ExtResource("3_0k3jr")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="DownArrow" type="TextureRect" parent="NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(15, 15)
+layout_mode = 2
+texture = ExtResource("4_bxe31")
+expand_mode = 1
+stretch_mode = 5

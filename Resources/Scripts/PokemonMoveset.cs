@@ -39,7 +39,7 @@ public partial class PokemonMoveset : Node
 		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
     }
 
-	private void OnPokemonLeveledUp(Pokemon pokemon)
+	private void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotID)
 	{
 		PokemonMove pokemonMove = GetPokemonMove(pokemon);
 
@@ -56,8 +56,8 @@ public partial class PokemonMoveset : Node
     {
         PokemonMove pokemonMove = null;
 
-        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.Name);
-        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.Name);
+        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.BaseName);
+        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.BaseName);
 
         // Remove moves that have already been and has currently learned
         foreach (PokemonMove oldPokemonMove in pokemon.OldMoves)
@@ -90,7 +90,6 @@ public partial class PokemonMoveset : Node
 			pokemonMoves = GetRandomPokemonMoveset(pokemonMoves);
 		}
 
-		pokemon.OldMoves.AddRange(pokemonMoves);
 		return pokemonMoves;
 	}
     
@@ -107,6 +106,7 @@ public partial class PokemonMoveset : Node
             pokemonMoves.Add(pokemonMove);
         }
 
+        pokemon.OldMoves.AddRange(pokemonMoves); 
         return pokemonMoves;
     }
 
@@ -115,6 +115,9 @@ public partial class PokemonMoveset : Node
 		if (pokemon.Moves.Count < PokemonTD.MaxMoveCount) 
 		{
 			pokemon.Moves.Add(pokemonMove);
+
+            string learnedMoveMessage = $"{pokemon.Name} Learned {pokemonMove.Name}";
+            PrintRich.PrintLine(TextColor.Purple, learnedMoveMessage);
 		}
 		else
 		{
@@ -204,5 +207,5 @@ public partial class PokemonMoveset : Node
 			pokemonMoves.Add(PokemonTD.PokemonMoves.GetRandomPokemonMove());
 		}
         return pokemonMoves;
-	}
+    }
 }

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dnxdneoqwuy65"]
 
-[ext_resource type="Script" path="res://Resources/Scripts/PokemonMove/PokemonMoveButton.cs" id="1_ec6ck"]
+[ext_resource type="Script" uid="uid://qc6nx0umf8os" path="res://Resources/Scripts/PokemonMove/PokemonMoveButton.cs" id="1_ec6ck"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_cy6li"]
 
 [node name="PokemonMoveButton" type="Button" node_paths=PackedStringArray("_pokemonMoveName", "_pokemonMoveColor")]
@@ -19,10 +19,10 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cy6li")
-patch_margin_left = 1
-patch_margin_top = 1
-patch_margin_right = 1
-patch_margin_bottom = 1
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="PokemonMoveColor"]
 layout_mode = 1
@@ -32,9 +32,12 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="PokemonMoveName" type="Label" parent="PokemonMoveColor/MarginContainer"]
 layout_mode = 2
+size_flags_vertical = 1
 text = "Bite"
 vertical_alignment = 1

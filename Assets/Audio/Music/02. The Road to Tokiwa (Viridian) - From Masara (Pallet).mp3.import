@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dhut1wwx14j44"
+path="res://.godot/imported/02. The Road to Tokiwa (Viridian) - From Masara (Pallet).mp3-810692e4b113f7b869f77ee75f8e3e12.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/02. The Road to Tokiwa (Viridian) - From Masara (Pallet).mp3"
+dest_files=["res://.godot/imported/02. The Road to Tokiwa (Viridian) - From Masara (Pallet).mp3-810692e4b113f7b869f77ee75f8e3e12.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

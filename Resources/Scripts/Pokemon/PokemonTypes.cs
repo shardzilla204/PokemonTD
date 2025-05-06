@@ -81,9 +81,9 @@ public partial class PokemonTypes : Node
 		GC.Dictionary<string, Variant> typeDictionary = _typeMatchupDictionary[pokemonMoveType.ToString()].As<GC.Dictionary<string, Variant>>();
 		
 		List<float> typeMultipliers = new List<float>();
-		foreach (PokemonType PokemonEnemyType  in pokemonEnemyTypes)
+		foreach (PokemonType pokemonEnemyType in pokemonEnemyTypes)
 		{
-			float typeMultiplier = typeDictionary[PokemonEnemyType.ToString()].As<float>();
+			float typeMultiplier = typeDictionary[pokemonEnemyType.ToString()].As<float>();
 			typeMultipliers.Add(typeMultiplier);
 		}
 		return typeMultipliers;

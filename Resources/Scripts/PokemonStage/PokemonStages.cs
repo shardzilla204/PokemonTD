@@ -20,6 +20,17 @@ public partial class PokemonStages : Node
 	{
 		LoadStagesFile();
 		SetPokemonStages();
+
+		PokemonTD.Signals.EvolutionQueueCleared += () => 
+		{
+			if (!PokemonTD.PokemonMoves.IsQueueEmpty()) return;
+			
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+		};
+		PokemonTD.Signals.ForgetMoveQueueCleared += () => 
+		{
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+		};
 	}
 
 	private void LoadStagesFile()

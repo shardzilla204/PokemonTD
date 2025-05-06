@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://gbr8skr3m0ys"
+path="res://.godot/imported/29. Rocket Gang Hideout (Techno Ver.).mp3-b2f7c761a049f88d1ab19cff93427d52.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/29. Rocket Gang Hideout (Techno Ver.).mp3"
+dest_files=["res://.godot/imported/29. Rocket Gang Hideout (Techno Ver.).mp3-b2f7c761a049f88d1ab19cff93427d52.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
