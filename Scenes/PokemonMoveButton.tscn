@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_cy6li"]
 
 [node name="PokemonMoveButton" type="Button" node_paths=PackedStringArray("_pokemonMoveName", "_pokemonMoveColor")]
-custom_minimum_size = Vector2(0, 25)
+custom_minimum_size = Vector2(0, 26)
 flat = true
 script = ExtResource("1_ec6ck")
 _pokemonMoveName = NodePath("PokemonMoveColor/MarginContainer/PokemonMoveName")
@@ -39,5 +39,6 @@ theme_override_constants/margin_bottom = 5
 [node name="PokemonMoveName" type="Label" parent="PokemonMoveColor/MarginContainer"]
 layout_mode = 2
 size_flags_vertical = 1
+theme_override_font_sizes/font_size = 14
 text = "Bite"
 vertical_alignment = 1

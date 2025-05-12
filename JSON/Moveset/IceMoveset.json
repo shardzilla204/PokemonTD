@@ -6,6 +6,7 @@
         "Power": 65,
         "Accuracy": 100,
         "Effect": "May lower opponent's Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Blizzard":
@@ -15,18 +16,17 @@
         "Power": 110,
         "Accuracy": 70,
         "Effect": "May freeze opponent.",
-        "Status Condition": 
-        {
-            "Freeze": 0.25
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Freeze": 0.25 }
     },
     "Haze":
     {
         "Type": "Ice",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Resets all stat changes.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Ice Beam":
@@ -37,10 +37,8 @@
         "Accuracy": 100,
         "PP": 10,
         "Effect": "May freeze opponent.",
-        "Status Condition": 
-        {
-            "Freeze": 0.25
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Freeze": 0.25 }
     },
     "Ice Punch":
     {
@@ -49,15 +47,18 @@
         "Power": 75,
         "Accuracy": 100,
         "Effect": "May freeze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Freeze": 0.25 }
     },
     "Mist":
     {
         "Type": "Ice",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "User's stats cannot be changed for a period of time.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "User's stats cannot be changed for a period of time.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

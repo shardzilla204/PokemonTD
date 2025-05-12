@@ -37,7 +37,7 @@ public partial class PokemonTeam : Node
 		int pokemonLevel = pokemon.Level;
 
 		Pokemon starterPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
-		Pokemon.Add(starterPokemon);
+		Pokemon.Add(pokemon);
 
 		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ch1up66iv8m4g"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_m7hrk"]
-[ext_resource type="Script" uid="uid://0dd0q4pvfks5" path="res://Scenes/PokemonMoveAnalysis.cs" id="2_wurlu"]
+[ext_resource type="Script" uid="uid://0dd0q4pvfks5" path="res://Resources/Scripts/PokemonMoveAnalysis.cs" id="2_wurlu"]
 [ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="3_5un76"]
 
 [node name="PokemonMoveAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_moveOptionContainer", "_moveInfo")]

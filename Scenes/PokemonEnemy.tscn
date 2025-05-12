@@ -5,9 +5,9 @@
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_a4tex"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
-radius = 50.0
+radius = 65.0
 
-[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_screenNotifier", "_area")]
+[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_screenNotifier", "_area", "_attackTimer")]
 y_sort_enabled = true
 texture_filter = 1
 custom_minimum_size = Vector2(100, 100)
@@ -29,6 +29,7 @@ script = ExtResource("1_hour7")
 _healthBar = NodePath("HealthBar")
 _screenNotifier = NodePath("ScreenNotifier")
 _area = NodePath("Area2D")
+_attackTimer = NodePath("AttackTimer")
 
 [node name="HealthBar" type="TextureProgressBar" parent="."]
 custom_minimum_size = Vector2(75, 7.5)
@@ -57,3 +58,6 @@ collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_hvj7q")
+
+[node name="AttackTimer" type="Timer" parent="."]
+autostart = true

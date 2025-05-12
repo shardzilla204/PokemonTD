@@ -25,6 +25,9 @@ public partial class StageInterface : CanvasLayer
 	private CustomButton _exitButton;
 
 	[Export]
+	private CustomButton _settingsButton;
+
+	[Export]
 	private Container _container;
 
 	[Export]
@@ -62,6 +65,7 @@ public partial class StageInterface : CanvasLayer
 		
 		ClearStageTeamSlots();
 		AddStageTeamSlots();
+		AddEmptyStageTeamSlots();
 
 		_waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
@@ -76,6 +80,13 @@ public partial class StageInterface : CanvasLayer
 
 			PokemonTD.AudioManager.PlayButtonPressed();
 		};
+		_settingsButton.Pressed += () =>
+		{
+			SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
+			AddSibling(settingsInterface);
+
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
+		};
 
 		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 
@@ -84,33 +95,28 @@ public partial class StageInterface : CanvasLayer
 
 	private void OnTeamUpdated()
 	{
-		List<StageTeamSlot> slotsInUse = _stageTeamSlots.FindAll(stageTeamSlot => stageTeamSlot.InUse == true);
+		int iteration = PokemonTeam.Instance.Pokemon.Count - 1;
+		RemoveEmptyStageTeamSlot(iteration);
 
-		ClearStageTeamSlots();
-		AddStageTeamSlots();
-
-		foreach (StageTeamSlot slotInUse in slotsInUse)
-		{
-			StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == slotInUse.ID);
-			stageTeamSlot.InUse = true;
-		}
+		StageTeamSlot stageTeamSlot = GetStageTeamSlot(iteration);
+		AddStageTeamSlot(stageTeamSlot, iteration);
 	}
 
-	private void OnPokemonOnStage(int teamSlotID)
+	private void OnPokemonOnStage(int teamSlotIndex)
 	{
-		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.TeamSlotIndex == teamSlotIndex);
 		stageTeamSlot.InUse = true;
 	}
 
-	private void OnPokemonOffStage(int teamSlotID)
+	private void OnPokemonOffStage(int teamSlotIndex)
 	{
-		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.TeamSlotIndex == teamSlotIndex);
 		stageTeamSlot.InUse = false;
 	}
 
-	public bool IsStageTeamSlotInUse(int teamSlotID)
+	public bool IsStageTeamSlotInUse(int teamSlotIndex)
 	{
-		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == teamSlotID);
+		StageTeamSlot stageTeamSlot = _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.TeamSlotIndex == teamSlotIndex);
 		return stageTeamSlot.InUse;
 	}
 
@@ -119,7 +125,7 @@ public partial class StageInterface : CanvasLayer
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 	}
 
-	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy, int teamSlotID)
+	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy)
 	{
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
 	}
@@ -133,20 +139,41 @@ public partial class StageInterface : CanvasLayer
 		}
 	}
 
+	private void RemoveEmptyStageTeamSlot(int iteration)
+	{
+		Control emptyStageTeamSlot = _stageTeamSlotContainer.GetChildOrNull<Control>(iteration);
+		emptyStageTeamSlot.QueueFree();
+	}
+
 	private void AddStageTeamSlots()
 	{
-		int emptyTeamSlots = PokemonTD.MaxTeamSize - PokemonTeam.Instance.Pokemon.Count;
 		for (int i = 0; i < PokemonTeam.Instance.Pokemon.Count; i++)
 		{
-			StageTeamSlot stageTeamSlot = PokemonTD.PackedScenes.GetStageTeamSlot();
-			stageTeamSlot.ID = i;
-			stageTeamSlot.Pokemon = PokemonTeam.Instance.Pokemon[i];
-
-			_stageTeamSlotContainer.AddChild(stageTeamSlot);
-			_stageTeamSlots.Add(stageTeamSlot);
+			StageTeamSlot stageTeamSlot = GetStageTeamSlot(i);
+			AddStageTeamSlot(stageTeamSlot, i);
 		}
+	}
 
-		// Fill the rest of the slots with an empty slot state
+	private void AddStageTeamSlot(StageTeamSlot stageTeamSlot, int iteration)
+	{
+		_stageTeamSlotContainer.AddChild(stageTeamSlot);
+		_stageTeamSlotContainer.MoveChild(stageTeamSlot, iteration);
+		_stageTeamSlots.Add(stageTeamSlot);
+	}
+
+	private StageTeamSlot GetStageTeamSlot(int iteration)
+	{
+		StageTeamSlot stageTeamSlot = PokemonTD.PackedScenes.GetStageTeamSlot();
+		stageTeamSlot.TeamSlotIndex = iteration;
+		stageTeamSlot.Pokemon = PokemonTeam.Instance.Pokemon[iteration];
+
+		return stageTeamSlot;
+	}
+
+	// Fill the rest of the slots with an empty slot state
+	private void AddEmptyStageTeamSlots()
+	{
+		int emptyTeamSlots = PokemonTD.MaxTeamSize - PokemonTeam.Instance.Pokemon.Count;
 		for (int i = 0; i < emptyTeamSlots; i++)
 		{
 			Control emptyStageTeamSlot = PokemonTD.PackedScenes.GetEmptyStageTeamSlot();		
@@ -159,8 +186,8 @@ public partial class StageInterface : CanvasLayer
 		_container.Visible = !isDragging;
 	}
 
-	public StageTeamSlot FindStageTeamSlot(int id)
+	public StageTeamSlot FindStageTeamSlot(int teamSlotIndex)
 	{
-		return _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.ID == id);
+		return _stageTeamSlots.Find(stageTeamSlot => stageTeamSlot.TeamSlotIndex == teamSlotIndex);
 	}
 }

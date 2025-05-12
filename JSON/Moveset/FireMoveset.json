@@ -7,10 +7,8 @@
         "Accuracy": 100,
         "PP": 25,
         "Effect": "May burn opponent.",
-        "Status Condition":
-        {
-            "Burn": 0.25
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Burn": 0.25 }
     },
     "Fire Blast":
     {
@@ -19,6 +17,7 @@
         "Power": 110,
         "Accuracy": 85,
         "Effect": "May burn opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Burn": 0.25 }
     },
     "Fire Punch":
@@ -28,6 +27,7 @@
         "Power": 75,
         "Accuracy": 100,
         "Effect": "May burn opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Burn": 0.25 }
     },
     "Fire Spin":
@@ -36,7 +36,9 @@
         "Category": "Special",
         "Power": 35,
         "Accuracy": 85,
-        "Effect": "Traps opponent, damaging them for 4-5 turns.",
+        "Effect": "",
+        "EffectRemoved": "Traps opponent, damaging them for 4-5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Flamethrower":
@@ -46,6 +48,7 @@
         "Power": 90,
         "Accuracy": 100,
         "Effect": "May burn opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Burn": 0.25 }
     }
 }

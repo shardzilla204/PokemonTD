@@ -13,7 +13,6 @@ public partial class StageSelectButton : CustomButton
         Pressed += () => 
 		{
 			SetStage();
-			PokemonTD.IsGamePaused = true;
 			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 		MouseEntered += () => 
@@ -25,6 +24,7 @@ public partial class StageSelectButton : CustomButton
 
 	private void SetStage()
 	{
+		PokemonTD.IsGamePaused = true;
 		PokemonStage pokemonStage = GetPokemonStage();
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonPressed, pokemonStage);
 	}
@@ -33,6 +33,7 @@ public partial class StageSelectButton : CustomButton
 	private PokemonStage GetPokemonStage()
 	{
 		PokemonStage pokemonStage = PokemonTD.PackedScenes.GetPokemonStage(PokemonStage.ID - 1);
+		pokemonStage.ID = PokemonStage.ID;
 		pokemonStage.WaveCount = PokemonStage.WaveCount;
 		pokemonStage.PokemonNames = PokemonStage.PokemonNames;
 		pokemonStage.PokemonPerWave = PokemonStage.PokemonPerWave;

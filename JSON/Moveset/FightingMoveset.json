@@ -3,9 +3,11 @@
     {
         "Type": "Fighting",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
-        "Effect": "When hit by a Physical Attack, user strikes back with 2x power.",
+        "Effect": "",
+        "EffectRemoved": "When hit by a Physical Attack, user strikes back with 2x power.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Double Kick":
@@ -15,6 +17,7 @@
         "Power": 30,
         "Accuracy": 100,
         "Effect": "Hits twice in one turn.",
+        "Hit Count": [2, 2], 
         "Status Condition": {}
     },
     "High Jump Kick":
@@ -23,7 +26,9 @@
         "Category": "Physical",
         "Power": 130,
         "Accuracy": 90,
-        "Effect": "If it misses, the user loses half their HP.",
+        "Effect": "",
+        "EffectRemoved": "If it misses, the user loses half their HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Jump Kick":
@@ -32,7 +37,9 @@
         "Category": "Physical",
         "Power": 100,
         "Accuracy": 95,
-        "Effect": "If it misses, the user loses half their HP.",
+        "Effect": "",
+        "EffectRemoved": "If it misses, the user loses half their HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Karate Chop":
@@ -42,15 +49,17 @@
         "Power": 50,
         "Accuracy": 100,
         "Effect": "High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Low Kick":
     {
         "Type": "Fighting",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "The heavier the opponent, the stronger the attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Rolling Kick":
@@ -59,16 +68,19 @@
         "Category": "Physical",
         "Power": 60,
         "Accuracy": 85,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Seismic Toss":
     {
         "Type": "Fighting",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Inflicts damage equal to user's level.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Submission":
@@ -77,7 +89,9 @@
         "Category": "Physical",
         "Power": 80,
         "Accuracy": 80,
-        "Effect": "User receives recoil damage.",
+        "Effect": "",
+        "EffectRemoved": "User receives recoil damage.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

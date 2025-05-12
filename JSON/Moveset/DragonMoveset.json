@@ -3,9 +3,10 @@
     {
         "Type": "Dragon",
         "Category": "Special",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Always inflicts 40 HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

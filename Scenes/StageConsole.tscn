@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://wdkvpupkjo3p"]
 
-[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_58xsm"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="1_bgjne"]
 [ext_resource type="Script" uid="uid://demai86kognvv" path="res://Resources/Scripts/StageConsole.cs" id="2_u2n6y"]
 
 [node name="StageConsole" type="NinePatchRect" node_paths=PackedStringArray("_container", "_scrollContainer")]
@@ -8,7 +8,7 @@ self_modulate = Color(0, 0, 0, 0.5)
 custom_minimum_size = Vector2(150, 255)
 size_flags_horizontal = 3
 size_flags_vertical = 8
-texture = ExtResource("1_58xsm")
+texture = ExtResource("1_bgjne")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10

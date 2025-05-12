@@ -1,14 +1,14 @@
 using Godot;
 using GC = Godot.Collections;
-
 using System.Collections.Generic;
-using System.Linq;
-using System;
 
 namespace PokemonTD;
 
 public partial class StageSlot : NinePatchRect
 {
+	[Signal]
+	public delegate void ActivityChangedEventHandler(StageSlot stageSlot, bool isActive);
+
 	[Export]
 	private Area2D _area;
 
@@ -24,26 +24,28 @@ public partial class StageSlot : NinePatchRect
 	[Export]
 	private AudioStreamPlayer _pokemonMovePlayer;
 
+	public TextureRect Sprite => _sprite;
 	public Pokemon Pokemon;
 
 	public List<PokemonEnemy> PokemonEnemyQueue = new List<PokemonEnemy>();
 
+	public bool IsActive = true;
+
 	private bool _isDragging;
 	private bool _isFilled;
 	private bool _isMuted;
-	private PokemonEnemy _focusedPokemonEnemy;
 
-	private int _teamSlotID = -1;
+	public int TeamSlotIndex = -1;
 
 	private Control _dragPreview;
 
     public override void _EnterTree()
     {
-		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyFainted;
+		PokemonTD.Signals.PokemonEnemyFainted += UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyPassed += UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingStageTeamSlot += SetStageSlotAlpha;
-		PokemonTD.Signals.DraggingStageSlot += SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageTeamSlot += SetOpacity;
+		PokemonTD.Signals.DraggingStageSlot += SetOpacity;
 		PokemonTD.Signals.EvolutionFinished += OnEvolutionFinished;
 		PokemonTD.Signals.SpeedToggled += OnSpeedToggled;
 		PokemonTD.Signals.StageTeamSlotMuted += OnStageTeamSlotMuted;
@@ -51,11 +53,11 @@ public partial class StageSlot : NinePatchRect
 
 	public override void _ExitTree()
     {
-        PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyFainted;
+        PokemonTD.Signals.PokemonEnemyFainted -= UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyPassed -= UpdatePokemonQueue;
         PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingStageTeamSlot -= SetStageSlotAlpha;
-		PokemonTD.Signals.DraggingStageSlot -= SetStageSlotAlpha;
+		PokemonTD.Signals.DraggingStageTeamSlot -= SetOpacity;
+		PokemonTD.Signals.DraggingStageSlot -= SetOpacity;
 		PokemonTD.Signals.EvolutionFinished -= OnEvolutionFinished;
 		PokemonTD.Signals.SpeedToggled -= OnSpeedToggled;
 		PokemonTD.Signals.StageTeamSlotMuted -= OnStageTeamSlotMuted;
@@ -70,29 +72,33 @@ public partial class StageSlot : NinePatchRect
 			string offStageMessage = $"{Pokemon.Name} Is Off Stage";
 			PrintRich.PrintLine(TextColor.Purple, offStageMessage);
 
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonOffStage, _teamSlotID);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonOffStage, TeamSlotIndex);
 			UpdateSlot(null);
 		};
-		_attackTimer.Timeout += AttackEnemy;
+		_attackTimer.Timeout += AttackPokemonEnemy;
 
 		UpdateSlot(null);
 	}
 
 	public override void _Process(double delta)
 	{
-		if (_dragPreview is not null) TweenRotate();
+		if (_dragPreview is null) return;
+
+		Vector2 initialPosition = _dragPreview.GlobalPosition;
+		Vector2 finalPosition = GetGlobalMousePosition();
+		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, initialPosition, finalPosition, _isDragging);
 	}
 
-	private void OnStageTeamSlotMuted(int teamSlotID, bool isToggled)
+	private void OnStageTeamSlotMuted(int teamSlotIndex, bool isToggled)
 	{
-		if (_teamSlotID != teamSlotID) return;
+		if (TeamSlotIndex != teamSlotIndex) return;
 
 		_isMuted = isToggled;
 	}
 
-	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotID)
+	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotIndex)
 	{
-		if (_teamSlotID != teamSlotID) return;
+		if (TeamSlotIndex != teamSlotIndex) return;
 
 		UpdateSlot(pokemonEvolution);
 	}
@@ -114,16 +120,10 @@ public partial class StageSlot : NinePatchRect
 		_attackTimer.Start();
 	}
 
-	private void OnPokemonEnemyFainted(PokemonEnemy pokemonEnemy, int teamSlotID)
-	{
-		if (_teamSlotID != teamSlotID) return;
-		
-		AddExperience(pokemonEnemy);
-		UpdatePokemonQueue(pokemonEnemy);
-	}
-
 	private void UpdatePokemonQueue(PokemonEnemy pokemonEnemy)
 	{
+		if (!PokemonEnemyQueue.Contains(pokemonEnemy)) return;
+
 		PokemonEnemyQueue.Remove(pokemonEnemy);
 	}
 
@@ -134,30 +134,28 @@ public partial class StageSlot : NinePatchRect
 		if (Pokemon.Level >= PokemonTD.MaxPokemonLevel) return;
 		
 		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		StageTeamSlot stageTeamSlot = pokemonStage.StageInterface.FindStageTeamSlot(_teamSlotID);
-		int experience = stageTeamSlot.GetExperience(pokemonEnemy);
+		StageTeamSlot stageTeamSlot = pokemonStage.StageInterface.FindStageTeamSlot(TeamSlotIndex);
+		int experience = pokemonEnemy.GetExperience();
 		stageTeamSlot.AddExperience(experience);
 	}
 
    	public override void _Notification(int what)
 	{		
-		if (what != NotificationDragEnd) return;
-		
-		if (!_isDragging) return;
+		if (what != NotificationDragEnd || !_isDragging) return;
 
-		_isDragging = false; 
 		_dragPreview = null;
+		_isDragging = false;
 
-		SetStageSlotAlpha(false);
+		SetOpacity(false);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, false);
-		
-		if (IsDragSuccessful()) UpdateSlot(null);
 	}
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
+		if (!IsActive) return new Control();
+
 		_isDragging = true;
-		SetStageSlotAlpha(true);
+		SetOpacity(true);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageSlot, true);
 
 		_dragPreview = GetDragPreview();
@@ -169,7 +167,7 @@ public partial class StageSlot : NinePatchRect
 	{
 		GC.Dictionary<string, Variant> data = new GC.Dictionary<string, Variant>()
 		{
-			{ "TeamSlotID", _teamSlotID },
+			{ "TeamSlotIndex", TeamSlotIndex },
 			{ "FromTeamSlot", false },
 			{ "IsMuted", _isMuted },
 			{ "Pokemon", Pokemon }
@@ -199,17 +197,38 @@ public partial class StageSlot : NinePatchRect
    	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
-
 		if (dataDictionary.Count == 0) return false;
 		
-		int teamSlotID = dataDictionary["TeamSlotID"].As<int>();
 		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
-
-		if (!fromTeamSlot) return _isFilled ? false : true;
-
-		if (IsPokemonOnStage(teamSlotID)) return false;
+		if (fromTeamSlot) return !_isFilled;
 		
-		return _isFilled ? false : true;
+		return true;
+	}
+
+	private StageSlot GetGivingSlot(int teamSlotIndex)
+	{
+		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
+		return teamSlotIndex == -1 ? null : pokemonStage.FindStageSlot(teamSlotIndex);
+	}
+
+	public void DamagePokemon(int damage)
+	{
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonDamaged, damage, TeamSlotIndex);
+	}
+
+	private void SwapPokemon(StageSlot givingSlot)
+	{
+		Pokemon givingSlotPokemon = givingSlot.Pokemon;
+		int givingSlotID = givingSlot.TeamSlotIndex;
+
+		Pokemon recievingSlotPokemon = Pokemon;
+		int recievingSlotID = TeamSlotIndex;
+
+		givingSlot.UpdateSlot(recievingSlotPokemon);
+		givingSlot.TeamSlotIndex = recievingSlotID;
+
+		UpdateSlot(givingSlotPokemon);
+		TeamSlotIndex = givingSlotID;
 	}
 
 	public override void _DropData(Vector2 atPosition, Variant data)
@@ -218,164 +237,134 @@ public partial class StageSlot : NinePatchRect
 
 		if (dataDictionary is null) return;
 
-		Pokemon = dataDictionary["Pokemon"].As<Pokemon>();
-		_teamSlotID = dataDictionary["TeamSlotID"].As<int>();
+		int teamSlotIndex = dataDictionary["TeamSlotIndex"].As<int>();
+		Pokemon pokemon = dataDictionary["Pokemon"].As<Pokemon>();
 		_isMuted = dataDictionary["IsMuted"].As<bool>();
 
-		UpdateSlot(Pokemon);
+		StageSlot givingSlot = GetGivingSlot(teamSlotIndex);
+		if (_isFilled)
+		{
+			SwapPokemon(givingSlot);
+			PokemonTD.AudioManager.PlayPokemonCry(pokemon, true);
+			PokemonTD.AudioManager.PlayPokemonCry(givingSlot.Pokemon, true);
+			return;
+		}
+		else if (givingSlot != null)
+		{
+			givingSlot.UpdateSlot(null); // Empties slot
+		}
 
-		PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
+		UpdateSlot(pokemon);
+		TeamSlotIndex = teamSlotIndex;
+		PokemonTD.AudioManager.PlayPokemonCry(pokemon, true);
 	}
 
-	private bool IsPokemonOnStage(int teamSlotID)
+	private bool IsPokemonOnStage(int teamSlotIndex)
 	{
 		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		return pokemonStage.StageInterface.IsStageTeamSlotInUse(teamSlotID);
+		return pokemonStage.StageInterface.IsStageTeamSlotInUse(teamSlotIndex);
 	}
 
-	private void SetStageSlotAlpha(bool isDragging)
+	public void SetOpacity(bool isDragging)
 	{
 		Color color = Colors.White;
-		color.A = isDragging ? 0.25f : 0; 
+		color.A = isDragging ? 0.4f : 0;
 		SelfModulate = color;
 	}
 
 	private void UpdateSlot(Pokemon pokemon)
 	{
-		Pokemon = pokemon;
+		TeamSlotIndex = pokemon != null ? TeamSlotIndex : -1;
+		Pokemon = pokemon != null ? pokemon : null;
+		Sprite.Texture = pokemon != null ? pokemon.Sprite : null;
+		_isFilled = pokemon != null;
 
-		_sprite.Texture = pokemon is null ? null : pokemon.Sprite;
-		_teamSlotID = pokemon is null ? -1 : _teamSlotID;
-		_isFilled = pokemon is null ? false : true;
-
-		if (pokemon is null) _isMuted = false;
+		if (pokemon == null) IsActive = true;
+		if (pokemon == null) _isMuted = false;
 
 		SetWaitTime();
 	}
 
-	private void AttackEnemy()
+	private void AttackPokemonEnemy()
 	{
-		if (PokemonEnemyQueue.Count == 0 || PokemonTD.IsGamePaused) return;
+		if (PokemonEnemyQueue.Count <= 0 || PokemonTD.IsGamePaused || !IsActive) return;
 
-		_focusedPokemonEnemy = PokemonEnemyQueue[0];
-
+		PokemonEnemy pokemonEnemy = PokemonEnemyQueue[0];
+		AddContribution(pokemonEnemy);
+		
 		PokemonMove pokemonMove = GetPokemonMoveFromTeam();
 
-		if (!PokemonManager.Instance.IsPokemonMoveLanding(pokemonMove))
+		bool hasPokemonMoveHit = PokemonManager.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonEnemy.Pokemon);
+		if (!hasPokemonMoveHit && pokemonMove.Accuracy != 0)
 		{
-			MissedPokemonMove(pokemonMove);
+			PokemonManager.Instance.PokemonMoveMissed(Pokemon, pokemonMove);
 			return;
 		}
 
-		string usedMessage = $"{Pokemon.Name} Used {pokemonMove.Name} On {_focusedPokemonEnemy.Pokemon.Name}";
+		string usedMessage = $"{Pokemon.Name} Used {pokemonMove.Name} On {pokemonEnemy.Pokemon.Name}";
 		PrintRich.PrintLine(TextColor.Orange, usedMessage);
 		PokemonTD.AddStageConsoleMessage(TextColor.Orange, usedMessage);
 
 		if (!_isMuted) PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
 
-		TweenAttack(_focusedPokemonEnemy);
-		DealStatusCondition(pokemonMove);
+		TweenAttack(pokemonEnemy);
 		
-		if (pokemonMove.Power != 0) DealDamage(pokemonMove);
+		// TODO: Check if it's a unique move
+
+		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonEnemy, pokemonMove);
+		PokemonCombat.Instance.ApplyStatChanges(pokemonEnemy.Pokemon, pokemonMove);
+		
+		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, pokemonMove, pokemonEnemy);
+	}
+
+	private void AddContribution(PokemonEnemy pokemonEnemy)
+	{
+		bool hasTeamSlotIndex = pokemonEnemy.SlotContributionCount.ContainsKey(TeamSlotIndex);
+		if (!hasTeamSlotIndex)
+		{
+			pokemonEnemy.SlotContributionCount.Add(TeamSlotIndex, 0);
+		}
+		else
+		{
+			int contributionValue = pokemonEnemy.SlotContributionCount[TeamSlotIndex];
+			pokemonEnemy.SlotContributionCount[TeamSlotIndex] = ++contributionValue;
+		}
 	}
 
 	private void TweenAttack(PokemonEnemy pokemonEnemy)
 	{
-		Vector2 originalPosition = _sprite.Position;
-		Vector2 originalGlobalPosition = _sprite.GlobalPosition;
+		Vector2 direction = Sprite.GlobalPosition.DirectionTo(pokemonEnemy.GlobalPosition);
+		Sprite.FlipH = direction.X > 0;
 
-		Vector2 direction = originalGlobalPosition.DirectionTo(pokemonEnemy.GlobalPosition);
-		_sprite.FlipH = direction.X > 0;
+		Vector2 positionOne = Sprite.Position - (direction * 5); // Moves the sprite backwards
+		Vector2 positionTwo = Sprite.Position + (direction * 15); // Moves the sprite forwards
 
-		Vector2 positionOne = originalPosition - (direction * 5);
-		Vector2 positionTwo = originalPosition + (direction * 15);
-
+		float speedMultiplier = 0.25f;
+		Vector2 originalPosition = Sprite.Position;
 		Tween tween = CreateTween().SetEase(Tween.EaseType.InOut);
-		tween.TweenProperty(_sprite, "position", positionOne, _attackTimer.WaitTime / 4);
-		tween.TweenProperty(_sprite, "position", positionTwo, _attackTimer.WaitTime / 4);
-		tween.TweenProperty(_sprite, "position", originalPosition, _attackTimer.WaitTime / 4);
-	}
-
-	private void DealDamage(PokemonMove pokemonMove)
-	{
-		int damage = PokemonManager.Instance.GetDamage(Pokemon, pokemonMove, _focusedPokemonEnemy);
-		
-		float firstTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[0]);
-		if (_focusedPokemonEnemy.Pokemon.Types.Count > 1)
-		{
-			float secondTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, _focusedPokemonEnemy.Pokemon.Types[1]);
-
-			if (firstTypeMultiplier < secondTypeMultiplier) firstTypeMultiplier = secondTypeMultiplier;
-		}
-
-		EffectiveType effectiveType = PokemonTypes.Instance.GetEffectiveType(firstTypeMultiplier);
-
-		string damageMessage = $"For {damage} Damage ";
-
-		string effectiveMessage = PrintRich.GetEffectiveMessage(effectiveType);
-		damageMessage += effectiveMessage;
-
-		PrintRich.Print(TextColor.Orange, damageMessage);
-		PokemonTD.AddStageConsoleMessage(TextColor.Orange, damageMessage);
-
-		_focusedPokemonEnemy.DamagePokemon(damage, _teamSlotID);
-
-	}
-
-	private void DealStatusCondition(PokemonMove pokemonMove)
-	{
-		List<string> statusNames = pokemonMove.StatusCondition.Keys.ToList();
-		if (statusNames.Count == 0) return;
-		
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		foreach (string statusName in statusNames)
-		{
-			float hitThreshold = pokemonMove.StatusCondition[statusName].As<float>();
-			float randomValue = RNG.RandfRange(0, 1);
-			randomValue -= hitThreshold;
-
-			if (randomValue > 0) continue;
-			
-			StatusCondition statusCondition = Enum.Parse<StatusCondition>(statusName);
-			_focusedPokemonEnemy.AddStatusCondition(statusCondition, _teamSlotID);
-		}
-	}
-
-	private void MissedPokemonMove(PokemonMove pokemonMove)
-	{
-		if (pokemonMove.Accuracy == 0) return;
-
-		string missedMessage = $"{Pokemon.Name}'s {pokemonMove.Name} Missed";
-		PrintRich.PrintLine(TextColor.Purple, missedMessage);
+		tween.TweenProperty(Sprite, "position", positionOne, _attackTimer.WaitTime * speedMultiplier);
+		tween.TweenProperty(Sprite, "position", positionTwo, _attackTimer.WaitTime * speedMultiplier);
+		tween.TweenProperty(Sprite, "position", originalPosition, _attackTimer.WaitTime * speedMultiplier);
 	}
 
 	private PokemonMove GetPokemonMoveFromTeam()
 	{
-		PokemonStage PokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-		StageTeamSlot stageTeamSlot = PokemonStage.StageInterface.FindStageTeamSlot(_teamSlotID);
+		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
+		StageTeamSlot stageTeamSlot = pokemonStage.StageInterface.FindStageTeamSlot(TeamSlotIndex);
 		
 		return stageTeamSlot.Pokemon.Move;
 	}
 
-	private async void TweenRotate()
+	public void SetAlpha(bool isDragging)
 	{
-		Vector2 initialPosition = _dragPreview.Position;
+		Color color = Colors.White;
+		color.A = isDragging ? 0.75f : 1; 
+		SelfModulate = color;
+	}
 
-		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
-
-		if (!_isDragging) return;
-
-		Vector2 finalPosition = _dragPreview.Position;
-		Vector2 direction = finalPosition.DirectionTo(initialPosition);
-
-		float rotationValue = 25;
-		float degrees = direction.X > 0 ? -rotationValue : rotationValue;
-		degrees = direction.X == 0 ? 0 : degrees;
-
-		float rotation = Mathf.DegToRad(degrees);
-
-		float duration = 0.5f;
-		Tween tween = CreateTween();
-		tween.TweenProperty(_dragPreview, "rotation", rotation, duration);
+	public void ChangeActivity(bool isActive)
+	{
+		IsActive = isActive;
+		EmitSignal(SignalName.ActivityChanged, this, IsActive);
 	}
 }

@@ -1,0 +1,129 @@
+Move Effect Removed:
+Leech Life
+Counter
+High Jump Kick
+Jump Kick
+Submission
+Fly
+Gust
+Absorb
+Leech Seed
+Mega Drain
+Petal Dance
+Bone Club
+Earthquake
+Mist
+Conversion
+Disable
+Headbutt
+Hyper Fang
+Quick Attack
+Recover
+Roar
+Self-Destruct
+Soft-Boiled
+Stomp
+Struggle
+Substitute
+Take Down
+Thrash
+Transform
+Whirlwind
+Dream Eater
+Light Screen
+Reflect
+Rest
+
+Flinch Move:
+Bite
+Rolling Kick
+Sky Attack
+Bone Club
+Stomp
+Headbutt
+Rock Slide
+Hyper Fang
+Waterfall
+
+Move Charge:
+Sky Attack
+Solar Beam
+Dig
+Hyper Beam
+Razor Wind
+
+Move Trap (?):
+Fire Spin
+Bind
+Wrap
+Clamp
+
+High Critical Hit Ratio:
+Razor Wind
+Sky Attack
+Karate Chop
+
+One-Hit KO Move:
+Fissure
+Guillotine
+Horn Drill
+
+Move Effect Modified:
+Constrict
+Teleport
+
+Unique Moves:
+Dragon Rage
+Double Kick
+Low Kick
+Seismic Toss
+Mirror Move
+Night Shade
+Metronome
+Mimic
+Pay Day
+Skull Bash
+Sonic Boom
+Super Fang
+Swift
+Psywave
+Surf
+Light Screen
+Reflect
+
+Constrict
+Teleport
+
+
+Increase Stat Move:
+Defense Curl (Defense)
+Double Team (Evasiveness == Decrease Enemy Accuracy)
+Growth (Attack & Special Attack)
+Harden (Defense)
+Minimize (Sharp, Evasiveness)
+Rage (Attack, when hit)
+Sharpen (Attack)
+Skull Bash (Defense)
+Swords Dance (Sharp, Attack)
+Acid Armor (Sharp, Defense)
+Agility (Sharp, Speed)
+Amnesia (Sharp, Special Defense)
+Barrier (Sharp, Defense)
+Withdraw (Defense)
+
+Decrease Stat Move:
+String Shot (Sharp, Speed)
+Sand Attack (Accuracy)
+Aurora Beam (0.25, Attack)
+Contrict (0.25, Speed)
+Flash (Accuracy)
+Growl (Attack)
+Leer (Defense)
+Screech (Sharp, Defense)
+Smokescreen (Accuracy)
+Tail Whip (Defense)
+Acid (0.25, Special Defense)
+Kinesis (Accuracy)
+Psychic (0.25, Special Defense)
+Bubble (0.25, Speed)
+Bubble Beam (0.25, Speed)

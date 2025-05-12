@@ -3,11 +3,20 @@ using Godot;
 namespace PokemonTD;
 
 /* 
-   TODO: Highlight Pokemon's stage slot when trying to drag Pokemon's team slot, if already out
-   TODO: Add status effect functionality
-   TODO: Add move effect functionality
-   TODO: Add save and load functionality
-   TODO: Add settings button while in pokemon stage
+    TODO: Fix settings starting wave in pokemon stage
+    TODO: Add move effect functionality
+    TODO: Add save and load functionality
+    TODO: Add settings button while in pokemon stage
+    TODO: Create tutorial/information panel
+    TODO: Add Poke mart to utilize poke dollars
+    TODO: Add keybinds?
+    TODO: Add status condition icons to show multiple conditions
+    TODO: Filter name for Nidoran in StageTeamSlot
+    TODO: Fix stacking buffs/debuffs
+*/
+
+/*
+    
 */
 
 public partial class PokemonTD : Node
@@ -16,13 +25,16 @@ public partial class PokemonTD : Node
     private PackedScenes _packedScenes;
 
     [Export]
+    private PokemonTween _pokemonTween;
+
+    [Export]
     private bool _areConsoleMessagesEnabled = false;
 
 	[Export]
 	private bool _isTeamRandom;
 
 	[Export(PropertyHint.Range, "0,5,1")]
-	private int _teamCount = MaxTeamSize;
+	private int _teamCount = 5;
 
     [Export]
 	private bool _areStagesEnabled = true;
@@ -67,7 +79,8 @@ public partial class PokemonTD : Node
     public static bool AreConsoleMessagesEnabled = false;
 
     public static float GameSpeed = 1;
-    public static bool IsGamePaused = true;
+    public static bool IsGamePaused;
+    public static PokemonTween Tween;
 
     public static bool IsTeamRandom = false;
     public static bool AreStagesEnabled = true;
@@ -107,6 +120,7 @@ public partial class PokemonTD : Node
     public override void _EnterTree()
     {
         PackedScenes = _packedScenes;
+        Tween = _pokemonTween;
         
         AreStagesEnabled = _areStagesEnabled;
         IsTeamRandom = _isTeamRandom;

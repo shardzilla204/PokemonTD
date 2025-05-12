@@ -6,6 +6,7 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Fly":
@@ -14,7 +15,9 @@
         "Category": "Physical",
         "Power": 90,
         "Accuracy": 95,
-        "Effect": "Flies up on first turn, attacks on second turn.",
+        "Effect": "",
+        "EffectRemoved": "Flies up on first turn, attacks on second turn.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Gust":
@@ -23,16 +26,19 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "Hits Pokemon using Fly/Bounce/Sky Drop with double power.",
+        "Effect": "",
+        "EffectRemoved": "Hits Pokemon using Fly/Bounce/Sky Drop with double power.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Mirror Move":
     {
         "Type": "Flying",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "User performs the opponent's last move.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Peck":
@@ -42,6 +48,7 @@
         "Power": 35,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sky Attack":
@@ -51,6 +58,7 @@
         "Power": 140,
         "Accuracy": 90,
         "Effect": "Charges on first turn, attacks on second. May cause flinching. High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Wing Attack":
@@ -60,6 +68,7 @@
         "Power": 60,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

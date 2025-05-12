@@ -6,7 +6,7 @@
 [node name="EmptyStageTeamSlot" type="NinePatchRect"]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0.2, 0.2, 0.2, 1)
-custom_minimum_size = Vector2(150, 200)
+custom_minimum_size = Vector2(135, 185)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_rtirl")

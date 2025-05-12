@@ -5,8 +5,8 @@
         "Category": "Special",
         "Power": 110,
         "Accuracy": 70,
-        "PP": 10,
         "Effect": "May paralyze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Punch":
@@ -15,8 +15,8 @@
         "Category": "Physical",
         "Power": 75,
         "Accuracy": 100,
-        "PP": 15,
         "Effect": "May paralyze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Shock":
@@ -25,18 +25,18 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "PP": 30,
         "Effect": "May paralyze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Paralysis": 0.25 }
     },
     "Thunder Wave":
     {
         "Type": "Electric",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 90,
-        "PP": 20,
         "Effect": "Paralyzes opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Paralysis": 1 }
     },
     "Thunderbolt":
@@ -45,8 +45,8 @@
         "Category": "Special",
         "Power": 90,
         "Accuracy": 100,
-        "PP": 15,
         "Effect": "May paralyze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Paralysis": 0.25 }
     }
 }

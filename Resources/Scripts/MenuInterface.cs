@@ -49,6 +49,7 @@ public partial class MenuInterface : CanvasLayer
 		PokemonTD.AudioManager.PlayButtonPressed();
 
 		SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
+		settingsInterface.FromMainMenu = true;
 		AddSibling(settingsInterface);
 
 		QueueFree();

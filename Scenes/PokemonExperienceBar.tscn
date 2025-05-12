@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://d1fjp0d0jq5c8"]
+
+[ext_resource type="Script" uid="uid://dpvnligqta6y0" path="res://Resources/Scripts/PokemonExperienceBar.cs" id="1_b26r7"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_rpdwl"]
+
+[node name="PokemonExperienceBar" type="HBoxContainer" node_paths=PackedStringArray("_pokemonLevel", "_experienceBar")]
+theme_override_constants/separation = 0
+script = ExtResource("1_b26r7")
+_pokemonLevel = NodePath("PokemonLevel")
+_experienceBar = NodePath("ExperienceBar")
+
+[node name="PokemonLevel" type="Label" parent="."]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "LVL. 100"
+vertical_alignment = 1
+
+[node name="ExperienceBar" type="TextureProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+allow_greater = true
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 3
+texture_under = ExtResource("2_rpdwl")
+texture_progress = ExtResource("2_rpdwl")
+tint_under = Color(0.588235, 0.588235, 0.588235, 1)
+tint_progress = Color(0, 0.603922, 1, 1)

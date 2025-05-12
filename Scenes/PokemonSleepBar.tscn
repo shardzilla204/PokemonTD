@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c6gh683jjg4id"]
+
+[ext_resource type="Texture2D" uid="uid://c7n26ovox4tr4" path="res://Assets/Images/StatusConditionIcon/SleepIcon.png" id="1_6ufcv"]
+[ext_resource type="Script" uid="uid://dvaftkfvkykgy" path="res://Resources/Scripts/PokemonSleepBar.cs" id="2_ub654"]
+
+[node name="PokemonSleepBar" type="TextureProgressBar" node_paths=PackedStringArray("_sleepTimer")]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_bottom = 20.0
+grow_horizontal = 0
+value = 100.0
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("1_6ufcv")
+script = ExtResource("2_ub654")
+_sleepTimer = NodePath("SleepTimer")
+
+[node name="SleepTimer" type="Timer" parent="."]
+one_shot = true

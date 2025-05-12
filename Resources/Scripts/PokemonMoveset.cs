@@ -50,7 +50,7 @@ public partial class PokemonMoveset : Node
 		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
     }
 
-	private void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotID)
+	private void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotIndex)
 	{
 		PokemonMove pokemonMove = GetPokemonMove(pokemon);
 

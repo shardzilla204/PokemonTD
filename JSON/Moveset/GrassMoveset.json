@@ -5,7 +5,9 @@
         "Category": "Special",
         "Power": 20,
         "Accuracy": 100,
-        "Effect": "User recovers half the HP inflicted on opponent.",
+        "Effect": "",
+        "EffectRemoved": "User recovers half the HP inflicted on opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Leech Seed":
@@ -14,7 +16,9 @@
         "Category": "Status",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "Drains HP from opponent each turn.",
+        "Effect": "",
+        "EffectRemoved": "Drains HP from opponent each turn.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Mega Drain":
@@ -23,7 +27,9 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "User recovers half the HP inflicted on opponent.",
+        "Effect": "",
+        "EffectRemoved": "User recovers half the HP inflicted on opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Petal Dance":
@@ -32,7 +38,9 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "User attacks for 2-3 turns but then becomes confused.",
+        "Effect": "",
+        "EffectRemoved": "User attacks for 2-3 turns but then becomes confused.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Razor Leaf":
@@ -42,19 +50,18 @@
         "Power": 55,
         "Accuracy": 95,
         "Effect": "High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sleep Powder":
     {
         "Type": "Grass",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 75,
         "Effect": "Puts opponent to sleep.",
-        "Status Condition": 
-        {
-            "Sleep": 1
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Sleep": 1 }
     },
     "Solar Beam":
     {
@@ -63,31 +70,28 @@
         "Power": 120,
         "Accuracy": 100,
         "Effect": "Charges on first turn, attacks on second.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Spore":
     {
         "Type": "Grass",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Puts opponent to sleep.",
-        "Status Condition": 
-        {
-            "Sleep": 1
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Sleep": 1 }
     },
     "Stun Spore":
     {
         "Type": "Grass",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 75,
         "Effect": "Paralyzes opponent.",
-        "Status Condition": 
-        {
-            "Paralysis": 1
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Paralysis": 1 }
     },
     "Vine Whip":
     {
@@ -96,6 +100,7 @@
         "Power": 45,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

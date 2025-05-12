@@ -4,11 +4,43 @@ namespace PokemonTD;
 
 public partial class CustomButton : Button
 {
+	[Signal]
+	public delegate void LeftClickEventHandler();
+
+	[Signal]
+	public delegate void RightClickEventHandler();
+
+	private bool _isHovering;
+
 	public override void _Ready()
 	{
-		MouseEntered += () => ChangeModulation(true);
-		MouseExited += () => ChangeModulation(false);
+		MouseEntered += () => 
+		{
+			_isHovering = true;
+			ChangeModulation(true);
+		};
+		MouseExited += () => 
+		{
+			_isHovering = false;
+			ChangeModulation(false);
+		};
 	}
+
+    public override void _Input(InputEvent @event)
+    {
+		if (!_isHovering) return;
+        if (@event is not InputEventMouseButton eventMouseButton) return;
+		if (!eventMouseButton.Pressed) return;
+		if (eventMouseButton.ButtonIndex == MouseButton.Left)
+		{
+			EmitSignal(SignalName.LeftClick);
+		}
+		else if (eventMouseButton.ButtonIndex == MouseButton.Right)
+		{
+			EmitSignal(SignalName.RightClick);
+		}
+    }
+
 
 	private void ChangeModulation(bool hasEntered)
 	{

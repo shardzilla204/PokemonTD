@@ -6,15 +6,17 @@
         "Power": 15,
         "Accuracy": 85,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Bide":
     {
         "Type": "Normal",
         "Category": "Physical",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "User takes damage for two turns then strikes back double.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Bind":
@@ -24,6 +26,7 @@
         "Power": 15,
         "Accuracy": 85,
         "Effect": "Traps opponent, damaging them for 4-5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Body Slam":
@@ -33,10 +36,8 @@
         "Power": 85,
         "Accuracy": 100,
         "Effect": "May paralyze opponent.",
-        "Status Condition": 
-        {
-            "Paralysis": 0.25
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Paralysis": 0.25 }
     },
     "Comet Punch":
     {
@@ -45,6 +46,7 @@
         "Power": 18,
         "Accuracy": 85,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Constrict":
@@ -53,16 +55,19 @@
         "Category": "Physical",
         "Power": 10,
         "Accuracy": 100,
-        "Effect": "May lower opponent's Speed by one stage.",
+        "Effect": "May lower opponent's Speed",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Conversion":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "Changes user's type to that of its first move.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "Changes user's type to that of its first move.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Cut":
@@ -72,24 +77,28 @@
         "Power": 50,
         "Accuracy": 95,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Defense Curl":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Disable":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
-        "Effect": "Opponent can't use its last attack for a few turns.",
+        "Effect": "",
+        "EffectRemoved": "Opponent can't use its last attack for a few turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Dizzy Punch":
@@ -99,7 +108,8 @@
         "Power": 70,
         "Accuracy": 100,
         "Effect": "May confuse opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Confuse": 0.25 }
     },
     "Double Slap":
     {
@@ -108,15 +118,17 @@
         "Power": 15,
         "Accuracy": 85,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Double Team":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Evasiveness.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Double-Edge":
@@ -125,7 +137,9 @@
         "Category": "Physical",
         "Power": 120,
         "Accuracy": 100,
-        "Effect": "User receives recoil damage.",
+        "Effect": "",
+        "EffectRemoved": "User receives recoil damage.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Egg Bomb":
@@ -135,6 +149,7 @@
         "Power": 100,
         "Accuracy": 75,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Explosion":
@@ -143,25 +158,29 @@
         "Category": "Physical",
         "Power": 250,
         "Accuracy": 100,
-        "Effect": "User faints.",
+        "Effect": "",
+        "EffectRemoved": "User faints.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Flash":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Accuracy.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Focus Energy":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Increases critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Fury Attack":
@@ -171,6 +190,7 @@
         "Power": 15,
         "Accuracy": 85,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Fury Swipes":
@@ -180,54 +200,57 @@
         "Power": 18,
         "Accuracy": 80,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Glare":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Paralyzes opponent.",
-        "Status Condition": 
-        {
-            "Paralysis": 1
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Paralysis": 1 }
     },
     "Growl":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Growth":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Attack and Special Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Guillotine":
     {
         "Type": "Normal",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 30,
         "Effect": "One-Hit-KO, if it hits.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Harden":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Headbutt":
@@ -236,7 +259,9 @@
         "Category": "Physical",
         "Power": 70,
         "Accuracy": 100,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Horn Attack":
@@ -246,15 +271,17 @@
         "Power": 65,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Horn Drill":
     {
         "Type": "Normal",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 30,
         "Effect": "One-Hit-KO, if it hits.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Hyper Beam":
@@ -264,6 +291,7 @@
         "Power": 150,
         "Accuracy": 90,
         "Effect": "User must recharge next turn.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Hyper Fang":
@@ -272,29 +300,30 @@
         "Category": "Physical",
         "Power": 80,
         "Accuracy": 90,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Leer":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Lovely Kiss":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 75,
         "Effect": "Puts opponent to sleep.",
-        "Status Condition": 
-        {
-            "Sleep": 1
-        }
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Sleep": 1 }
     },
     "Mega Kick":
     {
@@ -303,6 +332,7 @@
         "Power": 80,
         "Accuracy": 85,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Mega Punch":
@@ -312,33 +342,37 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Metronome":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "User performs almost any move in the game at random.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Mimic":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Copies the opponent's last move.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Minimize":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Evasiveness.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Pay Day":
@@ -348,6 +382,7 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "Money is earned after the battle.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Pound":
@@ -357,6 +392,7 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Quick Attack":
@@ -365,7 +401,9 @@
         "Category": "Physical",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "User attacks first.",
+        "Effect": "",
+        "EffectRemoved": "User attacks first.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Rage":
@@ -375,6 +413,7 @@
         "Power": 20,
         "Accuracy": 100,
         "Effect": "Raises user's Attack when hit.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Razor Wind":
@@ -384,24 +423,29 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "Charges on first turn, attacks on second. High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Recover":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "User recovers half its max HP.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "User recovers half its max HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Roar":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Scratch":
@@ -411,15 +455,17 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Screech":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 85,
         "Effect": "Sharply lowers opponent's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Self-Destruct":
@@ -428,26 +474,30 @@
         "Category": "Physical",
         "Power": 200,
         "Accuracy": 100,
-        "Effect": "User faints.",
+        "Effect": "",
+        "EffectRemoved": "User faints.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sharpen":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sing":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 55,
         "Effect": "Puts opponent to sleep.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Sleep": 1 }
     },
     "Skull Bash":
     {
@@ -456,6 +506,7 @@
         "Power": 130,
         "Accuracy": 100,
         "Effect": "Raises Defense on first turn, attacks on second.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Slam":
@@ -465,6 +516,7 @@
         "Power": 80,
         "Accuracy": 75,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Slash":
@@ -474,33 +526,38 @@
         "Power": 70,
         "Accuracy": 100,
         "Effect": "High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Smokescreen":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Accuracy.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Soft-Boiled":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "User recovers half its max HP.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "User recovers half its max HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sonic Boom":
     {
         "Type": "Normal",
         "Category": "Special",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 90,
         "Effect": "Always inflicts 20 HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Spike Cannon":
@@ -510,15 +567,17 @@
         "Power": 20,
         "Accuracy": 100,
         "Effect": "Hits 2-5 times in one turn.",
+        "Hit Count": [2, 5], 
         "Status Condition": {}
     },
     "Splash":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Doesn't do ANYTHING.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Stomp":
@@ -527,7 +586,9 @@
         "Category": "Physical",
         "Power": 65,
         "Accuracy": 100,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Strength":
@@ -537,43 +598,49 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
-    "Struggle":
+    "Struggle (Removed)":
     {
         "Type": "Normal",
         "Category": "Physical",
         "Power": 50,
-        "Accuracy": null,
+        "Accuracy": 0,
         "Effect": "Only usable when all PP are gone. Hurts the user.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Substitute":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "Uses HP to creates a decoy that takes hits.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectREmoved": "Uses HP to creates a decoy that takes hits.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Super Fang":
     {
         "Type": "Normal",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 90,
         "Effect": "Always takes off half of the opponent's HP.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Supersonic":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 55,
         "Effect": "Confuses opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Confuse": 1 }
     },
     "Swift":
     {
@@ -582,15 +649,17 @@
         "Power": 60,
         "Accuracy": 100,
         "Effect": "Ignores Accuracy and Evasiveness.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Swords Dance":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Tackle":
@@ -600,15 +669,17 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Tail Whip":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Take Down":
@@ -617,7 +688,9 @@
         "Category": "Physical",
         "Power": 90,
         "Accuracy": 85,
-        "Effect": "User receives recoil damage.",
+        "Effect": "",
+        "EffectRemoved": "User receives recoil damage.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Thrash":
@@ -626,16 +699,20 @@
         "Category": "Physical",
         "Power": 120,
         "Accuracy": 100,
-        "Effect": "User attacks for 2-3 turns but then becomes confused.",
+        "Effect": "",
+        "EffectRemoved": "User attacks for 2-3 turns but then becomes confused.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Transform":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "User takes on the form and attacks of the opponent.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "User takes on the form and attacks of the opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Tri Attack":
@@ -645,6 +722,7 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "May paralyze, burn or freeze opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": 
         {
             "Paralysis": 0.25,
@@ -659,15 +737,18 @@
         "Power": 55,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Whirlwind":
     {
         "Type": "Normal",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Wrap":
@@ -677,6 +758,7 @@
         "Power": 15,
         "Accuracy": 90,
         "Effect": "Traps opponent, damaging them for 4-5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

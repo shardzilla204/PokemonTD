@@ -1,5 +1,6 @@
 using Godot;
-using Godot.Collections;
+using GC = Godot.Collections;
+using System.Collections.Generic;
 
 namespace PokemonTD;
 
@@ -18,5 +19,6 @@ public partial class PokemonMove : Node
 	public int Power;
 	public int Accuracy;
 	public string Effect;
-	public Dictionary<string, Variant> StatusCondition;
+	public List<int> HitCount = new List<int>();
+	public GC.Dictionary<string, Variant> StatusCondition = new GC.Dictionary<string, Variant>();
 }

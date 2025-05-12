@@ -6,33 +6,37 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "May lower opponent's Special Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Acid Armor":
     {
         "Type": "Poison",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Poison Gas":
     {
         "Type": "Poison",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 90,
         "Effect": "Poisons opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Poison": 1 }
     },
     "Poison Powder":
     {
         "Type": "Poison",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 75,
         "Effect": "Poisons opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Poison": 1 }
     },
     "Poison Sting":
@@ -42,6 +46,7 @@
         "Power": 15,
         "Accuracy": 100,
         "Effect": "May poison opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Poison": 0.25 }
     },
     "Sludge":
@@ -51,6 +56,7 @@
         "Power": 65,
         "Accuracy": 100,
         "Effect": "May poison opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Poison": 0.25 }
     },
     "Smog":
@@ -60,15 +66,17 @@
         "Power": 30,
         "Accuracy": 70,
         "Effect": "May poison opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "Poison": 0.25 }
     },
     "Toxic":
     {
         "Type": "Poison",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 90,
         "Effect": "Badly poisons opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": { "BadlyPoisoned": 1 }
     }
 }

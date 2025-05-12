@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://cc0xcejesq3c4"]
+
+[ext_resource type="Script" uid="uid://ot2qdyeyl6q3" path="res://Resources/Scripts/PokemonHealthBar.cs" id="1_t4who"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_aevxd"]
+
+[node name="PokemonHealthBar" type="HBoxContainer" node_paths=PackedStringArray("_pokemonHealthLabel", "_healthBar")]
+theme_override_constants/separation = 0
+script = ExtResource("1_t4who")
+_pokemonHealthLabel = NodePath("PokemonHealth")
+_healthBar = NodePath("HealthBar")
+
+[node name="PokemonHealth" type="Label" parent="."]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "100 HP"
+vertical_alignment = 1
+
+[node name="HealthBar" type="TextureProgressBar" parent="."]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+value = 50.0
+nine_patch_stretch = true
+stretch_margin_left = 1
+stretch_margin_top = 1
+stretch_margin_right = 1
+stretch_margin_bottom = 3
+texture_under = ExtResource("2_aevxd")
+texture_progress = ExtResource("2_aevxd")
+tint_under = Color(0.59, 0.1298, 0.1298, 1)
+tint_progress = Color(0, 0.55, 0.0458333, 1)

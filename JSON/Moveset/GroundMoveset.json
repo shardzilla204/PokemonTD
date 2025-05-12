@@ -5,7 +5,9 @@
         "Category": "Physical",
         "Power": 65,
         "Accuracy": 85,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Bonemerang":
@@ -15,6 +17,7 @@
         "Power": 50,
         "Accuracy": 90,
         "Effect": "Hits twice in one turn.",
+        "Hit Count": [2, 2], 
         "Status Condition": {}
     },
     "Dig":
@@ -24,6 +27,7 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "Digs underground on first turn, attacks on second. Can also escape from caves.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Earthquake":
@@ -32,25 +36,29 @@
         "Category": "Physical",
         "Power": 100,
         "Accuracy": 100,
-        "Effect": "Power is doubled if opponent is underground from using Dig.",
+        "Effect": "",
+        "EffectRemoved": "Power is doubled if opponent is underground from using Dig.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Fissure":
     {
         "Type": "Ground",
         "Category": "Physical",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 30,
         "Effect": "One-Hit-KO, if it hits.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Sand Attack":
     {
         "Type": "Ground",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Lowers opponent's Accuracy.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

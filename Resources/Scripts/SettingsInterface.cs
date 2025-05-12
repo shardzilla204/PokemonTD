@@ -16,14 +16,23 @@ public partial class SettingsInterface : CanvasLayer
 	[Export]
 	private HSlider _soundSlider;
 
+	public bool FromMainMenu;
+
     public override void _Ready()
     {
 		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_exitButton.Pressed += () => 
 		{
 			PokemonTD.AudioManager.PlayButtonPressed();
-			MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
-			AddSibling(menuInterface);
+			if (FromMainMenu)
+			{
+				MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
+				AddSibling(menuInterface);
+			}
+			else
+			{
+				PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+			}
 			QueueFree();
 		};
 

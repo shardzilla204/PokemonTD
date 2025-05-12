@@ -33,7 +33,7 @@ public partial class PackedScenes : Node
 	private PackedScene _stageSelectButton;
 
 	[Export]
-	private PackedScene _stageStateInterface;
+	private PackedScene _stageResultInterface;
 
 	[Export]
 	private Array<PackedScene> _pokemonStages;
@@ -114,9 +114,9 @@ public partial class PackedScenes : Node
 		return _stageSelectButton.Instantiate<StageSelectButton>();
 	}
 
-	public StageStateInterface GetStageStateInterface()
+	public StageResultInterface GetStageResultInterface()
 	{
-		return _stageStateInterface.Instantiate<StageStateInterface>();
+		return _stageResultInterface.Instantiate<StageResultInterface>();
 	}
 
 	public EvolutionInterface GetEvolutionInterface()
@@ -124,9 +124,9 @@ public partial class PackedScenes : Node
 		return _evolutionInterface.Instantiate<EvolutionInterface>();
 	}
 
-	public PokemonStage GetPokemonStage(int PokemonStageID)
+	public PokemonStage GetPokemonStage(int stageID)
 	{
-		return _pokemonStages[PokemonStageID].Instantiate<PokemonStage>();
+		return _pokemonStages[stageID].Instantiate<PokemonStage>();
 	}
 	
 	public StageTeamSlot GetStageTeamSlot()

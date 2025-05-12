@@ -1,11 +1,11 @@
 [gd_scene load_steps=5 format=3 uid="uid://jcfh6tp6od31"]
 
-[ext_resource type="Script" uid="uid://dw4xfprb5ajg7" path="res://Resources/Scripts/PokemonStage/StageStateInterface.cs" id="1_12hrc"]
+[ext_resource type="Script" uid="uid://dw4xfprb5ajg7" path="res://Resources/Scripts/PokemonStage/StageResultInterface.cs" id="1_12hrc"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="2_i0qk8"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_hj45f"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_7cavt"]
 
-[node name="StageStateInterface" type="CanvasLayer" node_paths=PackedStringArray("_retryButton", "_leaveButton", "_message")]
+[node name="StageResultInterface" type="CanvasLayer" node_paths=PackedStringArray("_retryButton", "_leaveButton", "_message")]
 script = ExtResource("1_12hrc")
 _retryButton = NodePath("Background/MarginContainer/VBoxContainer/ButtonContainer/RetryButton")
 _leaveButton = NodePath("Background/MarginContainer/VBoxContainer/ButtonContainer/LeaveButton")

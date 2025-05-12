@@ -5,7 +5,7 @@ namespace PokemonTD;
 public partial class MovesetInterface : CanvasLayer
 {
 	[Signal]
-	public delegate void PokemonMoveChangedEventHandler(int teamSlotID, PokemonMove pokemonMove);
+	public delegate void PokemonMoveChangedEventHandler(int id, PokemonMove pokemonMove);
 
 	[Export]
 	private Container _moveOptions;
@@ -19,8 +19,9 @@ public partial class MovesetInterface : CanvasLayer
 	[Export]
 	private Label _effect;
 
+	public int TeamSlotIndex;
+	
 	public Pokemon Pokemon;
-	public int TeamSlotID;
 
     public override void _ExitTree()
     {
@@ -34,7 +35,7 @@ public partial class MovesetInterface : CanvasLayer
 	{
 		_exitButton.Pressed += QueueFree;
 
-		_pokemonName.Text = $"{Pokemon.Name} Moveset";
+		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
 
 		ClearMoveButtons();
 
@@ -50,7 +51,7 @@ public partial class MovesetInterface : CanvasLayer
 			moveOption.MouseEntered += () => SetEffectText(pokemonMove);
 			moveOption.Pressed += () => 
 			{
-				EmitSignal(SignalName.PokemonMoveChanged, TeamSlotID, pokemonMove);
+				EmitSignal(SignalName.PokemonMoveChanged, TeamSlotIndex, pokemonMove);
 
 				if (IsInstanceValid(this)) QueueFree();
 			};
@@ -58,12 +59,7 @@ public partial class MovesetInterface : CanvasLayer
 		}
 	}
 
-	public override void _Notification(int what)
-	{
-		if (what == NotificationExitTree) PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
-	}
-
-	public void ClearMoveButtons()
+	private void ClearMoveButtons()
 	{
 		foreach (MoveOption moveOption in _moveOptions.GetChildren())
 		{
@@ -76,7 +72,8 @@ public partial class MovesetInterface : CanvasLayer
 		string power = pokemonMove.Power == 0 ? "" : $"Power: {pokemonMove.Power}\n";
 		string accuracy = pokemonMove.Accuracy == 0 ? "" : $"Accuracy: {pokemonMove.Accuracy}%";
 		string effect = pokemonMove.Effect == "" ? "" : $"{pokemonMove.Effect}";
-		if (effect != "") accuracy += "\n\n";
+        if (effect != "" && accuracy != "") accuracy += "\n\n";
+
 		_effect.Text = $"{power}{accuracy}{effect}";
 	}
 

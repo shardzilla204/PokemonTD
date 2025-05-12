@@ -3,27 +3,30 @@
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Speed.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Amnesia":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Special Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Barrier":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Sharply raises user's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Confusion":
@@ -33,7 +36,8 @@
         "Power": 50,
         "Accuracy": 100,
         "Effect": "May confuse opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Confuse": 0.25 }
     },
     "Dream Eater":
     {
@@ -41,45 +45,50 @@
         "Category": "Special",
         "Power": 100,
         "Accuracy": 100,
-        "Effect": "User recovers half the HP inflicted on a sleeping opponent.",
+        "Effect": "",
+        "EffectRemoved": "User recovers half the HP inflicted on a sleeping opponent.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Hypnosis":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 60,
         "Effect": "Puts opponent to sleep.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Sleep": 1 }
     },
     "Kinesis":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 80,
-        "PP":15,
         "Effect": "Lowers opponent's Accuracy.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Light Screen":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "Effect": "Halves damage from Special attacks for 5 turns.",
+        "Power": 0,
+        "Accuracy": 0,
+        "Effect": "",
+        "EffectRemoved": "Halves damage from Special attacks for 5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Meditate":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
-        "PP": 40,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Attack.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Psybeam":
@@ -89,7 +98,8 @@
         "Power": 65,
         "Accuracy": 100,
         "Effect": "May confuse opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Confuse": 0.25 }
     },
     "Psychic":
     {
@@ -98,33 +108,39 @@
         "Power": 90,
         "Accuracy": 100,
         "Effect": "May lower opponent's Special Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Psywave":
     {
         "Type": "Psychic",
         "Category": "Special",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Inflicts damage 50-150% of user's level.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Reflect":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
-        "Effect": "Halves damage from Physical attacks for 5 turns.",
+        "Effect": "",
+        "EffectRemoved": "Halves damage from Physical attacks for 5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Rest":
     {
         "Type": "Psychic",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
-        "Effect": "User sleeps for 2 turns, but user is fully healed.",
+        "Effect": "",
+        "EffectRemoved": "User sleeps for 2 turns, but user is fully healed.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Teleport":
@@ -133,7 +149,8 @@
         "Category": "Status",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "Allows user to flee wild battles; also warps player to last PokéCenter.",
+        "Effect": "Allows user to move between areas on the map",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

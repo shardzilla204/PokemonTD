@@ -114,17 +114,25 @@ public partial class PokemonMoves : Node
 
     private void AddPokemonMove(GC.Dictionary<string, Variant> typeMovesetDictionary, string moveName)
     {
-        PokemonMove pokemonMove = new PokemonMove()
+        try 
         {
-            Name = moveName,
-            Type = Enum.Parse<PokemonType>(typeMovesetDictionary["Type"].As<string>()),
-            Category = Enum.Parse<MoveCategory>(typeMovesetDictionary["Category"].As<string>()),
-            Power = typeMovesetDictionary["Power"].As<int>(),
-            Accuracy = typeMovesetDictionary["Accuracy"].As<int>(),
-            Effect = typeMovesetDictionary["Effect"].As<string>(),
-            StatusCondition = typeMovesetDictionary["Status Condition"].As<GC.Dictionary<string, Variant>>(),
-        };
-        Moves.Add(pokemonMove);
+            PokemonMove pokemonMove = new PokemonMove()
+            {
+                Name = moveName,
+                Type = Enum.Parse<PokemonType>(typeMovesetDictionary["Type"].As<string>()),
+                Category = Enum.Parse<MoveCategory>(typeMovesetDictionary["Category"].As<string>()),
+                Power = typeMovesetDictionary["Power"].As<int>(),
+                Accuracy = typeMovesetDictionary["Accuracy"].As<int>(),
+                Effect = typeMovesetDictionary["Effect"].As<string>(),
+                HitCount = typeMovesetDictionary["Hit Count"].As<GC.Array<int>>().ToList(),
+                StatusCondition = typeMovesetDictionary["Status Condition"].As<GC.Dictionary<string, Variant>>(),
+            };
+            Moves.Add(pokemonMove);
+        }
+        catch (KeyNotFoundException)
+        {
+            GD.PrintErr($"{moveName}");
+        }
     }
 
     public PokemonMove GetRandomPokemonMove()

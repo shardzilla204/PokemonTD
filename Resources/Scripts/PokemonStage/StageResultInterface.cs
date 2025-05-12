@@ -3,7 +3,7 @@ using Godot;
 
 namespace PokemonTD;
 
-public partial class StageStateInterface : CanvasLayer
+public partial class StageResultInterface : CanvasLayer
 {
 	[Export]
 	private CustomButton _retryButton;
@@ -28,15 +28,8 @@ public partial class StageStateInterface : CanvasLayer
 	{
 		PokemonTD.IsGamePaused = true;
 		
-		List<PokemonStage> pokemonStages = PokemonStages.Instance.GetPokemonStages();
-
-		int stageIndex = StageID - 1;
-
-		PokemonStage pokemonStage = PokemonTD.PackedScenes.GetPokemonStage(stageIndex);
-		pokemonStage.WaveCount = pokemonStages[stageIndex].WaveCount;
-		pokemonStage.PokemonNames = pokemonStages[stageIndex].PokemonNames;
-		pokemonStage.PokemonPerWave = pokemonStages[stageIndex].PokemonPerWave;
-		pokemonStage.PokemonLevels = pokemonStages[stageIndex].PokemonLevels;
+		PokemonStage pokemonStageData = PokemonStages.Instance.FindPokemonStage(StageID);
+		PokemonStage pokemonStage = GetPokemonStage(pokemonStageData);
 
 		PokemonStage parent = GetParentOrNull<PokemonStage>();
 		parent.AddSibling(pokemonStage);
@@ -51,5 +44,18 @@ public partial class StageStateInterface : CanvasLayer
 		pokemonStage.AddSibling(stageSelectInterface);
 
 		pokemonStage.QueueFree();
+	}
+
+	private PokemonStage GetPokemonStage(PokemonStage pokemonStageData)
+	{
+		int stageIndex = StageID - 1;
+		PokemonStage pokemonStage = PokemonTD.PackedScenes.GetPokemonStage(stageIndex);
+		GD.Print($"ID: {pokemonStage.ID}");
+		pokemonStage.ID = stageIndex;
+		pokemonStage.WaveCount = pokemonStageData.WaveCount;
+		pokemonStage.PokemonNames = pokemonStageData.PokemonNames;
+		pokemonStage.PokemonPerWave = pokemonStageData.PokemonPerWave;
+		pokemonStage.PokemonLevels = pokemonStageData.PokemonLevels;
+		return pokemonStage;
 	}
 }

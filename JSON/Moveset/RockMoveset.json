@@ -5,7 +5,9 @@
         "Category": "Physical",
         "Power": 75,
         "Accuracy": 90,
-        "Effect": "May cause flinching.",
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Rock Throw":
@@ -15,6 +17,7 @@
         "Power": 50,
         "Accuracy": 90,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

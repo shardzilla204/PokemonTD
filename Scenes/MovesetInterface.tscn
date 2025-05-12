@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://devsee4klrmn8"]
+[gd_scene load_steps=7 format=3 uid="uid://devsee4klrmn8"]
 
 [ext_resource type="Script" uid="uid://cce4r50kfehqt" path="res://Resources/Scripts/PokemonMove/MovesetInterface.cs" id="1_0dro6"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="1_2mjsb"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://DefaultTheme.tres" id="1_dsfnt"]
 [ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Scenes/MoveOption.tscn" id="2_gww66"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_yvunl"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_4ooys"]
 
 [node name="MovesetInterface" type="CanvasLayer" node_paths=PackedStringArray("_moveOptions", "_pokemonName", "_exitButton", "_effect")]
 script = ExtResource("1_0dro6")
@@ -26,14 +27,14 @@ grow_vertical = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("1_dsfnt")
-theme_override_constants/margin_left = 10
+theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 60
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_right = 0
+theme_override_constants/margin_bottom = 0
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
 self_modulate = Color(0.25, 0.25, 0.25, 1)
-custom_minimum_size = Vector2(325, 390)
+custom_minimum_size = Vector2(225, 390)
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -65,16 +66,40 @@ layout_mode = 2
 [node name="PokemonName" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 26
-text = "Venusaur Moveset"
+theme_override_font_sizes/font_size = 20
+text = "Venusaur's Moves"
 
 [node name="ExitButton" type="Button" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(35, 35)
+custom_minimum_size = Vector2(27, 25)
 layout_mode = 2
-theme_override_font_sizes/font_size = 18
-text = "X"
 flat = true
 script = ExtResource("4_yvunl")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/ExitButton"]
+self_modulate = Color(0.25098, 0.25098, 0.25098, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_4ooys")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/HBoxContainer/ExitButton/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "X"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 155)
@@ -123,6 +148,7 @@ theme_override_constants/margin_bottom = 5
 custom_minimum_size = Vector2(10, 10)
 layout_mode = 2
 size_flags_vertical = 3
+theme_override_font_sizes/font_size = 15
 text = "Power: 40
 Accuracy: 100%
 

@@ -5,7 +5,9 @@
 		"Category": "Physical",
 		"Power": 80,
 		"Accuracy": 100,
-		"Effect": "User recovers half the HP inflicted on opponent.",
+		"Effect": "",
+		"EffectRemoved": "User recovers half the HP inflicted on opponent.",
+		"Hit Count": [1, 1], 
 		"Status Condition": {}
 	},
 	"Pin Missle":
@@ -15,15 +17,17 @@
 		"Power": 25,
 		"Accuracy": 95,
 		"Effect": "Hits 2-5 times in one turn.",
+		"Hit Count": [2, 5], 
 		"Status Condition": {}
 	},
 	"String Shot":
 	{
 		"Type": "Bug",
 		"Category": "Status",
-		"Power": null,
+		"Power": 0,
 		"Accuracy": 95,
 		"Effect": "Sharply lowers opponent's Speed.",
+		"Hit Count": [1, 1], 
 		"Status Condition": {}
 	},
 	"Twineedle":
@@ -33,6 +37,7 @@
 		"Power": 25,
 		"Accuracy": 100,
 		"Effect": "Hits twice in one turn. May poison opponent.",
-		"Status Condition": {}
+		"Hit Count": [2, 2], 
+		"Status Condition": { "Poison": 0.25 }
 	}
 }

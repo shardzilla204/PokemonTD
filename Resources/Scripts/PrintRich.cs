@@ -23,14 +23,13 @@ public partial class PrintRich
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
    }
 
-   // Adds new lines for readability
    public static void PrintLine(TextColor textColor, string text)
    {
       if (!PokemonTD.AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
-      GD.Print();
+      GD.Print(); // Spacing
    }
 
    public static void PrintTeam(TextColor textColor)
@@ -65,8 +64,10 @@ public partial class PrintRich
       GD.Print(); // Spacing
    }
 
-   public static string GetEffectiveMessage(EffectiveType effectiveType)
+   public static string GetEffectiveMessage(Pokemon pokemon, PokemonMove pokemonMove)
    {
+      float typeMultiplier = GetTypeMultiplier(pokemon, pokemonMove);
+      EffectiveType effectiveType = PokemonTypes.Instance.GetEffectiveType(typeMultiplier);
       string effectiveMessage = effectiveType switch
       {
          EffectiveType.SuperEffective => "And Was Super Effective",
@@ -79,9 +80,29 @@ public partial class PrintRich
       return effectiveMessage;
    }
 
+   public static string GetDamageMessage(int damage, Pokemon defendingPokemon, PokemonMove pokemonMove)
+   {
+      string damageMessage = $"For {damage} Damage ";
+      string effectiveMessage = GetEffectiveMessage(defendingPokemon, pokemonMove);
+      damageMessage += effectiveMessage;
+      return damageMessage;
+   }
+
+   private static float GetTypeMultiplier(Pokemon pokemon, PokemonMove pokemonMove)
+   {
+      float firstTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, pokemon.Types[0]);
+      if (pokemon.Types.Count > 1)
+      {
+         float secondTypeMultiplier = PokemonTypes.Instance.GetTypeMultiplier(pokemonMove.Type, pokemon.Types[1]);
+
+         if (firstTypeMultiplier < secondTypeMultiplier) firstTypeMultiplier = secondTypeMultiplier;
+      }
+      return firstTypeMultiplier;
+   }
+
    public static string GetColorHex(TextColor textColor) => textColor switch 
    {
-      TextColor.Red => "FF0000",
+      TextColor.Red => "FF4040",
       TextColor.Orange => "F88158",
       TextColor.Yellow => "E9D66B",
       TextColor.Green => "76CD26",

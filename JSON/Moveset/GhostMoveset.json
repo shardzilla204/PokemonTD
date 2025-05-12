@@ -3,10 +3,11 @@
     {
         "Type": "Ghost",
         "Category": "Status",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Confuses opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Confuse": 1 }
     },
     "Lick":
     {
@@ -15,15 +16,17 @@
         "Power": 30,
         "Accuracy": 100,
         "Effect": "May paralyze opponent.",
-        "Status Condition": {}
+        "Hit Count": [1, 1], 
+        "Status Condition": { "Paralysis": 0.25 }
     },
     "Night Shade":
     {
         "Type": "Ghost",
         "Category": "Special",
-        "Power": null,
+        "Power": 0,
         "Accuracy": 100,
         "Effect": "Inflicts damage equal to user's level.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

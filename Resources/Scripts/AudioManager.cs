@@ -30,9 +30,10 @@ public partial class AudioManager : AudioStreamPlayer
 
     public override void _Ready()
     {
-        AudioServer.SetBusVolumeDb((int) BusType.Master, -25f);
-		AudioServer.SetBusVolumeDb((int) BusType.Music, -25f);
-		AudioServer.SetBusVolumeDb((int) BusType.Sound, -25f);
+		float startingAudioLevel = -12.5f;
+        AudioServer.SetBusVolumeDb((int) BusType.Master, startingAudioLevel);
+		AudioServer.SetBusVolumeDb((int) BusType.Music, startingAudioLevel);
+		AudioServer.SetBusVolumeDb((int) BusType.Sound, startingAudioLevel);
     }
 	
 	public override void _Input(InputEvent @event)

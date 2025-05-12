@@ -96,7 +96,7 @@ public partial class PokemonManager : Node
         return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
     }
 
-    private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotID)
+    private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotIndex)
     {
         if (PokemonEvolution.Instance.CanEvolve(pokemon))
         {
@@ -104,15 +104,15 @@ public partial class PokemonManager : Node
 
             await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolved);
             
-            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon, teamSlotID);
+            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon, teamSlotIndex);
             
-		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotID);
+		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotIndex);
         }
 
         SetPokemonStats(pokemon);
     }
 
-    private void SetPokemonStats(Pokemon pokemon)
+    public void SetPokemonStats(Pokemon pokemon)
     {
 		pokemon.HP = GetPokemonHP(pokemon);
 		pokemon.Attack = GetOtherPokemonStat(pokemon, PokemonStat.Attack);
@@ -120,6 +120,8 @@ public partial class PokemonManager : Node
 		pokemon.SpecialAttack = GetOtherPokemonStat(pokemon, PokemonStat.SpecialAttack);
 		pokemon.SpecialDefense = GetOtherPokemonStat(pokemon, PokemonStat.SpecialDefense);
 		pokemon.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
+        pokemon.Accuracy = 1;
+        pokemon.Evasion = 0;
 
 		PrintRich.PrintStats(TextColor.Purple, pokemon);
     }
@@ -160,22 +162,24 @@ public partial class PokemonManager : Node
 		return pokemonMoves[randomMoveIndex];
     }
 
-    public bool IsPokemonMoveLanding(PokemonMove pokemonMove)
+    public bool HasPokemonMoveHit(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float thresholdValue = 1 - ((float) pokemonMove.Accuracy / 100);
-        RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float randomValue = RNG.RandfRange(0, 1);
+        float percentage = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
 
-        return randomValue >= thresholdValue ? true : false;
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        float randomThresholdValue = RNG.RandfRange(0, 1);
+        randomThresholdValue -= percentage;
+
+        return randomThresholdValue <= 0;
     }
 
-    public int GetDamage(Pokemon pokemon, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
+    public int GetDamage(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemon);
-        float attackDefenseRatio = GetAttackDefenseRatio(pokemon, pokemonMove, pokemonEnemy);
-        float damage = (((5 * pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
+        float criticalDamageMultiplier = GetCriticalDamageMultiplier(attackingPokemon, pokemonMove);
+        float attackDefenseRatio = GetAttackDefenseRatio(attackingPokemon, pokemonMove, defendingPokemon);
+        float damage = (((5 * attackingPokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
         
-        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
+        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, defendingPokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
         {
             damage *= typeMultiplier;
@@ -184,31 +188,32 @@ public partial class PokemonManager : Node
         return Mathf.RoundToInt(damage);
     }
 
-    private float GetAttackDefenseRatio(Pokemon pokemon, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
+    private float GetAttackDefenseRatio(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float specialRatio = (float) pokemon.SpecialAttack / pokemonEnemy.Pokemon.SpecialDefense;
-        float normalRatio = (float) pokemon.Attack / pokemonEnemy.Pokemon.Defense;
+        float specialRatio = (float) attackingPokemon.SpecialAttack / defendingPokemon.SpecialDefense;
+        float normalRatio = (float) attackingPokemon.Attack / defendingPokemon.Defense;
 
         float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
 
         return (float) Math.Round(attackDefenseRatio, 2);
     }
     
-    private float GetCriticalDamageMultiplier(Pokemon pokemon)
+    private float GetCriticalDamageMultiplier(Pokemon pokemon, PokemonMove pokemonMove)
     {
-        return IsCriticalHit(pokemon) ? ((2 * pokemon.Level) + 5) / pokemon.Level + 5 : 1;
+        return IsCriticalHit(pokemon, pokemonMove) ? ((2 * pokemon.Level) + 5) / pokemon.Level + 5 : 1;
     }
 
-    private bool IsCriticalHit(Pokemon pokemon)
+    private bool IsCriticalHit(Pokemon pokemon, PokemonMove pokemonMove)
     {
-        float minThreshold = pokemon.Speed / 2;
+        float criticalHitRatio = PokemonMoveEffect.Instance.GetCriticalHitRatio(pokemon, pokemonMove);
         float maxThreshold = 255;
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float thresholdValue = RNG.RandfRange(minThreshold, maxThreshold);
+        float thresholdValue = RNG.RandfRange(criticalHitRatio, maxThreshold);
         float randomValue = RNG.RandfRange(0, maxThreshold);
+        randomValue -= thresholdValue;
 
-        bool isCriticalHit = randomValue > thresholdValue;
+        bool isCriticalHit = randomValue <= 0;
 
 		if (isCriticalHit) 
         {
@@ -220,6 +225,14 @@ public partial class PokemonManager : Node
 
         return isCriticalHit;
     }
+
+    public void PokemonMoveMissed(Pokemon pokemon, PokemonMove pokemonMove)
+	{
+		if (pokemonMove.Accuracy == 0) return;
+
+		string missedMessage = $"{pokemon.Name}'s {pokemonMove.Name} Missed";
+		PrintRich.PrintLine(TextColor.Purple, missedMessage);
+	}
 
     // ? HP Stat Formula
     // (Base * 2 + Level / 100) + Level + 10

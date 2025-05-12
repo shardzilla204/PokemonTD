@@ -28,7 +28,9 @@ public enum PokemonStat
 	Defense,
 	SpecialAttack,
 	SpecialDefense,
-	Speed
+	Speed,
+	Accuracy,
+	Evasion
 }
 
 public partial class Pokemon : Node
@@ -51,6 +53,8 @@ public partial class Pokemon : Node
 	public int SpecialAttack;
 	public int SpecialDefense;
 	public int Speed;
+	public float Accuracy = 1;
+	public float Evasion = 0;
 
    	public int Level = PokemonTD.MinPokemonLevel;
 	public int MinExperience;
@@ -80,7 +84,7 @@ public partial class Pokemon : Node
 
 		HP = pokemonStats["HP"].As<int>();
 		Attack = pokemonStats["Attack"].As<int>();
-		Defense = pokemonStats["Defense"].As<int>();
+		Defense = pokemonStats["Defense"].As<int>(); 
 		SpecialAttack = pokemonStats["Special Attack"].As<int>();
 		SpecialDefense = pokemonStats["Special Defense"].As<int>();
 		Speed = pokemonStats["Speed"].As<int>();

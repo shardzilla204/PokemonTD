@@ -6,6 +6,7 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "May lower opponent's Speed.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Bubble Beam":
@@ -15,6 +16,7 @@
         "Power": 65,
         "Accuracy": 100,
         "Effect": "May lower opponent's Speed.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Clamp":
@@ -24,6 +26,7 @@
         "Power": 35,
         "Accuracy": 85,
         "Effect": "Traps opponent, damaging them for 4-5 turns.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Crabhammer":
@@ -33,6 +36,7 @@
         "Power": 100,
         "Accuracy": 90,
         "Effect": "High critical hit ratio.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Hydro Pump":
@@ -42,6 +46,7 @@
         "Power": 110,
         "Accuracy": 80,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Surf":
@@ -51,6 +56,7 @@
         "Power": 90,
         "Accuracy": 100,
         "Effect": "Hits all adjacent Pokemon.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Water Gun":
@@ -60,6 +66,7 @@
         "Power": 40,
         "Accuracy": 100,
         "Effect": "",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Waterfall":
@@ -69,15 +76,17 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "May cause flinching.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     },
     "Withdraw":
     {
         "Type": "Water",
         "Category": "Status",
-        "Power": null,
-        "Accuracy": null,
+        "Power": 0,
+        "Accuracy": 0,
         "Effect": "Raises user's Defense.",
+        "Hit Count": [1, 1], 
         "Status Condition": {}
     }
 }

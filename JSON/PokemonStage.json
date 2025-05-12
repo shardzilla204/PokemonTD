@@ -3,42 +3,70 @@
     {
         "Pokemon Per Wave": 5,
         "Wave Count": 10,
-        "Pokemon Levels": [3, 4],
+        "Pokemon Levels": [3, 6],
         "Pokemon": 
         {
-            "Pidgey": 200,
+            "Pidgey": 2000,
             "Rattata": 2000,
-            "Caterpie": 150,
-            "Weedle": 150,
-            "Squirtle": 5
+            "Caterpie": 1500,
+            "Weedle": 1500,
+            "Squirtle": 50
         }
     },
     "2":
     {
         "Pokemon Per Wave": 7,
         "Wave Count": 15,
-        "Pokemon Levels": [5, 7],
+        "Pokemon Levels": [5, 10],
         "Pokemon": 
         {
             "Spearow": 2000,
             "Rattata": 1000,
-            "Raticate": 50,
-            "Bulbasaur": 15,
-            "Pikachu": 5
+            "Raticate": 250,
+            "Bulbasaur": 150,
+            "Pikachu": 25
         }
     },
     "3":
     {
-        "Pokemon Per Wave": 10,
+        "Pokemon Per Wave": 12,
         "Wave Count": 7,
-        "Pokemon Levels": [8, 17],
+        "Pokemon Levels": [10, 16],
         "Pokemon":
         {
             "Magikarp": 5000,
             "Poliwag": 1000,
-            "Goldeen": 250,
+            "Goldeen": 500,
             "Fearow": 50,
             "Lapras": 5
+        }
+    },
+    "4":
+    {
+        "Pokemon Per Wave": 12,
+        "Wave Count": 15,
+        "Pokemon Levels": [15, 20],
+        "Pokemon":
+        {
+            "Psyduck": 5000,
+            "Magikarp": 2500,
+            "Horsea": 500,
+            "Poliwhirl": 250,
+            "Dratini": 5
+        }
+    },
+    "5":
+    {
+        "Pokemon Per Wave": 20,
+        "Wave Count": 10,
+        "Pokemon Levels": [12, 17],
+        "Pokemon":
+        {
+            "Gastly": 5000,
+            "Grimer": 2500,
+            "Koffing": 2500,
+            "Haunter": 250,
+            "Charmander": 5
         }
     }
 }

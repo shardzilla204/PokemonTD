@@ -60,6 +60,11 @@ public partial class PokemonStages : Node
 		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
+	public PokemonStage FindPokemonStage(int stageID)
+	{
+		return _pokemonStages.Find(pokemonStage => pokemonStage.ID == stageID);
+	}
+
 	public List<PokemonStage> GetPokemonStages()
 	{
 		return _pokemonStages;
