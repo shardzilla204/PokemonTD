@@ -38,10 +38,7 @@ public partial class PokemonGame : Node
 
     public override void _Notification(int what)
     {
-        if (what == NotificationWMCloseRequest)
-        {
-            SaveGame();
-        }
+        if (what == NotificationWMCloseRequest) PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
     }
 
     public void SaveGame()

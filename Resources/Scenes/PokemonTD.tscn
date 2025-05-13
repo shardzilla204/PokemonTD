@@ -33,8 +33,7 @@ _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _areConsoleMessagesEnabled = true
 _areFilePathsVisible = true
-_isPokeCenterRandomized = true
-_pokeCenterCount = 120
+_pokeCenterCount = 31
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")

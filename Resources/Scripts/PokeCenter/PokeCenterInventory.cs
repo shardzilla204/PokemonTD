@@ -55,9 +55,7 @@ public partial class PokeCenterInventory : Container
 		_sortByNumber.Pressed += () => SortByNationalNumber(_sortByNumber.IsDescending);
 		_sortByType.Pressed  += () => SortByType(_sortByType.IsDescending);
 
-		_cycleLeftButton.Visible = _pageIndex > 0 ? true : false;
-		_cycleRightButton.Visible = _pageIndex < _maxPageIndex ? true : false;
-
+		SetButtonOpacity();
 		SortByLevel(false);
 		_sortByLevel.UpdateArrows(false);
     }
@@ -66,94 +64,46 @@ public partial class PokeCenterInventory : Container
 	{
 		PokeCenter.Instance.OrderByLevel(isDescending);
 
-		SetPokemonPages(_pageIndex);
+		SetPokemonPages();
 	}
 
 	private void SortByName(bool isDescending)
 	{
 		PokeCenter.Instance.OrderByName(isDescending);
 
-		SetPokemonPages(_pageIndex);
+		SetPokemonPages();
 	}
 
 	private void SortByNationalNumber(bool isDescending)
 	{
 		PokeCenter.Instance.OrderByNationalNumber(isDescending);
 
-		SetPokemonPages(_pageIndex);
+		SetPokemonPages();
 	}
 
 	private void SortByType(bool isDescending)
 	{
 		PokeCenter.Instance.OrderByType(isDescending);
 
-		SetPokemonPages(_pageIndex);
+		SetPokemonPages();
 	}
 
 	private void OnPokemonTeamUpdated()
 	{
-		SetPokemonPages(_pageIndex);
+		SetPokemonPages();
 	}
 
-	private void SetPokemonPages(int index)
+	private void SetPokemonPages()
 	{
-		_maxPageIndex = GetPageCount(PokeCenter.Instance.Pokemon.Count);
-		Dictionary<int, List<Pokemon>> pokemonPages = GetPokemonPages(_maxPageIndex);
+		_maxPageIndex = PokeCenter.Instance.GetPageCount();
+		Dictionary<int, List<Pokemon>> pokemonPages = PokeCenter.Instance.GetPokemonPages(_maxPageIndex);
+
+		_pageIndex = _maxPageIndex < _pageIndex ? _maxPageIndex : _pageIndex;
 
 		_pokemon.Clear();
-		_pokemon.AddRange(pokemonPages[index]);
+		_pokemon.AddRange(pokemonPages[_pageIndex]);
 
 		UpdateInventory();
-	}
-
-	private Dictionary<int, List<Pokemon>> GetPokemonPages(int pageCount)
-	{
-		Dictionary<int, List<Pokemon>> pokemonPages = new Dictionary<int, List<Pokemon>>();
-
-		// Count of left to iterate through
-		int pokemonLeft = PokeCenter.Instance.Pokemon.Count; 
-
-		// Pokemons position in the list
-		int pokemonIndex = 0; 
-
-		for (int i = 0; i <= pageCount; i++)
-		{
-			int pokemonCount = pokemonLeft > PokeCenter.Instance.PokemonPerPage ? PokeCenter.Instance.PokemonPerPage : pokemonLeft;
-			List<Pokemon> pokemonPage = GetPokemonPage(pokemonCount, pokemonIndex);
-
-			pokemonPages.Add(i, pokemonPage);
-
-			// Update amount of iterations 
-			pokemonLeft -= pokemonCount;
-
-			// Update starting index for the next page
-			pokemonIndex += pokemonCount;
-		}
-		return pokemonPages;
-	}
-
-	private int GetPageCount(int pokemonCount)
-	{
-		int pageCount = 0;
-		while (pokemonCount > PokeCenter.Instance.PokemonPerPage)
-		{
-			pageCount++;
-			pokemonCount -= PokeCenter.Instance.PokemonPerPage;
-		}
-		return pageCount;
-	}
-
-	// A list that can hold up to 30 pokemon
-	private List<Pokemon> GetPokemonPage(int pokemonCount, int pokemonIndex)
-	{
-		List<Pokemon> pokemonPage = new List<Pokemon>();
-		for (int i = 0; i < pokemonCount; i++)
-		{
-			Pokemon pokemon = PokeCenter.Instance.Pokemon[pokemonIndex];
-			pokemonPage.Add(pokemon);
-			pokemonIndex++;
-		}
-		return pokemonPage;
 	}
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -186,28 +136,23 @@ public partial class PokeCenterInventory : Container
 		PokeCenter.Instance.AddPokemon(pokeCenterTeamSlot.Pokemon);
     }
 
-	// Go back and display the first page 
-	private void ResetInventory()
+	private void SetButtonOpacity()
 	{
-		_pageIndex = 0;
-
-		SetPokemonPage();
-		UpdateInventory();
+		_cycleLeftButton.Visible = _pageIndex > 0;
+		_cycleRightButton.Visible = _pageIndex < _maxPageIndex - 1;
 	}
 
 	private void CycleInventory(bool isCyclingRight)
 	{
 		_pageIndex += isCyclingRight ? 1 : -1;
 
-		SetPokemonPage();
+		SetPokemonPages();
 		UpdateInventory();
+		SetButtonOpacity();
 	}
 
 	private void UpdateInventory()
 	{
-		_cycleLeftButton.Visible = _pageIndex > 0 ? true : false;
-		_cycleRightButton.Visible = _pageIndex < _maxPageIndex ? true : false;
-
 		ClearInventory();
 
 		foreach (Pokemon pokemon in _pokemon)
@@ -215,7 +160,7 @@ public partial class PokeCenterInventory : Container
 			AddPokeCenterSlot(pokemon);
 		}
 
-		_pageCountLabel.Text = $"Page {_pageIndex + 1}/{_maxPageIndex + 1}";
+		_pageCountLabel.Text = $"Page {_pageIndex + 1}/{_maxPageIndex}";
 	}
 
 	private void ClearInventory()
@@ -224,15 +169,6 @@ public partial class PokeCenterInventory : Container
 		{
 			pokeCenterSlot.QueueFree();
 		}
-	}
-
-	private void SetPokemonPage()
-	{
-		_pokemon.Clear();
-
-		Dictionary<int, List<Pokemon>> pokemonPages = GetPokemonPages(_maxPageIndex);
-		List<Pokemon> pokemonPage = pokemonPages[_pageIndex];
-		_pokemon.AddRange(pokemonPage);
 	}
 
 	private void AddPokeCenterSlot(Pokemon pokemon)

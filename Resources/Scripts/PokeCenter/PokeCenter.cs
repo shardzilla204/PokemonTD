@@ -48,25 +48,28 @@ public partial class PokeCenter : Node
 
 	public void SavePokemon()
 	{
-		int totalPageCount = GetTotalPageCount();
-		SavePokemonFiles(totalPageCount);
+		int pageCount = GetPageCount();
+		SavePokemonFiles(pageCount);
 	}
 
-	private void SavePokemonFiles(int totalPageCount)
+	private void SavePokemonFiles(int pageCount)
 	{
 		RemovePokemonFiles();
-		AddPokemonFiles(totalPageCount);
+		AddPokemonFiles(pageCount);
 	}
 
-	private void AddPokemonFiles(int totalPageCount)
+	private void AddPokemonFiles(int pageCount)
 	{
 		using DirAccess pokeCenterDirectory = DirAccess.Open(_pokeCenterPath);
-		for (int i = 0; i < totalPageCount; i++)
+		Dictionary<int, List<Pokemon>> pokemonPages = GetPokemonPages(pageCount);
+		for (int i = 0; i < pageCount; i++)
 		{
 			string filePath = $"{_pokeCenterPath}pokeCenterPage{i}.pokemon";
 			using FileAccess pageFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Write);
-			List<Pokemon> pokemonPage = GetPokemonPage(i);
-			string jsonString = Json.Stringify(GetData(i, pokemonPage), "\t");
+
+			List<Pokemon> pokemonPage = pokemonPages[i];
+			GC.Dictionary<string, Variant> pokeCenterData = GetData(i, pokemonPage);
+			string jsonString = Json.Stringify(pokeCenterData, "\t");
 
 			if (jsonString == "") continue;
 
@@ -74,17 +77,42 @@ public partial class PokeCenter : Node
 		}
 	}
 
-	private List<Pokemon> GetPokemonPage(int pageIndex)
+	public Dictionary<int, List<Pokemon>> GetPokemonPages(int pageCount)
 	{
-		int pokemonIndex = pageIndex * PokemonPerPage;
-		List<Pokemon> pokemonPage = new List<Pokemon>();
-		for (int i = pokemonIndex; i < PokemonPerPage + pokemonIndex; i++)
+		Dictionary<int, List<Pokemon>> pokemonPages = new Dictionary<int, List<Pokemon>>();
+
+		// Count of left to iterate through
+		int pokemonLeft = Pokemon.Count; 
+
+		// Pokemon's position in the list
+		int pokemonIndex = 0; 
+
+		for (int i = 0; i <= pageCount; i++)
 		{
-			Pokemon pokemon = Pokemon[i];
-			pokemonPage.Add(pokemon);
+			int pokemonCount = pokemonLeft > PokemonPerPage ? PokemonPerPage : pokemonLeft;
+			List<Pokemon> pokemonPage = GetPokemonPage(pokemonCount, pokemonIndex);
+
+			pokemonPages.Add(i, pokemonPage);
+
+			// Update amount of iterations 
+			pokemonLeft -= pokemonCount;
+
+			// Update starting index for the next page
+			pokemonIndex += pokemonCount;
 		}
-		GD.Print($"Page Index: {pageIndex}");
-		GD.Print($"Pokemon Count: {pokemonPage.Count}");
+		return pokemonPages;
+	}
+
+	// A list that can hold up to 30 pokemon
+	private List<Pokemon> GetPokemonPage(int pokemonCount, int pokemonIndex)
+	{
+		List<Pokemon> pokemonPage = new List<Pokemon>();
+		for (int i = 0; i < pokemonCount; i++)
+		{
+			Pokemon pokemon = Pokemon[pokemonIndex];
+			pokemonPage.Add(pokemon);
+			pokemonIndex++;
+		}
 		return pokemonPage;
 	}
 
@@ -105,18 +133,20 @@ public partial class PokeCenter : Node
 		}
 	}
 
-	private int GetTotalPageCount()
+	public int GetPageCount()
 	{
-		int totalPageCount = 0;
+		int pageCount = 0;
 		int pokemonCount = Pokemon.Count;
-		while (pokemonCount > 0)
+		while (pokemonCount >= PokemonPerPage)
 		{
-			totalPageCount++;
+			pageCount++;
 			pokemonCount -= PokemonPerPage;
 		}
-		return totalPageCount;
-	}
 
+		// Add another page to accomodate for pages that are not full
+		if (pokemonCount > 0) pageCount++;
+		return pageCount;
+	}
 	private void LoadPokemonFiles()
 	{
 		using DirAccess pokeCenterDirectory = DirAccess.Open(_pokeCenterPath);
@@ -213,7 +243,7 @@ public partial class PokeCenter : Node
 		PokemonTeam.Instance.AddPokemon(pokemon);
 	}
 
-	public GC.Dictionary<string, Variant> GetData(int pageIndex, List<Pokemon> pokemonPage)
+	private GC.Dictionary<string, Variant> GetData(int pageIndex, List<Pokemon> pokemonPage)
 	{
 		GC.Dictionary<string, Variant> pokeCenterData = new GC.Dictionary<string, Variant>();
 		for (int i = 0; i < pokemonPage.Count; i++)
@@ -229,7 +259,7 @@ public partial class PokeCenter : Node
 		return pokeCenterData;
 	}
 
-	public void SetData(GC.Dictionary<string, Variant> pokeCenterData)
+	private void SetData(GC.Dictionary<string, Variant> pokeCenterData)
 	{
 		List<string> pokemonKeys = pokeCenterData.Keys.ToList();
 		for (int i = 0; i < pokeCenterData.Keys.Count; i++)
