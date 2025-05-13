@@ -58,6 +58,7 @@ public partial class MenuInterface : CanvasLayer
 	private async void OnExitPressed()
 	{
 		PokemonTD.AudioManager.PlayButtonPressed();
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
 
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 

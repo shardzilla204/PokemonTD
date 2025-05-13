@@ -81,13 +81,13 @@ public partial class PokemonStatusCondition : Node
         if (parameter is StageSlot pokemonStageSlot)
         {
             pokemonStageSlot.ChangeActivity(false);
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonStageSlot.ChangeActivity(true);
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
             pokemonEnemy.CanMove = false;
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonEnemy.CanMove = true;
         }
         ApplyStatusColor(parameter, StatusCondition.None);
@@ -103,7 +103,7 @@ public partial class PokemonStatusCondition : Node
             int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
 
             pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
@@ -111,7 +111,7 @@ public partial class PokemonStatusCondition : Node
             int pokemonSpeed = pokemonEnemy.Speed;
 
             pokemonEnemy.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonEnemy.Speed = pokemonSpeed;
         }
 
@@ -205,7 +205,7 @@ public partial class PokemonStatusCondition : Node
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
             pokemonEnemy.Speed = -pokemonEnemy.Speed;
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonEnemy.Speed = -pokemonEnemy.Speed;
         }
         ApplyStatusColor(parameter, StatusCondition.None);
@@ -218,7 +218,7 @@ public partial class PokemonStatusCondition : Node
         ApplyStatusColor(pokemonStageSlot, StatusCondition.Confuse);
 
         float timeSeconds = 3f;
-        await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+        await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
 
         pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
         ApplyStatusColor(pokemonStageSlot, StatusCondition.None);

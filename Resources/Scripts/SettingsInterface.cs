@@ -8,6 +8,18 @@ public partial class SettingsInterface : CanvasLayer
 	private CustomButton _exitButton;
 
 	[Export]
+	private Container _gameSettings;
+
+	[Export]
+	private CustomButton _saveButton;
+
+	[Export]
+	private CustomButton _loadButton;
+
+	[Export]
+	private CustomButton _deleteButton;
+
+	[Export]
 	private HSlider _masterSlider;
 
 	[Export]
@@ -33,8 +45,13 @@ public partial class SettingsInterface : CanvasLayer
 			{
 				PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 			}
+			_gameSettings.Visible = FromMainMenu;
 			QueueFree();
 		};
+
+		_saveButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+		_loadButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
+		_deleteButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
 
         _masterSlider.ValueChanged += (value) => OnValueChanged(BusType.Master, value);
         _musicSlider.ValueChanged += (value) => OnValueChanged(BusType.Music, value);

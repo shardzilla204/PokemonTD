@@ -1,0 +1,443 @@
+[gd_scene load_steps=8 format=3 uid="uid://caqpnn7iurh5b"]
+
+[ext_resource type="Script" uid="uid://ccvadu1ut63dl" path="res://Resources/Scripts/ForgetMoveInterface.cs" id="1_fgjy6"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_kk2b6"]
+[ext_resource type="Script" uid="uid://c05p8mmkappwr" path="res://Resources/Scripts/Move/MoveOption.cs" id="3_ep04j"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="4_m10q6"]
+[ext_resource type="Texture2D" uid="uid://bpjoyhlvxo5cy" path="res://Assets/Images/TypeIcon/NormalTypeIcon.png" id="5_4gwvj"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="6_8uw42"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="7_rnsf6"]
+
+[node name="ForgetMoveInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokemonName", "_moveToLearnOption", "_moveToForgetOption", "_moveForgetOptions", "_moveDetails", "_swap")]
+script = ExtResource("1_fgjy6")
+_pokemonName = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/PokemonName")
+_moveToLearnOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption")
+_moveToForgetOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption")
+_moveForgetOptions = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions")
+_moveDetails = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer3/NinePatchRect/MarginContainer/MoveDetails")
+_swap = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/SwapButton")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_kk2b6")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="HBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoveForgetOptions" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3"]
+custom_minimum_size = Vector2(0, 330)
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MoveForgetOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoveForgetOption2" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoveForgetOption3" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MoveForgetOption4" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3"]
+self_modulate = Color(0.15, 0.15, 0.15, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="MoveDetails" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/NinePatchRect/MarginContainer"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/line_spacing = 0
+theme_override_font_sizes/font_size = 30
+text = "Power: 40
+Accuracy: 100%
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MoveToLearn" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="PokemonName" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Your Bulbsaur wants to learn"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveLearnOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "and forget"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MoveForgetOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_moveStats", "_moveType")]
+custom_minimum_size = Vector2(400, 75)
+layout_mode = 2
+size_flags_horizontal = 4
+flat = true
+script = ExtResource("3_ep04j")
+_moveStats = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveStats")
+_moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption"]
+self_modulate = Color(0.35, 0.35, 0.35, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m10q6")
+patch_margin_left = 1
+patch_margin_top = 1
+patch_margin_right = 1
+patch_margin_bottom = 1
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Bite | 40 | 100%"
+
+[node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(35, 0)
+layout_mode = 2
+texture = ExtResource("5_4gwvj")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="SwapButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(250, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 25
+text = "Swap
+"
+flat = true
+script = ExtResource("6_8uw42")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SwapButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_rnsf6")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10

@@ -18,7 +18,7 @@ public partial class PokemonHealthBar : Container
 
     public void Update(Pokemon pokemon)
     {
-        _pokemonHealth = pokemon.HP;
+        _pokemonHealth = PokemonManager.Instance.GetPokemonHP(pokemon);
         _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
 
 		_healthBar.MaxValue = pokemon != null ? pokemon.HP : 100;

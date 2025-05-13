@@ -249,7 +249,7 @@
       "Slash": [17],
       "Poison Sting": [24],
       "Swift": [31],
-      "Fury Swiptes": [38]
+      "Fury Swipes": [38]
     },
     "Sandslash":
     {
@@ -258,7 +258,7 @@
       "Slash": [17],
       "Poison Sting": [27],
       "Swift": [36],
-      "Fury Swiptes": [47]
+      "Fury Swipes": [47]
     },
     "Nidoran♀":
     {
@@ -669,7 +669,7 @@
       "Wrap": [13],
       "Poison Sting": [18],
       "Water Gun": [22],
-      "Constrict ": [27],
+      "Constrict": [27],
       "Barrier": [33],
       "Screech": [40],
       "Hydro Pump": [48]
@@ -681,7 +681,7 @@
       "Wrap": [1, 13],
       "Poison Sting": [18],
       "Water Gun": [22],
-      "Constrict ": [27],
+      "Constrict": [27],
       "Barrier": [35],
       "Screech": [43],
       "Hydro Pump": [50]
@@ -693,7 +693,7 @@
       "Rock Throw": [16],
       "Self-Destruct": [21],
       "Harden": [26],
-      "Earthquake ": [31],
+      "Earthquake": [31],
       "Explosion": [36]
     },
     "Graveler":
@@ -703,7 +703,7 @@
       "Rock Throw": [16],
       "Self-Destruct": [21],
       "Harden": [29],
-      "Earthquake ": [36],
+      "Earthquake": [36],
       "Explosion": [43]
     },
     "Golem":
@@ -713,7 +713,7 @@
       "Rock Throw": [16],
       "Self-Destruct": [21],
       "Harden": [29],
-      "Earthquake ": [36],
+      "Earthquake": [36],
       "Explosion": [43]
     },
     "Ponyta":
@@ -723,7 +723,7 @@
       "Stomp": [32],
       "Growl": [35],
       "Fire Spin": [39],
-      "Take Down ": [43],
+      "Take Down": [43],
       "Agility": [48]
     },
     "Rapidash":
@@ -733,7 +733,7 @@
       "Stomp": [1, 32],
       "Growl": [1, 35],
       "Fire Spin": [39],
-      "Take Down ": [47],
+      "Take Down": [47],
       "Agility": [55]
     },
     "Slowpoke":
@@ -928,7 +928,7 @@
       "Vice Grip": [20],
       "Guillotine": [25],
       "Stomp": [30],
-      "Crabhamnmer": [35],
+      "Crabhammer": [35],
       "Harden": [40]
     },
     "Kingler":
@@ -938,7 +938,7 @@
       "Vice Grip": [1, 20],
       "Guillotine": [25],
       "Stomp": [34],
-      "Crabhamnmer": [42],
+      "Crabhammer": [42],
       "Harden": [49]
     },
     "Voltorb":
@@ -1286,7 +1286,7 @@
       "Thunder Wave": [40],
       "Double Kick": [42],
       "Agility": [44],
-      "Pin Missle": [48],
+      "Pin Missile": [48],
       "Thunder": [54]
     },
     "Flareon":

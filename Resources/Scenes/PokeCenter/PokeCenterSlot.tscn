@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcou0d0mxotei"]
+
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_6mjjq"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_ino4a"]
+[ext_resource type="Script" uid="uid://ci6hhnwrtwyff" path="res://Resources/Scripts/PokeCenter/PokeCenterSlot.cs" id="2_ajv44"]
+[ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_vyyrb"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_ino4a"]
+[ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="4_xf2xb"]
+
+[sub_resource type="FontVariation" id="FontVariation_vobjb"]
+base_font = ExtResource("4_xf2xb")
+variation_embolden = 0.5
+
+[node name="PokemonCenterSlot" type="NinePatchRect" node_paths=PackedStringArray("_interactComponent", "_pokemonSprite", "_pokemonLevel")]
+self_modulate = Color(0.75, 0.75, 0.75, 1)
+custom_minimum_size = Vector2(75, 75)
+offset_right = 75.0
+offset_bottom = 75.0
+theme = ExtResource("1_ino4a")
+texture = ExtResource("1_6mjjq")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("2_ajv44")
+_interactComponent = NodePath("InteractComponent")
+_pokemonSprite = NodePath("PokemonSprite")
+_pokemonLevel = NodePath("InteractComponent/PokemonLevel")
+
+[node name="PokemonSprite" type="TextureRect" parent="."]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -5.0
+offset_bottom = 70.0
+grow_horizontal = 2
+scale = Vector2(1.25, 1.25)
+pivot_offset = Vector2(37.5, 37.5)
+size_flags_vertical = 0
+texture = ExtResource("4_ino4a")
+stretch_mode = 5
+
+[node name="InteractComponent" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+script = ExtResource("3_vyyrb")
+
+[node name="PokemonLevel" type="Label" parent="InteractComponent"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_fonts/font = SubResource("FontVariation_vobjb")
+theme_override_font_sizes/font_size = 20
+text = "LVL 2"
+horizontal_alignment = 1
+vertical_alignment = 1

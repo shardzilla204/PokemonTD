@@ -45,7 +45,6 @@ public partial class Pokemon : Node
    	public Texture2D Sprite;
    	public List<PokemonType> Types = new List<PokemonType>();
 	public List<PokemonMove> Moves = new List<PokemonMove>();
-	public int ExperienceYield;
 
 	public int HP;
 	public int Attack;
@@ -57,8 +56,7 @@ public partial class Pokemon : Node
 	public float Evasion = 0;
 
    	public int Level = PokemonTD.MinPokemonLevel;
-	public int MinExperience;
-	public int MaxExperience = 10;
+	public PokemonExperience Experience;
 
 	public Gender Gender;
 
@@ -75,7 +73,9 @@ public partial class Pokemon : Node
 		Weight = pokemonDictionary["Weight"].As<float>();
 		Description = pokemonDictionary["Description"].As<string>();
 		Sprite = GetPokemonSprite(pokemonName);
-		ExperienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
+
+		int experienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
+		Experience = new PokemonExperience(experienceYield);
 
 		foreach (string pokemonType in pokemonTypes) 
 		{
@@ -119,6 +119,8 @@ public partial class Pokemon : Node
 
 	public void SetMoves(List<PokemonMove> pokemonMoves)
 	{
+		if (Moves.Count >= PokemonTD.MaxMoveCount) return;
+		
 		Moves.AddRange(pokemonMoves);
 		Move = Moves[0];
 	}
@@ -143,4 +145,16 @@ public partial class Pokemon : Node
 
 		return (Gender) randomValue;
 	}
+}
+
+public partial class PokemonExperience : Node
+{
+	public PokemonExperience(int experienceYield)
+	{
+		Yield = experienceYield;
+	}
+
+	public int Yield;
+	public int Minimum;
+	public int Maximum = 10;
 }

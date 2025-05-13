@@ -44,9 +44,9 @@ public partial class PokeCenterTeam : Container
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot)
 		{
-			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
-			PokemonTeam.Instance.AddPokemon(pokemonAnalysis.Pokemon);
-			pokemonAnalysis.SetPokemon(null);
+			PokeCenterAnalysis pokeCenterAnalysis = dataDictionary["PokeCenterAnalysis"].As<PokeCenterAnalysis>();
+			PokemonTeam.Instance.AddPokemon(pokeCenterAnalysis.Pokemon);
+			pokeCenterAnalysis.SetPokemon(null);
 			return;
 		}
 

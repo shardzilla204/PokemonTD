@@ -1,22 +1,20 @@
 using Godot;
+using GC = Godot.Collections;
+using System;
+using System.Collections.Generic;
 
 namespace PokemonTD;
 
 /* 
-    TODO: Fix settings starting wave in pokemon stage
-    TODO: Add move effect functionality
-    TODO: Add save and load functionality
-    TODO: Add settings button while in pokemon stage
     TODO: Create tutorial/information panel
     TODO: Add Poke mart to utilize poke dollars
     TODO: Add keybinds?
     TODO: Add status condition icons to show multiple conditions
-    TODO: Filter name for Nidoran in StageTeamSlot
-    TODO: Fix stacking buffs/debuffs
-*/
-
-/*
+    TODO: Fix? Stacking buffs/debuffs
     
+    ! Priority
+    TODO: Add move effect functionality
+    TODO: Wait for poke center to finish saving data
 */
 
 public partial class PokemonTD : Node
@@ -54,6 +52,9 @@ public partial class PokemonTD : Node
     [Export]
     private bool _isScreenshotModeOn = false;
 
+    [Export]
+    private bool _areFilePathsVisible = false;
+
     [ExportCategory("Poke Center")]
     [Export]
     private bool _isPokeCenterRandomized = false;
@@ -88,6 +89,7 @@ public partial class PokemonTD : Node
     public static bool AreLevelsRandomized = false;
     public static bool AreMovesRandomized = false;
     public static bool IsScreenshotModeOn = false;
+    public static bool AreFilePathsVisible = false;
 
     public static int StarterPokemonLevel = 5;
 
@@ -112,7 +114,6 @@ public partial class PokemonTD : Node
     public static int TeamCount = 1;
 
     public const int MaxTeamSize = 6;
-
     public const int MaxMoveCount = 4;
 
     public static StageConsole StageConsole;
@@ -129,6 +130,7 @@ public partial class PokemonTD : Node
         AreLevelsRandomized = _areLevelsRandomized;
         AreMovesRandomized = _areMovesRandomized;
         IsScreenshotModeOn = _isScreenshotModeOn;
+        AreFilePathsVisible = _areFilePathsVisible;
 
         StarterPokemonLevel = _starterPokemonLevel;
 
@@ -146,6 +148,12 @@ public partial class PokemonTD : Node
 
     public override void _Ready()
     {
+        Signals.GameReset += () => 
+        {
+            HasSelectedStarter = false;
+		    PokeDollars = 0;
+        };
+
         Signals.PressedPlay += () => IsGamePaused = false;
         Signals.PressedPause += () => IsGamePaused = true;
         Signals.SpeedToggled += (speed) => GameSpeed = speed;
@@ -190,4 +198,81 @@ public partial class PokemonTD : Node
 		string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
 		return ResourceLoader.Load<Texture2D>(filePath);
 	}
+
+    public static GC.Dictionary<string, Variant> GetPokemonData(Pokemon pokemon)
+    {
+        try 
+        {
+            if (pokemon == null) throw new NullReferenceException("Pokemon is null");
+
+            GC.Dictionary<int, string> pokemonMovesData = GetPokemonMovesData(pokemon);
+            GC.Dictionary<string, Variant> pokemonData = new GC.Dictionary<string, Variant>()
+            {
+                { "Base Name", pokemon.BaseName },
+                { "Name", pokemon.Name },
+                { "Gender", (int) pokemon.Gender },
+                { "Level", pokemon.Level },
+                { "Experience", GetExperienceData(pokemon) },
+                { "Move", pokemonMovesData[0] },
+                { "Moves", pokemonMovesData },
+            };
+            return pokemonData;
+        }
+        catch (NullReferenceException)
+        {
+            return new GC.Dictionary<string, Variant>();
+        }
+    }
+
+    public static Pokemon SetPokemonData(string pokemonName, GC.Dictionary<string, Variant> pokemonData)
+    {
+        Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName);
+		pokemon.BaseName = pokemonData["Base Name"].As<string>();
+		pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
+		pokemon.Level = pokemonData["Level"].As<int>();
+
+        SetExperienceData(pokemon, pokemonData);
+        SetPokemonMovesData(pokemon, pokemonData);
+
+        return pokemon;
+    }
+
+    private static GC.Dictionary<string, Variant> GetExperienceData(Pokemon pokemon)
+	{
+		return new GC.Dictionary<string, Variant>()
+		{
+			{ "Minimum", pokemon.Experience.Minimum },
+			{ "Maximum", pokemon.Experience.Maximum },
+		};
+	}
+
+    private static void SetExperienceData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
+	{
+        GC.Dictionary<string, Variant> experienceData = pokemonData["Experience"].As<GC.Dictionary<string, Variant>>();
+        pokemon.Experience.Minimum = experienceData["Minimum"].As<int>();
+        pokemon.Experience.Maximum = experienceData["Minimum"].As<int>();
+	}
+
+	private static GC.Dictionary<int, string> GetPokemonMovesData(Pokemon pokemon)
+	{
+		GC.Dictionary<int, string> pokemonMovesData = new GC.Dictionary<int, string>();
+		for (int i = 0; i < pokemon.Moves.Count; i++)
+		{
+			pokemonMovesData.Add(i, pokemon.Moves[i].Name);
+		}
+		return pokemonMovesData;
+	}
+
+    private static void SetPokemonMovesData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
+    {
+        GC.Dictionary<int, string> pokemonMovesData = pokemonData["Moves"].As<GC.Dictionary<int, string>>();
+        foreach (string pokemonMoveName in pokemonMovesData.Values)
+        {
+            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
+            pokemon.Moves.Add(pokemonMove);
+        }
+        pokemon.Move = pokemon.Moves[0];
+        List<PokemonMove> oldPokemonMoves = PokemonMoveset.Instance.GetLearnablePokemonMoves(pokemon);
+        pokemon.OldMoves.AddRange(oldPokemonMoves);
+    }
 }

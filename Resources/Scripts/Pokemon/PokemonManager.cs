@@ -27,12 +27,11 @@ public partial class PokemonManager : Node
     public override void _EnterTree()
     {
         Instance = this;
+        LoadPokemonFile();
     }
 
     public override void _Ready()
     {
-        LoadPokemonFile();
-
         PokemonTD.Signals.PokemonLeveledUp += OnPokemonLeveledUp;
     }
 
@@ -72,7 +71,7 @@ public partial class PokemonManager : Node
         pokemon.SetMoves(pokemonMoves);
         
         // ? Comment out to level instantly
-        pokemon.MaxExperience = GetExperienceRequired(pokemon);
+        pokemon.Experience.Maximum = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
 
@@ -83,11 +82,9 @@ public partial class PokemonManager : Node
     {
         string randomPokemonName = GetRandomPokemonName();
         int randomLevel = GetRandomLevel();
-        
-        Pokemon randomPokemon = GetPokemon(randomPokemonName, randomLevel);
-        randomPokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(randomPokemon);
-        
-        return randomPokemon;
+        Pokemon pokemon = GetPokemon(randomPokemonName, randomLevel);
+
+        return pokemon;
     }
 
     public int GetRandomLevel()
@@ -104,7 +101,11 @@ public partial class PokemonManager : Node
 
             await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolved);
             
-            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon, teamSlotIndex);
+            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon);
+
+            // Update the pokemon that evolved
+            PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
+            PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemonEvolution);
             
 		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotIndex);
         }
@@ -122,8 +123,8 @@ public partial class PokemonManager : Node
 		pokemon.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
         pokemon.Accuracy = 1;
         pokemon.Evasion = 0;
-
-		PrintRich.PrintStats(TextColor.Purple, pokemon);
+        
+		// PrintRich.PrintStats(TextColor.Purple, pokemon);
     }
 
     public string GetRandomPokemonName()
@@ -164,13 +165,20 @@ public partial class PokemonManager : Node
 
     public bool HasPokemonMoveHit(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float percentage = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
+        try
+        {
+            float percentage = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
 
-        RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float randomThresholdValue = RNG.RandfRange(0, 1);
-        randomThresholdValue -= percentage;
+            RandomNumberGenerator RNG = new RandomNumberGenerator();
+            float randomThresholdValue = RNG.RandfRange(0, 1);
+            randomThresholdValue -= percentage;
 
-        return randomThresholdValue <= 0;
+            return randomThresholdValue <= 0;
+        }
+        catch (NullReferenceException)
+        {
+            return false;
+        }
     }
 
     public int GetDamage(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
@@ -238,7 +246,7 @@ public partial class PokemonManager : Node
     // (Base * 2 + Level / 100) + Level + 10
     // Base = Stat 
     // Level = Pokemon Level
-    private int GetPokemonHP(Pokemon pokemon)
+    public int GetPokemonHP(Pokemon pokemon)
     {
         Pokemon pokemonData = GetPokemon(pokemon.Name);
         return pokemonData.HP * 2 + pokemon.Level / 100 + pokemon.Level + 10;

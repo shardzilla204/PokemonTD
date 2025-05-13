@@ -29,6 +29,17 @@
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
+    "Bite":
+    {
+        "Type": "Normal",
+        "Category": "Physical",
+        "Power": 60,
+        "Accuracy": 100,
+        "Effect": "",
+        "EffectRemoved": "May cause flinching.",
+        "Hit Count": [1, 1], 
+        "Status Condition": {}
+    },
     "Body Slam":
     {
         "Type": "Normal",
@@ -730,7 +741,7 @@
             "Freeze": 0.25
         }
     },
-    "Vise Grip":
+    "Vice Grip":
     {
         "Type": "Normal",
         "Category": "Physical",

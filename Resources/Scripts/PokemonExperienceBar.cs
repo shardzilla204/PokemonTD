@@ -17,14 +17,14 @@ public partial class PokemonExperienceBar : Container
     {
         _pokemonLevel.Text = pokemon != null ? $"LVL. {pokemon.Level}" : null;
 
-        _experienceBar.Value = pokemon != null ? pokemon.MinExperience : 0;
-		_experienceBar.MaxValue = pokemon != null ? pokemon.MaxExperience : 100;
+        _experienceBar.Value = pokemon != null ? pokemon.Experience.Minimum : 0;
+		_experienceBar.MaxValue = pokemon != null ? pokemon.Experience.Maximum : 100;
     }
 
     public void AddExperience(Pokemon pokemon, float experience)
     {
         _experienceBar.Value += experience;
-		pokemon.MinExperience = (int) _experienceBar.Value;
+		pokemon.Experience.Minimum = (int) _experienceBar.Value;
 
         CheckExperience(pokemon);
     }
@@ -38,15 +38,15 @@ public partial class PokemonExperienceBar : Container
 
     private void LevelUp(Pokemon pokemon)
     {
-        while (pokemon.MinExperience >= pokemon.MaxExperience)
+        while (pokemon.Experience.Minimum >= pokemon.Experience.Maximum)
 		{
 			pokemon.Level++;
 
 			_experienceBar.Value -= _experienceBar.MaxValue;
 			_experienceBar.MaxValue = PokemonManager.Instance.GetExperienceRequired(pokemon);
 
-			pokemon.MinExperience = (int) _experienceBar.Value;
-			pokemon.MaxExperience = (int) _experienceBar.MaxValue;
+			pokemon.Experience.Minimum = (int) _experienceBar.Value;
+			pokemon.Experience.Maximum = (int) _experienceBar.MaxValue;
 
 			EmitSignal(SignalName.LeveledUp);
 

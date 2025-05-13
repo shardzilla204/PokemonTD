@@ -24,16 +24,15 @@ public partial class PokemonEvolution : Node
     public override void _EnterTree()
     {
         Instance = this;
+        LoadEvolutionFile();
     }
 
     public override void _Ready()
     {
-        LoadEvolutionFile();
-
 		// Pokemon pokemon = PokemonManager.Instance.GetPokemon("Eevee");
 		// CanEvolve(pokemon);
 
-		PokemonTD.Signals.EvolutionFinished += (pokemon, teamSlotIndex) => IsQueueEmpty();
+		PokemonTD.Signals.EvolutionFinished += (teamSlotIndex) => IsQueueEmpty();
     }
 
 	private void LoadEvolutionFile()
@@ -74,7 +73,7 @@ public partial class PokemonEvolution : Node
 		return PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString);
 	}
 
-	public Pokemon EvolvePokemon(Pokemon pokemon, int teamSlotIndex)
+	public Pokemon EvolvePokemon(Pokemon pokemon)
 	{
 		Pokemon pokemonEvolution = GetPokemonEvolution(pokemon);
 
@@ -83,9 +82,6 @@ public partial class PokemonEvolution : Node
 		pokemonEvolution.Moves.AddRange(pokemon.Moves);
 		pokemonEvolution.Move = pokemon.Move;
 		pokemonEvolution.OldMoves.AddRange(pokemon.OldMoves);
-
-		PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
-		PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemonEvolution);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 

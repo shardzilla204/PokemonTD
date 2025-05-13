@@ -8,6 +8,15 @@ public partial class Signals : Node
     public delegate void GameStartedEventHandler();
 
     [Signal]
+    public delegate void GameSavedEventHandler();
+
+    [Signal]
+    public delegate void GameLoadedEventHandler();
+
+    [Signal]
+    public delegate void GameResetEventHandler();
+
+    [Signal]
     public delegate void PokemonStarterSelectedEventHandler(Pokemon pokemon);
 
     [Signal]
@@ -22,12 +31,15 @@ public partial class Signals : Node
     [Signal]
     public delegate void SortButtonPressedEventHandler();
 
+    [Signal]
+    public delegate void StageStartedEventHandler();
+
     // Evolution
     [Signal]
     public delegate void EvolutionStartedEventHandler(Pokemon pokemon);
 
     [Signal]
-    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
+    public delegate void EvolutionFinishedEventHandler(int teamSlotIndex);
 
     [Signal]
     public delegate void EvolutionQueueClearedEventHandler();
@@ -37,7 +49,7 @@ public partial class Signals : Node
     public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon, int teamSlotIndex);
 
     [Signal]
-    public delegate void PokemonEvolvedEventHandler(Pokemon pokemon, Pokemon pokemonEvolution, int teamSlotIndex);
+    public delegate void PokemonEvolvedEventHandler(Pokemon pokemon, Pokemon pokemonEvolution);
 
     [Signal]
     public delegate void PokemonGainedExperienceEventHandler(Pokemon pokemon);

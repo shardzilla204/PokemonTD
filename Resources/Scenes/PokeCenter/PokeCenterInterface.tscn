@@ -1,0 +1,96 @@
+[gd_scene load_steps=9 format=3 uid="uid://cd50k3xub1ea7"]
+
+[ext_resource type="Script" uid="uid://maedijrkjx2y" path="res://Resources/Scripts/PokeCenter/PokeCenterInterface.cs" id="1_ioffn"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_21tt3"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_g0fak"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_yraai"]
+[ext_resource type="PackedScene" uid="uid://b2rlwk224nsy4" path="res://Resources/Scenes/PokeCenter/PokeCenterTeam.tscn" id="5_yres4"]
+[ext_resource type="PackedScene" uid="uid://bmcelavbxx1ih" path="res://Resources/Scenes/PokeCenter/PokeCenterAnalysis.tscn" id="6_ehif2"]
+[ext_resource type="PackedScene" uid="uid://dfrmi3148mhmv" path="res://Resources/Scenes/PokeCenter/PokeCenterInventory.tscn" id="6_nk1rt"]
+[ext_resource type="PackedScene" uid="uid://ch1up66iv8m4g" path="res://Resources/Scenes/Move/PokemonMoveAnalysis.tscn" id="7_ehif2"]
+
+[node name="PokeCenterInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton")]
+script = ExtResource("1_ioffn")
+_exitButton = NodePath("Background/MarginContainer/ExitButton")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_21tt3")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer"]
+custom_minimum_size = Vector2(50, 50)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+text = "X
+"
+flat = true
+script = ExtResource("3_g0fak")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/ExitButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_yraai")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 50
+text = "Poke Center"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PokeCenterAnalysis" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer" instance=ExtResource("6_ehif2")]
+custom_minimum_size = Vector2(355, 0)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PokeCenterTeam" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_yres4")]
+layout_mode = 2
+
+[node name="PokemonMoveAnalysis" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer" instance=ExtResource("7_ehif2")]
+layout_mode = 2
+
+[node name="PokeCenterInventory" parent="Background/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("6_nk1rt")]
+custom_minimum_size = Vector2(870, 0)
+layout_mode = 2

@@ -175,9 +175,9 @@ public partial class PokeCenterInventory : Container
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot)
 		{
-			PokemonAnalysis pokemonAnalysis = dataDictionary["PokemonAnalysis"].As<PokemonAnalysis>();
-			PokeCenter.Instance.Pokemon.Insert(0, pokemonAnalysis.Pokemon);
-			pokemonAnalysis.SetPokemon(null);
+			PokeCenterAnalysis pokeCenterAnalysis = dataDictionary["PokeCenterAnalysis"].As<PokeCenterAnalysis>();
+			PokeCenter.Instance.Pokemon.Insert(0, pokeCenterAnalysis.Pokemon);
+			pokeCenterAnalysis.SetPokemon(null);
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 			return;
 		}

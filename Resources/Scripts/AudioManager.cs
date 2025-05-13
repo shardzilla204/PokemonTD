@@ -4,6 +4,13 @@ using Godot;
 
 namespace PokemonTD;
 
+public enum BusType
+{
+	Master, 
+	Music,
+	Sound
+}
+
 public partial class AudioManager : AudioStreamPlayer
 {
 	[Export]
@@ -11,6 +18,13 @@ public partial class AudioManager : AudioStreamPlayer
 
 	[Export]
 	private AudioStreamPlayer _soundStreamPlayer;
+
+	public List<AudioBus> AudioBuses = new List<AudioBus>()
+	{
+		new AudioBus(BusType.Master),
+		new AudioBus(BusType.Music),
+		new AudioBus(BusType.Sound)
+	};
 
 	private Control _audioSettings;
 	private bool _isSettingsCanvasOpen;
@@ -27,14 +41,6 @@ public partial class AudioManager : AudioStreamPlayer
 		PokemonTD.Signals.OnStageSelection += MusicInterval;
 		PokemonTD.Signals.PokemonStarterSelected += (pokemon) => MusicInterval();
 	}
-
-    public override void _Ready()
-    {
-		float startingAudioLevel = -12.5f;
-        AudioServer.SetBusVolumeDb((int) BusType.Master, startingAudioLevel);
-		AudioServer.SetBusVolumeDb((int) BusType.Music, startingAudioLevel);
-		AudioServer.SetBusVolumeDb((int) BusType.Sound, startingAudioLevel);
-    }
 	
 	public override void _Input(InputEvent @event)
 	{
@@ -45,11 +51,15 @@ public partial class AudioManager : AudioStreamPlayer
 
 	private void OnAudioValueChanged(int busIndex, int volume)
 	{
+		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType) busIndex);
+		audioBus.Volume = volume;
 		AudioServer.SetBusVolumeDb(busIndex, volume);
 	}
 
 	private void OnAudioMuted(int busIndex, bool isMuted)
 	{
+		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType) busIndex);
+		audioBus.IsMuted = isMuted;
 		AudioServer.SetBusMute(busIndex, isMuted);
 	}
 
@@ -224,5 +234,27 @@ public partial class AudioManager : AudioStreamPlayer
 		soundStreamPlayer.Finished += soundStreamPlayer.QueueFree;
 
 		AddChild(soundStreamPlayer);
+	}
+}
+
+public partial class AudioBus : Node
+{
+	public AudioBus(BusType busType)
+	{
+		BusType = busType;
+	}
+
+	public BusType BusType;
+	public float Volume = -25f;
+	public bool IsMuted = false;
+
+	public void ToggleMute()
+	{
+		IsMuted = !IsMuted;
+	}
+
+	public void SetMute(bool isMuted)
+	{
+		IsMuted = isMuted;
 	}
 }

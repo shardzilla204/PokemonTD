@@ -25,37 +25,50 @@ public partial class PokemonCombat : Node
 
     public void ApplyDamage<Attacking, Defending>(Attacking attacking, PokemonMove pokemonMove, Defending defending)
 	{
+        int randomHitCount = PokemonMoveEffect.Instance.GetRandomHitCount(pokemonMove);
         if (defending is StageSlot)
         {
-            int damage = 0;
             StageSlot pokemonStageSlot = defending as StageSlot;
-            Pokemon defendingPokemon = pokemonStageSlot.Pokemon;
-            if (attacking is PokemonEnemy pokemonEnemy)
-            {
-                Pokemon attackingPokemon = pokemonEnemy.Pokemon;
-                damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
-            }
-            pokemonStageSlot.DamagePokemon(damage);
-            
-            string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
-            PrintRich.Print(TextColor.Red, damageMessage);
+            PokemonEnemy pokemonEnemy = attacking as PokemonEnemy;
+            ApplyStageSlotDamage(pokemonEnemy, pokemonMove, pokemonStageSlot, randomHitCount);
         }
         else if (defending is PokemonEnemy)
         {
-            int damage = 0;
             PokemonEnemy pokemonEnemy = defending as PokemonEnemy;
-            Pokemon defendingPokemon = pokemonEnemy.Pokemon;
-            if (attacking is StageSlot pokemonStageSlot)
-            {
-                Pokemon attackingPokemon = pokemonStageSlot.Pokemon;
-                damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
-            }
+            StageSlot pokemonStageSlot = attacking as StageSlot;
+            ApplyEnemyDamage(pokemonStageSlot, pokemonMove, pokemonEnemy, randomHitCount);
+        }
+	}
+
+    public void ApplyStageSlotDamage(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, StageSlot pokemonStageSlot, int hitCount)
+    {
+        float damageReduction = 0.7f;
+        Pokemon defendingPokemon = pokemonStageSlot.Pokemon;
+        Pokemon attackingPokemon = pokemonEnemy.Pokemon;
+        for (int i = 0; i < hitCount; i++)
+        {
+            int damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
+            damage = Mathf.RoundToInt(damage * damageReduction);
+            pokemonStageSlot.DamagePokemon(damage);
+
+            string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
+            PrintRich.Print(TextColor.Red, damageMessage);
+        }
+    }
+
+    public void ApplyEnemyDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount)
+    {
+        Pokemon defendingPokemon = pokemonEnemy.Pokemon;
+        Pokemon attackingPokemon = pokemonStageSlot.Pokemon;
+        for (int i = 0; i < hitCount; i++)
+        {
+            int damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
             pokemonEnemy.DamagePokemon(damage);
-            
+
             string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
             PrintRich.Print(TextColor.Yellow, damageMessage);
         }
-	}
+    }
 
     public void ApplyStatChanges(Pokemon pokemon, PokemonMove pokemonMove)
 	{
@@ -64,12 +77,18 @@ public partial class PokemonCombat : Node
 
         if (statIncreaseMoves.Count <= 0 && statDecreaseMoves.Count <= 0) return;
 
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
         PrintRich.Print(TextColor.Blue, "Before");
         PrintRich.PrintStats(TextColor.Blue, pokemon);
 		if (statIncreaseMoves.Count > 0)
 		{
 			foreach (StatMove statIncreaseMove in statIncreaseMoves)
 			{
+                float randomValue = RNG.RandfRange(0, 1);
+                randomValue = Mathf.RoundToInt(randomValue - statIncreaseMove.Probability);
+
+                if (randomValue > 0) return;
+
 				PokemonMoveEffect.Instance.ChangeStat(pokemon, statIncreaseMove);
 			}
 		} 
@@ -77,6 +96,11 @@ public partial class PokemonCombat : Node
 		{
 			foreach (StatMove statDecreaseMove in statDecreaseMoves)
 			{
+                float randomValue = RNG.RandfRange(0, 1);
+                randomValue = Mathf.RoundToInt(randomValue - statDecreaseMove.Probability);
+
+                if (randomValue > 0) return;
+
 				PokemonMoveEffect.Instance.ChangeStat(pokemon, statDecreaseMove);
 			}
 		}

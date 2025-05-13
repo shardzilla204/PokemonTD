@@ -17,28 +17,32 @@ warnings/check_invalid_track_paths=false
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
 config/version="0.3.0"
-run/main_scene="res://Scenes/MenuInterface.tscn"
+run/main_scene="res://Resources/Scenes/MenuInterface.tscn"
+config/use_custom_user_dir=true
+config/custom_user_dir_name="Godot/app_userdata/PokemonTD"
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
 config/icon="res://Assets/Images/GameIcon.png"
 
 [audio]
 
-buses/default_bus_layout="res://DefaultBusLayout.tres"
+buses/default_bus_layout="res://Resources/DefaultBusLayout.tres"
 
 [autoload]
 
 PokemonManager="*res://Resources/Scripts/Pokemon/PokemonManager.cs"
-PokemonMoves="*res://Resources/Scripts/PokemonMove/PokemonMoves.cs"
+PokemonMoves="*res://Resources/Scripts/Move/PokemonMoves.cs"
 PokemonStatusCondition="*res://Resources/Scripts/PokemonStatusCondition.cs"
-PokemonMoveEffect="*res://Resources/Scripts/PokemonMoveEffect.cs"
-PokemonMoveset="*res://Resources/Scripts/PokemonMoveset.cs"
-PokemonStages="*res://Resources/Scripts/PokemonStage/PokemonStages.cs"
+PokemonMoveEffect="*res://Resources/Scripts/Move/PokemonMoveEffect.cs"
+PokemonMoveset="*res://Resources/Scripts/Move/PokemonMoveset.cs"
+PokemonStages="*res://Resources/Scripts/Stage/PokemonStages.cs"
 PokemonTypes="*res://Resources/Scripts/Pokemon/PokemonTypes.cs"
 PokemonTeam="*res://Resources/Scripts/Pokemon/PokemonTeam.cs"
 PokemonEvolution="*res://Resources/Scripts/PokemonEvolution.cs"
 PokemonCombat="*res://Resources/Scripts/PokemonCombat.cs"
 PokeCenter="*res://Resources/Scripts/PokeCenter/PokeCenter.cs"
-PokemonTD="*res://Scenes/PokemonTD.tscn"
+PokemonTD="*res://Resources/Scenes/PokemonTD.tscn"
+PokemonSettings="*res://Resources/Scripts/PokemonSettings.cs"
+PokemonGame="*res://Resources/Scripts/PokemonGame.cs"
 
 [display]
 

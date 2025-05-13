@@ -41,8 +41,8 @@ public partial class PokemonEnemy : TextureRect
 		else
 		{
 			float healthIncrease = 1.5f;
-			_healthBar.Value = Pokemon.HP * healthIncrease;
 			_healthBar.MaxValue = Pokemon.HP * healthIncrease;
+			_healthBar.Value = Pokemon.HP * healthIncrease;
 		}
 
 		ScreenNotifier.ScreenExited += () =>
@@ -144,15 +144,6 @@ public partial class PokemonEnemy : TextureRect
 		CheckHasFainted();
 	}
 
-	public void DamagePokemon(int damage, int teamSlotIndex)
-	{
-		TeamSlotIndex = teamSlotIndex;
-		_healthBar.Value -= damage;
-
-		CheckIsCatchable();
-		CheckHasFainted();
-	}
-
 	private void CheckIsCatchable()
 	{
 		float capturePercentThreshold = 0.25f;
@@ -183,6 +174,7 @@ public partial class PokemonEnemy : TextureRect
 		PokemonTD.AudioManager.PlayPokemonFaint();
 	}
 
+	// ! Fix
 	private void CalculateExperienceDistribution()
 	{
 		int totalContributions = 0;
@@ -197,9 +189,11 @@ public partial class PokemonEnemy : TextureRect
 
 		foreach (int teamSlotIndex in teamSlotIndexes)
 		{
+			GD.Print($"Index: {teamSlotIndex} = Contribution: {SlotContributionCount[teamSlotIndex]}");
 			for (int i = 0; i < SlotContributionCount[teamSlotIndex]; i++)
 			{
-				StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
+				PokemonStage pokemonStage = GetParentOrNull<PathFollow2D>().GetParentOrNull<Path2D>().GetParentOrNull<PokemonStage>();
+				StageInterface stageInterface = pokemonStage.StageInterface;
 				StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(teamSlotIndex);
 				stageTeamSlot.AddExperience(Mathf.RoundToInt(experienceAmount));
 			}
@@ -213,7 +207,7 @@ public partial class PokemonEnemy : TextureRect
 	// L = Pokemon Enemy Level
 	public int GetExperience()
 	{
-		return Mathf.RoundToInt(Pokemon.ExperienceYield * Pokemon.Level / 3);
+		return Mathf.RoundToInt(Pokemon.Experience.Yield * Pokemon.Level / 3);
 	}
 
 	private void EnableCaptureMode()

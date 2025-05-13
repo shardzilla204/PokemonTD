@@ -10,18 +10,41 @@ public partial class PokemonSleepBar : TextureProgressBar
 
     [Export]
     private Timer _sleepTimer;
+    
+    private double _waitTime = 1;
+
+    public override void _ExitTree()
+    {
+        PokemonTD.Signals.PressedPlay -= ContinueTimer;
+    }
 
     public override void _Ready()
     {
+        PokemonTD.Signals.PressedPlay += ContinueTimer;
         _sleepTimer.Timeout += () => EmitSignal(SignalName.Finished);
         Value = 0;
     }
 
-    public override void _Process(double delta)
+    public override async void _Process(double delta)
     {
         if (_sleepTimer.IsStopped()) return;
 
+        if (PokemonTD.IsGamePaused) 
+        {
+            _waitTime = _sleepTimer.TimeLeft;
+            _sleepTimer.Stop();
+            await ToSignal(PokemonTD.Signals, Signals.SignalName.PressedPlay);
+        }
+
         Value = _sleepTimer.TimeLeft;
+    }
+
+    private void ContinueTimer()
+    { 
+        if (PokemonTD.IsGamePaused) return;
+        
+        _sleepTimer.WaitTime = _waitTime;
+        _sleepTimer.Start();
     }
 
     public void Start(Pokemon pokemon)
