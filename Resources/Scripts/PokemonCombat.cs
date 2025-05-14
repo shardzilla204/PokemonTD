@@ -23,104 +23,124 @@ public partial class PokemonCombat : Node
         Instance = this;
     }
 
-    public void ApplyDamage<Attacking, Defending>(Attacking attacking, PokemonMove pokemonMove, Defending defending)
+    public void ApplyDamage<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
 	{
         int randomHitCount = PokemonMoveEffect.Instance.GetRandomHitCount(pokemonMove);
-        if (defending is StageSlot)
+        if (attackingPokemon is StageSlot)
         {
-            StageSlot pokemonStageSlot = defending as StageSlot;
-            PokemonEnemy pokemonEnemy = attacking as PokemonEnemy;
-            ApplyStageSlotDamage(pokemonEnemy, pokemonMove, pokemonStageSlot, randomHitCount);
-        }
-        else if (defending is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = defending as PokemonEnemy;
-            StageSlot pokemonStageSlot = attacking as StageSlot;
+            StageSlot pokemonStageSlot = attackingPokemon as StageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
             ApplyEnemyDamage(pokemonStageSlot, pokemonMove, pokemonEnemy, randomHitCount);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            ApplyStageSlotDamage(pokemonEnemy, pokemonMove, pokemonStageSlot, randomHitCount);
         }
 	}
 
-    public void ApplyStageSlotDamage(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, StageSlot pokemonStageSlot, int hitCount)
+    public void ApplyDamage<Defending>(Defending defendingPokemon, int damage)
+	{
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            ApplyStageSlotDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            ApplyEnemyDamage(pokemonEnemy, damage);
+        }
+	}    
+    
+    public void ApplyEnemyDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount)
     {
-        float damageReduction = 0.7f;
-        Pokemon defendingPokemon = pokemonStageSlot.Pokemon;
-        Pokemon attackingPokemon = pokemonEnemy.Pokemon;
         for (int i = 0; i < hitCount; i++)
         {
-            int damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
+            int damage = PokemonManager.Instance.GetDamage(pokemonStageSlot, pokemonMove, pokemonEnemy);
+            pokemonEnemy.DamagePokemon(damage);
+
+            string damageMessage = PrintRich.GetDamageMessage(damage, pokemonEnemy.Pokemon, pokemonMove);
+            PrintRich.Print(TextColor.Orange, damageMessage);
+        }
+    }
+
+    public void ApplyEnemyDamage(PokemonEnemy pokemonEnemy, int damage)
+    {
+        pokemonEnemy.DamagePokemon(damage);
+    }
+
+    public void ApplyStageSlotDamage(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, StageSlot pokemonStageSlot, int hitCount)
+    {
+        float damageReduction = 0.1f;
+        for (int i = 0; i < hitCount; i++)
+        {
+            int damage = PokemonManager.Instance.GetDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
+            GD.Print($"Damage: {damage}");
             damage = Mathf.RoundToInt(damage * damageReduction);
             pokemonStageSlot.DamagePokemon(damage);
 
-            string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
+            string damageMessage = PrintRich.GetDamageMessage(damage, pokemonStageSlot.Pokemon, pokemonMove);
             PrintRich.Print(TextColor.Red, damageMessage);
         }
     }
 
-    public void ApplyEnemyDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount)
+    public void ApplyStageSlotDamage(StageSlot pokemonStageSlot, int damage)
     {
-        Pokemon defendingPokemon = pokemonEnemy.Pokemon;
-        Pokemon attackingPokemon = pokemonStageSlot.Pokemon;
-        for (int i = 0; i < hitCount; i++)
-        {
-            int damage = PokemonManager.Instance.GetDamage(attackingPokemon, pokemonMove, defendingPokemon);
-            pokemonEnemy.DamagePokemon(damage);
-
-            string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
-            PrintRich.Print(TextColor.Yellow, damageMessage);
-        }
+        pokemonStageSlot.DamagePokemon(damage);
     }
 
-    public void ApplyStatChanges(Pokemon pokemon, PokemonMove pokemonMove)
+    public void AttackAllPokemon<Defending>(Defending defendingPokemon, int damage)
+    {
+        if (defendingPokemon is List<PokemonEnemy> pokemonEnemies)
+        {
+            foreach (PokemonEnemy pokemonEnemy in pokemonEnemies)
+            {
+                pokemonEnemy.DamagePokemon(damage);
+            }
+        }
+        else if (defendingPokemon is List<StageSlot> pokemonStageSlots)
+        {
+            foreach (StageSlot pokemonStageSlot in pokemonStageSlots)
+            {
+                pokemonStageSlot.DamagePokemon(damage);
+            }
+        }
+    }
+        
+    public void ApplyStatChanges(Pokemon pokemon, List<StatMove> statMoves)
 	{
-		List<StatMove> statIncreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindIncreaseStatMoves(pokemonMove);
-		List<StatMove> statDecreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindDecreaseStatMoves(pokemonMove);
-
-        if (statIncreaseMoves.Count <= 0 && statDecreaseMoves.Count <= 0) return;
-
-        RandomNumberGenerator RNG = new RandomNumberGenerator();
+		if (statMoves.Count <= 0) return;
+		
         PrintRich.Print(TextColor.Blue, "Before");
         PrintRich.PrintStats(TextColor.Blue, pokemon);
-		if (statIncreaseMoves.Count > 0)
-		{
-			foreach (StatMove statIncreaseMove in statIncreaseMoves)
-			{
-                float randomValue = RNG.RandfRange(0, 1);
-                randomValue = Mathf.RoundToInt(randomValue - statIncreaseMove.Probability);
-
-                if (randomValue > 0) return;
-
-				PokemonMoveEffect.Instance.ChangeStat(pokemon, statIncreaseMove);
-			}
-		} 
-		else if (statDecreaseMoves.Count > 0)
-		{
-			foreach (StatMove statDecreaseMove in statDecreaseMoves)
-			{
-                float randomValue = RNG.RandfRange(0, 1);
-                randomValue = Mathf.RoundToInt(randomValue - statDecreaseMove.Probability);
-
-                if (randomValue > 0) return;
-
-				PokemonMoveEffect.Instance.ChangeStat(pokemon, statDecreaseMove);
-			}
-		}
+        foreach (StatMove statMove in statMoves)
+        {
+            if (!CanApplyStatChange(statMove)) continue;
+            PokemonMoveEffect.Instance.ChangeStat(pokemon, statMove);
+        }
         PrintRich.Print(TextColor.Blue, "After");
         PrintRich.PrintStats(TextColor.Blue, pokemon);
 	}
+
+    private bool CanApplyStatChange(StatMove statMove)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        float randomValue = RNG.RandfRange(0, 1);
+        randomValue = Mathf.RoundToInt(randomValue - statMove.Probability);
+
+        return randomValue <= 0;
+    }
 
     public void ApplyStatusConditions<T>(int teamSlotIndex, T parameter, PokemonMove pokemonMove)
 	{
 		if (pokemonMove.StatusCondition.Count == 0) return;
 		
 		List<string> statusNames = pokemonMove.StatusCondition.Keys.ToList();
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
 		foreach (string statusName in statusNames)
 		{
-			float hitThreshold = pokemonMove.StatusCondition[statusName].As<float>();
-			float randomValue = RNG.RandfRange(0, 1);
-			randomValue -= hitThreshold;
-
-			if (randomValue > 0) continue;
+			if (!CanApplyStatusCondition(pokemonMove, statusName)) continue;
 			
 			StatusCondition statusCondition = Enum.Parse<StatusCondition>(statusName);
             if (parameter is StageSlot stageSlot)
@@ -134,6 +154,16 @@ public partial class PokemonCombat : Node
             }
 		}
 	}
+
+    private bool CanApplyStatusCondition(PokemonMove pokemonMove, string statusName)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        float hitThreshold = pokemonMove.StatusCondition[statusName].As<float>();
+        float randomValue = RNG.RandfRange(0, 1);
+        randomValue -= hitThreshold;
+
+        return randomValue <= 0;
+    }
 
     public void AddStatusCondition<T>(T parameter, StatusCondition statusCondition)
 	{

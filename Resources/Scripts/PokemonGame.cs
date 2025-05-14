@@ -36,9 +36,15 @@ public partial class PokemonGame : Node
 		}
     }
 
-    public override void _Notification(int what)
+    public async override void _Notification(int what)
     {
-        if (what == NotificationWMCloseRequest) PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+        if (what == NotificationWMCloseRequest) 
+		{
+			float timeSeconds = 0.25f;
+			await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+			GetTree().Quit();
+		}
     }
 
     public void SaveGame()

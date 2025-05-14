@@ -29,10 +29,7 @@ public partial class PokemonEvolution : Node
 
     public override void _Ready()
     {
-		// Pokemon pokemon = PokemonManager.Instance.GetPokemon("Eevee");
-		// CanEvolve(pokemon);
-
-		PokemonTD.Signals.EvolutionFinished += (teamSlotIndex) => IsQueueEmpty();
+		PokemonTD.Signals.EvolutionFinished += (pokemonEvolution, teamSlotIndex) => IsQueueEmpty();
     }
 
 	private void LoadEvolutionFile()

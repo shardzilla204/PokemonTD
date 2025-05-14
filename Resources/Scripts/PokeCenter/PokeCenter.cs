@@ -22,24 +22,22 @@ public partial class PokeCenter : Node
 	private string _pokeCenterPath = "user://PokeCenter/";
 
 	public List<Pokemon> Pokemon = new List<Pokemon>();
-	public int PokemonPerPage = 30;
+	public int PokemonPerPage = 18;
 
     public override void _EnterTree()
     {
         Instance = this;
-		PokemonTD.Signals.GameSaved += SavePokemon;
-		PokemonTD.Signals.GameLoaded += LoadPokemonFiles;
-
 		LoadPokemonFiles();
     }
 
     public override void _Ready()
     {
-		PokemonTD.Signals.GameReset += Pokemon.Clear;
-		
+		PokemonTD.Signals.GameSaved += SavePokemon;
+		PokemonTD.Signals.GameLoaded += LoadPokemonFiles;
         PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
 		PokemonTD.Signals.GameReset += () => 
 		{
+			Pokemon.Clear();
 			if (PokemonTD.IsPokeCenterRandomized) AddRandomPokemon();
 		};
 

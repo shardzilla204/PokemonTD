@@ -1,6 +1,5 @@
 using Godot;
 using GC = Godot.Collections;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -24,11 +23,12 @@ public partial class PokemonEnemy : TextureRect
 	public Pokemon Pokemon;
 	public bool IsCatchable = false;
 	public bool CanMove = true;
-	public int Speed;
 	public List<StageSlot> PokemonQueue = new List<StageSlot>();
 	public GC.Dictionary<int, int> SlotContributionCount = new GC.Dictionary<int, int>();
 
 	public int TeamSlotIndex = -1;
+	public int LightScreenCount;
+	public int ReflectCount;
 
 	public override void _Ready()
 	{
@@ -59,8 +59,6 @@ public partial class PokemonEnemy : TextureRect
 		_area.AreaEntered += AddToQueue;
 		_area.AreaExited += RemoveFromQueue;
 		_attackTimer.Timeout += AttackPokemon;
-
-		Speed = Pokemon.Speed;
 	}
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -86,17 +84,17 @@ public partial class PokemonEnemy : TextureRect
 
 		if (stageSlot.Pokemon == null || !stageSlot.IsActive) return;
 
-		stageSlot.ActivityChanged += OnStageSlotActivityChanged;
+		stageSlot.Fainted += OnStageSlotFainted;
 		PokemonQueue.Insert(PokemonQueue.Count, stageSlot);
 	}
 
-	private void OnStageSlotActivityChanged(StageSlot stageSlot, bool isActive)
+	private void OnStageSlotFainted(StageSlot pokemonStageSlot)
 	{
 		// Remove when pokemon becomes downed
-		if (stageSlot.Pokemon.HP <= 0) 
+		if (pokemonStageSlot.Pokemon.HP <= 0) 
 		{
-			PokemonQueue.Remove(stageSlot);
-			stageSlot.ActivityChanged -= OnStageSlotActivityChanged;
+			PokemonQueue.Remove(pokemonStageSlot);
+			pokemonStageSlot.Fainted -= OnStageSlotFainted;
 		}
 	}
 
@@ -114,9 +112,14 @@ public partial class PokemonEnemy : TextureRect
 		StageSlot pokemonStageSlot = PokemonQueue[0];
 		PokemonMove pokemonMove = Pokemon.Moves[0];
 
-		if (!PokemonManager.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonStageSlot.Pokemon))
+		bool hasPokemonMoveHit = PokemonManager.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
+		if (!hasPokemonMoveHit)
 		{
-			PokemonManager.Instance.PokemonMoveMissed(Pokemon, pokemonMove);
+			if (pokemonMove.Accuracy != 0)
+			{
+				string missedMessage = $"{Pokemon.Name}'s {pokemonMove.Name} Missed";
+				PrintRich.PrintLine(TextColor.Purple, missedMessage);
+			}
 			return;
 		}
 
@@ -125,7 +128,15 @@ public partial class PokemonEnemy : TextureRect
 		PokemonTD.AddStageConsoleMessage(TextColor.Red, usedMessage);
 
 		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonStageSlot, pokemonMove);
-		PokemonCombat.Instance.ApplyStatChanges(pokemonStageSlot.Pokemon, pokemonMove);
+		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonStageSlot.Pokemon, pokemonMove);
+
+		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, Pokemon.Moves[0], pokemonStageSlot);
+	}
+
+	public void AttackPokemon(PokemonMove pokemonMove, StageSlot pokemonStageSlot)
+	{
+		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonStageSlot, pokemonMove);
+		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonStageSlot.Pokemon, pokemonMove);
 
 		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, Pokemon.Moves[0], pokemonStageSlot);
 	}
@@ -168,6 +179,7 @@ public partial class PokemonEnemy : TextureRect
 		PrintRich.PrintLine(TextColor.Yellow, faintMessage);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyFainted, this);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
 		CalculateExperienceDistribution();
 		QueueFree();
 

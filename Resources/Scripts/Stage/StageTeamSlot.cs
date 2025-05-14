@@ -42,11 +42,13 @@ public partial class StageTeamSlot : Button
     public override void _ExitTree()
     {
 		PokemonTD.Signals.PokemonDamaged -= OnPokemonDamaged;
+		PokemonTD.Signals.EvolutionFinished -= OnEvolutionFinished;
     }
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.PokemonDamaged += OnPokemonDamaged;
+		PokemonTD.Signals.EvolutionFinished += OnEvolutionFinished;
 		Toggled += (isToggled) => 
 		{
 			_mutedTexture.Visible = isToggled;
@@ -61,8 +63,6 @@ public partial class StageTeamSlot : Button
 		_pokemonExperienceBar.LeveledUp += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, Pokemon, TeamSlotIndex);
 		_pokemonHealthBar.Fainted += OnPokemonFainted;
 		_pokemonSleepBar.Finished += OnSleepFinished;
-
-		if (Pokemon is not null) SetControls();
 	}
 
 	public override void _Process(double delta)
@@ -105,6 +105,12 @@ public partial class StageTeamSlot : Button
 		return GetDragData();
 	}
 
+	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotIndex)
+	{
+		if (TeamSlotIndex != teamSlotIndex) return;
+		SetControls(pokemonEvolution);
+	}
+
 	private void HighlightStageSlot()
 	{
 		StageInterface stageInterface =  GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
@@ -135,32 +141,34 @@ public partial class StageTeamSlot : Button
 	}
 
 	// Update text, textures and progress bars
-	private void SetControls()
+	public void SetControls(Pokemon pokemon)
 	{
 		try
 		{
-			string pokemonName = Pokemon == null ? "" : Pokemon.Name;
-        	if (Pokemon != null) pokemonName = Pokemon.Name.Contains("Nidoran") ? "Nidoran" : Pokemon.Name;
+			Pokemon = pokemon;
+
+			string pokemonName = pokemon == null ? "" : pokemon.Name;
+        	if (Pokemon != null) pokemonName = pokemon.Name.Contains("Nidoran") ? "Nidoran" : pokemon.Name;
 
 			_pokemonName.Text = pokemonName;
-			_pokemonSprite.Texture = Pokemon != null ? Pokemon.Sprite : null;
+			_pokemonSprite.Texture = pokemon != null ? pokemon.Sprite : null;
 
-			_pokemonExperienceBar.Update(Pokemon);
-			_pokemonHealthBar.Update(Pokemon);
+			_pokemonExperienceBar.Update(pokemon);
+			_pokemonHealthBar.Update(pokemon);
 
-			_genderSprite.Texture = PokemonTD.GetGenderSprite(Pokemon);
+			_genderSprite.Texture = PokemonTD.GetGenderSprite(pokemon);
 			
-			_pokemonMoveButton.Update(Pokemon.Move);
+			_pokemonMoveButton.Update(pokemon.Move);
 		}
-		catch (NullReferenceException)
+		catch (NullReferenceException e)
 		{
-			GD.PrintErr($"{Pokemon.Move.Name}");
+			GD.PrintErr($"{e}");
 		}
 	}
 
 	private Control GetDragPreview()
 	{
-		int minValue = 85;
+		int minValue = 125;
 		Vector2 minSize = new Vector2(minValue, minValue);
 		TextureRect textureRect = new TextureRect()
 		{
@@ -185,7 +193,6 @@ public partial class StageTeamSlot : Button
 		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
 		
 		Pokemon.Move = pokemonMove;
-
 		_pokemonMoveButton.Update(pokemonMove);
 	}
 
@@ -227,6 +234,8 @@ public partial class StageTeamSlot : Button
 		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
 		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
 		StageSlot stageSlot = pokemonStage.FindStageSlot(TeamSlotIndex);
+		stageSlot.EmitSignal(StageSlot.SignalName.Fainted, stageSlot);
+
 		stageSlot.IsActive = false;
 		_pokemonSleepBar.Start(Pokemon);
 

@@ -8,7 +8,7 @@ public partial class MoveOption : CustomButton
 	private NinePatchRect _background;
 	
 	[Export]
-	private Label _moveStats;
+	private Label _moveName;
 
 	[Export]
 	private TextureRect _moveType;
@@ -19,7 +19,7 @@ public partial class MoveOption : CustomButton
 	{
 		if (PokemonMove is null) return;
 
-		_moveStats.Text = $"{PokemonMove.Name}";
+		_moveName.Text = $"{PokemonMove.Name}";
 		_moveType.Texture = PokemonTypes.Instance.GetTypeIcon(PokemonMove.Type);
 	}
 
@@ -27,13 +27,13 @@ public partial class MoveOption : CustomButton
 	{
 		PokemonMove = pokemonMove;
 		
-		_moveStats.Text = $"{pokemonMove.Name}";
+		_moveName.Text = $"{pokemonMove.Name}";
 		_moveType.Texture = PokemonTypes.Instance.GetTypeIcon(pokemonMove.Type);
 	}
 
 	public void SetFontSize(int fontSize)
 	{
-		_moveStats.AddThemeFontSizeOverride("font_size", fontSize);
+		_moveName.AddThemeFontSizeOverride("font_size", fontSize);
 	}
 
 	public void SetBackgroundColor(Color color)

@@ -45,17 +45,21 @@ mouse_filter = 2
 theme_override_constants/separation = 10
 
 [node name="SortLevelButton" parent="SortButtons" instance=ExtResource("3_sfrv5")]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 
 [node name="SortNumberButton" parent="SortButtons" instance=ExtResource("3_sfrv5")]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 _sortCategory = 1
 
 [node name="SortNameButton" parent="SortButtons" instance=ExtResource("3_sfrv5")]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 _sortCategory = 2
 
 [node name="SortTypeButton" parent="SortButtons" instance=ExtResource("3_sfrv5")]
+custom_minimum_size = Vector2(150, 75)
 layout_mode = 2
 _sortCategory = 3
 
@@ -98,7 +102,7 @@ vertical_alignment = 1
 layout_mode = 2
 
 [node name="PokeCenterSlots" type="FlowContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(840, 350)
+custom_minimum_size = Vector2(560, 350)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_constants/h_separation = 10
@@ -173,54 +177,6 @@ layout_mode = 2
 script = null
 
 [node name="PokeCenterSlot18" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot19" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot20" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot21" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot22" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot23" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot24" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot25" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot26" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot27" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot28" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot29" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
-layout_mode = 2
-script = null
-
-[node name="PokeCenterSlot30" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/PokeCenterSlots" instance=ExtResource("5_aa2oj")]
 layout_mode = 2
 script = null
 

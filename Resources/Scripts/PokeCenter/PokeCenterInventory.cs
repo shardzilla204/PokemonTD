@@ -1,6 +1,5 @@
 using Godot;
 using GC = Godot.Collections;
-
 using System.Collections.Generic;
 
 namespace PokemonTD;
@@ -50,47 +49,43 @@ public partial class PokeCenterInventory : Container
         _cycleLeftButton.Pressed += () => CycleInventory(false);
         _cycleRightButton.Pressed += () => CycleInventory(true);
 
-		_sortByLevel.Pressed += () => SortByLevel(_sortByLevel.IsDescending);
-		_sortByName.Pressed += () => SortByName(_sortByName.IsDescending);
-		_sortByNumber.Pressed += () => SortByNationalNumber(_sortByNumber.IsDescending);
-		_sortByType.Pressed  += () => SortByType(_sortByType.IsDescending);
+		_sortByLevel.Pressed += () => SortBy(SortCategory.Level, _sortByLevel.IsDescending);
+		_sortByName.Pressed += () => SortBy(SortCategory.Name, _sortByName.IsDescending);
+		_sortByNumber.Pressed += () => SortBy(SortCategory.NationalNumber, _sortByNumber.IsDescending);
+		_sortByType.Pressed  += () => SortBy(SortCategory.Type, _sortByType.IsDescending);
 
+		SetPokemonPages();
 		SetButtonOpacity();
-		SortByLevel(false);
+		
+		// Default to sorting levels
+		SortBy(SortCategory.Level, false);
 		_sortByLevel.UpdateArrows(false);
     }
-
-	private void SortByLevel(bool isDescending)
+	
+	private void SortBy(SortCategory sortCategory, bool isDescending)
 	{
-		PokeCenter.Instance.OrderByLevel(isDescending);
-
-		SetPokemonPages();
-	}
-
-	private void SortByName(bool isDescending)
-	{
-		PokeCenter.Instance.OrderByName(isDescending);
-
-		SetPokemonPages();
-	}
-
-	private void SortByNationalNumber(bool isDescending)
-	{
-		PokeCenter.Instance.OrderByNationalNumber(isDescending);
-
-		SetPokemonPages();
-	}
-
-	private void SortByType(bool isDescending)
-	{
-		PokeCenter.Instance.OrderByType(isDescending);
-
+		switch (sortCategory)
+		{
+			case SortCategory.Level:
+				PokeCenter.Instance.OrderByLevel(isDescending);
+			break;
+			case SortCategory.Name:
+				PokeCenter.Instance.OrderByName(isDescending);
+			break;
+			case SortCategory.NationalNumber:
+				PokeCenter.Instance.OrderByNationalNumber(isDescending);
+			break;
+			case SortCategory.Type:
+				PokeCenter.Instance.OrderByType(isDescending);
+			break;
+		}
 		SetPokemonPages();
 	}
 
 	private void OnPokemonTeamUpdated()
 	{
 		SetPokemonPages();
+		SetButtonOpacity();
 	}
 
 	private void SetPokemonPages()
@@ -111,8 +106,8 @@ public partial class PokeCenterInventory : Container
 		if (PokemonTeam.Instance.Pokemon.Count == 0) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
-		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 
+		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot) return true;
 
 		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
@@ -122,6 +117,8 @@ public partial class PokeCenterInventory : Container
     public override void _DropData(Vector2 atPosition, Variant data)
     {
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
+
+		// Add pokemon if its from PokeCenterAnalysis
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot)
 		{
@@ -147,7 +144,6 @@ public partial class PokeCenterInventory : Container
 		_pageIndex += isCyclingRight ? 1 : -1;
 
 		SetPokemonPages();
-		UpdateInventory();
 		SetButtonOpacity();
 	}
 

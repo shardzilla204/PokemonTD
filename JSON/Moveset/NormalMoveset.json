@@ -392,7 +392,7 @@
         "Category": "Physical",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "Money is earned after the battle.",
+        "Effect": "Money is earned.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -629,7 +629,7 @@
         "Power": 0,
         "Accuracy": 0,
         "Effect": "",
-        "EffectREmoved": "Uses HP to creates a decoy that takes hits.",
+        "EffectRemoved": "Uses HP to creates a decoy that takes hits.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

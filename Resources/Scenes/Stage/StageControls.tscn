@@ -1,32 +1,30 @@
-[gd_scene load_steps=8 format=3 uid="uid://kt8iioa017l0"]
+[gd_scene load_steps=7 format=3 uid="uid://kt8iioa017l0"]
 
 [ext_resource type="Script" uid="uid://c47r0giajamvx" path="res://Resources/Scripts/Stage/StageControls.cs" id="1_cw4dl"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_un5u2"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_c47gi"]
-[ext_resource type="Texture2D" uid="uid://xs7lw0hn5wxh" path="res://Assets/Images/UpArrow.png" id="3_2pp4r"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_vuwbj"]
 [ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="4_c47gi"]
-[ext_resource type="Texture2D" uid="uid://b3xkmlnqivdc7" path="res://Assets/Images/DownArrow.png" id="5_vuwbj"]
 [ext_resource type="Texture2D" uid="uid://dft1eh3da50sk" path="res://Assets/Images/Pause.png" id="5_y1eoh"]
 
-[node name="StageControls" type="HBoxContainer" node_paths=PackedStringArray("_gameToggle", "_speedToggle", "_visiblityToggle", "_gameTexture", "_visibilityTexture", "_speedLabel")]
+[node name="StageControls" type="HBoxContainer" node_paths=PackedStringArray("_gameToggle", "_speedToggle", "_gameTexture", "_speedLabel")]
 offset_right = 150.0
 offset_bottom = 40.0
 size_flags_horizontal = 10
-theme_override_constants/separation = 15
+size_flags_vertical = 10
+mouse_filter = 2
+theme = ExtResource("1_un5u2")
+theme_override_constants/separation = 25
 script = ExtResource("1_cw4dl")
 _gameToggle = NodePath("GameToggle")
 _speedToggle = NodePath("SpeedToggle")
-_visiblityToggle = NodePath("VisibilityToggle")
 _gameTexture = NodePath("GameToggle/NinePatchRect/MarginContainer/GameTexture")
-_visibilityTexture = NodePath("VisibilityToggle/NinePatchRect/MarginContainer/VisibilityTexture")
 _speedLabel = NodePath("SpeedToggle/NinePatchRect/SpeedLabel")
-_hideTexture = ExtResource("5_vuwbj")
-_showTexture = ExtResource("3_2pp4r")
 _playTexture = ExtResource("4_c47gi")
 _pauseTexture = ExtResource("5_y1eoh")
 
 [node name="GameToggle" type="Button" parent="."]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 flat = true
@@ -54,10 +52,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 13
-theme_override_constants/margin_top = 13
-theme_override_constants/margin_right = 13
-theme_override_constants/margin_bottom = 13
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
 
 [node name="GameTexture" type="TextureRect" parent="GameToggle/NinePatchRect/MarginContainer"]
 layout_mode = 2
@@ -66,7 +64,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="SpeedToggle" type="Button" parent="."]
-custom_minimum_size = Vector2(40, 40)
+custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 theme_override_font_sizes/font_size = 16
 flat = true
@@ -94,46 +92,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_font_sizes/font_size = 30
 text = "1x"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="VisibilityToggle" type="Button" parent="."]
-custom_minimum_size = Vector2(40, 40)
-layout_mode = 2
-theme_override_font_sizes/font_size = 20
-flat = true
-script = ExtResource("2_c47gi")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="VisibilityToggle"]
-self_modulate = Color(1, 0.25, 0.25, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("3_vuwbj")
-patch_margin_left = 10
-patch_margin_top = 10
-patch_margin_right = 10
-patch_margin_bottom = 10
-
-[node name="MarginContainer" type="MarginContainer" parent="VisibilityToggle/NinePatchRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 13
-theme_override_constants/margin_top = 13
-theme_override_constants/margin_right = 13
-theme_override_constants/margin_bottom = 13
-
-[node name="VisibilityTexture" type="TextureRect" parent="VisibilityToggle/NinePatchRect/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("5_vuwbj")
-expand_mode = 1
-stretch_mode = 5

@@ -167,13 +167,13 @@ public partial class PokemonManager : Node
     {
         try
         {
-            float percentage = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
+            float accuracyValue = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
 
             RandomNumberGenerator RNG = new RandomNumberGenerator();
-            float randomThresholdValue = RNG.RandfRange(0, 1);
-            randomThresholdValue -= percentage;
+            double randomThreshold = Math.Round(RNG.RandfRange(0, 1), 3);
+            randomThreshold -= accuracyValue;
 
-            return randomThresholdValue <= 0;
+            return randomThreshold <= 0;
         }
         catch (NullReferenceException)
         {
@@ -181,18 +181,73 @@ public partial class PokemonManager : Node
         }
     }
 
-    public int GetDamage(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
+    public int GetDamage<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
     {
-        float criticalDamageMultiplier = GetCriticalDamageMultiplier(attackingPokemon, pokemonMove);
-        float attackDefenseRatio = GetAttackDefenseRatio(attackingPokemon, pokemonMove, defendingPokemon);
-        float damage = (((5 * attackingPokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
+        int damage = 0;
+        if (attackingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = attackingPokemon as StageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+
+            damage = GetStageSlotDamage(pokemonStageSlot, pokemonMove, pokemonEnemy);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+
+            damage = GetPokemonEnemyDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
+        }
         
-        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, defendingPokemon.Types);
+        return damage;
+    }
+
+    private int GetStageSlotDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
+    {
+        // GD.Print("Stage Slot Damage");
+        float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonStageSlot.Pokemon, pokemonMove);
+        float attackDefenseRatio = GetAttackDefenseRatio(pokemonStageSlot.Pokemon, pokemonMove, pokemonEnemy.Pokemon);
+        float damage = (((5 * pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
+
+        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonStageSlot.Pokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
         {
             damage *= typeMultiplier;
         }
+
+        if (pokemonEnemy.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+        {
+            damage /= 2;
+        }
+        else if (pokemonEnemy.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+        {
+            damage /= 2;
+        }
+
+        return Mathf.RoundToInt(damage);
+    }
+
+    private int GetPokemonEnemyDamage(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, StageSlot pokemonStageSlot)
+    {
+        float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonEnemy.Pokemon, pokemonMove);
+        float attackDefenseRatio = GetAttackDefenseRatio(pokemonEnemy.Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
+        float damage = pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier / 10 * pokemonMove.Power * attackDefenseRatio / 50;
         
+        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
+        foreach (float typeMultiplier in typeMultipliers)
+        {
+            damage *= typeMultiplier;
+        }
+
+        if (pokemonStageSlot.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+        {
+            damage /= 2;
+        }
+        else if (pokemonStageSlot.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+        {
+            damage /= 2;
+        }
+
         return Mathf.RoundToInt(damage);
     }
 
@@ -208,7 +263,7 @@ public partial class PokemonManager : Node
     
     private float GetCriticalDamageMultiplier(Pokemon pokemon, PokemonMove pokemonMove)
     {
-        return IsCriticalHit(pokemon, pokemonMove) ? ((2 * pokemon.Level) + 5) / pokemon.Level + 5 : 1;
+        return IsCriticalHit(pokemon, pokemonMove) ? 2 : 1;
     }
 
     private bool IsCriticalHit(Pokemon pokemon, PokemonMove pokemonMove)
@@ -234,14 +289,6 @@ public partial class PokemonManager : Node
         return isCriticalHit;
     }
 
-    public void PokemonMoveMissed(Pokemon pokemon, PokemonMove pokemonMove)
-	{
-		if (pokemonMove.Accuracy == 0) return;
-
-		string missedMessage = $"{pokemon.Name}'s {pokemonMove.Name} Missed";
-		PrintRich.PrintLine(TextColor.Purple, missedMessage);
-	}
-
     // ? HP Stat Formula
     // (Base * 2 + Level / 100) + Level + 10
     // Base = Stat 
@@ -256,7 +303,7 @@ public partial class PokemonManager : Node
     // (Base * 2 + Level / 100) + 5
     // Base = Stat 
     // Level = Pokemon Level
-    private int GetOtherPokemonStat(Pokemon pokemon, PokemonStat pokemonStat)
+    public int GetOtherPokemonStat(Pokemon pokemon, PokemonStat pokemonStat)
     {
         Pokemon pokemonData = GetPokemon(pokemon.Name);
 
@@ -267,6 +314,8 @@ public partial class PokemonManager : Node
             PokemonStat.SpecialAttack => pokemonData.SpecialAttack,
             PokemonStat.SpecialDefense => pokemonData.SpecialDefense,
             PokemonStat.Speed => pokemonData.Speed,
+            PokemonStat.Accuracy => 1,
+            PokemonStat.Evasion => 0,
             _ => pokemonData.Attack,
         };
 

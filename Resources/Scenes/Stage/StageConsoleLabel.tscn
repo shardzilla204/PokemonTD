@@ -5,7 +5,7 @@
 [node name="StageConsoleLabel" type="Label" node_paths=PackedStringArray("_timer")]
 custom_minimum_size = Vector2(0, 20)
 size_flags_vertical = 1
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "Bulbasaur Used Leech Seed On Squirtle"
 autowrap_mode = 2
 script = ExtResource("1_vhkub")

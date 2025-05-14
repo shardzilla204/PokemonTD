@@ -20,12 +20,7 @@
 			"Special Defense": 65,
 			"Speed": 45
 		},
-		"Base Experience Yield": 64,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 64
 	},
 	"Ivysaur":
 	{
@@ -44,12 +39,7 @@
 			"Special Defense": 80,
 			"Speed": 60
 		},
-		"Base Experience Yield": 141,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 141
 	},
 	"Venusaur": 
 	{
@@ -68,12 +58,7 @@
 			"Special Defense": 100,
 			"Speed": 80
 		},
-		"Base Experience Yield": 208,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 208
 	},
 	"Charmander":
 	{
@@ -92,12 +77,7 @@
 			"Special Defense": 50,
 			"Speed": 65
 		},
-		"Base Experience Yield": 64,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 64
 	},
 	"Charmeleon": 
 	{
@@ -116,12 +96,7 @@
 			"Special Defense": 65,
 			"Speed": 80
 		},
-		"Base Experience Yield": 65,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 65
 	},
 	"Charizard": 
 	{
@@ -140,12 +115,7 @@
 			"Special Defense": 85,
 			"Speed": 100
 		},
-		"Base Experience Yield": 209,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 209
 	},
 	"Squirtle": {
 		"National Number": "0007",
@@ -163,12 +133,7 @@
 			"Special Defense": 64,
 			"Speed": 43
 		},
-		"Base Experience Yield": 66,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 66
 	},
 	"Wartortle": {
 		"National Number": "0008",
@@ -186,12 +151,7 @@
 			"Special Defense": 80,
 			"Speed": 58
 		},
-		"Base Experience Yield": 143,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 143
 	},
 	"Blastoise": {
 		"National Number": "0009",
@@ -209,12 +169,7 @@
 			"Special Defense": 105,
 			"Speed": 78
 		},
-		"Base Experience Yield": 210,
-		"Gender Ratio": 
-		{
-			"Male": 0.875,
-			"Female": 0.125
-		}
+		"Base Experience Yield": 210
 	},
 	"Caterpie": {
 		"National Number": "0010",

@@ -5,9 +5,6 @@ namespace PokemonTD;
 
 public partial class StageControls : HBoxContainer
 {
-	[Signal]
-	public delegate void VisibilityToggledEventHandler(bool isVisible);
-
 	[Export]
 	private CustomButton _gameToggle;
 
@@ -15,22 +12,10 @@ public partial class StageControls : HBoxContainer
 	private CustomButton _speedToggle;
 
 	[Export]
-	private CustomButton _visiblityToggle;
-
-	[Export]
 	private TextureRect _gameTexture;
 
 	[Export]
-	private TextureRect _visibilityTexture;
-
-	[Export]
 	private Label _speedLabel;
-
-	[Export]
-	private Texture2D _hideTexture;
-
-	[Export]
-	private Texture2D _showTexture;
 
 	[Export]
 	private Texture2D _playTexture;
@@ -40,7 +25,6 @@ public partial class StageControls : HBoxContainer
 
 	private int _speedOption;
 	private List<float> _speedOptions = new List<float>(){ 1, 2, 4, 0.5f };
-	private bool _isVisible = true;
 
 	public override void _Ready()
 	{
@@ -62,15 +46,9 @@ public partial class StageControls : HBoxContainer
 			OnSpeedPressed(false);
 			PokemonTD.AudioManager.PlayButtonPressed();
 		};
-		_visiblityToggle.Pressed += () => 
-		{
-			OnVisibilityPressed();
-			PokemonTD.AudioManager.PlayButtonPressed();
-		};
 
 		_gameToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_speedToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_visiblityToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 
 		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 	}
@@ -114,13 +92,5 @@ public partial class StageControls : HBoxContainer
 		}
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, speed);
-	}
-
-	private void OnVisibilityPressed()
-	{
-		_isVisible = !_isVisible;
-		_visibilityTexture.Texture = _isVisible ? _hideTexture : _showTexture;
-
-		EmitSignal(SignalName.VisibilityToggled, _isVisible);
 	}
 }

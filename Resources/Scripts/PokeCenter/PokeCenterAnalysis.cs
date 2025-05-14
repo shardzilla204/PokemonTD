@@ -15,9 +15,6 @@ public partial class PokeCenterAnalysis : NinePatchRect
     private TextureRect _genderIcon;
 
     [Export]
-    private Label _pokemonNumber;
-
-    [Export]
     private Label _pokemonHeight;
 
     [Export]
@@ -46,12 +43,17 @@ public partial class PokeCenterAnalysis : NinePatchRect
     {
         _releaseButton.Pressed += () => 
         {
-            if (PokeCenter.Instance.Pokemon.Count == 0) return;
-            
-            SetPokemon(null);
+            if (PokeCenter.Instance.Pokemon.Count != 0) SetPokemon(null);
         };
 
         SetPokemon(null);
+    }
+
+    public override void _Notification(int what)
+    {
+        if (what != NotificationWMCloseRequest) return;
+
+        if (Pokemon is not null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
     }
 
     public override Variant _GetDragData(Vector2 atPosition)
@@ -139,14 +141,14 @@ public partial class PokeCenterAnalysis : NinePatchRect
         }
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
-
         Pokemon = pokemon;
-        _pokemonName.Text = pokemonName;
+        string nationalNumber = pokemon == null ? "" : $"#{pokemon.NationalNumber}";
+
+        _pokemonName.Text = pokemon == null ? "" : $"{nationalNumber}: {pokemonName}";
         _pokemonLevel.Text = pokemon == null ? "" : $"LVL. {pokemon.Level}";
         _genderIcon.Texture = pokemon == null ? null : PokemonTD.GetGenderSprite(pokemon);
-        _pokemonNumber.Text = pokemon == null ? "" : $"#{pokemon.NationalNumber}";
-        _pokemonHeight.Text = pokemon == null ? "" : $"{pokemon.Height} m";
-        _pokemonWeight.Text = pokemon == null ? "" : $"{pokemon.Weight} kg";
+        _pokemonHeight.Text = pokemon == null ? "" : $"Height: {pokemon.Height} m";
+        _pokemonWeight.Text = pokemon == null ? "" : $"Weight: {pokemon.Weight} kg";
         _pokemonStats.Text = pokemon == null ? "" : GetStatsString(pokemon);
         _pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
         _pokemonDescription.Text = pokemon == null ? "" : pokemon.Description;

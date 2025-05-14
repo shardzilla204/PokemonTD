@@ -16,6 +16,9 @@ public enum StatusCondition
 
 public partial class PokemonStatusCondition : Node
 {
+    [Signal]
+    public delegate void FinishedEventHandler();
+
     private static PokemonStatusCondition _instance;
 
     public static PokemonStatusCondition Instance
@@ -48,19 +51,22 @@ public partial class PokemonStatusCondition : Node
         }
     }
 
-    public void ApplyFreezeCondition<T>(T parameter)
+    public async void ApplyFreezeCondition<T>(T parameter)
     {
         ApplyStatusColor(parameter, StatusCondition.Freeze);
         FreezePokemon(parameter, 5f);
+        await ToSignal(this, SignalName.Finished);
+        ApplyStatusColor(parameter, StatusCondition.None);
     }
 
-    public void ApplyParalysisCondition<T>(T parameter)
+    public async void ApplyParalysisCondition<T>(T parameter)
     {
         ApplyStatusColor(parameter, StatusCondition.Paralysis);
 
         if (IsFullyParalyzed()) 
         {
             FreezePokemon(parameter, 3f);
+            await ToSignal(this, SignalName.Finished);
             return;
         }
 
@@ -75,14 +81,13 @@ public partial class PokemonStatusCondition : Node
         return fullParalysisThreshold >= randomValue;
     }
 
-    //! Finish
-    private async void FreezePokemon<T>(T parameter, float timeSeconds)
+    public async void FreezePokemon<T>(T parameter, float timeSeconds)
     {
         if (parameter is StageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.ChangeActivity(false);
+            pokemonStageSlot.IsActive = false;
             await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonStageSlot.ChangeActivity(true);
+            pokemonStageSlot.IsActive = true;
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
@@ -90,7 +95,6 @@ public partial class PokemonStatusCondition : Node
             await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonEnemy.CanMove = true;
         }
-        ApplyStatusColor(parameter, StatusCondition.None);
     }
 
     private async void ApplyParalysis<T>(T parameter)
@@ -100,19 +104,19 @@ public partial class PokemonStatusCondition : Node
 
         if (parameter is StageSlot pokemonStageSlot)
         {
-            int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
+            int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
             pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
             await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
             pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
-            int pokemonSpeed = pokemonEnemy.Speed;
-
-            pokemonEnemy.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
+            int pokemonSpeed = pokemonEnemy.Pokemon.Speed;
+            pokemonEnemy.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
             await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonEnemy.Speed = pokemonSpeed;
+            pokemonEnemy.Pokemon.Speed = pokemonSpeed;
         }
 
         ApplyStatusColor(parameter, StatusCondition.None);
@@ -126,6 +130,7 @@ public partial class PokemonStatusCondition : Node
         int healthPercent = 0;
         if (parameter is StageSlot pokemonStageSlot)
         {
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
             healthPercent = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
@@ -144,8 +149,8 @@ public partial class PokemonStatusCondition : Node
             await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
             if (parameter is StageSlot pokemonStageSlot)
             {
+                pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
                 pokemonStageSlot.DamagePokemon(healthAmount);
-                pokemonStageSlot.ActivityChanged += (stageSlot, isActive) => { return; };
             }
             else if (parameter is PokemonEnemy pokemonEnemy)
             {
@@ -167,9 +172,10 @@ public partial class PokemonStatusCondition : Node
             await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
             if (parameter is StageSlot pokemonStageSlot)
             {
+                pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+
                 int healthAmount = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
                 pokemonStageSlot.DamagePokemon(healthAmount);
-                pokemonStageSlot.ActivityChanged += (stageSlot, isActive) => { return; };
             }
             else if (parameter is PokemonEnemy pokemonEnemy)
             {
@@ -182,31 +188,30 @@ public partial class PokemonStatusCondition : Node
         ApplyStatusColor(parameter, StatusCondition.None);
     }
 
-    public void ApplySleepCondition<T>(T parameter)
+    public async void ApplySleepCondition<T>(T parameter)
     {
         ApplyStatusColor(parameter, StatusCondition.Sleep);
         FreezePokemon(parameter, 3f);
-    }
-
-    public void ApplySleepCondition(StageSlot pokemonStageSlot)
-    {
-        ApplyStatusColor(pokemonStageSlot, StatusCondition.Sleep);
-        FreezePokemon(pokemonStageSlot, 3f);
+        await ToSignal(this, SignalName.Finished);
+        ApplyStatusColor(parameter, StatusCondition.None);
     }
 
     public async void ApplyConfuseCondition<T>(T parameter)
     {
         ApplyStatusColor(parameter, StatusCondition.Confuse);
-        float timeSeconds = 1f;
-        if (parameter is StageSlot stageSlot)
+        if (parameter is StageSlot pokemonStageSlot)
         {
-            FreezePokemon(stageSlot, 2f);
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+
+            FreezePokemon(pokemonStageSlot, 2f);
+            await ToSignal(this, SignalName.Finished);
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.Speed = -pokemonEnemy.Speed;
+            float timeSeconds = 1f;
+            pokemonEnemy.Pokemon.Speed = -pokemonEnemy.Pokemon.Speed;
             await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonEnemy.Speed = -pokemonEnemy.Speed;
+            pokemonEnemy.Pokemon.Speed = -pokemonEnemy.Pokemon.Speed;
         }
         ApplyStatusColor(parameter, StatusCondition.None);
     }

@@ -8,13 +8,15 @@ namespace PokemonTD;
 /* 
     TODO: Create tutorial/information panel
     TODO: Add Poke mart to utilize poke dollars
-    TODO: Add keybinds?
     TODO: Add status condition icons to show multiple conditions
-    TODO: Fix? Stacking buffs/debuffs
+    TODO: Add evolution via stones
+    ? Idea: Add keybinds
+
+    ? Fix: Stacking buffs/debuffs
+    ? Fix: Can't catch pokemon if uncatchable pokemon is on top
     
     ! Priority
     TODO: Add move effect functionality
-    TODO: Wait for poke center to finish saving data
 */
 
 public partial class PokemonTD : Node
@@ -55,6 +57,9 @@ public partial class PokemonTD : Node
     [Export]
     private bool _areFilePathsVisible = false;
 
+    [Export]
+    private bool _isExportingForMobile = false;
+
     [ExportCategory("Poke Center")]
     [Export]
     private bool _isPokeCenterRandomized = false;
@@ -90,6 +95,7 @@ public partial class PokemonTD : Node
     public static bool AreMovesRandomized = false;
     public static bool IsScreenshotModeOn = false;
     public static bool AreFilePathsVisible = false;
+    public static bool IsExportingForMobile = false;
 
     public static int StarterPokemonLevel = 5;
 
@@ -131,6 +137,7 @@ public partial class PokemonTD : Node
         AreMovesRandomized = _areMovesRandomized;
         IsScreenshotModeOn = _isScreenshotModeOn;
         AreFilePathsVisible = _areFilePathsVisible;
+        IsExportingForMobile = _isExportingForMobile;
 
         StarterPokemonLevel = _starterPokemonLevel;
 
@@ -163,8 +170,8 @@ public partial class PokemonTD : Node
 
     public static void AddPokeDollars(Pokemon pokemon)
     {  
-        int minPokeDollars = pokemon.Level * 10;
-        int maxPokeDollars = pokemon.Level * 20;
+        int minPokeDollars = pokemon.Level * 5;
+        int maxPokeDollars = pokemon.Level * 10;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         PokeDollars += RNG.RandiRange(minPokeDollars, maxPokeDollars);

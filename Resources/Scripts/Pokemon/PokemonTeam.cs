@@ -27,12 +27,15 @@ public partial class PokemonTeam : Node
 
 	public override void _Ready()
 	{
-		PokemonTD.Signals.GameReset += Pokemon.Clear;
-		
-		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
-
 		PokemonTD.Signals.PokemonStarterSelected += AddStarterPokemon;
 		PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
+		PokemonTD.Signals.GameReset += () => 
+		{
+			Pokemon.Clear();
+			if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
+		};
+
+		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
 	}
 
 	private void AddStarterPokemon(Pokemon pokemon)

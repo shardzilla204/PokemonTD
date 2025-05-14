@@ -106,7 +106,7 @@ public partial class PokemonStage : Node2D
 	{
 		PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
 		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
-		double progressSpeed = delta * pokemonEnemy.Speed * PokemonTD.GameSpeed;
+		double progressSpeed = pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed * delta;
 		
 		if (!pokemonEnemy.CanMove) return;
 		
@@ -334,6 +334,13 @@ public partial class PokemonStage : Node2D
 		pathFollow.TreeExiting += () => _pathFollows.Remove(pathFollow);
 
 		return pathFollow;
+	}
+
+	public StageSlot GetRandomStageSlot()
+	{
+		RandomNumberGenerator RNG = new RandomNumberGenerator();
+		int randomIndex = RNG.RandiRange(0, StageSlots.Count - 1);
+		return StageSlots[randomIndex];
 	}
 
 	public StageSlot FindStageSlot(int teamSlotIndex)

@@ -7,7 +7,7 @@ namespace PokemonTD;
 public partial class StageSlot : NinePatchRect
 {
 	[Signal]
-	public delegate void ActivityChangedEventHandler(StageSlot stageSlot, bool isActive);
+	public delegate void FaintedEventHandler(StageSlot pokemonStageSlot);
 
 	[Export]
 	private Area2D _area;
@@ -36,6 +36,8 @@ public partial class StageSlot : NinePatchRect
 	private bool _isMuted;
 
 	public int TeamSlotIndex = -1;
+	public int LightScreenCount;
+	public int ReflectCount;
 
 	private Control _dragPreview;
 
@@ -93,13 +95,11 @@ public partial class StageSlot : NinePatchRect
 		_isMuted = isToggled;
 	}
 
-	private void OnEvolutionFinished(int teamSlotIndex)
+	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotIndex)
 	{
 		if (TeamSlotIndex != teamSlotIndex) return;
-
-		StageInterface stageInterface = GetStageInterface();
-		StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(teamSlotIndex);
-		UpdateSlot(stageTeamSlot.Pokemon);
+		
+		UpdateSlot(pokemonEvolution);
 	}
 
 	private void OnSpeedToggled(float speed)
@@ -174,7 +174,7 @@ public partial class StageSlot : NinePatchRect
 
 	private Control GetDragPreview()
 	{
-		int minValue = 85;
+		int minValue = 125;
 		Vector2 minSize = new Vector2(minValue, minValue);
 		TextureRect textureRect = new TextureRect()
 		{
@@ -299,11 +299,16 @@ public partial class StageSlot : NinePatchRect
 		AddContribution(pokemonEnemy);
 		
 		PokemonMove pokemonMove = GetPokemonMoveFromTeam();
+		pokemonMove = pokemonMove.Name == "Metronome" ? PokemonMoves.Instance.GetRandomPokemonMove() : pokemonMove;
 
 		bool hasPokemonMoveHit = PokemonManager.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonEnemy.Pokemon);
-		if (!hasPokemonMoveHit && pokemonMove.Accuracy != 0)
+		if (!hasPokemonMoveHit && pokemonMove.Name != "Swift")
 		{
-			PokemonManager.Instance.PokemonMoveMissed(Pokemon, pokemonMove);
+			if (pokemonMove.Accuracy != 0)
+			{
+				string missedMessage = $"{Pokemon.Name}'s {pokemonMove.Name} Missed";
+				PrintRich.PrintLine(TextColor.Purple, missedMessage);
+			}
 			return;
 		}
 
@@ -314,11 +319,70 @@ public partial class StageSlot : NinePatchRect
 		if (!_isMuted) PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
 
 		TweenAttack(pokemonEnemy);
-		
-		// TODO: Check if it's a unique move
+
+		if (PokemonMoveEffect.Instance.UniqueMoves.IsUniqueMove(pokemonMove))
+		{
+			UniqueMoves uniqueMoves = PokemonMoveEffect.Instance.UniqueMoves;
+			switch (pokemonMove.Name)
+			{
+				case "Dragon Rage":
+					uniqueMoves.DragonRage(pokemonEnemy);
+				break;
+				case "Low Kick":
+					uniqueMoves.LowKick(pokemonEnemy);
+				break;
+				case "Seismic Toss":
+					uniqueMoves.SeismicToss(pokemonEnemy);
+				break;
+				case "Mirror Move":
+					uniqueMoves.MirrorMove(this, pokemonEnemy);
+				break;
+				case "Night Shade":
+					uniqueMoves.MirrorMove(this, pokemonEnemy);
+				break;
+				case "Mimic":
+					uniqueMoves.Mimic(this, pokemonEnemy);
+				break;
+				case "Pay Day":
+					uniqueMoves.PayDay();
+				break;
+				case "Sonic Boom":
+					uniqueMoves.SonicBoom(pokemonEnemy);
+				break;
+				case "Super Fang":
+					uniqueMoves.SuperFang(pokemonEnemy);
+				break;
+				case "Psywave":
+					uniqueMoves.Psywave(pokemonEnemy);
+				break;
+				case "Surf":
+					uniqueMoves.Surf(this, pokemonMove, pokemonEnemy);
+				break;
+				case "Teleport":
+					uniqueMoves.Teleport();
+				break;
+			}
+			return;
+		}
+		else if (PokemonMoveEffect.Instance.TrapMoves.IsTrapMove(pokemonMove))
+		{
+
+		}
+		else if (PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove).IsChargeMove)
+		{
+			
+		}
 
 		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonEnemy, pokemonMove);
-		PokemonCombat.Instance.ApplyStatChanges(pokemonEnemy.Pokemon, pokemonMove);
+		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonEnemy, pokemonMove);
+		
+		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, pokemonMove, pokemonEnemy);
+	}
+
+	public void AttackPokemonEnemy(PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
+	{
+		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonEnemy, pokemonMove);
+		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonEnemy, pokemonMove);
 		
 		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, pokemonMove, pokemonEnemy);
 	}
@@ -365,11 +429,5 @@ public partial class StageSlot : NinePatchRect
 		Color color = Colors.White;
 		color.A = isDragging ? 0.75f : 1; 
 		SelfModulate = color;
-	}
-
-	public void ChangeActivity(bool isActive)
-	{
-		IsActive = isActive;
-		EmitSignal(SignalName.ActivityChanged, this, IsActive);
 	}
 }

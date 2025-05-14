@@ -45,9 +45,10 @@ public partial class SettingsInterface : CanvasLayer
 			{
 				PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 			}
-			_gameSettings.Visible = FromMainMenu;
 			QueueFree();
 		};
+		
+		_gameSettings.Visible = FromMainMenu;
 
 		_saveButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
 		_loadButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);

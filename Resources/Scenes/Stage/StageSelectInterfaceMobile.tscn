@@ -1,13 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://dionk6n8v1pii"]
+[gd_scene load_steps=6 format=3 uid="uid://hya3r0avyefj"]
 
-[ext_resource type="Script" uid="uid://er8lfb4yne3p" path="res://Resources/Scripts/Stage/StageSelectInterface.cs" id="1_gq7qg"]
-[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_jby32"]
-[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_y72j3"]
-[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_ytw0q"]
-[ext_resource type="PackedScene" uid="uid://yb2nr2xa6drk" path="res://Resources/Scenes/Stage/StageInfo.tscn" id="5_l6dv5"]
+[ext_resource type="Script" uid="uid://er8lfb4yne3p" path="res://Resources/Scripts/Stage/StageSelectInterface.cs" id="1_us55w"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_jpvm0"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_re7nv"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_wrrbq"]
+[ext_resource type="PackedScene" uid="uid://yb2nr2xa6drk" path="res://Resources/Scenes/Stage/StageInfo.tscn" id="5_o14o0"]
 
 [node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokemonTeamButton", "_exitButton", "_stageSelectButtons")]
-script = ExtResource("1_gq7qg")
+script = ExtResource("1_us55w")
 _pokemonTeamButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeamButton")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/ExitButton")
 _stageSelectButtons = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/StageSelectButtons")
@@ -18,7 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_jby32")
+theme = ExtResource("2_jpvm0")
 color = Color(0, 0, 0, 0.5)
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
@@ -44,7 +44,7 @@ theme_override_font_sizes/font_size = 25
 text = "Poke Center
 "
 flat = true
-script = ExtResource("3_y72j3")
+script = ExtResource("3_re7nv")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeamButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
@@ -55,7 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_ytw0q")
+texture = ExtResource("4_wrrbq")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
@@ -70,7 +70,7 @@ theme_override_font_sizes/font_size = 30
 text = "X
 "
 flat = true
-script = ExtResource("3_y72j3")
+script = ExtResource("3_re7nv")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/ExitButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
@@ -81,7 +81,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_ytw0q")
+texture = ExtResource("4_wrrbq")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
@@ -103,6 +103,6 @@ size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 
-[node name="StageInfo" parent="Background/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_l6dv5")]
+[node name="StageInfo" parent="Background/MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("5_o14o0")]
 custom_minimum_size = Vector2(835, 0)
 layout_mode = 2

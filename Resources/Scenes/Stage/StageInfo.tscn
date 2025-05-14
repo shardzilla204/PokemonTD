@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://qh66tbyu5083" path="res://Assets/Images/StageThumbnail/Stage1Thumbnail.png" id="4_gyqd1"]
 
 [node name="StageInfo" type="VBoxContainer" node_paths=PackedStringArray("_waveCount", "_levelRange", "_stageThumbnail", "_pokemonEnemySprites")]
+custom_minimum_size = Vector2(415, 0)
 size_flags_horizontal = 3
 theme_override_constants/separation = 10
 script = ExtResource("1_sx8fw")
@@ -17,7 +18,7 @@ _pokemonEnemySprites = NodePath("VBoxContainer/HBoxContainer/VBoxContainer/Pokem
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 5
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -36,10 +37,24 @@ vertical_alignment = 1
 [node name="PokemonEnemySprites" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-theme_override_constants/separation = 10
+theme_override_constants/separation = 5
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/PokemonEnemySprites"]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(85, 85)
+layout_mode = 2
+texture = ExtResource("2_fx412")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect2" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/PokemonEnemySprites"]
+custom_minimum_size = Vector2(85, 85)
+layout_mode = 2
+texture = ExtResource("2_fx412")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="TextureRect3" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxContainer/PokemonEnemySprites"]
+custom_minimum_size = Vector2(85, 85)
 layout_mode = 2
 texture = ExtResource("2_fx412")
 expand_mode = 1
@@ -47,8 +62,9 @@ stretch_mode = 4
 
 [node name="NinePatchRect" type="NinePatchRect" parent="VBoxContainer/HBoxContainer"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
-custom_minimum_size = Vector2(175, 0)
+custom_minimum_size = Vector2(175, 100)
 layout_mode = 2
+size_flags_vertical = 4
 texture = ExtResource("3_jrrfb")
 patch_margin_left = 10
 patch_margin_top = 10
@@ -65,11 +81,12 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer"]
 layout_mode = 2
+theme_override_constants/separation = 5
 
 [node name="WaveCount" type="Label" parent="VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 25
 text = "5 Waves"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -77,7 +94,7 @@ vertical_alignment = 1
 [node name="LevelRange" type="Label" parent="VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
-theme_override_font_sizes/font_size = 24
+theme_override_font_sizes/font_size = 25
 text = "LVL 1 - 4 "
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -87,5 +104,5 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource("4_gyqd1")
-expand_mode = 5
+expand_mode = 1
 stretch_mode = 5

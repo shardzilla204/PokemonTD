@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://dshtma5523e1b"]
+[gd_scene load_steps=8 format=3 uid="uid://0ylpx2erj18x"]
 
-[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_abnre"]
-[ext_resource type="Script" uid="uid://cmncn0jktfjsc" path="res://Resources/Scripts/EvolutionInterface.cs" id="1_rcwvo"]
-[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_d8dhp"]
-[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_abhnc"]
-[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_pr8nn"]
-[ext_resource type="Material" uid="uid://cmlmhke2ynq4k" path="res://Resources/EvolutionMaterial.tres" id="5_p8ju4"]
-[ext_resource type="Texture2D" uid="uid://dgrgeeph534kp" path="res://Assets/Images/Pokemon/Ivysaur.png" id="6_2aoc4"]
+[ext_resource type="Script" uid="uid://cmncn0jktfjsc" path="res://Resources/Scripts/EvolutionInterface.cs" id="1_8h52j"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_ndymm"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_dfq1p"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_302m4"]
+[ext_resource type="Material" uid="uid://cmlmhke2ynq4k" path="res://Resources/EvolutionMaterial.tres" id="5_m3xso"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="6_riwy3"]
+[ext_resource type="Texture2D" uid="uid://dgrgeeph534kp" path="res://Assets/Images/Pokemon/Ivysaur.png" id="7_5xbdb"]
 
 [node name="EvolutionInterface" type="CanvasLayer" node_paths=PackedStringArray("_evolutionTimer", "_evolveLabel", "_exitButton", "_continueButton", "_skipButton", "_pokemonSprite", "_pokemonSilhouette", "_pokemonEvolutionSprite", "_pokemonEvolutionSilhouette")]
-script = ExtResource("1_rcwvo")
+script = ExtResource("1_8h52j")
 _evolutionTimer = NodePath("EvolutionTimer")
 _evolveLabel = NodePath("Background/MarginContainer/VBoxContainer/EvolveLabel")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/ExitButton")
@@ -26,7 +26,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_abnre")
+theme = ExtResource("2_ndymm")
 color = Color(0, 0, 0, 0.5)
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
@@ -49,7 +49,7 @@ size_flags_vertical = 0
 theme_override_font_sizes/font_size = 30
 text = "Cancel"
 flat = true
-script = ExtResource("2_d8dhp")
+script = ExtResource("3_dfq1p")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/ExitButton"]
 self_modulate = Color(0.27, 0.27, 0.27, 1)
@@ -60,7 +60,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_abhnc")
+texture = ExtResource("4_302m4")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
@@ -80,7 +80,7 @@ size_flags_vertical = 3
 size_flags_stretch_ratio = 2.0
 
 [node name="PokemonSilhouette" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/Sprites"]
-material = ExtResource("5_p8ju4")
+material = ExtResource("5_m3xso")
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 1
 anchors_preset = 15
@@ -90,7 +90,7 @@ offset_top = -126.0
 offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_pr8nn")
+texture = ExtResource("6_riwy3")
 stretch_mode = 5
 
 [node name="PokemonSprite" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/Sprites"]
@@ -103,12 +103,12 @@ offset_top = -126.0
 offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_pr8nn")
+texture = ExtResource("6_riwy3")
 stretch_mode = 5
 
 [node name="PokemonEvolutionSilhouette" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/Sprites"]
 visible = false
-material = ExtResource("5_p8ju4")
+material = ExtResource("5_m3xso")
 custom_minimum_size = Vector2(0, 540)
 layout_mode = 1
 anchors_preset = 15
@@ -118,7 +118,7 @@ offset_top = -126.0
 offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_2aoc4")
+texture = ExtResource("7_5xbdb")
 stretch_mode = 5
 
 [node name="PokemonEvolutionSprite" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/Sprites"]
@@ -131,7 +131,7 @@ offset_top = -126.0
 offset_bottom = 126.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("6_2aoc4")
+texture = ExtResource("7_5xbdb")
 stretch_mode = 5
 
 [node name="SkipButton" type="Button" parent="Background/MarginContainer/VBoxContainer"]
@@ -142,7 +142,7 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 30
 text = "Skip"
 flat = true
-script = ExtResource("2_d8dhp")
+script = ExtResource("3_dfq1p")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/SkipButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
@@ -153,7 +153,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_abhnc")
+texture = ExtResource("4_302m4")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
@@ -168,7 +168,7 @@ size_flags_vertical = 6
 theme_override_font_sizes/font_size = 25
 text = "Awesome!"
 flat = true
-script = ExtResource("2_d8dhp")
+script = ExtResource("3_dfq1p")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/ContinueButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
@@ -180,7 +180,7 @@ anchor_bottom = 1.0
 offset_bottom = 10.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_abhnc")
+texture = ExtResource("4_302m4")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10

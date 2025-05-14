@@ -12,13 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://c6gh683jjg4id" path="res://Resources/Scenes/PokemonSleepBar.tscn" id="7_bxqyd"]
 
 [node name="StageTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton", "_mutedTexture")]
-custom_minimum_size = Vector2(125, 185)
+custom_minimum_size = Vector2(175, 250)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -10.0
-offset_right = -1165.0
-offset_bottom = -570.0
+offset_left = -22.5
+offset_top = -50.0
+offset_right = -1152.5
+offset_bottom = -520.0
 grow_horizontal = 2
 grow_vertical = 2
 toggle_mode = true
@@ -97,12 +98,12 @@ theme_override_constants/separation = 0
 [node name="PokemonName" type="Label" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 14
+theme_override_font_sizes/font_size = 20
 text = "Hitmonchan"
 vertical_alignment = 1
 
 [node name="GenderSprite" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(12.5, 12.5)
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -123,6 +124,9 @@ stretch_mode = 5
 
 [node name="PokemonSleepBar" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonSprite" instance=ExtResource("7_bxqyd")]
 layout_mode = 1
+offset_left = -35.0
+offset_right = -5.0
+offset_bottom = 30.0
 
 [node name="PokemonHealthBar" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3" instance=ExtResource("7_6s0w1")]
 layout_mode = 2
@@ -131,7 +135,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="MutedTexture" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3/PokemonMoveButton"]
-custom_minimum_size = Vector2(30, 20)
+custom_minimum_size = Vector2(30, 25)
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0

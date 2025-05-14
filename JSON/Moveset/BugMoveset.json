@@ -25,7 +25,7 @@
 		"Type": "Bug",
 		"Category": "Status",
 		"Power": 0,
-		"Accuracy": 95,
+		"Accuracy": 100,
 		"Effect": "Sharply lowers opponent's Speed.",
 		"Hit Count": [1, 1], 
 		"Status Condition": {}

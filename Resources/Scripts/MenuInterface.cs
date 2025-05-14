@@ -46,12 +46,11 @@ public partial class MenuInterface : CanvasLayer
 
 	private void OnSettingsPressed()
 	{
-		PokemonTD.AudioManager.PlayButtonPressed();
-
 		SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
 		settingsInterface.FromMainMenu = true;
 		AddSibling(settingsInterface);
 
+		PokemonTD.AudioManager.PlayButtonPressed();
 		QueueFree();
 	}
 
@@ -60,7 +59,8 @@ public partial class MenuInterface : CanvasLayer
 		PokemonTD.AudioManager.PlayButtonPressed();
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
 
-		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+		float timeSeconds = 0.25f;
+		await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
 
 		GetTree().Quit();
 	}

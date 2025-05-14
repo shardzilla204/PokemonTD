@@ -24,7 +24,7 @@ public partial class SortButton : CustomButton
     [Export]
     private TextureRect _downArrow;
 
-	public bool IsDescending;
+	public bool IsDescending = true;
 
     public override void _ExitTree()
     {
@@ -61,7 +61,7 @@ public partial class SortButton : CustomButton
 
     public void UpdateArrows(bool isDescending)
     {
-        _upArrow.Visible = isDescending ? false : true;
-        _downArrow.Visible = isDescending ? true : false;
+        _upArrow.Visible = isDescending ? true : false;
+        _downArrow.Visible = isDescending ? false : true;
     }
 }

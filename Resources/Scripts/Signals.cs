@@ -34,12 +34,15 @@ public partial class Signals : Node
     [Signal]
     public delegate void StageStartedEventHandler();
 
+    [Signal]
+    public delegate void PokeDollarsUpdatedEventHandler();
+
     // Evolution
     [Signal]
     public delegate void EvolutionStartedEventHandler(Pokemon pokemon);
 
     [Signal]
-    public delegate void EvolutionFinishedEventHandler(int teamSlotIndex);
+    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
 
     [Signal]
     public delegate void EvolutionQueueClearedEventHandler();

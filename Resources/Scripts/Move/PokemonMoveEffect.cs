@@ -4,9 +4,6 @@ using System.Collections.Generic;
 
 namespace PokemonTD;
 
-// TODO: Add move effect that forces a charge
-// TODO: 
-
 public partial class PokemonMoveEffect : Node
 {
     private static PokemonMoveEffect _instance;
@@ -56,46 +53,103 @@ public partial class PokemonMoveEffect : Node
 
     public void ChangeStat(Pokemon pokemon, StatMove statMove)
     {
-        float changePercentage = statMove.IsSharp ? 1.5f : 1.2f;
-        changePercentage = !statMove.IsIncreasing ? changePercentage - 1 : changePercentage;
-        
-        int statValue = GetStatValue(pokemon, statMove.PokemonStat);
-        statValue = Mathf.RoundToInt(statValue * changePercentage);
+        float statChangePercentage = GetStatChangePercentage(statMove);
+        int statValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat);
+        statValue = Mathf.RoundToInt(statValue * statChangePercentage);
 
-        if (statMove.PokemonStat == PokemonStat.Attack)
+        switch (statMove.PokemonStat)
         {
-            pokemon.Attack = statValue;
-        }
-        else if (statMove.PokemonStat == PokemonStat.SpecialAttack)
-        {
-            pokemon.SpecialAttack = statValue;
-        }
-        else if (statMove.PokemonStat == PokemonStat.Defense)
-        {
-            pokemon.Defense = statValue;
-        }
-        else if (statMove.PokemonStat == PokemonStat.SpecialDefense)
-        {
-            pokemon.SpecialDefense = statValue;
-        }
-        else if (statMove.PokemonStat == PokemonStat.Speed)
-        {
-            pokemon.Speed = statValue;
-        }
-        else if (statMove.PokemonStat == PokemonStat.Accuracy)
-        {
-            pokemon.Accuracy = statMove.IsIncreasing ? 1.5f : 0.5f;
-            pokemon.Accuracy = statMove.IsSharp ? 2f : pokemon.Accuracy;
-        }
-        else if (statMove.PokemonStat == PokemonStat.Evasion)
-        {
-            pokemon.Evasion = statMove.IsIncreasing ? 1.5f : 0.5f;
-            pokemon.Evasion = statMove.IsSharp ? 2f : pokemon.Evasion;
+            case PokemonStat.Attack:
+                pokemon.Attack = statValue;
+            break;
+            case PokemonStat.SpecialAttack:
+                pokemon.SpecialAttack = statValue;
+            break;
+            case PokemonStat.Defense:
+                pokemon.Defense = statValue;
+            break;
+            case PokemonStat.SpecialDefense:
+                pokemon.SpecialDefense = statValue;
+            break;
+            case PokemonStat.Speed:
+                pokemon.Speed = statValue;
+            break;
+            case PokemonStat.Accuracy:
+                if (statMove.IsIncreasing)
+                {
+                    if (statMove.IsSharp)
+                    {
+                        pokemon.Accuracy++;
+                    }
+                    else
+                    {
+                        pokemon.Accuracy += 0.5f;
+                    }
+                } 
+                else 
+                {
+                    if (statMove.IsSharp)
+                    {
+                        pokemon.Accuracy--;
+                        pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                    }
+                    else
+                    {
+                        pokemon.Accuracy -= 0.5f;
+                        pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                    }
+                }
+            break;
+            case PokemonStat.Evasion:
+                if (statMove.IsIncreasing)
+                {
+                    if (statMove.IsSharp)
+                    {
+                        pokemon.Evasion++;
+                    }
+                    else
+                    {
+                        pokemon.Evasion += 0.5f;
+                    }
+                } 
+                else 
+                {
+                    if (statMove.IsSharp)
+                    {
+                        pokemon.Evasion--;
+                        pokemon.Evasion = Mathf.Clamp(pokemon.Evasion, 0, 2);
+                    }
+                    else
+                    {
+                        pokemon.Evasion -= 0.5f;
+                        pokemon.Evasion = Mathf.Clamp(pokemon.Evasion, 0, 2);
+                    }
+                }
+            break;
         }
 
-        Timer timer = GetTimer(2f);
+        Timer timer = GetTimer(1.5f);
         timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(pokemon); // Resets Stats
         AddChild(timer);
+    }
+
+    private float GetStatChangePercentage(StatMove statMove)
+    {
+        float statChangePercentage = statMove.IsIncreasing ? 1.5f : 0.5f;
+        if (statMove.IsSharp)
+        {
+            float sharpMultiplier = 1.5f;
+            if (statMove.IsIncreasing) 
+            {
+                statChangePercentage *= sharpMultiplier;
+            }
+            else 
+            {
+                statChangePercentage /= sharpMultiplier;
+            }
+        }
+
+        return statChangePercentage;
     }
 
     private Timer GetTimer(float waitTime)
@@ -170,6 +224,46 @@ public partial class StatMoves : Node
     {
         return _statDecreaseMoves.FindAll(statDecreaseMove => statDecreaseMove.PokemonMoveName == pokemonMove.Name);
     }
+
+    private bool HasIncreasingStatChanges(PokemonMove pokemonMove)
+    {
+        List<StatMove> statIncreaseMoves = FindIncreaseStatMoves(pokemonMove);
+        return statIncreaseMoves.Count > 0;
+    }
+
+    private bool HasDecreasingStatChanges(PokemonMove pokemonMove)
+    {
+        List<StatMove> statDecreaseMoves = FindDecreaseStatMoves(pokemonMove);
+        return statDecreaseMoves.Count > 0;
+    }
+
+    public void CheckStatChanges<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
+    {
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            Pokemon pokemon = pokemonStageSlot.Pokemon;
+            ApplyStatChanges(pokemon, pokemonMove);
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            Pokemon pokemon = pokemonEnemy.Pokemon;
+            ApplyStatChanges(pokemon, pokemonMove);
+        }
+    }
+
+    private void ApplyStatChanges(Pokemon pokemon, PokemonMove pokemonMove)
+    {
+        if (HasIncreasingStatChanges(pokemonMove))
+		{
+            List<StatMove> statIncreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindIncreaseStatMoves(pokemonMove);
+			PokemonCombat.Instance.ApplyStatChanges(pokemon, statIncreaseMoves);
+		}
+		else if (HasDecreasingStatChanges(pokemonMove))
+		{
+            List<StatMove> statDecreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindDecreaseStatMoves(pokemonMove);
+			PokemonCombat.Instance.ApplyStatChanges(pokemon, statDecreaseMoves);
+		}
+    }
 }
 
 public partial class StatMove : Node
@@ -221,23 +315,21 @@ public partial class HighCriticalRatioMoves : Node
     }
 }
 
+// Swift && Metronome already handled
 public partial class UniqueMoves : Node
 {
     private List<string> _uniqueMoveNames = new List<string>()
     {
         "Dragon Rage",
-        "Double Kick",
         "Low Kick",
         "Seismic Toss",
         "Mirror Move",
         "Night Shade",
-        "Metronome",
         "Mimic",
         "Pay Day",
         "Skull Bash",
         "Sonic Boom",
         "Super Fang",
-        "Swift",
         "Psywave",
         "Surf"
     };
@@ -247,8 +339,209 @@ public partial class UniqueMoves : Node
         string pokemonMoveName = _uniqueMoveNames.Find(move => move == pokemonMove.Name);
         return pokemonMoveName != null;
     }
+
+    // Always inflicts 40 HP
+    public void DragonRage<Defending>(Defending defendingPokemon)
+    {
+        int damage = 40;
+        PokemonCombat.Instance.ApplyDamage(defendingPokemon, damage);
+    }
+
+    // The heavier the opponent, the stronger the attack
+    public void LowKick<Defending>(Defending defendingPokemon)
+    {
+        float multiplier = 1.5f;
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = Mathf.RoundToInt((1 + pokemonStageSlot.Pokemon.Weight) * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = Mathf.RoundToInt((1 + pokemonEnemy.Pokemon.Weight) * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+        }
+    }
+
+    //Inflicts damage equal to user's level
+    public void SeismicToss<Defending>(Defending defendingPokemon)
+    {
+        float multiplier = 1.5f;
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.Level * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.Level * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+        }
+    }
+
+    // User performs the opponent's last move
+    public void MirrorMove<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
+    {
+        if (defendingPokemon is StageSlot)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            PokemonMove pokemonMove = pokemonStageSlot.Pokemon.Move;
+            pokemonEnemy.AttackPokemon(pokemonMove, pokemonStageSlot);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            StageSlot pokemonStageSlot = attackingPokemon as StageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            PokemonMove pokemonMove = pokemonEnemy.Pokemon.Move;
+            pokemonStageSlot.AttackPokemonEnemy(pokemonMove, pokemonEnemy);
+        }
+    }
+
+    //Inflicts damage equal to user's level
+    public void NightShade<Defending>(Defending defendingPokemon)
+    {
+        float multiplier = 1.5f;
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.Level * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.Level * multiplier);
+            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+        }
+    }
+
+    // User performs the opponent's last move
+    public void Mimic<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
+    {
+        if (attackingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = attackingPokemon as StageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            PokemonMove pokemonMove = pokemonStageSlot.Pokemon.Move;
+            pokemonEnemy.AttackPokemon(pokemonMove, pokemonStageSlot);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            PokemonMove pokemonMove = pokemonEnemy.Pokemon.Move;
+            pokemonStageSlot.AttackPokemonEnemy(pokemonMove, pokemonEnemy);
+        }
+    }
+
+    // Money is earned.
+    public void PayDay()
+    {
+        PokemonTD.PokeDollars += 5;
+        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+    }
+
+    // Always inflicts 20 HP
+    public void SonicBoom<Defending>(Defending defendingPokemon)
+    {
+        int damage = 20;
+        PokemonCombat.Instance.ApplyDamage(defendingPokemon, damage);
+    }
+    
+    // Always takes off half of the opponent's HP
+    public void SuperFang<Defending>(Defending defendingPokemon)
+    {
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.HP / 2);
+            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.HP / 2);
+            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+        }
+    }
+
+    // Inflicts damage 50-150% of user's level
+    public void Psywave<Defending>(Defending defendingPokemon)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        float percentage = RNG.RandfRange(0.5f, 1.5f);
+        if (defendingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.Level * percentage);
+            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+        }
+        else if (defendingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.Level * percentage);
+            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+        }
+    }
+
+    // Hits all adjacent Pokemon
+    public void Surf<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
+    {
+        if (attackingPokemon is StageSlot)
+        {
+            StageSlot pokemonStageSlot = attackingPokemon as StageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+            int damage = PokemonManager.Instance.GetDamage(pokemonStageSlot.Pokemon, pokemonMove, pokemonEnemy.Pokemon);
+            PokemonCombat.Instance.AttackAllPokemon(pokemonStageSlot.PokemonEnemyQueue, damage);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            StageSlot pokemonStageSlot = defendingPokemon as StageSlot;
+            int damage = PokemonManager.Instance.GetDamage(pokemonEnemy.Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
+            PokemonCombat.Instance.AttackAllPokemon(pokemonEnemy.PokemonQueue, damage);
+        }
+    }
+
+    // Halves damage from Special attacks for 5 turns
+    public void LightScreen<T>(T parameter)
+    {
+        if (parameter is StageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.LightScreenCount = 5;
+        }
+        else if (parameter is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.LightScreenCount = 5;
+        }
+    }
+
+    // Halves damage from Physical attacks for 5 turns
+    public void Reflect<T>(T parameter)
+    {
+        if (parameter is StageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.ReflectCount = 5;
+        }
+        else if (parameter is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.ReflectCount = 5;
+        }
+    }
+
+    // Allows user to move between areas on the map
+    public void Teleport()
+    {
+        
+    }
 }
 
+// Trapping = remove 1/8 health for 4-5 turns
 public partial class TrapMoves : Node
 {
     private List<string> _trapMoveNames = new List<string>()
@@ -274,17 +567,22 @@ public partial class ChargeMoves : Node
         "Solar Beam",
         "Dig",
         "Hyper Beam",
-        "Razor Wind"
+        "Razor Wind",
+        "Skull Bash"
     };
 
-    // (isChargeMove, isHyperBeam)
     // Hyper Beam attacks first then charges afterward
-    public (bool, bool) IsChargeMove(PokemonMove pokemonMove)
+    public (bool IsChargeMove, bool IsHyperBeam) IsChargeMove(PokemonMove pokemonMove)
     {
         string pokemonMoveName = _chargeMoveNames.Find(move => move == pokemonMove.Name);
         if (pokemonMoveName == "Hyper Beam")
         {
             return (true, true);
+        }
+        else if (pokemonMoveName == "Skull Bash")
+        {
+            
+            return (true, false);
         }
         else if (pokemonMoveName != null)
         {
@@ -292,8 +590,14 @@ public partial class ChargeMoves : Node
         }
         return (false, false);
     }
+
+    public void ApplyChargeMove()
+    {
+
+    }
 }
 
+// Skip oppenents next move
 public partial class FlinchMoves : Node
 {
     private List<string> _flinchMoveNames = new List<string>()
@@ -311,6 +615,11 @@ public partial class FlinchMoves : Node
     {
         string pokemonMoveName = _flinchMoveNames.Find(move => move == pokemonMove.Name);
         return pokemonMoveName != null;
+    }
+
+    public void ApplyFlinchMove<T>(T parameter)
+    {
+        PokemonStatusCondition.Instance.FreezePokemon(parameter, 1f);
     }
 }
 

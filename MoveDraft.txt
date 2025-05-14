@@ -71,10 +71,12 @@ Horn Drill
 Move Effect Modified:
 Constrict
 Teleport
+Pay Day
+Quick Attack 
+Recover (Recover Rare Candy)
 
 Unique Moves:
 Dragon Rage
-Double Kick
 Low Kick
 Seismic Toss
 Mirror Move
@@ -90,8 +92,6 @@ Psywave
 Surf
 Light Screen
 Reflect
-
-Constrict
 Teleport
 
 

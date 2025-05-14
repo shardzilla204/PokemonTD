@@ -1,15 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://caqpnn7iurh5b"]
+[gd_scene load_steps=8 format=3 uid="uid://8a5l18objxbw"]
 
-[ext_resource type="Script" uid="uid://ccvadu1ut63dl" path="res://Resources/Scripts/ForgetMoveInterface.cs" id="1_fgjy6"]
-[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_kk2b6"]
-[ext_resource type="Script" uid="uid://c05p8mmkappwr" path="res://Resources/Scripts/Move/MoveOption.cs" id="3_ep04j"]
-[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="4_m10q6"]
-[ext_resource type="Texture2D" uid="uid://bpjoyhlvxo5cy" path="res://Assets/Images/TypeIcon/NormalTypeIcon.png" id="5_4gwvj"]
-[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="6_8uw42"]
-[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="7_rnsf6"]
+[ext_resource type="Script" uid="uid://ccvadu1ut63dl" path="res://Resources/Scripts/ForgetMoveInterface.cs" id="1_v7axi"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_huwj5"]
+[ext_resource type="Script" uid="uid://c05p8mmkappwr" path="res://Resources/Scripts/Move/MoveOption.cs" id="3_ed60m"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="4_5gc15"]
+[ext_resource type="Texture2D" uid="uid://bpjoyhlvxo5cy" path="res://Assets/Images/TypeIcon/NormalTypeIcon.png" id="5_il8qp"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="6_so4x4"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="7_3ayny"]
 
 [node name="ForgetMoveInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokemonName", "_moveToLearnOption", "_moveToForgetOption", "_moveForgetOptions", "_moveDetails", "_swap")]
-script = ExtResource("1_fgjy6")
+script = ExtResource("1_v7axi")
 _pokemonName = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/PokemonName")
 _moveToLearnOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption")
 _moveToForgetOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption")
@@ -23,7 +23,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("2_kk2b6")
+theme = ExtResource("2_huwj5")
 color = Color(0, 0, 0, 0.5)
 
 [node name="MarginContainer" type="MarginContainer" parent="Background"]
@@ -51,7 +51,7 @@ theme_override_constants/separation = 10
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption"]
@@ -63,7 +63,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -93,7 +93,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -101,7 +101,7 @@ stretch_mode = 5
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2"]
@@ -113,7 +113,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -143,7 +143,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption2/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -151,7 +151,7 @@ stretch_mode = 5
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3"]
@@ -163,7 +163,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -193,7 +193,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption3/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -201,7 +201,7 @@ stretch_mode = 5
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4"]
@@ -213,7 +213,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -243,7 +243,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer3/MoveForgetOptions/MoveForgetOption4/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -251,7 +251,7 @@ stretch_mode = 5
 self_modulate = Color(0.15, 0.15, 0.15, 1)
 layout_mode = 2
 size_flags_vertical = 3
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -306,7 +306,7 @@ custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption"]
@@ -318,7 +318,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -348,7 +348,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -364,7 +364,7 @@ custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 flat = true
-script = ExtResource("3_ep04j")
+script = ExtResource("3_ed60m")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption"]
@@ -376,7 +376,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("4_m10q6")
+texture = ExtResource("4_5gc15")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -406,7 +406,7 @@ text = "Bite | 40 | 100%"
 [node name="MoveType" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(35, 0)
 layout_mode = 2
-texture = ExtResource("5_4gwvj")
+texture = ExtResource("5_il8qp")
 expand_mode = 1
 stretch_mode = 5
 
@@ -419,7 +419,7 @@ theme_override_font_sizes/font_size = 25
 text = "Swap
 "
 flat = true
-script = ExtResource("6_8uw42")
+script = ExtResource("6_so4x4")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/SwapButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
@@ -430,7 +430,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("7_rnsf6")
+texture = ExtResource("7_3ayny")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
