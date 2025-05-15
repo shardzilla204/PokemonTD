@@ -8,7 +8,6 @@ namespace PokemonTD;
 public partial class PokemonEvolution : Node
 {
 	private static PokemonEvolution _instance;
-
     public static PokemonEvolution Instance
     {
         get => _instance;
@@ -18,6 +17,12 @@ public partial class PokemonEvolution : Node
         }
     }
 
+	[Signal]
+	public delegate void QueueUpdatedEventHandler(EvolutionInterface evolutionInterface);
+
+	[Signal]
+	public delegate void QueueClearedEventHandler();
+
 	private GC.Dictionary<string, Variant> _pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>();
 	private List<EvolutionInterface> _evolutionQueue = new List<EvolutionInterface>();
 
@@ -25,11 +30,6 @@ public partial class PokemonEvolution : Node
     {
         Instance = this;
         LoadEvolutionFile();
-    }
-
-    public override void _Ready()
-    {
-		PokemonTD.Signals.EvolutionFinished += (pokemonEvolution, teamSlotIndex) => IsQueueEmpty();
     }
 
 	private void LoadEvolutionFile()
@@ -49,13 +49,14 @@ public partial class PokemonEvolution : Node
 		_pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
-	public bool CanEvolve(Pokemon pokemon)
+	public bool CanEvolve(Pokemon pokemon, int levels)
 	{
 		try 
 		{
+			int pokemonLevel = pokemon.Level + levels;
 			GC.Dictionary<string, Variant> pokemonEvolutionDictionary = _pokemonEvolutionDictionaries[pokemon.Name].As<GC.Dictionary<string, Variant>>();
 			int levelRequirement = (int) pokemonEvolutionDictionary.Values.ToList()[0];
-			return pokemon.Level == levelRequirement;
+			return pokemonLevel >= levelRequirement;
 		}
 		catch (KeyNotFoundException)
 		{
@@ -74,11 +75,9 @@ public partial class PokemonEvolution : Node
 	{
 		Pokemon pokemonEvolution = GetPokemonEvolution(pokemon);
 
-		pokemonEvolution.BaseName = pokemon.BaseName;
 		pokemonEvolution.Level = pokemon.Level;
 		pokemonEvolution.Moves.AddRange(pokemon.Moves);
 		pokemonEvolution.Move = pokemon.Move;
-		pokemonEvolution.OldMoves.AddRange(pokemon.OldMoves);
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
@@ -90,22 +89,26 @@ public partial class PokemonEvolution : Node
 		
 	}
 
-	public void AddToQueue(EvolutionInterface evolutionInterface)
+	public void AddToQueue(EvolutionInterface evolutionInterface, PokemonStage pokemonStage)
 	{
+		if (_evolutionQueue.Count == 0) pokemonStage.AddSibling(evolutionInterface);
 		_evolutionQueue.Add(evolutionInterface);
 	}
 
 	public void RemoveFromQueue(EvolutionInterface evolutionInterface)
 	{
 		_evolutionQueue.Remove(evolutionInterface);
+		EmitSignal(SignalName.QueueUpdated, evolutionInterface);
 	}
+
+	public void ShowNext(PokemonStage pokemonStage)
+    {
+        pokemonStage.AddSibling(_evolutionQueue[0]);
+    }
 
 	public bool IsQueueEmpty()
 	{
-		if (_evolutionQueue.Count != 0) return false;
-
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionQueueCleared);
-
-		return true;
+		if (_evolutionQueue.Count == 0) EmitSignal(SignalName.QueueCleared);
+		return _evolutionQueue.Count == 0;
 	}
 }

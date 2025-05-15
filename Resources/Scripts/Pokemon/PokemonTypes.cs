@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Godot;
 using GC = Godot.Collections;
@@ -83,14 +84,14 @@ public partial class PokemonTypes : Node
 		return typeDictionary[pokemonEnemyType.ToString()].As<float>();
 	}
 
-	public List<float> GetTypeMultipliers(PokemonType pokemonMoveType, List<PokemonType> pokemonEnemyTypes)
+	public List<float> GetTypeMultipliers(PokemonType pokemonMoveType, List<PokemonType> pokemonTypes)
 	{
 		GC.Dictionary<string, Variant> typeDictionary = _typeMatchupDictionary[pokemonMoveType.ToString()].As<GC.Dictionary<string, Variant>>();
 		
 		List<float> typeMultipliers = new List<float>();
-		foreach (PokemonType pokemonEnemyType in pokemonEnemyTypes)
+		foreach (PokemonType pokemonType in pokemonTypes)
 		{
-			float typeMultiplier = typeDictionary[pokemonEnemyType.ToString()].As<float>();
+			float typeMultiplier = typeDictionary[pokemonType.ToString()].As<float>();
 			typeMultipliers.Add(typeMultiplier);
 		}
 		return typeMultipliers;

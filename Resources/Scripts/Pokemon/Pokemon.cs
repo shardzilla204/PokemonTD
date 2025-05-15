@@ -35,7 +35,6 @@ public enum PokemonStat
 
 public partial class Pokemon : Node
 {
-	public string BaseName;
 	public new string Name;
 	public string NationalNumber;
 	public string Species;
@@ -61,11 +60,9 @@ public partial class Pokemon : Node
 	public Gender Gender;
 
 	public PokemonMove Move;
-	public List<PokemonMove> OldMoves = new List<PokemonMove>();
 
 	public Pokemon(string pokemonName, GC.Dictionary<string, Variant> pokemonDictionary, GC.Array<string> pokemonTypes, GC.Dictionary<string, Variant> pokemonStats)
 	{
-		BaseName = pokemonName;
 		Name = pokemonName;
 		NationalNumber = pokemonDictionary["National Number"].As<string>();
 		Species = pokemonDictionary["Species"].As<string>();
@@ -156,5 +153,5 @@ public partial class PokemonExperience : Node
 
 	public int Yield;
 	public int Minimum;
-	public int Maximum = 10;
+	public int Maximum = 100;
 }

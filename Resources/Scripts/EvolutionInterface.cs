@@ -4,6 +4,9 @@ namespace PokemonTD;
 
 public partial class EvolutionInterface : CanvasLayer
 {
+	[Signal]
+	public delegate void FinishedEventHandler(Pokemon pokemonEvolution);
+
 	[Export]
 	private Timer _evolutionTimer;
 
@@ -39,12 +42,6 @@ public partial class EvolutionInterface : CanvasLayer
 
 	private bool _hasEvolved = false;
 
-    public override void _ExitTree()
-    {
-        PokemonEvolution.Instance.RemoveFromQueue(this);
-		PokemonEvolution.Instance.IsQueueEmpty();
-    }
-
 	public override void _Ready()
 	{
 		_pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(Pokemon);
@@ -69,7 +66,14 @@ public partial class EvolutionInterface : CanvasLayer
 		};
 		_skipButton.Pressed += EvolvePokemon;
 		_evolutionTimer.Timeout += EvolvePokemon;
-		_continueButton.Pressed += QueueFree;
+		_continueButton.Pressed += () => 
+		{
+			PokemonEvolution.Instance.RemoveFromQueue(this);
+			PokemonEvolution.Instance.IsQueueEmpty();
+
+			EmitSignal(SignalName.Finished, _pokemonEvolution);
+			QueueFree();
+		};
 
 		TweenEvolution();
 
@@ -114,7 +118,5 @@ public partial class EvolutionInterface : CanvasLayer
 		
 		_hasEvolved = true;
 		_evolveLabel.Text = $"{Pokemon.Name} has evolved into \n{_pokemonEvolution.Name}!";
-
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, Pokemon, _pokemonEvolution);
 	}
 }

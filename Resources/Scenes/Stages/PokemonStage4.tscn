@@ -1,8 +1,9 @@
-[gd_scene load_steps=12 format=4 uid="uid://cljn1bhkdw0is"]
+[gd_scene load_steps=13 format=4 uid="uid://cljn1bhkdw0is"]
 
 [ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/Stage/PokemonStage.cs" id="1_pslpi"]
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_2cv4g"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="3_212gw"]
+[ext_resource type="Script" uid="uid://dqdpgyxsxsnpk" path="res://Resources/Scripts/StagePath.cs" id="3_o7gvf"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/StageSlot.tscn" id="4_4adus"]
 [ext_resource type="Texture2D" uid="uid://bfui266b7ek5a" path="res://Assets/Images/Pokemon/Psyduck.png" id="6_cfmor"]
 [ext_resource type="Texture2D" uid="uid://2dxl8wcpop2n" path="res://Assets/Images/Pokemon/Rhyhorn.png" id="7_nivgl"]
@@ -22,10 +23,10 @@ _data = {
 }
 point_count = 8
 
-[node name="PokemonStage4" type="Node2D" node_paths=PackedStringArray("_path", "_stageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage4" type="Node2D" node_paths=PackedStringArray("_stagePath", "_stageSlots", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 script = ExtResource("1_pslpi")
-_path = NodePath("Path")
+_stagePath = NodePath("StagePath")
 _stageSlots = NodePath("StageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
@@ -118,10 +119,10 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAD//xYAAgABAG4AAQD//xcAAgABAG8AAQAAABYAAgACAG4AAQAAABcAAgACAG8AAQABABYAAgABAG8AAQACABYAAgACAG8AAQADABYAAgABAG4AAQADABcAAgABAG8AAQAEABYAAgACAG4AAQAEABcAAgACAG8AAQAFABYAAgADAG4AAQAIABcAAgACAG8AAQABABIAAgABAGoAAgABABMAAgABAGsAAgABABQAAgABAGwAAgABABUAAgABAG0AAgACABIAAgACAGoAAgACABMAAgACAGsAAgACABQAAgACAGwAAgACABUAAgACAG0AAgA=")
 tile_set = ExtResource("2_2cv4g")
 
-[node name="Path" type="Path2D" parent="."]
+[node name="StagePath" type="Path2D" parent="."]
 y_sort_enabled = true
 curve = SubResource("Curve2D_1vpji")
-metadata/_edit_lock_ = true
+script = ExtResource("3_o7gvf")
 
 [node name="Path2" type="Path2D" parent="."]
 y_sort_enabled = true

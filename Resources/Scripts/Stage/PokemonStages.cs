@@ -25,23 +25,8 @@ public partial class PokemonStages : Node
 	public override void _EnterTree()
 	{
 		Instance = this;
-	}
-
-	public override void _Ready()
-	{
 		LoadStagesFile();
 		SetPokemonStages();
-
-		PokemonTD.Signals.EvolutionQueueCleared += () => 
-		{
-			if (!PokemonMoves.Instance.IsQueueEmpty()) return;
-			
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
-		};
-		PokemonTD.Signals.ForgetMoveQueueCleared += () => 
-		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
-		};
 	}
 
 	private void LoadStagesFile()
@@ -90,7 +75,7 @@ public partial class PokemonStages : Node
 
 			_pokemonStages.Add(pokemonStage);
 		}
-		GD.Print();
+		GD.Print(); // Spacing
 	}
 
 	public int GetRandomEnemyCount()

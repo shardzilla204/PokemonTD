@@ -3,6 +3,7 @@ using GC = Godot.Collections;
 
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace PokemonTD;
 
@@ -27,11 +28,6 @@ public partial class PokemonMoveset : Node
         LoadLearnsetFile();
     }
 
-    public override void _Ready()
-    {
-        PokemonTD.Signals.PokemonLeveledUp += OnPokemonLeveledUp;
-    }
-
 	private void LoadLearnsetFile()
     {
         string filePath = "res://JSON/PokemonLearnset.json";
@@ -49,51 +45,31 @@ public partial class PokemonMoveset : Node
 		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
     }
 
-	private void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotIndex)
-	{
-		PokemonMove pokemonMove = GetPokemonMove(pokemon);
-
-		if (pokemonMove is null) return;
-
-		if (pokemon.Moves.Contains(pokemonMove)) return;
-
-		AddPokemonMove(pokemon, pokemonMove);
-		pokemon.OldMoves.Add(pokemonMove);
-	}
-
-    // Get a pokemon move from the pokemons learnset that equals it's current level
-	private PokemonMove GetPokemonMove(Pokemon pokemon)
+    // Gets pokemon moves from the pokemons learnset
+	public List<PokemonMove> GetPokemonMoves(Pokemon pokemon, int levels)
     {
-        PokemonMove pokemonMove = null;
+        List<PokemonMove> pokemonMoves = new List<PokemonMove>();
 
-        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.BaseName);
-        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.BaseName);
-
-        // Remove moves that have already been and has currently learned
-        foreach (PokemonMove oldPokemonMove in pokemon.OldMoves)
-        {
-            pokemonMoveNames.Remove(oldPokemonMove.Name);
-        }
+        GC.Dictionary<string, Variant> pokemonLearnsetDictionary = GetPokemonLearnsetDictionary(pokemon.Name);
+        List<string> pokemonMoveNames = GetPokemonMoveNames(pokemon.Name);
 
         foreach (string pokemonMoveName in pokemonMoveNames)
         {
             List<int> levelRequirements = pokemonLearnsetDictionary[pokemonMoveName].As<GC.Array<int>>().ToList();
-            bool hasPassed = HasPassed(levelRequirements, pokemon);
+            bool hasPassedLevelRequirement = HasPassedLevelRequirement(levelRequirements, pokemon, levels);
+            if (!hasPassedLevelRequirement) continue;
 
-            if (!hasPassed) continue;
-
-            pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
-            break;
+            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
+            pokemonMoves.Add(pokemonMove);
         }
 
-        return pokemonMove;
+        return pokemonMoves;
     }
 
     // Get at most the first 4 moves
 	public List<PokemonMove> GetPokemonMoveset(Pokemon pokemon)
 	{
 		List<PokemonMove> learnablePokemonMoves = GetLearnablePokemonMoves(pokemon);
-        pokemon.OldMoves.AddRange(learnablePokemonMoves); 
 
         // Get a random set of moves that the pokemon can learn if the count is above 4
         List<PokemonMove> pokemonMoveset = new List<PokemonMove>();
@@ -124,7 +100,7 @@ public partial class PokemonMoveset : Node
         return pokemonMoves;
     }
 
-	private void AddPokemonMove(Pokemon pokemon, PokemonMove pokemonMove)
+	public void AddPokemonMove(Pokemon pokemon, PokemonMove pokemonMove)
 	{
 		if (pokemon.Moves.Count < PokemonTD.MaxMoveCount) 
 		{
@@ -169,7 +145,7 @@ public partial class PokemonMoveset : Node
             List<int> levelRequirements = pokemonLearnsetDictionary[pokemonMoveName].As<GC.Array<int>>().ToList();
 
             // Get the name of the move when it passes the level requirement
-            if (HasPassed(levelRequirements, pokemon)) pokemonLearnsetNames.Add(pokemonMoveName);
+            if (HasPassedLevelRequirement(levelRequirements, pokemon)) pokemonLearnsetNames.Add(pokemonMoveName);
         }
         return pokemonLearnsetNames;
     }
@@ -189,11 +165,29 @@ public partial class PokemonMoveset : Node
     }
 
 	// Checks the level requirement
-    private bool HasPassed(List<int> levelRequirements, Pokemon pokemon)
+    private bool HasPassedLevelRequirement(List<int> levelRequirements, Pokemon pokemon)
     {
         foreach (int levelRequirement in levelRequirements)
         {
             if (pokemon.Level >= levelRequirement) return true;
+        }
+
+        return false;
+    }
+
+	// Checks the level requirement
+    private bool HasPassedLevelRequirement(List<int> levelRequirements, Pokemon pokemon, int levels)
+    {
+        for (int i = 0; i < levels; i++)
+        {
+            int pokemonLevel = pokemon.Level + i;
+            foreach (int levelRequirement in levelRequirements)
+            {
+                if (pokemonLevel == levelRequirement) 
+                {
+                    return true;
+                }
+            }
         }
 
         return false;

@@ -22,13 +22,13 @@ public partial class PokemonEnemy : TextureRect
 	public VisibleOnScreenNotifier2D ScreenNotifier => _screenNotifier;
 	public Pokemon Pokemon;
 	public bool IsCatchable = false;
-	public bool CanMove = true;
 	public List<StageSlot> PokemonQueue = new List<StageSlot>();
 	public GC.Dictionary<int, int> SlotContributionCount = new GC.Dictionary<int, int>();
 
 	public int TeamSlotIndex = -1;
 	public int LightScreenCount;
 	public int ReflectCount;
+	public bool IsMovingForward = true;
 
 	public override void _Ready()
 	{
@@ -47,6 +47,8 @@ public partial class PokemonEnemy : TextureRect
 
 		ScreenNotifier.ScreenExited += () =>
 		{
+			if (!IsMovingForward) return;
+			
 			string passedMessage = $"{Pokemon.Name} Has Breached The Defenses";
 			PrintRich.PrintLine(TextColor.Yellow, passedMessage);
 
@@ -201,12 +203,11 @@ public partial class PokemonEnemy : TextureRect
 
 		foreach (int teamSlotIndex in teamSlotIndexes)
 		{
-			GD.Print($"Index: {teamSlotIndex} = Contribution: {SlotContributionCount[teamSlotIndex]}");
 			for (int i = 0; i < SlotContributionCount[teamSlotIndex]; i++)
 			{
 				PokemonStage pokemonStage = GetParentOrNull<PathFollow2D>().GetParentOrNull<Path2D>().GetParentOrNull<PokemonStage>();
 				StageInterface stageInterface = pokemonStage.StageInterface;
-				StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(teamSlotIndex);
+				StageTeamSlot stageTeamSlot = stageInterface.StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
 				stageTeamSlot.AddExperience(Mathf.RoundToInt(experienceAmount));
 			}
 		}

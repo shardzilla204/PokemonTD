@@ -1,22 +1,25 @@
 using Godot;
 using GC = Godot.Collections;
 using System;
-using System.Collections.Generic;
 
 namespace PokemonTD;
 
 /* 
+    * Priority:
+    TODO: Add move effect functionality
+
     TODO: Create tutorial/information panel
     TODO: Add Poke mart to utilize poke dollars
     TODO: Add status condition icons to show multiple conditions
     TODO: Add evolution via stones
-    ? Idea: Add keybinds
 
-    ? Fix: Stacking buffs/debuffs
-    ? Fix: Can't catch pokemon if uncatchable pokemon is on top
-    
-    ! Priority
-    TODO: Add move effect functionality
+    * Ideas:
+    ? Add keybinds
+    ? Shiny pokemon
+    ? Mute all stage team slot options in settings
+
+    * Bugs:
+    ! Stop status ailments when game is paused
 */
 
 public partial class PokemonTD : Node
@@ -211,16 +214,17 @@ public partial class PokemonTD : Node
         try 
         {
             if (pokemon == null) throw new NullReferenceException("Pokemon is null");
-
+            
+            int pokemonMoveIndex = pokemon.Moves.IndexOf(pokemon.Move);
             GC.Dictionary<int, string> pokemonMovesData = GetPokemonMovesData(pokemon);
+
             GC.Dictionary<string, Variant> pokemonData = new GC.Dictionary<string, Variant>()
             {
-                { "Base Name", pokemon.BaseName },
                 { "Name", pokemon.Name },
                 { "Gender", (int) pokemon.Gender },
                 { "Level", pokemon.Level },
                 { "Experience", GetExperienceData(pokemon) },
-                { "Move", pokemonMovesData[0] },
+                { "Move", pokemonMovesData[pokemonMoveIndex] },
                 { "Moves", pokemonMovesData },
             };
             return pokemonData;
@@ -234,7 +238,6 @@ public partial class PokemonTD : Node
     public static Pokemon SetPokemonData(string pokemonName, GC.Dictionary<string, Variant> pokemonData)
     {
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName);
-		pokemon.BaseName = pokemonData["Base Name"].As<string>();
 		pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
 		pokemon.Level = pokemonData["Level"].As<int>();
 
@@ -257,7 +260,7 @@ public partial class PokemonTD : Node
 	{
         GC.Dictionary<string, Variant> experienceData = pokemonData["Experience"].As<GC.Dictionary<string, Variant>>();
         pokemon.Experience.Minimum = experienceData["Minimum"].As<int>();
-        pokemon.Experience.Maximum = experienceData["Minimum"].As<int>();
+        pokemon.Experience.Maximum = experienceData["Maximum"].As<int>();
 	}
 
 	private static GC.Dictionary<int, string> GetPokemonMovesData(Pokemon pokemon)
@@ -278,8 +281,8 @@ public partial class PokemonTD : Node
             PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
             pokemon.Moves.Add(pokemonMove);
         }
-        pokemon.Move = pokemon.Moves[0];
-        List<PokemonMove> oldPokemonMoves = PokemonMoveset.Instance.GetLearnablePokemonMoves(pokemon);
-        pokemon.OldMoves.AddRange(oldPokemonMoves);
+        string selectedPokemonMoveName = pokemonData["Move"].As<string>();
+        PokemonMove selectedPokemonMove = pokemon.Moves.Find(pokemonMove => pokemonMove.Name == selectedPokemonMoveName);
+        pokemon.Move = selectedPokemonMove;
     }
 }

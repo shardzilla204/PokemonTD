@@ -1,19 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://ch1up66iv8m4g"]
 
-[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_m7hrk"]
-[ext_resource type="Script" uid="uid://0dd0q4pvfks5" path="res://Resources/Scripts/Move/PokemonMoveAnalysis.cs" id="2_wurlu"]
-[ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Resources/Scenes/Move/MoveOption.tscn" id="3_5un76"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_cdno4"]
+[ext_resource type="Script" uid="uid://0dd0q4pvfks5" path="res://Resources/Scripts/Move/PokeCenterMoveAnalysis.cs" id="2_0rnx8"]
+[ext_resource type="PackedScene" uid="uid://bxi6euu5u1nfd" path="res://Resources/Scenes/Move/MoveOption.tscn" id="3_r2qv2"]
 
-[node name="PokemonMoveAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_moveOptionContainer", "_moveInfo")]
+[node name="PokeCenterMoveAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_moveOptionContainer", "_moveInfo")]
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 custom_minimum_size = Vector2(0, 275)
 size_flags_horizontal = 3
-texture = ExtResource("1_m7hrk")
+texture = ExtResource("1_cdno4")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
-script = ExtResource("2_wurlu")
+script = ExtResource("2_0rnx8")
 _moveOptionContainer = NodePath("MarginContainer/VBoxContainer/MoveOptionContainer")
 _moveInfo = NodePath("MarginContainer/VBoxContainer/NinePatchRect/MarginContainer/MoveInfo")
 
@@ -24,6 +24,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -31,23 +32,25 @@ theme_override_constants/margin_bottom = 10
 
 [node name="VBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 5
 
 [node name="MoveOptionContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/separation = 5
 
-[node name="MoveOption" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_5un76")]
+[node name="MoveOption" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_r2qv2")]
 layout_mode = 2
 
-[node name="MoveOption2" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_5un76")]
+[node name="MoveOption2" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_r2qv2")]
 layout_mode = 2
 
-[node name="MoveOption3" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_5un76")]
+[node name="MoveOption3" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_r2qv2")]
 layout_mode = 2
 
-[node name="MoveOption4" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_5un76")]
+[node name="MoveOption4" parent="MarginContainer/VBoxContainer/MoveOptionContainer" instance=ExtResource("3_r2qv2")]
 layout_mode = 2
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer"]
@@ -55,7 +58,7 @@ self_modulate = Color(0.6, 0.6, 0.6, 1)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-texture = ExtResource("1_m7hrk")
+texture = ExtResource("1_cdno4")
 region_rect = Rect2(10, 0, 90, 100)
 patch_margin_left = 10
 patch_margin_top = 10
@@ -69,6 +72,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5

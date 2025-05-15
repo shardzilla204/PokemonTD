@@ -38,19 +38,21 @@ layout_mode = 2
 [node name="Message" type="Label" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
 theme_override_font_sizes/font_size = 40
 text = "You've lost all your candy!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ButtonContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+[node name="ButtonContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
+size_flags_vertical = 2
 theme_override_constants/separation = 10
 
 [node name="RetryButton" type="Button" parent="Background/MarginContainer/VBoxContainer/ButtonContainer"]
 custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 6
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 25
 text = "Retry
@@ -76,7 +78,7 @@ patch_margin_bottom = 10
 [node name="LeaveButton" type="Button" parent="Background/MarginContainer/VBoxContainer/ButtonContainer"]
 custom_minimum_size = Vector2(250, 65)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 4
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 25
 text = "Leave

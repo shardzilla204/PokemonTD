@@ -60,7 +60,7 @@ theme_override_constants/separation = 25
 alignment = 1
 
 [node name="PlayButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
@@ -84,7 +84,7 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 
 [node name="SettingsButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
@@ -108,7 +108,7 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 
 [node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25

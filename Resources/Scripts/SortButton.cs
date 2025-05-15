@@ -24,7 +24,7 @@ public partial class SortButton : CustomButton
     [Export]
     private TextureRect _downArrow;
 
-	public bool IsDescending = true;
+	public bool IsDescending = false;
 
     public override void _ExitTree()
     {
@@ -34,6 +34,7 @@ public partial class SortButton : CustomButton
     public override void _Ready()
     {
         base._Ready();
+        PokemonTD.Signals.SortButtonPressed += OnSortButtonPressed;
         _sortCategoryLabel.Text = _sortCategory switch 
         {
             SortCategory.Level => "Level",
@@ -44,24 +45,26 @@ public partial class SortButton : CustomButton
         };
 		Pressed += () => 
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.SortButtonPressed);
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.SortButtonPressed, (int) _sortCategory);
 
             IsDescending = !IsDescending;
             UpdateArrows(IsDescending);
         };
-
-        PokemonTD.Signals.SortButtonPressed += OnSortButtonPressed;
     }
 
-    private void OnSortButtonPressed()
+    private void OnSortButtonPressed(int sortCategoryID)
     {
+        if (_sortCategory == (SortCategory) sortCategoryID) return;
+        
+        IsDescending = false;
+
         _upArrow.Visible = true;
         _downArrow.Visible = true;
     }
 
     public void UpdateArrows(bool isDescending)
     {
-        _upArrow.Visible = isDescending ? true : false;
-        _downArrow.Visible = isDescending ? false : true;
+        _upArrow.Visible = !isDescending;
+        _downArrow.Visible = isDescending;
     }
 }

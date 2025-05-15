@@ -26,8 +26,17 @@ public partial class StageControls : HBoxContainer
 	private int _speedOption;
 	private List<float> _speedOptions = new List<float>(){ 1, 2, 4, 0.5f };
 
+	public override void _ExitTree()
+	{
+		PokemonTD.Signals.PressedPlay -= UpdateGameTexture;
+		PokemonTD.Signals.PressedPause -= UpdateGameTexture;
+	}
+
 	public override void _Ready()
 	{
+		PokemonTD.Signals.PressedPlay += UpdateGameTexture;
+		PokemonTD.Signals.PressedPause += UpdateGameTexture;
+
 		// Default to speed of 1
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, 1);
 
@@ -53,13 +62,17 @@ public partial class StageControls : HBoxContainer
 		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 	}
 
+	private void UpdateGameTexture()
+	{
+		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
+	}
 
 	private void OnGamePressed()
 	{
 		PokemonTD.IsGamePaused = !PokemonTD.IsGamePaused;
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageStarted);
 
-		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
+		UpdateGameTexture();
 
 		if (PokemonTD.IsGamePaused)
 		{

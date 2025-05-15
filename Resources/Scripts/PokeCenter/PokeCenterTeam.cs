@@ -10,6 +10,9 @@ public partial class PokeCenterTeam : Container
 	[Export]
 	private Container _teamSlotContainer;
 
+	[Export]
+	private CustomButton _clearButton;
+
 	private List<PokeCenterTeamSlot> _teamSlots = new List<PokeCenterTeamSlot>();
 
     public override void _ExitTree()
@@ -20,6 +23,7 @@ public partial class PokeCenterTeam : Container
     public override void _Ready()
     {
 		PokemonTD.Signals.PokemonTeamUpdated += OnPokemonTeamUpdated;
+		_clearButton.Pressed += ClearTeam;
 
 		FillTeamSlotList();
 		DisplayPokemonTeam();
@@ -31,7 +35,6 @@ public partial class PokeCenterTeam : Container
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
-
 		if (fromAnalysisSlot) return true;
 
 		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
@@ -55,6 +58,16 @@ public partial class PokeCenterTeam : Container
 
 		pokeCenterSlot.QueueFree();
     }
+
+	private void ClearTeam()
+	{
+		List<Pokemon> pokemonToRemove = [.. PokemonTeam.Instance.Pokemon];
+		
+		foreach (Pokemon pokemon in pokemonToRemove)
+		{
+			PokeCenter.Instance.AddPokemon(pokemon);
+		}
+	}
 
 	private void FillTeamSlotList()
 	{

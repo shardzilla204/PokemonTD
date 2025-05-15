@@ -54,11 +54,12 @@ public partial class PokemonCombat : Node
         }
 	}    
     
+    // ? Comment 
     public void ApplyEnemyDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount)
     {
         for (int i = 0; i < hitCount; i++)
         {
-            int damage = PokemonManager.Instance.GetDamage(pokemonStageSlot, pokemonMove, pokemonEnemy);
+            int damage = PokemonManager.Instance.GetDamage(pokemonStageSlot, pokemonMove, pokemonEnemy) /* * 100 */;
             pokemonEnemy.DamagePokemon(damage);
 
             string damageMessage = PrintRich.GetDamageMessage(damage, pokemonEnemy.Pokemon, pokemonMove);
@@ -77,7 +78,6 @@ public partial class PokemonCombat : Node
         for (int i = 0; i < hitCount; i++)
         {
             int damage = PokemonManager.Instance.GetDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
-            GD.Print($"Damage: {damage}");
             damage = Mathf.RoundToInt(damage * damageReduction);
             pokemonStageSlot.DamagePokemon(damage);
 
@@ -127,8 +127,8 @@ public partial class PokemonCombat : Node
     private bool CanApplyStatChange(StatMove statMove)
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float randomValue = RNG.RandfRange(0, 1);
-        randomValue = Mathf.RoundToInt(randomValue - statMove.Probability);
+        int randomValue = Mathf.RoundToInt(RNG.RandfRange(0, 255));
+        randomValue = randomValue - statMove.Probability;
 
         return randomValue <= 0;
     }

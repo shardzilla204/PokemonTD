@@ -32,9 +32,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Background/MarginContainer"]
-custom_minimum_size = Vector2(0, 75)
+custom_minimum_size = Vector2(0, 65)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
@@ -44,11 +45,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ExitButton" type="Button" parent="Background/MarginContainer"]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 text = "X"
 flat = true
 script = ExtResource("3_1gcrq")
@@ -70,15 +71,13 @@ patch_margin_bottom = 10
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/separation = 15
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/separation = 15
 
 [node name="GameSettings" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
@@ -86,11 +85,12 @@ custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.35
+mouse_filter = 2
 theme_override_constants/separation = 25
 alignment = 1
 
 [node name="SaveGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
@@ -114,7 +114,7 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 
 [node name="LoadGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
@@ -138,7 +138,7 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 
 [node name="DeleteGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 25
@@ -165,6 +165,7 @@ patch_margin_bottom = 10
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 theme_override_constants/separation = 25
 alignment = 1
 
@@ -172,6 +173,7 @@ alignment = 1
 custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio"]
 custom_minimum_size = Vector2(0, 50)
@@ -184,6 +186,7 @@ vertical_alignment = 1
 [node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio"]
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="MasterSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio/Control"]
 custom_minimum_size = Vector2(200, 0)
@@ -210,6 +213,7 @@ value = -25.0
 custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio"]
 custom_minimum_size = Vector2(0, 50)
@@ -222,6 +226,7 @@ vertical_alignment = 1
 [node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio"]
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="MusicSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio/Control"]
 custom_minimum_size = Vector2(200, 0)
@@ -248,6 +253,7 @@ value = -25.0
 custom_minimum_size = Vector2(400, 100)
 layout_mode = 2
 size_flags_horizontal = 4
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio"]
 custom_minimum_size = Vector2(0, 50)
@@ -260,6 +266,7 @@ vertical_alignment = 1
 [node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio"]
 custom_minimum_size = Vector2(100, 40)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="SoundSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio/Control"]
 custom_minimum_size = Vector2(200, 0)

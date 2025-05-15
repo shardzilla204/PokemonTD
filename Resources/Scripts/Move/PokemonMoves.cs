@@ -27,7 +27,6 @@ namespace PokemonTD;
 public partial class PokemonMoves : Node
 {
     private static PokemonMoves _instance;
-
     public static PokemonMoves Instance
     {
         get => _instance;
@@ -37,10 +36,16 @@ public partial class PokemonMoves : Node
         }
     }
 
-    private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
-    public List<PokemonMove> Moves = new List<PokemonMove>();
+    [Signal]
+    public delegate void QueueUpdatedEventHandler(ForgetMoveInterface forgetMoveInterface);
 
+    [Signal]
+    public delegate void QueueClearedEventHandler();
+
+    private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
     private List<ForgetMoveInterface> _forgetMoveQueue = new List<ForgetMoveInterface>(); 
+
+    public List<PokemonMove> Moves = new List<PokemonMove>();
 
     public override void _EnterTree()
 	{
@@ -59,7 +64,7 @@ public partial class PokemonMoves : Node
         {
             totalMoveCount += AddTypeMoveset(type);
         }
-        GD.Print();
+        GD.Print(); // Spacing
 
         string typeCountMessage = $"Total Pokemon Types: {typeArray.Length}";
         PrintRich.PrintLine(TextColor.Blue, typeCountMessage);
@@ -137,22 +142,29 @@ public partial class PokemonMoves : Node
         return Moves.Find(pokemonMove => pokemonMove.Name == pokemonMoveName);
     }
 
-    public void AddToQueue(ForgetMoveInterface forgetMoveInterface)
+    public void AddToQueue(ForgetMoveInterface forgetMoveInterface, PokemonStage pokemonStage)
     {
+        if (_forgetMoveQueue.Count == 0) pokemonStage.AddSibling(forgetMoveInterface);
+
         _forgetMoveQueue.Add(forgetMoveInterface);
     }
 
     public void RemoveFromQueue(ForgetMoveInterface forgetMoveInterface)
     {
         _forgetMoveQueue.Remove(forgetMoveInterface);
+        EmitSignal(SignalName.QueueUpdated, forgetMoveInterface);
+    }
+
+    public void ShowNext(PokemonStage pokemonStage)
+    {
+        pokemonStage.AddSibling(_forgetMoveQueue[0]);
     }
     
     public bool IsQueueEmpty()
     {
         if (_forgetMoveQueue.Count != 0) return false;
 
-        PokemonTD.Signals.EmitSignal(Signals.SignalName.ForgetMoveQueueCleared);
-
+        EmitSignal(SignalName.QueueCleared);
         return true;
     }
 }

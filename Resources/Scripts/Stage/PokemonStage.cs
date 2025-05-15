@@ -1,5 +1,4 @@
 using Godot;
-using GC = Godot.Collections;
 using System.Collections.Generic;
 using System;
 
@@ -14,7 +13,7 @@ public partial class PokemonStage : Node2D
 	public delegate void FinishedWaveEventHandler();
 
 	[Export]
-	private Path2D _path;
+	private StagePath _stagePath;
 
 	[Export]
 	private Control _stageSlots;
@@ -24,8 +23,6 @@ public partial class PokemonStage : Node2D
 
 	[Export]
 	private StageInterface _stageInterface;
-
-	private GC.Array<PathFollow2D> _pathFollows = new GC.Array<PathFollow2D>();
 
 	public int ID = 1;
 	public int WaveCount = 10;
@@ -48,14 +45,14 @@ public partial class PokemonStage : Node2D
 		StageInterface = _stageInterface;
 
 		PokemonTD.Signals.PressedPlay += CheckGameState;
-		PokemonTD.Signals.ForgetMove += OnForgetMove;
+		PokemonTD.Signals.ForgetMove += PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyFainted += OnPokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyPassed += OnPokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured += OnPokemonEnemyEvent;
 		PokemonTD.Signals.DraggingStageSlot += SetStageAlpha;
 		PokemonTD.Signals.DraggingStageTeamSlot += SetStageAlpha;
 		PokemonTD.Signals.DraggingPokeBall += SetStageAlpha;
-		PokemonTD.Signals.EvolutionStarted += OnEvolutionStarted;
+		PokemonTD.Signals.PokemonEvolving += PokemonEvolving;
 
 		foreach (Node child in _stageSlots.GetChildren())
 		{
@@ -66,14 +63,14 @@ public partial class PokemonStage : Node2D
     public override void _ExitTree()
     {
 		PokemonTD.Signals.PressedPlay -= CheckGameState;
-		PokemonTD.Signals.ForgetMove -= OnForgetMove;
+		PokemonTD.Signals.ForgetMove -= PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyFainted -= OnPokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyPassed -= OnPokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured -= OnPokemonEnemyEvent;
 		PokemonTD.Signals.DraggingStageSlot -= SetStageAlpha;
 		PokemonTD.Signals.DraggingStageTeamSlot -= SetStageAlpha;
 		PokemonTD.Signals.DraggingPokeBall -= SetStageAlpha;
-		PokemonTD.Signals.EvolutionStarted -= OnEvolutionStarted;
+		PokemonTD.Signals.PokemonEvolving -= PokemonEvolving;
     }
 
    	public override void _Ready()
@@ -87,60 +84,56 @@ public partial class PokemonStage : Node2D
 		if (PokemonTD.AreStagesEnabled) WaveInterval();
 	}
 
-	public override void _Process(double delta)
-	{
-		if (!PokemonTD.AreStagesEnabled || HasFinished || PokemonTD.IsGamePaused) return;
-
-		foreach (PathFollow2D pathFollow in _pathFollows)
-		{
-			MovePokemonEnemy(pathFollow, delta);
-		}
-	}
-
 	private void CheckGameState()
 	{
 		if (!HasStarted) PokemonTD.IsGamePaused = true;
 	}
 
-	private void MovePokemonEnemy(PathFollow2D pathFollow, double delta)
+	private async void PokemonForgettingMove(Pokemon pokemon, PokemonMove pokemonMove)
 	{
-		PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
-		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
-		double progressSpeed = pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed * delta;
+		if (!PokemonEvolution.Instance.IsQueueEmpty()) await ToSignal(PokemonEvolution.Instance, PokemonEvolution.SignalName.QueueCleared);
 		
-		if (!pokemonEnemy.CanMove) return;
-		
-		pathFollow.Progress += (float) progressSpeed;
-
-		Vector2 direction = previousPosition.DirectionTo(pokemonEnemy.GlobalPosition);
-		bool isMovingRight = Math.Round(direction.X, 1) >= 0;
-		pokemonEnemy.FlipH = isMovingRight;
-	}
-
-	private async void OnForgetMove(Pokemon pokemon, PokemonMove pokemonMove)
-	{
-		ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface();
-		forgetMoveInterface.Pokemon = pokemon;
-		forgetMoveInterface.MoveToLearn = pokemonMove;
-
-		if (!PokemonEvolution.Instance.IsQueueEmpty()) 
+		ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface(pokemon, pokemonMove);
+		forgetMoveInterface.Finished += () =>
 		{
-			await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionQueueCleared);
-		}
-
-		AddSibling(forgetMoveInterface);
-
-		PokemonMoves.Instance.AddToQueue(forgetMoveInterface);
+			if (!PokemonMoves.Instance.IsQueueEmpty()) 
+			{
+				PokemonMoves.Instance.ShowNext(this);
+			}
+			else
+			{
+				if (PokemonEvolution.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+			}
+			forgetMoveInterface.QueueFree();
+		};
+		PokemonMoves.Instance.AddToQueue(forgetMoveInterface, this);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 	}
 
-	private void OnEvolutionStarted(Pokemon pokemon)
+	private async void PokemonEvolving(Pokemon pokemon, int teamSlotIndex)
 	{
-		EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface();
-		evolutionInterface.Pokemon = pokemon;
-		AddSibling(evolutionInterface);
-		GetParentOrNull<Node>().MoveChild(evolutionInterface, GetParentOrNull<Node>().GetChildCount());
+		if (!PokemonMoves.Instance.IsQueueEmpty()) await ToSignal(PokemonMoves.Instance, PokemonMoves.SignalName.QueueCleared);
 
-		PokemonEvolution.Instance.AddToQueue(evolutionInterface);
+		EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, teamSlotIndex);
+		evolutionInterface.Finished += (pokemonEvolution) =>
+		{
+			if (!PokemonEvolution.Instance.IsQueueEmpty()) 
+			{
+				PokemonEvolution.Instance.ShowNext(this);
+			}
+			else
+			{
+				if (PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+			}
+			evolutionInterface.QueueFree();
+		};
+		PokemonEvolution.Instance.AddToQueue(evolutionInterface, this);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
+	}
+
+	private void OnEvolutionQueueUpdated(EvolutionInterface evolutionInterface)
+	{
+		AddSibling(evolutionInterface);
 	}
 
 	private void SetStageAlpha(bool isDragging)
@@ -158,7 +151,7 @@ public partial class PokemonStage : Node2D
 	private void OnPokemonEnemyEvent(PokemonEnemy pokemonEnemy)
 	{
 		PokemonEnemies.Remove(pokemonEnemy);
-		RemovePathFollow(pokemonEnemy);
+		_stagePath.RemovePathFollow(pokemonEnemy);
 		
 		bool isWaveFinished = PokemonEnemies.Count == 0;
 		if (isWaveFinished) EmitSignal(SignalName.FinishedWave);
@@ -245,7 +238,7 @@ public partial class PokemonStage : Node2D
 		PokemonEnemy pokemonEnemy = GetPokemonEnemy(randomPokemon);
 		PokemonEnemies.Add(pokemonEnemy);
 		
-		AddPathFollow(pokemonEnemy);
+		_stagePath.AddPathFollow(pokemonEnemy);
 
 		string spawnMessage = $"Spawning Level {randomPokemon.Level} {randomPokemon.Name}";
 		PrintRich.PrintLine(TextColor.Yellow, spawnMessage);
@@ -258,7 +251,7 @@ public partial class PokemonStage : Node2D
 		pokemonEnemy.ScreenNotifier.ScreenExited += () => 
 		{
 			DecreaseRareCandy(pokemon);
-			RemovePathFollow(pokemonEnemy);
+			_stagePath.RemovePathFollow(pokemonEnemy);
 			PokemonEnemies.Remove(pokemonEnemy);
 		};
 
@@ -284,15 +277,6 @@ public partial class PokemonStage : Node2D
 		return randomLevel;
 	}
 
-	private void AddPathFollow(PokemonEnemy pokemonEnemy)
-	{
-		PathFollow2D pathFollow = GetPathFollow();
-		pathFollow.AddChild(pokemonEnemy);
-
-		_pathFollows.Add(pathFollow);
-		_path.AddChild(pathFollow);
-	}
-
 	private void DecreaseRareCandy(Pokemon pokemon)
 	{
 		float percentageAmount = 0.05f; // 1%
@@ -315,25 +299,6 @@ public partial class PokemonStage : Node2D
 		resultInterface.StageID = ID;
 		resultInterface.Message.Text = resultMessage;
 		AddChild(resultInterface);
-	}
-
-	private void RemovePathFollow(PokemonEnemy pokemonEnemy)
-	{
-		PathFollow2D pathFollow = pokemonEnemy.GetParentOrNull<PathFollow2D>();
-		pathFollow.QueueFree();
-	}
-
-	private PathFollow2D GetPathFollow()
-	{
-		PathFollow2D pathFollow = new PathFollow2D()
-		{
-			Rotates = false,
-			Loop = false,
-			YSortEnabled = true
-		};
-		pathFollow.TreeExiting += () => _pathFollows.Remove(pathFollow);
-
-		return pathFollow;
 	}
 
 	public StageSlot GetRandomStageSlot()

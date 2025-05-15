@@ -41,12 +41,14 @@ public partial class PokemonMoveEffect : Node
 
     public float GetCriticalHitRatio(Pokemon pokemon, PokemonMove pokemonMove)
     {
-        float criticalHitRatio = pokemon.Speed / 2;
+        Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name);
+        int pokemonBaseSpeed = pokemonData.Speed;
+        float criticalHitRatio = pokemonBaseSpeed / 2;
         bool isHighCriticalRatioMove = HighCriticalRatioMoves.IsHighCriticalRatioMove(pokemonMove);
         if (isHighCriticalRatioMove)
         {
             float maxThreshold = 255;
-            criticalHitRatio = Math.Min(8 * criticalHitRatio, maxThreshold);
+            criticalHitRatio = Math.Min(4 * criticalHitRatio, maxThreshold);
         }
         return criticalHitRatio;
     }
@@ -200,19 +202,19 @@ public partial class StatMoves : Node
     {
         new StatMove("String Shot", PokemonStat.Speed, false, true),
         new StatMove("Sand Attack", PokemonStat.Accuracy, false),
-        new StatMove("Aurora Beam", PokemonStat.Attack, false, 0.25f),
-        new StatMove("Constrict", PokemonStat.Speed, false, 0.25f),
+        new StatMove("Aurora Beam", PokemonStat.Attack, false, 85),
+        new StatMove("Constrict", PokemonStat.Speed, false, 85),
         new StatMove("Flash", PokemonStat.Accuracy, false),
         new StatMove("Growl", PokemonStat.Attack, false),
         new StatMove("Leer", PokemonStat.Defense, false),
         new StatMove("Screech", PokemonStat.Defense, false, true),
         new StatMove("Smokescreen", PokemonStat.Accuracy, false),
         new StatMove("Tail Whip", PokemonStat.Defense, false),
-        new StatMove("Acid", PokemonStat.Defense, false, 0.25f),
+        new StatMove("Acid", PokemonStat.Defense, false, 85),
         new StatMove("Kinesis", PokemonStat.Defense, false),
         new StatMove("Psychic", PokemonStat.SpecialDefense, false),
-        new StatMove("Bubble", PokemonStat.Speed, false, 0.25f),
-        new StatMove("Bubble Beam", PokemonStat.Speed, false, 0.25f),
+        new StatMove("Bubble", PokemonStat.Speed, false, 85),
+        new StatMove("Bubble Beam", PokemonStat.Speed, false, 85),
     };
 
     public List<StatMove> FindIncreaseStatMoves(PokemonMove pokemonMove)
@@ -284,7 +286,7 @@ public partial class StatMove : Node
         IsSharp = isSharp;
     }
 
-    public StatMove(string pokemonMoveName, PokemonStat pokemonStat, bool isIncreasing, float probability)
+    public StatMove(string pokemonMoveName, PokemonStat pokemonStat, bool isIncreasing, int probability)
     {
         PokemonMoveName = pokemonMoveName;
         PokemonStat = pokemonStat;
@@ -296,7 +298,7 @@ public partial class StatMove : Node
     public PokemonStat PokemonStat;
     public bool IsIncreasing;
     public bool IsSharp = false;
-    public float Probability = 1;
+    public int Probability = 255;
 }
 
 public partial class HighCriticalRatioMoves : Node
@@ -305,7 +307,10 @@ public partial class HighCriticalRatioMoves : Node
     {
         "Razor Wind",
         "Sky Attack",
-        "Karate Chop"
+        "Karate Chop",
+        "Razor Leaf",
+        "Slash",
+        "Crabhammer"
     };
 
     public bool IsHighCriticalRatioMove(PokemonMove pokemonMove)

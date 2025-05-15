@@ -48,7 +48,7 @@ public partial class StageSlot : NinePatchRect
         PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
 		PokemonTD.Signals.DraggingStageTeamSlot -= SetOpacity;
 		PokemonTD.Signals.DraggingStageSlot -= SetOpacity;
-		PokemonTD.Signals.EvolutionFinished -= OnEvolutionFinished;
+		PokemonTD.Signals.PokemonEvolved -= PokemonEvolved;
 		PokemonTD.Signals.SpeedToggled -= OnSpeedToggled;
 		PokemonTD.Signals.StageTeamSlotMuted -= OnStageTeamSlotMuted;
     }
@@ -60,7 +60,7 @@ public partial class StageSlot : NinePatchRect
         PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
 		PokemonTD.Signals.DraggingStageTeamSlot += SetOpacity;
 		PokemonTD.Signals.DraggingStageSlot += SetOpacity;
-		PokemonTD.Signals.EvolutionFinished += OnEvolutionFinished;
+		PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
 		PokemonTD.Signals.SpeedToggled += OnSpeedToggled;
 		PokemonTD.Signals.StageTeamSlotMuted += OnStageTeamSlotMuted;
 
@@ -71,7 +71,7 @@ public partial class StageSlot : NinePatchRect
 			string offStageMessage = $"{Pokemon.Name} Is Off Stage";
 			PrintRich.PrintLine(TextColor.Purple, offStageMessage);
 
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonOffStage, TeamSlotIndex);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonInUse, false, TeamSlotIndex);
 			UpdateSlot(null);
 		};
 		_attackTimer.Timeout += AttackPokemonEnemy;
@@ -81,11 +81,9 @@ public partial class StageSlot : NinePatchRect
 
 	public override void _Process(double delta)
 	{
-		if (_dragPreview is null) return;
+		if (_dragPreview == null) return;
 
-		Vector2 initialPosition = _dragPreview.GlobalPosition;
-		Vector2 finalPosition = GetGlobalMousePosition();
-		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, initialPosition, finalPosition, _isDragging);
+		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, _isDragging);
 	}
 
 	private void OnStageTeamSlotMuted(int teamSlotIndex, bool isToggled)
@@ -95,7 +93,7 @@ public partial class StageSlot : NinePatchRect
 		_isMuted = isToggled;
 	}
 
-	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotIndex)
+	private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
 	{
 		if (TeamSlotIndex != teamSlotIndex) return;
 		
@@ -131,7 +129,7 @@ public partial class StageSlot : NinePatchRect
 		if (Pokemon is null || Pokemon.Level >= PokemonTD.MaxPokemonLevel) return;
 		
 		StageInterface stageInterface = GetStageInterface();
-		StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(TeamSlotIndex);
+		StageTeamSlot stageTeamSlot = stageInterface.StageTeamSlots.FindStageTeamSlot(TeamSlotIndex);
 		int experience = pokemonEnemy.GetExperience();
 		stageTeamSlot.AddExperience(experience);
 	}
@@ -252,7 +250,7 @@ public partial class StageSlot : NinePatchRect
 		}
 
 		StageInterface stageInterface = GetStageInterface();
-		StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(teamSlotIndex);
+		StageTeamSlot stageTeamSlot = stageInterface.StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
 		UpdateSlot(stageTeamSlot.Pokemon);
 
 		TeamSlotIndex = teamSlotIndex;
@@ -420,7 +418,7 @@ public partial class StageSlot : NinePatchRect
 	private PokemonMove GetPokemonMoveFromTeam()
 	{
 		StageInterface stageInterface = GetStageInterface();
-		StageTeamSlot stageTeamSlot = stageInterface.FindStageTeamSlot(TeamSlotIndex);
+		StageTeamSlot stageTeamSlot = stageInterface.StageTeamSlots.FindStageTeamSlot(TeamSlotIndex);
 		return stageTeamSlot.Pokemon.Move;
 	}
 

@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://dhgtfuwlxds64"]
+[gd_scene load_steps=6 format=3 uid="uid://dhgtfuwlxds64"]
 
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_5hdvs"]
 [ext_resource type="Script" uid="uid://cry5odvxddk4e" path="res://Resources/Scripts/SortButton.cs" id="1_jcxn8"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_bxe31"]
 [ext_resource type="Texture2D" uid="uid://xs7lw0hn5wxh" path="res://Assets/Images/UpArrow.png" id="3_0k3jr"]
 [ext_resource type="Texture2D" uid="uid://b3xkmlnqivdc7" path="res://Assets/Images/DownArrow.png" id="4_bxe31"]
 
 [node name="SortButton" type="Button" node_paths=PackedStringArray("_sortCategoryLabel", "_upArrow", "_downArrow")]
-custom_minimum_size = Vector2(125, 35)
+custom_minimum_size = Vector2(125, 50)
 size_flags_horizontal = 3
+theme = ExtResource("1_5hdvs")
 theme_override_font_sizes/font_size = 20
 toggle_mode = true
 flat = true
@@ -40,6 +42,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
@@ -47,6 +50,7 @@ theme_override_constants/margin_bottom = 10
 
 [node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="SortCategoryLabel" type="Label" parent="NinePatchRect/MarginContainer/HBoxContainer"]
 layout_mode = 2
@@ -57,11 +61,14 @@ text = "
 
 [node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/HBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
 alignment = 1
 
 [node name="UpArrow" type="TextureRect" parent="NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("3_0k3jr")
 expand_mode = 1
 stretch_mode = 5
@@ -69,6 +76,7 @@ stretch_mode = 5
 [node name="DownArrow" type="TextureRect" parent="NinePatchRect/MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(15, 15)
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("4_bxe31")
 expand_mode = 1
 stretch_mode = 5

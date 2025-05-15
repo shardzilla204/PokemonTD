@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dj4c8rxpcemg6"]
+[gd_scene load_steps=11 format=3 uid="uid://dj4c8rxpcemg6"]
 
 [ext_resource type="Script" uid="uid://bmaf265xyqsw6" path="res://Resources/Scripts/Stage/StageInterface.cs" id="1_ijjim"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_r5l66"]
@@ -6,24 +6,21 @@
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_l3yox"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_281dn"]
 [ext_resource type="Texture2D" uid="uid://decvlcj5dmndo" path="res://Assets/Images/RareCandy.png" id="6_a1xg6"]
-[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyStageTeamSlot.tscn" id="6_l4eeb"]
-[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/StageTeamSlot.tscn" id="6_r1b7l"]
-[ext_resource type="PackedScene" uid="uid://wdkvpupkjo3p" path="res://Resources/Scenes/Stage/StageConsole.tscn" id="7_4d28v"]
 [ext_resource type="Texture2D" uid="uid://j1oxdu6th12n" path="res://Assets/Images/PokeBall.png" id="7_m2uel"]
+[ext_resource type="PackedScene" uid="uid://c0rupaqiw81fp" path="res://Resources/Scenes/StageTeamSlots.tscn" id="8_eh12w"]
 [ext_resource type="Script" uid="uid://b2s87qin4g71l" path="res://Resources/Scripts/PokeBall.cs" id="8_qc3tw"]
 [ext_resource type="Texture2D" uid="uid://lpiswxqwar21" path="res://Assets/Images/SettingsIcon.png" id="11_vg80v"]
 
-[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_stageTeamSlotContainer", "_stageControls", "_exitButton", "_settingsButton", "_container", "_visiblityToggle")]
+[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_stageTeamSlots", "_stageControls", "_exitButton", "_settingsButton", "_container")]
 script = ExtResource("1_ijjim")
-_waveCount = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/WaveCount")
-_pokeDollars = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2/PokeDollars")
-_rareCandy = NodePath("MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/RareCandy")
-_stageTeamSlotContainer = NodePath("MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer")
+_waveCount = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/WaveCount")
+_pokeDollars = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/PokeDollars")
+_rareCandy = NodePath("MarginContainer/VBoxContainer/HBoxContainer/RareCandy/RareCandy")
+_stageTeamSlots = NodePath("MarginContainer/VBoxContainer/Container/StageTeamSlots")
 _stageControls = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageControls")
 _exitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
 _settingsButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SettingsButton")
 _container = NodePath("MarginContainer/VBoxContainer/Container")
-_visiblityToggle = NodePath("MarginContainer/VBoxContainer/Container/VBoxContainer/VisibilityToggle")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 anchors_preset = 15
@@ -43,20 +40,20 @@ layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 25
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RareCandy" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 0.5
 mouse_filter = 2
 
-[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(65, 65)
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/VBoxContainer/HBoxContainer/RareCandy"]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 size_flags_vertical = 4
 texture = ExtResource("6_a1xg6")
 stretch_mode = 5
 
-[node name="RareCandy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="RareCandy" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/RareCandy"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 40
@@ -64,18 +61,18 @@ text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="StageInfo" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 alignment = 1
 
-[node name="WaveCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="WaveCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/StageInfo"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Wave 1 of 10"
 
-[node name="PokeDollars" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer2"]
+[node name="PokeDollars" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/StageInfo"]
 layout_mode = 2
 size_flags_horizontal = 10
 theme_override_font_sizes/font_size = 40
@@ -88,7 +85,7 @@ layout_mode = 2
 size_flags_horizontal = 1
 
 [node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -129,11 +126,11 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="ExitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 text = "X"
 flat = true
 script = ExtResource("4_l3yox")
@@ -159,82 +156,12 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Container"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/Container/VBoxContainer"]
-custom_minimum_size = Vector2(175, 0)
-layout_mode = 2
-size_flags_vertical = 3
-horizontal_scroll_mode = 0
-vertical_scroll_mode = 3
-
-[node name="StageTeamSlotContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-mouse_filter = 2
-theme_override_constants/separation = 5
-
-[node name="StageTeamSlot" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_r1b7l")]
+[node name="StageTeamSlots" parent="MarginContainer/VBoxContainer/Container" instance=ExtResource("8_eh12w")]
 layout_mode = 2
 
-[node name="StageTeamSlot2" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_r1b7l")]
-layout_mode = 2
-
-[node name="EmptyStageTeamSlot" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_l4eeb")]
-layout_mode = 2
-
-[node name="EmptyStageTeamSlot2" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_l4eeb")]
-layout_mode = 2
-
-[node name="EmptyStageTeamSlot3" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_l4eeb")]
-layout_mode = 2
-
-[node name="EmptyStageTeamSlot4" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/ScrollContainer/StageTeamSlotContainer" instance=ExtResource("6_l4eeb")]
-layout_mode = 2
-
-[node name="VisibilityToggle" type="Button" parent="MarginContainer/VBoxContainer/Container/VBoxContainer"]
-custom_minimum_size = Vector2(175, 75)
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 8
-theme_override_font_sizes/font_size = 25
-text = "Show Team"
-flat = true
-script = ExtResource("4_l3yox")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/VBoxContainer/Container/VBoxContainer/VisibilityToggle"]
-self_modulate = Color(1, 0.25, 0.25, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("5_281dn")
-patch_margin_left = 10
-patch_margin_top = 10
-patch_margin_right = 10
-patch_margin_bottom = 10
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/Container"]
-layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-
-[node name="StageConsole" parent="MarginContainer/VBoxContainer/Container/VBoxContainer2" instance=ExtResource("7_4d28v")]
-visible = false
-custom_minimum_size = Vector2(300, 505)
-layout_mode = 2
-size_flags_horizontal = 8
-size_flags_vertical = 1
-
-[node name="PokéBall" type="TextureRect" parent="MarginContainer/VBoxContainer/Container/VBoxContainer2"]
+[node name="PokéBall" type="TextureRect" parent="MarginContainer/VBoxContainer/Container"]
 texture_filter = 1
-custom_minimum_size = Vector2(100, 100)
+custom_minimum_size = Vector2(75, 75)
 layout_mode = 2
 size_flags_horizontal = 10
 size_flags_vertical = 10

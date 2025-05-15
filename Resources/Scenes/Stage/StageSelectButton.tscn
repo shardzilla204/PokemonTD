@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_jkrme"]
 
 [node name="StageSelectButton" type="Button"]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 size_flags_horizontal = 4
 size_flags_vertical = 6
 theme_override_font_sizes/font_size = 25

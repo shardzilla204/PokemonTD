@@ -1,6 +1,7 @@
 using Godot;
 using GC = Godot.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace PokemonTD;
 
@@ -30,6 +31,9 @@ public partial class PokeCenterInventory : Container
 	[Export]
 	private SortButton _sortByType;
 
+	[Export]
+	private LineEdit _pokeCenterSearch;
+
 	public List<PokeCenterSlot> Slots = new List<PokeCenterSlot>();
 
 	private List<Pokemon> _pokemon = new List<Pokemon>();
@@ -46,6 +50,8 @@ public partial class PokeCenterInventory : Container
     {
 		PokemonTD.Signals.PokemonTeamUpdated += OnPokemonTeamUpdated;
 
+		_pokeCenterSearch.TextChanged += OnSearchTextChanged;
+
         _cycleLeftButton.Pressed += () => CycleInventory(false);
         _cycleRightButton.Pressed += () => CycleInventory(true);
 
@@ -55,11 +61,10 @@ public partial class PokeCenterInventory : Container
 		_sortByType.Pressed  += () => SortBy(SortCategory.Type, _sortByType.IsDescending);
 
 		SetPokemonPages();
-		SetButtonOpacity();
 		
 		// Default to sorting levels
-		SortBy(SortCategory.Level, false);
-		_sortByLevel.UpdateArrows(false);
+		SortBy(SortCategory.Level, _sortByLevel.IsDescending);
+		_sortByLevel.UpdateArrows(_sortByLevel.IsDescending);
     }
 	
 	private void SortBy(SortCategory sortCategory, bool isDescending)
@@ -82,10 +87,43 @@ public partial class PokeCenterInventory : Container
 		SetPokemonPages();
 	}
 
+	private void OnSearchTextChanged(string text)
+	{
+		text = text.Trim();
+		if (text == "")
+		{
+			SetPokemonPages();
+
+			return;
+		}
+
+		ClearInventory();
+
+		List<Pokemon> filteredPokemon = new List<Pokemon>();
+		foreach (Pokemon pokemonToFind in PokeCenter.Instance.Pokemon)
+		{
+			Pokemon pokemon = FindPokemon(pokemonToFind, text);
+			if (pokemon != null) filteredPokemon.Add(pokemon);
+		}
+		int pageCount = PokeCenter.Instance.GetPageCount(filteredPokemon.Count);
+		SetPokemonPages(pageCount, filteredPokemon);
+	}
+
+	private Pokemon FindPokemon(Pokemon pokemon, string text)
+	{
+		string pokemonName = "";
+		foreach (char character in pokemon.Name)
+		{
+			string uppercaseCharacter = character.ToString().ToUpper();
+			pokemonName += uppercaseCharacter;
+			if (pokemonName == text.ToUpper()) return pokemon;
+		}
+		return null;
+	}
+
 	private void OnPokemonTeamUpdated()
 	{
 		SetPokemonPages();
-		SetButtonOpacity();
 	}
 
 	private void SetPokemonPages()
@@ -101,12 +139,24 @@ public partial class PokeCenterInventory : Container
 		UpdateInventory();
 	}
 
+	private void SetPokemonPages(int pageCount, List<Pokemon> filteredPokemon)
+	{
+		_maxPageIndex = pageCount;
+		Dictionary<int, List<Pokemon>> pokemonPages = PokeCenter.Instance.GetPokemonPages(_maxPageIndex, filteredPokemon);
+
+		_pageIndex = 0;
+
+		_pokemon.Clear();
+		_pokemon.AddRange(pokemonPages[_pageIndex]);
+
+		UpdateInventory();
+	}
+
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
 		if (PokemonTeam.Instance.Pokemon.Count == 0) return false;
 
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
-
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot) return true;
 
@@ -133,18 +183,20 @@ public partial class PokeCenterInventory : Container
 		PokeCenter.Instance.AddPokemon(pokeCenterTeamSlot.Pokemon);
     }
 
-	private void SetButtonOpacity()
-	{
-		_cycleLeftButton.Visible = _pageIndex > 0;
-		_cycleRightButton.Visible = _pageIndex < _maxPageIndex - 1;
-	}
-
 	private void CycleInventory(bool isCyclingRight)
 	{
 		_pageIndex += isCyclingRight ? 1 : -1;
 
+		if (_pageIndex > _maxPageIndex - 1)
+		{
+			_pageIndex = 0;
+		}
+		else if (_pageIndex < 0)
+		{
+			_pageIndex = _maxPageIndex - 1;
+		}
+
 		SetPokemonPages();
-		SetButtonOpacity();
 	}
 
 	private void UpdateInventory()

@@ -5,7 +5,7 @@ namespace PokemonTD;
 public partial class PokemonExperienceBar : Container
 {
     [Signal]
-    public delegate void LeveledUpEventHandler();
+    public delegate void LeveledUpEventHandler(int levels);
 
     [Export]
     private Label _pokemonLevel;
@@ -38,24 +38,27 @@ public partial class PokemonExperienceBar : Container
 
     private void LevelUp(Pokemon pokemon)
     {
+        int levels = 0;
         while (pokemon.Experience.Minimum >= pokemon.Experience.Maximum)
 		{
-			pokemon.Level++;
+			levels++;
 
 			_experienceBar.Value -= _experienceBar.MaxValue;
+
+            // ? Comment Out For Faster Level Ups
 			_experienceBar.MaxValue = PokemonManager.Instance.GetExperienceRequired(pokemon);
 
 			pokemon.Experience.Minimum = (int) _experienceBar.Value;
 			pokemon.Experience.Maximum = (int) _experienceBar.MaxValue;
 
-			EmitSignal(SignalName.LeveledUp);
-
 			Update(pokemon);
 
-			string pokemonLeveledUpMessage = $"{pokemon.Name} Has Leveled Up To Level {pokemon.Level}";
-			PrintRich.PrintLine(TextColor.Purple, pokemonLeveledUpMessage);
-			PokemonTD.AddStageConsoleMessage(TextColor.Purple, pokemonLeveledUpMessage);
 		}
+        EmitSignal(SignalName.LeveledUp, levels);
+
+        string pokemonLeveledUpMessage = $"{pokemon.Name} Has Leveled Up To Level {pokemon.Level}";
+        PrintRich.PrintLine(TextColor.Purple, pokemonLeveledUpMessage);
+        PokemonTD.AddStageConsoleMessage(TextColor.Purple, pokemonLeveledUpMessage);
 
 		PokemonTD.AudioManager.PlayPokemonLeveledUp();
     }

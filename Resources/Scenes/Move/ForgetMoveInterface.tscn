@@ -39,6 +39,7 @@ layout_mode = 2
 theme_override_constants/separation = 10
 
 [node name="VBoxContainer3" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(400, 0)
 layout_mode = 2
 theme_override_constants/separation = 10
 
@@ -301,12 +302,14 @@ text = "Your Bulbsaur wants to learn"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveLearnOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_moveType")]
+[node name="MoveLearnOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_background", "_moveName", "_moveType")]
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 flat = true
 script = ExtResource("3_ep04j")
+_background = NodePath("NinePatchRect")
+_moveName = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveName")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption"]
@@ -339,7 +342,7 @@ theme_override_constants/margin_bottom = 10
 [node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer"]
 layout_mode = 2
 
-[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer/HBoxContainer"]
+[node name="MoveName" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveLearnOption/NinePatchRect/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
@@ -359,12 +362,14 @@ text = "and forget"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="MoveForgetOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_moveType")]
+[node name="MoveForgetOption" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn" node_paths=PackedStringArray("_background", "_moveName", "_moveType")]
 custom_minimum_size = Vector2(400, 75)
 layout_mode = 2
 size_flags_horizontal = 4
 flat = true
 script = ExtResource("3_ep04j")
+_background = NodePath("NinePatchRect")
+_moveName = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveName")
 _moveType = NodePath("NinePatchRect/MarginContainer/HBoxContainer/MoveType")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption"]
@@ -397,7 +402,7 @@ theme_override_constants/margin_bottom = 10
 [node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer"]
 layout_mode = 2
 
-[node name="MoveStats" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
+[node name="MoveName" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MoveToLearn/MoveForgetOption/NinePatchRect/MarginContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
@@ -411,7 +416,7 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="SwapButton" type="Button" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
-custom_minimum_size = Vector2(250, 75)
+custom_minimum_size = Vector2(200, 65)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 6

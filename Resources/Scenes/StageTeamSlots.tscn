@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0rupaqiw81fp"]
+
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="1_k3qor"]
+[ext_resource type="Script" uid="uid://bvn36736lbc3b" path="res://Resources/Scripts/StageTeamSlots.cs" id="1_udy6x"]
+[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/StageTeamSlot.tscn" id="2_nxpqd"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_yf1gp"]
+[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyStageTeamSlot.tscn" id="3_k3qor"]
+
+[node name="StageTeamSlots" type="VBoxContainer" node_paths=PackedStringArray("_visibilityToggle", "_container")]
+mouse_filter = 2
+alignment = 2
+script = ExtResource("1_udy6x")
+_visibilityToggle = NodePath("VisibilityToggle")
+_container = NodePath("StageTeamContainer")
+
+[node name="VisibilityToggle" type="Button" parent="."]
+custom_minimum_size = Vector2(175, 65)
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 25
+text = "Show Team"
+flat = true
+script = ExtResource("1_k3qor")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="VisibilityToggle"]
+self_modulate = Color(1, 0.25, 0.25, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_yf1gp")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="StageTeamContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 8
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="StageTeamSlot" parent="StageTeamContainer" instance=ExtResource("2_nxpqd")]
+layout_mode = 2
+
+[node name="StageTeamSlot2" parent="StageTeamContainer" instance=ExtResource("2_nxpqd")]
+layout_mode = 2
+
+[node name="EmptyStageTeamSlot" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+layout_mode = 2
+
+[node name="EmptyStageTeamSlot2" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+layout_mode = 2
+
+[node name="EmptyStageTeamSlot3" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+layout_mode = 2
+
+[node name="EmptyStageTeamSlot4" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+layout_mode = 2

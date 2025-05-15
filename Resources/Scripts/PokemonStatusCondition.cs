@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 namespace PokemonTD;
 
@@ -29,6 +30,8 @@ public partial class PokemonStatusCondition : Node
             if (_instance == null) _instance = value;
         }
     }
+
+    private List<CustomTimer> _timers = new List<CustomTimer>();
 
     public override void _EnterTree()
     {
@@ -83,42 +86,60 @@ public partial class PokemonStatusCondition : Node
 
     public async void FreezePokemon<T>(T parameter, float timeSeconds)
     {
+        CustomTimer timer = GetTimer(timeSeconds);
+        AddChild(timer);
+        _timers.Add(timer);
         if (parameter is StageSlot pokemonStageSlot)
         {
             pokemonStageSlot.IsActive = false;
-            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
             pokemonStageSlot.IsActive = true;
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.CanMove = false;
-            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonEnemy.CanMove = true;
+            pokemonEnemy.Pokemon.Speed = 0;
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
+            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
+            pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
         }
+        EmitSignal(SignalName.Finished);
     }
 
     private async void ApplyParalysis<T>(T parameter)
     {
         float reductionPercent = 0.25f;
+        
         float timeSeconds = 3f;
+        CustomTimer timer = GetTimer(timeSeconds);
+        AddChild(timer);
+        _timers.Add(timer);
 
         if (parameter is StageSlot pokemonStageSlot)
         {
             pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
-            int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
-            pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
-            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
+            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonStageSlot.Pokemon.Name);
+            pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
+            pokemonStageSlot.Pokemon.Speed = pokemonData.Speed;
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
-            int pokemonSpeed = pokemonEnemy.Pokemon.Speed;
-            pokemonEnemy.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed * reductionPercent);
-            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonEnemy.Pokemon.Speed = pokemonSpeed;
+            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
+            pokemonEnemy.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
+            pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
         }
 
+        timer.QueueFree();
         ApplyStatusColor(parameter, StatusCondition.None);
     }
 
@@ -142,11 +163,15 @@ public partial class PokemonStatusCondition : Node
 
     private async void DamagePokemonOverTime<T>(T parameter, int healthAmount)
     {
-        float timeSeconds = 1f;
         int iterations = 2;
         for (int i = 0; i < iterations; i++)
         {
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            float timeSeconds = 1f;
+            CustomTimer timer = GetTimer(timeSeconds);
+            AddChild(timer);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+            
             if (parameter is StageSlot pokemonStageSlot)
             {
                 pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
@@ -156,7 +181,9 @@ public partial class PokemonStatusCondition : Node
             {
                 pokemonEnemy.DamagePokemon(healthAmount);
             }
+            timer.QueueFree();
         }
+
         ApplyStatusColor(parameter, StatusCondition.None);
     }
 
@@ -164,12 +191,16 @@ public partial class PokemonStatusCondition : Node
     {
         ApplyStatusColor(parameter, StatusCondition.BadlyPoisoned);
 
-        float timeSeconds = 1f;
         int iterations = 2;
         float percentage = .0625f; // 1/16
         for (int i = 0; i < iterations; i++)
         {
-            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            float timeSeconds = 1f;
+            CustomTimer timer = GetTimer(timeSeconds);
+            AddChild(timer);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
             if (parameter is StageSlot pokemonStageSlot)
             {
                 pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
@@ -183,6 +214,7 @@ public partial class PokemonStatusCondition : Node
                 pokemonEnemy.DamagePokemon(healthAmount);
             }
             percentage *= 2;
+            timer.QueueFree();
         }
 
         ApplyStatusColor(parameter, StatusCondition.None);
@@ -203,30 +235,37 @@ public partial class PokemonStatusCondition : Node
         {
             pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
-            FreezePokemon(pokemonStageSlot, 2f);
-            await ToSignal(this, SignalName.Finished);
+            int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
+            pokemonStageSlot.Pokemon.Speed /= 2;
+
+            float timeSeconds = 3f;
+            CustomTimer timer = GetTimer(timeSeconds);
+            AddChild(timer);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
+            pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
+
+            timer.QueueFree();
         }
         else if (parameter is PokemonEnemy pokemonEnemy)
         {
+            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
+
+            pokemonEnemy.IsMovingForward = false;
+            pokemonEnemy.Pokemon.Speed = -pokemonData.Speed;
+
             float timeSeconds = 1f;
-            pokemonEnemy.Pokemon.Speed = -pokemonEnemy.Pokemon.Speed;
-            await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-            pokemonEnemy.Pokemon.Speed = -pokemonEnemy.Pokemon.Speed;
+            CustomTimer timer = GetTimer(timeSeconds);
+            AddChild(timer);
+
+            await ToSignal(timer, Timer.SignalName.Timeout);
+
+            pokemonEnemy.IsMovingForward = true;
+            pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
+            timer.QueueFree();
         }
         ApplyStatusColor(parameter, StatusCondition.None);
-    }
-
-    public async void ApplyConfuseCondition(StageSlot pokemonStageSlot)
-    {
-        int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
-        pokemonStageSlot.Pokemon.Speed /= 2;
-        ApplyStatusColor(pokemonStageSlot, StatusCondition.Confuse);
-
-        float timeSeconds = 3f;
-        await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-
-        pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
-        ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
     }
 
     private int GetHealthAmount(Pokemon pokemon, float percentage)
@@ -248,6 +287,61 @@ public partial class PokemonStatusCondition : Node
         {
             pokemonEnemy.SelfModulate = statusColor;
         }
+    }
+
+    private CustomTimer GetTimer(float timeSeconds)
+    {
+        CustomTimer timer = new CustomTimer()
+        {
+            Autostart = true,
+            OneShot = true,
+            WaitTime = timeSeconds / PokemonTD.GameSpeed
+        };
+
+        timer.TreeEntered += () =>
+        {
+            _timers.Add(timer);
+            
+            PokemonTD.Signals.PressedPlay += StartTimers;
+            PokemonTD.Signals.PressedPause += StopTimers;
+        };
+
+        timer.TreeExiting += () => 
+        {
+            _timers.Remove(timer);
+
+            PokemonTD.Signals.PressedPlay -= StartTimers;
+            PokemonTD.Signals.PressedPause -= StopTimers;
+        };
+
+        return timer;
+    }
+
+    private void StartTimers()
+    {
+        foreach (CustomTimer timer in _timers)
+        {
+            StartTimer(timer);
+        }
+    }
+
+    private void StartTimer(CustomTimer timer)
+    {
+        timer.Start(timer.WaitTimeLeft);
+    }
+
+    private void StopTimers()
+    {
+        foreach (CustomTimer timer in _timers)
+        {
+            StopTimer(timer);
+        }
+    }
+
+    private void StopTimer(CustomTimer timer)
+    {
+        timer.WaitTimeLeft = timer.TimeLeft;
+        timer.Stop();
     }
 
     private string GetStatusHexColor(StatusCondition statusCondtion) => statusCondtion switch

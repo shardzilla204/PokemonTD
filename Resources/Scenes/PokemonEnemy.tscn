@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bc0jpdpmf1kc0"]
 
-[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="1_bji21"]
 [ext_resource type="Script" uid="uid://vlxdrypgdsjl" path="res://Resources/Scripts/Pokemon/PokemonEnemy.cs" id="1_hour7"]
+[ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="1_w8eue"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_a4tex"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
@@ -23,7 +23,7 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_bji21")
+texture = ExtResource("1_w8eue")
 expand_mode = 1
 script = ExtResource("1_hour7")
 _healthBar = NodePath("HealthBar")

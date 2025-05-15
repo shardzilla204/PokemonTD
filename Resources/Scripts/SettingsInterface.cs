@@ -50,9 +50,25 @@ public partial class SettingsInterface : CanvasLayer
 		
 		_gameSettings.Visible = FromMainMenu;
 
-		_saveButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
-		_loadButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
-		_deleteButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
+		_saveButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_loadButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_deleteButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+
+		_saveButton.Pressed += () => 
+		{
+			PokemonTD.AudioManager.PlayButtonPressed();
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+		};
+		_loadButton.Pressed += () => 
+		{
+			PokemonTD.AudioManager.PlayButtonPressed();
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
+		};
+		_deleteButton.Pressed += () => 
+		{
+			PokemonTD.AudioManager.PlayButtonPressed();
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
+		};
 
         _masterSlider.ValueChanged += (value) => OnValueChanged(BusType.Master, value);
         _musicSlider.ValueChanged += (value) => OnValueChanged(BusType.Music, value);

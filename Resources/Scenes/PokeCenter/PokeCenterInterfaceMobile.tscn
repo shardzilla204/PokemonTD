@@ -5,7 +5,7 @@
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_brnmi"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_pgrqn"]
 [ext_resource type="PackedScene" uid="uid://b2rlwk224nsy4" path="res://Resources/Scenes/PokeCenter/PokeCenterTeam.tscn" id="5_7p6ml"]
-[ext_resource type="PackedScene" uid="uid://ch1up66iv8m4g" path="res://Resources/Scenes/Move/PokemonMoveAnalysis.tscn" id="6_fntxu"]
+[ext_resource type="PackedScene" uid="uid://ch1up66iv8m4g" path="res://Resources/Scenes/Move/PokeCenterMoveAnalysis.tscn" id="6_fntxu"]
 [ext_resource type="PackedScene" uid="uid://bmcelavbxx1ih" path="res://Resources/Scenes/PokeCenter/PokeCenterAnalysis.tscn" id="7_i0hpn"]
 [ext_resource type="PackedScene" uid="uid://dfrmi3148mhmv" path="res://Resources/Scenes/PokeCenter/PokeCenterInventory.tscn" id="8_2lkaw"]
 

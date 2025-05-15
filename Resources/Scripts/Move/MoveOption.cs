@@ -27,8 +27,8 @@ public partial class MoveOption : CustomButton
 	{
 		PokemonMove = pokemonMove;
 		
-		_moveName.Text = $"{pokemonMove.Name}";
-		_moveType.Texture = PokemonTypes.Instance.GetTypeIcon(pokemonMove.Type);
+		_moveName.Text = pokemonMove == null ? "" : $"{pokemonMove.Name}";
+		_moveType.Texture = pokemonMove == null ? PokemonTypes.Instance.GetTypeIcon(PokemonType.Normal) : PokemonTypes.Instance.GetTypeIcon(pokemonMove.Type);
 	}
 
 	public void SetFontSize(int fontSize)

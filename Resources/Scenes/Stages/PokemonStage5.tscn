@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=4 uid="uid://s728ytolcipn"]
+[gd_scene load_steps=12 format=4 uid="uid://s728ytolcipn"]
 
 [ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/Stage/PokemonStage.cs" id="1_w3aw8"]
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_ub8d4"]
+[ext_resource type="Script" uid="uid://dqdpgyxsxsnpk" path="res://Resources/Scripts/StagePath.cs" id="3_h4vle"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="3_srxv6"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/StageSlot.tscn" id="4_yc82l"]
 [ext_resource type="Texture2D" uid="uid://c6voojnt0n5fy" path="res://Assets/Images/Pokemon/Grimer.png" id="5_gvcfm"]
@@ -21,10 +22,10 @@ _data = {
 }
 point_count = 5
 
-[node name="PokemonStage5" type="Node2D" node_paths=PackedStringArray("_path", "_stageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage5" type="Node2D" node_paths=PackedStringArray("_stagePath", "_stageSlots", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 script = ExtResource("1_w3aw8")
-_path = NodePath("Path")
+_stagePath = NodePath("StagePath")
 _stageSlots = NodePath("StageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
@@ -70,10 +71,10 @@ y_sort_enabled = true
 tile_map_data = PackedByteArray("AAAiAAEABQAAAP8AAAAiAAIABQAAAAABAAAiAAMABQAAAAEBAAAiAAQABQAAAAIBAAAiAAUABQAAAAMBAAAiAAYABQAAAAQBAAAiAAcABQAAAAUBAAAiAAgABQAAAAYBAAAjAAIABQABAAABAAAjAAMABQABAAEBAAAjAAQABQABAAIBAAAjAAUABQABAAMBAAAjAAYABQABAAQBAAAjAAcABQABAAUBAAAjAAgABQABAAYBAAAkAAIABQACAAABAAAkAAMABQACAAEBAAAkAAQABQACAAIBAAAkAAUABQACAAMBAAAkAAYABQACAAQBAAAkAAcABQACAAUBAAAkAAgABQACAAYBAAAlAAIABQADAAABAAAlAAMABQADAAEBAAAlAAQABQADAAIBAAAlAAUABQADAAMBAAAlAAYABQADAAQBAAAlAAcABQADAAUBAAAlAAgABQADAAYBAAAmAAEABQAEAP8AAAAmAAIABQAEAAABAAAmAAMABQAEAAEBAAAmAAQABQAEAAIBAAAmAAUABQAEAAMBAAAmAAYABQAEAAQBAAAmAAcABQAEAAUBAAAmAAgABQAEAAYBAAAnAAEABQAFAP8AAAAnAAIABQAFAAABAAAnAAMABQAFAAEBAAAnAAQABQAFAAIBAAAnAAUABQAFAAMBAAAnAAYABQAFAAQBAAAnAAcABQAFAAUBAAAnAAgABQAFAAYBAAAoAAEABQAGAP8AAAAoAAIABQAGAAABAAAoAAMABQAGAAEBAAAoAAQABQAGAAIBAAAoAAUABQAGAAMBAAAoAAYABQAGAAQBAAAoAAcABQAGAAUBAAAoAAgABQAGAAYBAAApAAEABQAHAP8AAAApAAIABQAHAAABAAApAAMABQAHAAEBAAApAAQABQAHAAIBAAApAAUABQAHAAMBAAApAAYABQAHAAQBAAApAAcABQAHAAUBAAApAAgABQAHAAYBAAA=")
 tile_set = ExtResource("2_ub8d4")
 
-[node name="Path" type="Path2D" parent="."]
+[node name="StagePath" type="Path2D" parent="."]
 y_sort_enabled = true
 curve = SubResource("Curve2D_1vpji")
-metadata/_edit_lock_ = true
+script = ExtResource("3_h4vle")
 
 [node name="Path2" type="Path2D" parent="."]
 curve = SubResource("Curve2D_cfmor")

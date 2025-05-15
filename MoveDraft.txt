@@ -59,9 +59,12 @@ Wrap
 Clamp
 
 High Critical Hit Ratio:
+Razor Leaf
 Razor Wind
 Sky Attack
 Karate Chop
+Slash
+Crabhammer
 
 One-Hit KO Move:
 Fissure

@@ -1,14 +1,18 @@
+using System.Collections.Generic;
 using Godot;
 
 namespace PokemonTD;
 
-public partial class PokemonMoveAnalysis : NinePatchRect
+public partial class PokeCenterMoveAnalysis : NinePatchRect
 {
     [Export]
     private Container _moveOptionContainer;
 
     [Export]
     private Label _moveInfo;
+
+    private List<MoveOption> _moveOptions = new List<MoveOption>();
+    private Pokemon _pokemon;
 
     public override void _ExitTree()
     {
@@ -26,7 +30,9 @@ public partial class PokemonMoveAnalysis : NinePatchRect
 
     private void OnPokemonAnalyzed(Pokemon pokemon)
     {
+        _moveOptions.Clear();
         ClearContainer();
+        _pokemon = pokemon;
         Visible = pokemon != null;
 
         if (pokemon == null) 
@@ -47,8 +53,13 @@ public partial class PokemonMoveAnalysis : NinePatchRect
             moveOption.PokemonMove = pokemonMove;
             moveOption.SetBackgroundColor(gray);
             moveOption.MouseEntered += () => OnMoveOptionHovered(pokemonMove);
+            moveOption.Pressed += () => OnMoveOptionPressed(moveOption);
+            _moveOptions.Add(moveOption);
             _moveOptionContainer.AddChild(moveOption);
         }
+
+        MoveOption selectedMoveOption = _moveOptions.Find(moveOption => moveOption.PokemonMove == pokemon.Move);
+        DarkenMoveOption(selectedMoveOption, true);
     }
 
     private void ClearContainer()
@@ -68,5 +79,24 @@ public partial class PokemonMoveAnalysis : NinePatchRect
         if (effect != "" && accuracy != "") accuracy += "\n\n";
 
         _moveInfo.Text = $"{power}{accuracy}{effect}";
+    }
+
+    private void OnMoveOptionPressed(MoveOption moveOption)
+	{
+		List<MoveOption> otherMoveOptions = _moveOptions.FindAll(otherMoveOption => otherMoveOption != moveOption);
+		foreach (MoveOption otherMoveOption in otherMoveOptions)
+		{
+			DarkenMoveOption(otherMoveOption, false);
+		}
+
+		DarkenMoveOption(moveOption, true);
+        _pokemon.Move = moveOption.PokemonMove;
+	}
+
+    private void DarkenMoveOption(MoveOption moveOption, bool isPressed)
+    {
+		float darknessPercentage = 0.15f;
+        Color pressedColor = Colors.White.Darkened(darknessPercentage);
+        moveOption.Modulate = isPressed ? pressedColor : Colors.White;
     }
 }

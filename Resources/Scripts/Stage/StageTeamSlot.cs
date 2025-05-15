@@ -42,13 +42,13 @@ public partial class StageTeamSlot : Button
     public override void _ExitTree()
     {
 		PokemonTD.Signals.PokemonDamaged -= OnPokemonDamaged;
-		PokemonTD.Signals.EvolutionFinished -= OnEvolutionFinished;
+		PokemonTD.Signals.PokemonEvolved -= PokemonEvolved;
     }
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.PokemonDamaged += OnPokemonDamaged;
-		PokemonTD.Signals.EvolutionFinished += OnEvolutionFinished;
+		PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
 		Toggled += (isToggled) => 
 		{
 			_mutedTexture.Visible = isToggled;
@@ -60,18 +60,16 @@ public partial class StageTeamSlot : Button
 		_pokemonSprite.MouseEntered += () => Input.SetCustomMouseCursor(GetMutedImage(), Input.CursorShape.Arrow);
 		_pokemonSprite.MouseExited += () => Input.SetCustomMouseCursor(null, Input.CursorShape.Arrow);
 
-		_pokemonExperienceBar.LeveledUp += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, Pokemon, TeamSlotIndex);
+		_pokemonExperienceBar.LeveledUp += (levels) => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, Pokemon, TeamSlotIndex, levels);
 		_pokemonHealthBar.Fainted += OnPokemonFainted;
 		_pokemonSleepBar.Finished += OnSleepFinished;
 	}
 
 	public override void _Process(double delta)
 	{
-		if (_dragPreview is null) return;
+		if (_dragPreview == null) return;
 		
-		Vector2 initialPosition = _dragPreview.GlobalPosition;
-		Vector2 finalPosition = GetGlobalMousePosition();
-		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, initialPosition, finalPosition, _isDragging);
+		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, _isDragging);
 	}
 
 	public override void _Notification(int what)
@@ -84,7 +82,14 @@ public partial class StageTeamSlot : Button
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageTeamSlot, false);
 
-		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonOnStage, TeamSlotIndex);
+		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonInUse, true, TeamSlotIndex);
+	}
+
+	public void SetMute()
+	{
+		_mutedTexture.Visible = true;
+		_isMuted = true;
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageTeamSlotMuted, TeamSlotIndex, true);
 	}
 
 	public override Variant _GetDragData(Vector2 atPosition)
@@ -105,7 +110,7 @@ public partial class StageTeamSlot : Button
 		return GetDragData();
 	}
 
-	private void OnEvolutionFinished(Pokemon pokemonEvolution, int teamSlotIndex)
+	private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
 	{
 		if (TeamSlotIndex != teamSlotIndex) return;
 		SetControls(pokemonEvolution);
@@ -113,8 +118,7 @@ public partial class StageTeamSlot : Button
 
 	private void HighlightStageSlot()
 	{
-		StageInterface stageInterface =  GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
-		PokemonStage pokemonStage = stageInterface.GetOwnerOrNull<PokemonStage>();
+		PokemonStage pokemonStage = GetPokemonStage();
 		StageSlot stageSlot = pokemonStage.FindStageSlot(TeamSlotIndex);
 		if (stageSlot is null) return;
 		stageSlot.SetOpacity(_isDragging);
@@ -206,8 +210,7 @@ public partial class StageTeamSlot : Button
 
 		movesetInterface.PokemonMoveChanged += OnPokemonMoveChanged;
 		
-		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
-		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
+		PokemonStage pokemonStage = GetPokemonStage();
 		pokemonStage.AddChild(movesetInterface);
 	}
 
@@ -231,8 +234,7 @@ public partial class StageTeamSlot : Button
 
 	private void OnPokemonFainted()
 	{
-		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
-		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
+		PokemonStage pokemonStage = GetPokemonStage();
 		StageSlot stageSlot = pokemonStage.FindStageSlot(TeamSlotIndex);
 		stageSlot.EmitSignal(StageSlot.SignalName.Fainted, stageSlot);
 
@@ -245,8 +247,7 @@ public partial class StageTeamSlot : Button
 
 	private void OnSleepFinished()
 	{
-		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
-		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
+		PokemonStage pokemonStage = GetPokemonStage();
 		StageSlot stageSlot = pokemonStage.FindStageSlot(TeamSlotIndex);
 
 		if (stageSlot == null) return;
@@ -255,5 +256,12 @@ public partial class StageTeamSlot : Button
 		_pokemonHealthBar.ResetHealth(Pokemon); // Reset Health
 		Modulate = Colors.White;
 		Disabled = false;
+	}
+
+	private PokemonStage GetPokemonStage()
+	{
+		StageTeamSlots stageTeamSlots = GetParentOrNull<Node>().GetOwnerOrNull<StageTeamSlots>();
+		StageInterface stageInterface = stageTeamSlots.GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
+		return stageInterface.GetParentOrNull<PokemonStage>();
 	}
 }

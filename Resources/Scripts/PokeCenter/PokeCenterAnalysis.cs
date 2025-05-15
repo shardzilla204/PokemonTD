@@ -32,6 +32,12 @@ public partial class PokeCenterAnalysis : NinePatchRect
     [Export]
     private CustomButton _releaseButton;
 
+    [Export]
+    private NinePatchRect _pokeCenterInfo;
+
+    [Export]
+    private NinePatchRect _pokeCenterStats;
+
     public Pokemon Pokemon;
 
     public override void _ExitTree()
@@ -139,13 +145,17 @@ public partial class PokeCenterAnalysis : NinePatchRect
                 PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
             }
         }
+        _pokemonDescription.Visible = pokemon != null;
+        _pokeCenterInfo.SizeFlagsVertical = pokemon != null ? SizeFlags.Fill : SizeFlags.ShrinkBegin;
+        _releaseButton.Visible = pokemon != null;
+        _pokeCenterStats.Visible = pokemon != null;
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
         Pokemon = pokemon;
         string nationalNumber = pokemon == null ? "" : $"#{pokemon.NationalNumber}";
 
-        _pokemonName.Text = pokemon == null ? "" : $"{nationalNumber}: {pokemonName}";
-        _pokemonLevel.Text = pokemon == null ? "" : $"LVL. {pokemon.Level}";
+        _pokemonName.Text = pokemon == null ? "Poke Dex" : $"{nationalNumber}: {pokemonName}";
+        _pokemonLevel.Text = pokemon == null ? "Place A Pokemon To Analyze" : $"LVL. {pokemon.Level}";
         _genderIcon.Texture = pokemon == null ? null : PokemonTD.GetGenderSprite(pokemon);
         _pokemonHeight.Text = pokemon == null ? "" : $"Height: {pokemon.Height} m";
         _pokemonWeight.Text = pokemon == null ? "" : $"Weight: {pokemon.Weight} kg";

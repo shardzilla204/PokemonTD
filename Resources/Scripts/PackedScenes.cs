@@ -69,9 +69,12 @@ public partial class PackedScenes : Node
 		return _starterSelectionInterface.Instantiate<StarterSelectionInterface>();
 	}
 
-	public ForgetMoveInterface GetForgetMoveInterface()
+	public ForgetMoveInterface GetForgetMoveInterface(Pokemon pokemon, PokemonMove pokemonMove)
 	{
-		return _forgetMoveInterface.Instantiate<ForgetMoveInterface>();
+		ForgetMoveInterface forgetMoveInterface = _forgetMoveInterface.Instantiate<ForgetMoveInterface>();
+		forgetMoveInterface.Pokemon = pokemon;
+		forgetMoveInterface.MoveToLearn = pokemonMove;
+		return forgetMoveInterface;
 	}
 
 	public StarterOption GetStarterOption()
@@ -119,9 +122,12 @@ public partial class PackedScenes : Node
 		return _stageResultInterface.Instantiate<StageResultInterface>();
 	}
 
-	public EvolutionInterface GetEvolutionInterface()
+	public EvolutionInterface GetEvolutionInterface(Pokemon pokemon, int teamSlotIndex)
 	{
-		return _evolutionInterface.Instantiate<EvolutionInterface>();
+		EvolutionInterface evolutionInterface = _evolutionInterface.Instantiate<EvolutionInterface>();
+		evolutionInterface.Pokemon = pokemon;
+		evolutionInterface.Finished += (pokemonEvolution) => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolutionFinished, pokemonEvolution, teamSlotIndex);
+		return evolutionInterface;
 	}
 
 	public PokemonStage GetPokemonStage(int stageID)

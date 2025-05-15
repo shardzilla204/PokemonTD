@@ -22,6 +22,7 @@ config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot/app_userdata/PokemonTD"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+boot_splash/image="uid://byynbmon8ik1"
 config/icon="res://Assets/Images/GameIcon.png"
 
 [audio]
@@ -51,6 +52,7 @@ window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
 window/stretch/aspect="keep_width"
+window/image="uid://byynbmon8ik1"
 
 [dotnet]
 

@@ -24,7 +24,7 @@ _playTexture = ExtResource("4_c47gi")
 _pauseTexture = ExtResource("5_y1eoh")
 
 [node name="GameToggle" type="Button" parent="."]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 theme_override_font_sizes/font_size = 20
 flat = true
@@ -64,9 +64,8 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="SpeedToggle" type="Button" parent="."]
-custom_minimum_size = Vector2(75, 75)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
-theme_override_font_sizes/font_size = 16
 flat = true
 script = ExtResource("2_c47gi")
 
@@ -92,7 +91,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 25
 text = "1x"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -101,6 +101,32 @@ public partial class PokeCenter : Node
 		return pokemonPages;
 	}
 
+	public Dictionary<int, List<Pokemon>> GetPokemonPages(int pageCount, List<Pokemon> filteredPokemon)
+	{
+		Dictionary<int, List<Pokemon>> pokemonPages = new Dictionary<int, List<Pokemon>>();
+
+		// Count of left to iterate through
+		int pokemonLeft = filteredPokemon.Count;
+
+		// Pokemon's position in the list
+		int pokemonIndex = 0; 
+
+		for (int i = 0; i <= pageCount; i++)
+		{
+			int pokemonCount = pokemonLeft > PokemonPerPage ? PokemonPerPage : pokemonLeft;
+			List<Pokemon> pokemonPage = GetPokemonPage(pokemonCount, pokemonIndex, filteredPokemon);
+
+			pokemonPages.Add(i, pokemonPage);
+
+			// Update amount of iterations 
+			pokemonLeft -= pokemonCount;
+
+			// Update starting index for the next page
+			pokemonIndex += pokemonCount;
+		}
+		return pokemonPages;
+	}
+
 	// A list that can hold up to 30 pokemon
 	private List<Pokemon> GetPokemonPage(int pokemonCount, int pokemonIndex)
 	{
@@ -108,6 +134,19 @@ public partial class PokeCenter : Node
 		for (int i = 0; i < pokemonCount; i++)
 		{
 			Pokemon pokemon = Pokemon[pokemonIndex];
+			pokemonPage.Add(pokemon);
+			pokemonIndex++;
+		}
+		return pokemonPage;
+	}
+	
+	// A list that can hold up to 30 pokemon
+	private List<Pokemon> GetPokemonPage(int pokemonCount, int pokemonIndex, List<Pokemon> filteredPokemon)
+	{
+		List<Pokemon> pokemonPage = new List<Pokemon>();
+		for (int i = 0; i < pokemonCount; i++)
+		{
+			Pokemon pokemon = filteredPokemon[pokemonIndex];
 			pokemonPage.Add(pokemon);
 			pokemonIndex++;
 		}
@@ -145,6 +184,22 @@ public partial class PokeCenter : Node
 		if (pokemonCount > 0) pageCount++;
 		return pageCount;
 	}
+
+	public int GetPageCount(int pokemonCount)
+	{
+		int pageCount = 0;
+		while (pokemonCount >= PokemonPerPage)
+		{
+			pageCount++;
+			pokemonCount -= PokemonPerPage;
+		}
+
+		// Add another page to accomodate for pages that are not full
+		if (pokemonCount > 0) pageCount++;
+		return pageCount;
+	}
+
+
 	private void LoadPokemonFiles()
 	{
 		using DirAccess pokeCenterDirectory = DirAccess.Open(_pokeCenterPath);

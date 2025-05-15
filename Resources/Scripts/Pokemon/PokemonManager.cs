@@ -70,7 +70,7 @@ public partial class PokemonManager : Node
         List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
         pokemon.SetMoves(pokemonMoves);
         
-        // ? Comment out to level instantly
+        // ? Comment Out To Level Up Instantly
         pokemon.Experience.Maximum = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
@@ -93,24 +93,37 @@ public partial class PokemonManager : Node
         return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
     }
 
-    private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotIndex)
+    private async void OnPokemonLeveledUp(Pokemon pokemon, int teamSlotIndex, int levels)
     {
-        if (PokemonEvolution.Instance.CanEvolve(pokemon))
+        bool canEvolve = PokemonEvolution.Instance.CanEvolve(pokemon, levels);
+        if (canEvolve)
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionStarted, pokemon);
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, teamSlotIndex);
 
-            await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolved);
+            await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolutionFinished);
             
-            Pokemon pokemonEvolution = PokemonEvolution.Instance.EvolvePokemon(pokemon);
+            pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
 
             // Update the pokemon that evolved
             PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
-            PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemonEvolution);
+            PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemon);
+
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, teamSlotIndex);
             
-		    PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, pokemonEvolution, teamSlotIndex);
         }
 
         SetPokemonStats(pokemon);
+
+        List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoves(pokemon, levels);
+        foreach (PokemonMove pokemonMove in pokemonMoves)
+        {
+		    if (pokemonMove == null || pokemon.Moves.Contains(pokemonMove)) continue;
+
+            PokemonMoveset.Instance.AddPokemonMove(pokemon, pokemonMove);
+        }
+        
+        // Set level once potential moves have been added
+        pokemon.Level = Mathf.Clamp(pokemon.Level + levels, 1, PokemonTD.MaxPokemonLevel);
     }
 
     public void SetPokemonStats(Pokemon pokemon)
@@ -167,10 +180,10 @@ public partial class PokemonManager : Node
     {
         try
         {
-            float accuracyValue = (attackingPokemon.Accuracy - defendingPokemon.Evasion) * (pokemonMove.Accuracy / 100);
+            int accuracyValue = Mathf.RoundToInt((attackingPokemon.Accuracy - defendingPokemon.Evasion) * pokemonMove.Accuracy);
 
             RandomNumberGenerator RNG = new RandomNumberGenerator();
-            double randomThreshold = Math.Round(RNG.RandfRange(0, 1), 3);
+            int randomThreshold = Mathf.RoundToInt(RNG.RandfRange(0, 100));
             randomThreshold -= accuracyValue;
 
             return randomThreshold <= 0;
@@ -204,10 +217,9 @@ public partial class PokemonManager : Node
 
     private int GetStageSlotDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
     {
-        // GD.Print("Stage Slot Damage");
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonStageSlot.Pokemon, pokemonMove);
         float attackDefenseRatio = GetAttackDefenseRatio(pokemonStageSlot.Pokemon, pokemonMove, pokemonEnemy.Pokemon);
-        float damage = (((5 * pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
+        float damage = (((5 * pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier) + 4) * pokemonMove.Power * attackDefenseRatio / 50) + 4;
 
         List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonStageSlot.Pokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
@@ -231,7 +243,7 @@ public partial class PokemonManager : Node
     {
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonEnemy.Pokemon, pokemonMove);
         float attackDefenseRatio = GetAttackDefenseRatio(pokemonEnemy.Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
-        float damage = pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier / 10 * pokemonMove.Power * attackDefenseRatio / 50;
+        float damage = (((5 * pokemonEnemy.Pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
         
         List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
@@ -269,14 +281,14 @@ public partial class PokemonManager : Node
     private bool IsCriticalHit(Pokemon pokemon, PokemonMove pokemonMove)
     {
         float criticalHitRatio = PokemonMoveEffect.Instance.GetCriticalHitRatio(pokemon, pokemonMove);
-        float maxThreshold = 255;
+        int maxThreshold = 255;
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float thresholdValue = RNG.RandfRange(criticalHitRatio, maxThreshold);
-        float randomValue = RNG.RandfRange(0, maxThreshold);
-        randomValue -= thresholdValue;
+        int criticalValue = Mathf.RoundToInt(RNG.RandfRange(criticalHitRatio, maxThreshold));
+        int randomThreshold = Mathf.RoundToInt(RNG.RandfRange(0, maxThreshold));
+        randomThreshold -= criticalValue;
 
-        bool isCriticalHit = randomValue <= 0;
+        bool isCriticalHit = randomThreshold <= 0;
 
 		if (isCriticalHit) 
         {

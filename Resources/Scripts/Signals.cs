@@ -29,7 +29,7 @@ public partial class Signals : Node
     public delegate void PokemonDamagedEventHandler(int damage, int teamSlotIndex);
 
     [Signal]
-    public delegate void SortButtonPressedEventHandler();
+    public delegate void SortButtonPressedEventHandler(int sortCategoryID);
 
     [Signal]
     public delegate void StageStartedEventHandler();
@@ -39,20 +39,20 @@ public partial class Signals : Node
 
     // Evolution
     [Signal]
-    public delegate void EvolutionStartedEventHandler(Pokemon pokemon);
+    public delegate void PokemonEvolvingEventHandler(Pokemon pokemon, int teamSlotIndex);
 
     [Signal]
-    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
+    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex, int levels);
 
     [Signal]
-    public delegate void EvolutionQueueClearedEventHandler();
+    public delegate void PokemonEvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
 
     // Pokemon
     [Signal]
-    public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon, int teamSlotIndex);
+    public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon, int teamSlotIndex, int levels);
 
     [Signal]
-    public delegate void PokemonEvolvedEventHandler(Pokemon pokemon, Pokemon pokemonEvolution);
+    public delegate void PokemonEvolvedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
 
     [Signal]
     public delegate void PokemonGainedExperienceEventHandler(Pokemon pokemon);
@@ -82,10 +82,7 @@ public partial class Signals : Node
 
     // Stage
     [Signal]
-    public delegate void PokemonOnStageEventHandler(int teamSlotIndex);
-
-    [Signal]
-    public delegate void PokemonOffStageEventHandler(int teamSlotIndex);
+    public delegate void PokemonInUseEventHandler(bool isInUse, int teamSlotIndex);
 
     [Signal]
     public delegate void HasWonEventHandler();
@@ -109,9 +106,6 @@ public partial class Signals : Node
     // Forget Move
     [Signal]
     public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
-
-    [Signal]
-    public delegate void ForgetMoveQueueClearedEventHandler();
 
     // Audio
     [Signal]
