@@ -10,11 +10,8 @@
 [node name="StageControls" type="HBoxContainer" node_paths=PackedStringArray("_gameToggle", "_speedToggle", "_gameTexture", "_speedLabel")]
 offset_right = 150.0
 offset_bottom = 40.0
-size_flags_horizontal = 10
-size_flags_vertical = 10
 mouse_filter = 2
 theme = ExtResource("1_un5u2")
-theme_override_constants/separation = 25
 script = ExtResource("1_cw4dl")
 _gameToggle = NodePath("GameToggle")
 _speedToggle = NodePath("SpeedToggle")

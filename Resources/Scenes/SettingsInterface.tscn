@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://cy3202rr3ei8h"]
+[gd_scene load_steps=6 format=3 uid="uid://cy3202rr3ei8h"]
 
 [ext_resource type="Script" uid="uid://d0t3rr1ef78h3" path="res://Resources/Scripts/SettingsInterface.cs" id="1_vxq6f"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_tc8kh"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_1gcrq"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_elu6u"]
+[ext_resource type="Texture2D" uid="uid://c6ofu2kfdt81v" path="res://Assets/Images/InformationIcon.png" id="5_tc8kh"]
 
-[node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_gameSettings", "_saveButton", "_loadButton", "_deleteButton", "_masterSlider", "_musicSlider", "_soundSlider")]
+[node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_informationButton", "_gameSettings", "_saveButton", "_loadButton", "_deleteButton", "_masterSlider", "_musicSlider", "_soundSlider")]
 script = ExtResource("1_vxq6f")
-_exitButton = NodePath("Background/MarginContainer/ExitButton")
+_exitButton = NodePath("Background/MarginContainer/HBoxContainer/ExitButton")
+_informationButton = NodePath("Background/MarginContainer/HBoxContainer/InformationButton")
 _gameSettings = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings")
 _saveButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/SaveGame")
 _loadButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/LoadGame")
@@ -44,7 +46,53 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ExitButton" type="Button" parent="Background/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="InformationButton" type="Button" parent="Background/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
+flat = true
+script = ExtResource("3_1gcrq")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/HBoxContainer/InformationButton"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_elu6u")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/HBoxContainer/InformationButton/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/HBoxContainer/InformationButton/NinePatchRect/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("5_tc8kh")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -54,7 +102,7 @@ text = "X"
 flat = true
 script = ExtResource("3_1gcrq")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/ExitButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/HBoxContainer/ExitButton"]
 self_modulate = Color(0.27, 0.27, 0.27, 1)
 show_behind_parent = true
 layout_mode = 1

@@ -38,7 +38,6 @@ mouse_filter = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
-theme_override_constants/separation = 25
 
 [node name="RareCandy" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -69,12 +68,14 @@ alignment = 1
 
 [node name="WaveCount" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/StageInfo"]
 layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 4.0
 theme_override_font_sizes/font_size = 40
 text = "Wave 1 of 10"
 
 [node name="PokeDollars" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer/StageInfo"]
 layout_mode = 2
-size_flags_horizontal = 10
+size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 40
 text = "₽ 100"
 horizontal_alignment = 1
@@ -82,7 +83,6 @@ vertical_alignment = 1
 
 [node name="StageControls" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("4_4d28v")]
 layout_mode = 2
-size_flags_horizontal = 1
 
 [node name="SettingsButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(65, 65)

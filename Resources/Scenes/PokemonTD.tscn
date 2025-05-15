@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=28 format=3 uid="uid://hvrq7bqyr4x8"]
 
 [ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
 [ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
@@ -26,6 +26,7 @@
 [ext_resource type="Script" uid="uid://cvxcgipru1spg" path="res://Resources/Scripts/AudioManager.cs" id="22_s4j0d"]
 [ext_resource type="PackedScene" uid="uid://cy3202rr3ei8h" path="res://Resources/Scenes/SettingsInterface.tscn" id="22_u4bgx"]
 [ext_resource type="Script" uid="uid://n14u7sui1dd7" path="res://Resources/Scripts/PokemonTween.cs" id="24_u4bgx"]
+[ext_resource type="PackedScene" uid="uid://cns7fl2chiobe" path="res://Resources/Scenes/InformationInterface.tscn" id="25_6jdnx"]
 
 [node name="PokemonTD" type="Node" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
 script = ExtResource("1_22f5f")
@@ -55,6 +56,7 @@ _forgetMoveInterface = ExtResource("18_8nrjv")
 _evolutionInterface = ExtResource("20_g5jc2")
 _stageConsoleLabel = ExtResource("21_ecryk")
 _settingsInterface = ExtResource("22_u4bgx")
+_informationInterface = ExtResource("25_6jdnx")
 
 [node name="AudioManager" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("_musicStreamPlayer", "_soundStreamPlayer")]
 script = ExtResource("22_s4j0d")

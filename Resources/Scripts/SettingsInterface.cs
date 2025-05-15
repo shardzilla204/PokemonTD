@@ -8,6 +8,9 @@ public partial class SettingsInterface : CanvasLayer
 	private CustomButton _exitButton;
 
 	[Export]
+	private CustomButton _informationButton;
+
+	[Export]
 	private Container _gameSettings;
 
 	[Export]
@@ -45,6 +48,16 @@ public partial class SettingsInterface : CanvasLayer
 			{
 				PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 			}
+			QueueFree();
+		};
+		
+		_informationButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_informationButton.Pressed += () => 
+		{
+			PokemonTD.AudioManager.PlayButtonPressed();
+			InformationInterface informationInterface = PokemonTD.PackedScenes.GetInformationInterface();
+			informationInterface.FromMainMenu = FromMainMenu;
+			AddSibling(informationInterface);
 			QueueFree();
 		};
 		

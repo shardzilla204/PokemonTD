@@ -59,6 +59,9 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _settingsInterface;
 
+	[Export]
+	private PackedScene _informationInterface;
+
 	public MenuInterface GetMenuInterface()
 	{
 		return _menuInterface.Instantiate<MenuInterface>();
@@ -128,6 +131,11 @@ public partial class PackedScenes : Node
 		evolutionInterface.Pokemon = pokemon;
 		evolutionInterface.Finished += (pokemonEvolution) => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolutionFinished, pokemonEvolution, teamSlotIndex);
 		return evolutionInterface;
+	}
+
+	public InformationInterface GetInformationInterface()
+	{
+		return _informationInterface.Instantiate<InformationInterface>();
 	}
 
 	public PokemonStage GetPokemonStage(int stageID)
