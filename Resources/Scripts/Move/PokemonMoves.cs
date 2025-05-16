@@ -66,6 +66,7 @@ public partial class PokemonMoves : Node
         }
         GD.Print(); // Spacing
 
+        // Print Messages To Console
         string typeCountMessage = $"Total Pokemon Types: {typeArray.Length}";
         PrintRich.PrintLine(TextColor.Blue, typeCountMessage);
 
@@ -86,10 +87,11 @@ public partial class PokemonMoves : Node
 
         GC.Dictionary<string, Variant> typeMovesetDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 
+		_typeMovesetsDictionary.Add(type.ToString(), typeMovesetDictionary);
+
+        // Print Messages To Console
         string typeCountAddedMessage = $"Total {type} Count: {typeMovesetDictionary.Count}";
 		PrintRich.Print(TextColor.Blue, typeCountAddedMessage);
-
-		_typeMovesetsDictionary.Add(type.ToString(), typeMovesetDictionary);
 
         return typeMovesetDictionary.Count;
     }
@@ -137,7 +139,7 @@ public partial class PokemonMoves : Node
         return Moves[randomValue];
     }
 
-    public PokemonMove GetPokemonMove(string pokemonMoveName)
+    public PokemonMove FindPokemonMove(string pokemonMoveName)
     {
         return Moves.Find(pokemonMove => pokemonMove.Name == pokemonMoveName);
     }

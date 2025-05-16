@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bwvg6bl137m4m" path="res://Resources/Scenes/Stages/PokemonStage1.tscn" id="13_pgy84"]
 [ext_resource type="PackedScene" uid="uid://b5yi0qb8amvcj" path="res://Resources/Scenes/Stages/PokemonStage2.tscn" id="14_1mgql"]
 [ext_resource type="PackedScene" uid="uid://cljn1bhkdw0is" path="res://Resources/Scenes/Stages/PokemonStage4.tscn" id="15_u4bgx"]
-[ext_resource type="PackedScene" uid="uid://ccoosttiq6n6v" path="res://Resources/Scripts/PokemonStage3.tscn" id="15_yuice"]
+[ext_resource type="PackedScene" uid="uid://ccoosttiq6n6v" path="res://Resources/Scenes/Stages/PokemonStage3.tscn" id="15_yuice"]
 [ext_resource type="PackedScene" uid="uid://s728ytolcipn" path="res://Resources/Scenes/Stages/PokemonStage5.tscn" id="16_ux4ka"]
 [ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Resources/Scenes/Move/ForgetMoveInterface.tscn" id="18_8nrjv"]
 [ext_resource type="PackedScene" uid="uid://dshtma5523e1b" path="res://Resources/Scenes/EvolutionInterface.tscn" id="20_g5jc2"]
@@ -28,13 +28,16 @@
 [ext_resource type="Script" uid="uid://n14u7sui1dd7" path="res://Resources/Scripts/PokemonTween.cs" id="24_u4bgx"]
 [ext_resource type="PackedScene" uid="uid://cns7fl2chiobe" path="res://Resources/Scenes/InformationInterface.tscn" id="25_6jdnx"]
 
-[node name="PokemonTD" type="Node" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
+[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _areConsoleMessagesEnabled = true
+_starterPokemonLevel = 15
 _areFilePathsVisible = true
-_pokeCenterCount = 30
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")

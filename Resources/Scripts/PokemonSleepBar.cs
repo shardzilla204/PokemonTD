@@ -58,10 +58,12 @@ public partial class PokemonSleepBar : TextureProgressBar
 
     private float GetWaitTime(Pokemon pokemon)
     {
-        float maxWaitTime = 5;
         int pokemonLevel = pokemon.Level;
         int levelThreshold = 5;
+        
+        float maxWaitTime = 5;
         float waitTime = 0;
+
         float time = 1.1f;
 
         while (pokemonLevel > 0)

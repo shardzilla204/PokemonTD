@@ -18,13 +18,13 @@ public partial class PokemonExperienceBar : Container
         _pokemonLevel.Text = pokemon != null ? $"LVL. {pokemon.Level}" : null;
 
         _experienceBar.Value = pokemon != null ? pokemon.Experience.Minimum : 0;
-		_experienceBar.MaxValue = pokemon != null ? pokemon.Experience.Maximum : 100;
+        _experienceBar.MaxValue = pokemon != null ? pokemon.Experience.Maximum : 100;
     }
 
     public void AddExperience(Pokemon pokemon, float experience)
     {
         _experienceBar.Value += experience;
-		pokemon.Experience.Minimum = (int) _experienceBar.Value;
+        pokemon.Experience.Minimum = (int)_experienceBar.Value;
 
         CheckExperience(pokemon);
     }
@@ -38,28 +38,39 @@ public partial class PokemonExperienceBar : Container
 
     private void LevelUp(Pokemon pokemon)
     {
-        int levels = 0;
-        while (pokemon.Experience.Minimum >= pokemon.Experience.Maximum)
-		{
-			levels++;
+        PokemonTD.AudioManager.PlayPokemonLeveledUp();
 
-			_experienceBar.Value -= _experienceBar.MaxValue;
+        int levels = GetLevels(pokemon);
 
-            // ? Comment Out For Faster Level Ups
-			_experienceBar.MaxValue = PokemonManager.Instance.GetExperienceRequired(pokemon);
-
-			pokemon.Experience.Minimum = (int) _experienceBar.Value;
-			pokemon.Experience.Maximum = (int) _experienceBar.MaxValue;
-
-			Update(pokemon);
-
-		}
         EmitSignal(SignalName.LeveledUp, levels);
 
+        // Print Message To Console
         string pokemonLeveledUpMessage = $"{pokemon.Name} Has Leveled Up To Level {pokemon.Level}";
         PrintRich.PrintLine(TextColor.Purple, pokemonLeveledUpMessage);
-        PokemonTD.AddStageConsoleMessage(TextColor.Purple, pokemonLeveledUpMessage);
+    }
 
-		PokemonTD.AudioManager.PlayPokemonLeveledUp();
+    private int GetLevels(Pokemon pokemon)
+    {
+        int levels = 0;
+        while (pokemon.Experience.Minimum >= pokemon.Experience.Maximum)
+        {
+            levels++;
+
+            SetExperience(pokemon);
+            Update(pokemon);
+
+        }
+        return levels;
+    }
+
+    private void SetExperience(Pokemon pokemon)
+    {
+        _experienceBar.Value -= _experienceBar.MaxValue;
+
+        // ? Comment Out For Faster Level Ups
+        _experienceBar.MaxValue = PokemonManager.Instance.GetExperienceRequired(pokemon);
+
+        pokemon.Experience.Minimum = (int)_experienceBar.Value;
+        pokemon.Experience.Maximum = (int)_experienceBar.MaxValue;
     }
 }

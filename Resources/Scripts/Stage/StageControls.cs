@@ -40,24 +40,9 @@ public partial class StageControls : HBoxContainer
 		// Default to speed of 1
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, 1);
 
-		_gameToggle.Pressed += () => 
-		{
-			OnGamePressed();
-			PokemonTD.AudioManager.PlayButtonPressed();
-		};
-		_speedToggle.LeftClick += () => 
-		{
-			OnSpeedPressed(true);
-			PokemonTD.AudioManager.PlayButtonPressed();
-		};
-		_speedToggle.RightClick += () => 
-		{
-			OnSpeedPressed(false);
-			PokemonTD.AudioManager.PlayButtonPressed();
-		};
-
-		_gameToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_speedToggle.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+		_gameToggle.Pressed += OnGamePressed;
+		_speedToggle.LeftClick += () => OnSpeedPressed(true);
+		_speedToggle.RightClick += () => OnSpeedPressed(false);
 
 		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 	}

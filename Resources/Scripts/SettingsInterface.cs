@@ -35,10 +35,8 @@ public partial class SettingsInterface : CanvasLayer
 
     public override void _Ready()
     {
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_exitButton.Pressed += () => 
 		{
-			PokemonTD.AudioManager.PlayButtonPressed();
 			if (FromMainMenu)
 			{
 				MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
@@ -51,10 +49,8 @@ public partial class SettingsInterface : CanvasLayer
 			QueueFree();
 		};
 		
-		_informationButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_informationButton.Pressed += () => 
 		{
-			PokemonTD.AudioManager.PlayButtonPressed();
 			InformationInterface informationInterface = PokemonTD.PackedScenes.GetInformationInterface();
 			informationInterface.FromMainMenu = FromMainMenu;
 			AddSibling(informationInterface);
@@ -63,25 +59,9 @@ public partial class SettingsInterface : CanvasLayer
 		
 		_gameSettings.Visible = FromMainMenu;
 
-		_saveButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_loadButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_deleteButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-
-		_saveButton.Pressed += () => 
-		{
-			PokemonTD.AudioManager.PlayButtonPressed();
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
-		};
-		_loadButton.Pressed += () => 
-		{
-			PokemonTD.AudioManager.PlayButtonPressed();
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
-		};
-		_deleteButton.Pressed += () => 
-		{
-			PokemonTD.AudioManager.PlayButtonPressed();
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
-		};
+		_saveButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+		_loadButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
+		_deleteButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
 
         _masterSlider.ValueChanged += (value) => OnValueChanged(BusType.Master, value);
         _musicSlider.ValueChanged += (value) => OnValueChanged(BusType.Music, value);
@@ -94,10 +74,10 @@ public partial class SettingsInterface : CanvasLayer
 
 	private void OnValueChanged(BusType busType, double value)
 	{
-		float minVolume = -50;
+		float minimumVolume = -50;
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.AudioValueChanged, (int) busType, value);
 
-		bool isMuted = value == minVolume;
+		bool isMuted = value == minimumVolume;
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.AudioMuted, (int) busType, isMuted);
 	}
 }

@@ -17,7 +17,7 @@ public partial class MoveOption : CustomButton
 
 	public override void _Ready()
 	{
-		if (PokemonMove is null) return;
+		if (PokemonMove == null) return;
 
 		_moveName.Text = $"{PokemonMove.Name}";
 		_moveType.Texture = PokemonTypes.Instance.GetTypeIcon(PokemonMove.Type);

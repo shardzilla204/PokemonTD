@@ -4,10 +4,10 @@ namespace PokemonTD;
 
 public partial class InteractComponent : Control
 {
-	[Signal]
-	public delegate void InteractedEventHandler(bool isLeftClick, bool isPressed, bool isDoubleClick);
+  [Signal]
+  public delegate void InteractedEventHandler(bool isLeftClick, bool isPressed, bool isDoubleClick);
 
-	private bool _isHovering;
+  private bool _isHovering;
 
   public override void _Ready()
   {

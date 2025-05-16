@@ -33,23 +33,27 @@ public partial class MovesetInterface : CanvasLayer
 
 	public override void _Ready()
 	{
-		_exitButton.Pressed += QueueFree;
-
-		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
-
-		ClearMoveButtons();
-
 		PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
 		PokemonTD.Signals.DraggingPokeBall += OnDragging;
 		PokemonTD.Signals.DraggingStageSlot += OnDragging;
 		PokemonTD.Signals.DraggingStageTeamSlot += OnDragging;
 
+		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
+
+		_exitButton.Pressed += QueueFree;
+
+		ClearMoveOptions();
+		AddMoveOptions();
+	}
+
+	private void AddMoveOptions()
+	{
 		foreach (PokemonMove pokemonMove in Pokemon.Moves)
 		{
 			MoveOption moveOption = PokemonTD.PackedScenes.GetMoveOption();
 			moveOption.PokemonMove = pokemonMove;
 			moveOption.MouseEntered += () => SetEffectText(pokemonMove);
-			moveOption.Pressed += () => 
+			moveOption.Pressed += () =>
 			{
 				EmitSignal(SignalName.PokemonMoveChanged, TeamSlotIndex, pokemonMove);
 
@@ -59,7 +63,7 @@ public partial class MovesetInterface : CanvasLayer
 		}
 	}
 
-	private void ClearMoveButtons()
+	private void ClearMoveOptions()
 	{
 		foreach (MoveOption moveOption in _moveOptions.GetChildren())
 		{

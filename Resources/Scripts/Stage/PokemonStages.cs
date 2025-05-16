@@ -25,6 +25,7 @@ public partial class PokemonStages : Node
 	public override void _EnterTree()
 	{
 		Instance = this;
+		
 		LoadStagesFile();
 		SetPokemonStages();
 	}
@@ -40,9 +41,11 @@ public partial class PokemonStages : Node
 		
 		if (json.Parse(jsonString) != Error.Ok) return;
 		
+		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+
+		// Print Message To Console
 		string loadSuccessMessage = "Pokemon Stages File Successfully Loaded";
 		PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
 	public PokemonStage FindPokemonStage(int stageID)

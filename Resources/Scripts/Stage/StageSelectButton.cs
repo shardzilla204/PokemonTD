@@ -10,16 +10,8 @@ public partial class StageSelectButton : CustomButton
 		
 		Text = $"{PokemonStage.ID}";
 
-        Pressed += () => 
-		{
-			SetStage();
-			PokemonTD.AudioManager.PlayButtonPressed();
-		};
-		MouseEntered += () => 
-		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonHovered, PokemonStage);
-			PokemonTD.AudioManager.PlayButtonHovered();
-		};
+		Pressed += SetStage;
+		MouseEntered += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonHovered, PokemonStage);
     }
 
 	private void SetStage()

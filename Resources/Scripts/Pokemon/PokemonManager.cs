@@ -46,10 +46,11 @@ public partial class PokemonManager : Node
 
 		if (json.Parse(jsonString) != Error.Ok) return;
 
+		_pokemonDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+
+        // Print Message To Console
         string loadSuccessMessage = "Pokemon File Successfully Loaded";
         PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-
-		_pokemonDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
     public Pokemon GetPokemon(string pokemonName)
@@ -100,7 +101,7 @@ public partial class PokemonManager : Node
         {
             PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, teamSlotIndex);
 
-            await ToSignal(PokemonTD.Signals, Signals.SignalName.PokemonEvolutionFinished);
+            await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionFinished);
             
             pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
 
@@ -215,62 +216,99 @@ public partial class PokemonManager : Node
         return damage;
     }
 
+    // Stage Slot = Attacking
+    // Pokemon Enemy = Defending
     private int GetStageSlotDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy)
     {
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonStageSlot.Pokemon, pokemonMove);
         float attackDefenseRatio = GetAttackDefenseRatio(pokemonStageSlot.Pokemon, pokemonMove, pokemonEnemy.Pokemon);
-        float damage = (((5 * pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier) + 4) * pokemonMove.Power * attackDefenseRatio / 50) + 4;
+        int power = GetPower(pokemonEnemy, pokemonMove);
 
-        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonStageSlot.Pokemon.Types);
-        foreach (float typeMultiplier in typeMultipliers)
-        {
-            damage *= typeMultiplier;
-        }
-
-        if (pokemonEnemy.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
-        {
-            damage /= 2;
-        }
-        else if (pokemonEnemy.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
-        {
-            damage /= 2;
-        }
+        float damage = (((5 * pokemonStageSlot.Pokemon.Level * criticalDamageMultiplier) + 4) * power * attackDefenseRatio) + 4;
+        damage = ApplyTypeMultiplers(pokemonEnemy.Pokemon, pokemonMove, damage);
+        damage = HalveDamage(pokemonStageSlot, pokemonMove, damage);
 
         return Mathf.RoundToInt(damage);
     }
 
+    // Pokemon Enemy = Attacking
+    // Stage Slot = Defending
     private int GetPokemonEnemyDamage(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, StageSlot pokemonStageSlot)
     {
-        float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonEnemy.Pokemon, pokemonMove);
+        float criticalDamageMultiplier = GetCriticalDamageMultiplier(pokemonEnemy.Pokemon, pokemonMove) / 5;
         float attackDefenseRatio = GetAttackDefenseRatio(pokemonEnemy.Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
-        float damage = (((5 * pokemonEnemy.Pokemon.Level * criticalDamageMultiplier / 5) + 2) * pokemonMove.Power * attackDefenseRatio / 50) + 2;
-        
-        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, pokemonEnemy.Pokemon.Types);
+        int power = GetPower(pokemonStageSlot, pokemonMove);
+
+        float damage = (((5 * pokemonEnemy.Pokemon.Level * criticalDamageMultiplier) + 2) * power * attackDefenseRatio) + 2;
+        damage = ApplyTypeMultiplers(pokemonStageSlot.Pokemon, pokemonMove, damage);
+        damage = HalveDamage(pokemonStageSlot, pokemonMove, damage);
+
+        return Mathf.RoundToInt(damage);
+    }
+
+    // Earthquake Doubles It's Power If Opposing Pokemon Used Dig
+    private int GetPower<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
+    {
+        int power = pokemonMove.Power;
+        if (pokemonMove.Name != "Earthquake") return power;
+
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            if (pokemonStageSlot.UsedDig) power *= 2;
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            if (pokemonEnemy.UsedDig) power *= 2;
+        }
+        return power;
+    }
+
+    private float ApplyTypeMultiplers(Pokemon defendingPokemon, PokemonMove pokemonMove, float damage)
+    {
+        List<float> typeMultipliers = PokemonTypes.Instance.GetTypeMultipliers(pokemonMove.Type, defendingPokemon.Types);
         foreach (float typeMultiplier in typeMultipliers)
         {
             damage *= typeMultiplier;
         }
+        return damage;
+    }
 
-        if (pokemonStageSlot.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+    // Light Screen & Reflect Pokemon Moves Halve Damage 
+    private float HalveDamage<Defending>(Defending defendingPokemon, PokemonMove pokemonMove, float damage)
+    {
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
-            damage /= 2;
+            if (pokemonStageSlot.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+            {
+                damage /= 2;
+            }
+            else if (pokemonStageSlot.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+            {
+                damage /= 2;
+            }
         }
-        else if (pokemonStageSlot.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
-            damage /= 2;
+            if (pokemonEnemy.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+            {
+                damage /= 2;
+            }
+            else if (pokemonEnemy.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+            {
+                damage /= 2;
+            }
         }
-
-        return Mathf.RoundToInt(damage);
+        return damage;
     }
 
     private float GetAttackDefenseRatio(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float specialRatio = (float) attackingPokemon.SpecialAttack / defendingPokemon.SpecialDefense;
-        float normalRatio = (float) attackingPokemon.Attack / defendingPokemon.Defense;
+        float specialRatio = (float)attackingPokemon.SpecialAttack / defendingPokemon.SpecialDefense;
+        float normalRatio = (float)attackingPokemon.Attack / defendingPokemon.Defense;
 
         float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
 
-        return (float) Math.Round(attackDefenseRatio, 2);
+        return (float) Math.Round(attackDefenseRatio, 2) / 50;
     }
     
     private float GetCriticalDamageMultiplier(Pokemon pokemon, PokemonMove pokemonMove)
@@ -292,10 +330,9 @@ public partial class PokemonManager : Node
 
 		if (isCriticalHit) 
         {
+            // Print Message To Console
             string criticalHitMessage = $"{pokemon.Name} Has Landed A Critical Hit";
             PrintRich.PrintLine(TextColor.Purple, criticalHitMessage);
-
-            PokemonTD.AddStageConsoleMessage(TextColor.Purple, criticalHitMessage);
         }
 
         return isCriticalHit;

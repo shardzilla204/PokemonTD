@@ -62,10 +62,11 @@ public partial class PokemonTeam : Node
 		Pokemon starterPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(pokemon);
 
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+
+		// Print Message To Console
 		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
-
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 	}
 
 	private void AddCapturedPokemon(PokemonEnemy pokemonEnemy)
@@ -78,10 +79,11 @@ public partial class PokemonTeam : Node
 		Pokemon capturedPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(capturedPokemon);
 
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+
+		// Print Message To Console
 		string addedMessage = $"{capturedPokemon.Name} Was Added To The Team";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
-
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 	}
 
 	private void GetRandomTeam(int teamCount)

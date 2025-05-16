@@ -27,20 +27,20 @@ public partial class PokemonHealthBar : Container
 
     public void AddHealth(Pokemon pokemon, int health)
     {
-        pokemon.HP = Math.Clamp(pokemon.HP + health, 0, pokemon.HP);
-        _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
-
-        _healthBar.Value = _pokemonHealth;
+        SetHealth(pokemon, health);
     }
 
     public void SubtractHealth(Pokemon pokemon, int damage)
     {
-        pokemon.HP = Math.Clamp(pokemon.HP - damage, 0, pokemon.HP);
-        _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
-        
-        _healthBar.Value = pokemon.HP;
-
+        SetHealth(pokemon, -damage);
         CheckHealth();
+    }
+
+    private void SetHealth(Pokemon pokemon, int value)
+    {
+        pokemon.HP = Math.Clamp(pokemon.HP + value, 0, pokemon.HP);
+        _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
+        _healthBar.Value = pokemon.HP;
     }
 
     public void ResetHealth(Pokemon pokemon)
@@ -48,7 +48,7 @@ public partial class PokemonHealthBar : Container
         pokemon.HP = _pokemonHealth;
         _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
 
-		_healthBar.MaxValue = pokemon != null ? pokemon.HP : 100;
+        _healthBar.MaxValue = pokemon != null ? pokemon.HP : 100;
         _healthBar.Value = pokemon != null ? pokemon.HP : 100;
     }
 

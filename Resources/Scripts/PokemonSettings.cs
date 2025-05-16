@@ -37,10 +37,7 @@ public partial class PokemonSettings : Node
 
     public override void _Notification(int what)
     {
-        if (what == NotificationWMCloseRequest)
-        {
-            SaveSettings();
-        }
+        if (what == NotificationWMCloseRequest) SaveSettings();
     }
 
     public void SaveSettings()
@@ -52,6 +49,7 @@ public partial class PokemonSettings : Node
 
 			settingsFile.StoreLine(jsonString);
 
+            // Print Message To Console
 			string saveSuccessMessage = "Settings File Successfully Saved";
 			if (PokemonTD.AreFilePathsVisible)
 			{
@@ -80,8 +78,8 @@ public partial class PokemonSettings : Node
         GC.Dictionary<string, Variant> settingsData = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
         SetData(settingsData);
 
+        // Print Message To Console
         string loadSuccessMessage = "Settings File Successfully Loaded";
-
         if (PokemonTD.AreFilePathsVisible)
         {
             loadSuccessMessage += $" At {settingsFile.GetPathAbsolute()}";

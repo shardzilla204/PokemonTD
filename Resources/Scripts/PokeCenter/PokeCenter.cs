@@ -250,6 +250,7 @@ public partial class PokeCenter : Node
 		Pokemon capturedPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
 		Pokemon.Add(capturedPokemon);
 
+		// Print Message To Console
 		string transferredMessage = $"{capturedPokemon.Name} Was Transferred To The Pokemon Center";
 		PrintRich.PrintLine(TextColor.Yellow, transferredMessage);
 	}

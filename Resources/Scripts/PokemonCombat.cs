@@ -54,7 +54,7 @@ public partial class PokemonCombat : Node
         }
 	}    
     
-    // ? Comment 
+    // ? Comment In Value For Higher Damage
     public void ApplyEnemyDamage(StageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount)
     {
         for (int i = 0; i < hitCount; i++)
@@ -133,7 +133,7 @@ public partial class PokemonCombat : Node
         return randomValue <= 0;
     }
 
-    public void ApplyStatusConditions<T>(int teamSlotIndex, T parameter, PokemonMove pokemonMove)
+    public void ApplyStatusConditions<Defending>(int teamSlotIndex, Defending defendingPokemon, PokemonMove pokemonMove)
 	{
 		if (pokemonMove.StatusCondition.Count == 0) return;
 		
@@ -143,11 +143,11 @@ public partial class PokemonCombat : Node
 			if (!CanApplyStatusCondition(pokemonMove, statusName)) continue;
 			
 			StatusCondition statusCondition = Enum.Parse<StatusCondition>(statusName);
-            if (parameter is StageSlot stageSlot)
+            if (defendingPokemon is StageSlot stageSlot)
             {
                 AddStatusCondition(stageSlot, statusCondition);
             }
-            else if (parameter is PokemonEnemy pokemonEnemy)
+            else if (defendingPokemon is PokemonEnemy pokemonEnemy)
             {
                 pokemonEnemy.TeamSlotIndex = teamSlotIndex;
                 AddStatusCondition(pokemonEnemy, statusCondition);
@@ -165,40 +165,42 @@ public partial class PokemonCombat : Node
         return randomValue <= 0;
     }
 
-    public void AddStatusCondition<T>(T parameter, StatusCondition statusCondition)
+    public void AddStatusCondition<Defending>(Defending defendingPokemon, StatusCondition statusCondition)
 	{
 		switch (statusCondition)
 		{
 			case StatusCondition.Burn: 
-				PokemonStatusCondition.Instance.ApplyBurnCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyBurnCondition(defendingPokemon); 
 			break;
 			case StatusCondition.Freeze: 
-				PokemonStatusCondition.Instance.ApplyFreezeCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyFreezeCondition(defendingPokemon); 
 			break;
 			case StatusCondition.Paralysis: 
-				PokemonStatusCondition.Instance.ApplyParalysisCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyParalysisCondition(defendingPokemon); 
 			break;
 			case StatusCondition.Poison: 
-				PokemonStatusCondition.Instance.ApplyPoisonCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyPoisonCondition(defendingPokemon); 
 			break;
 			case StatusCondition.BadlyPoisoned: 
-				PokemonStatusCondition.Instance.ApplyBadlyPoisonedCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyBadlyPoisonedCondition(defendingPokemon); 
 			break;
 			case StatusCondition.Sleep: 
-				PokemonStatusCondition.Instance.ApplySleepCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplySleepCondition(defendingPokemon); 
 			break;
 			case StatusCondition.Confuse: 
-				PokemonStatusCondition.Instance.ApplyConfuseCondition(parameter); 
+				PokemonStatusCondition.Instance.ApplyConfuseCondition(defendingPokemon); 
 			break;
 		}
         
-        if (parameter is StageSlot pokemonStageSlot)
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
+            // Print Message To Console
             string conditionMessage = $"{pokemonStageSlot.Pokemon.Name} Is Now {PrintRich.GetStatusConditionMessage(statusCondition)}";
             PrintRich.PrintLine(TextColor.Yellow, conditionMessage);
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
+            // Print Message To Console
             string conditionMessage = $"{pokemonEnemy.Pokemon.Name} Is Now {PrintRich.GetStatusConditionMessage(statusCondition)}";
             PrintRich.PrintLine(TextColor.Red, conditionMessage);
         }

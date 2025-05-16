@@ -42,7 +42,7 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.DraggingStageSlot += Dragging;
 		PokemonTD.Signals.DraggingStageTeamSlot += Dragging;
 		PokemonTD.Signals.DraggingPokeBall += Dragging;
-		PokemonTD.Signals.PokemonInUse += PokemonInUse;
+		PokemonTD.Signals.PokemonUsed += PokemonUsed;
     }
 
     public override void _ExitTree()
@@ -52,7 +52,7 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.DraggingStageSlot -= Dragging;
 		PokemonTD.Signals.DraggingStageTeamSlot -= Dragging;
 		PokemonTD.Signals.DraggingPokeBall -= Dragging;
-		PokemonTD.Signals.PokemonInUse -= PokemonInUse;
+		PokemonTD.Signals.PokemonUsed -= PokemonUsed;
     }
 
 	public override void _Ready()
@@ -69,8 +69,6 @@ public partial class StageInterface : CanvasLayer
 			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			_pokemonStage.AddSibling(stageSelectInterface);
 			_pokemonStage.QueueFree();
-
-			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 		_settingsButton.Pressed += () =>
 		{
@@ -79,11 +77,9 @@ public partial class StageInterface : CanvasLayer
 
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 		};
-
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 	}
 
-	private void PokemonInUse(bool inUse, int teamSlotIndex)
+	private void PokemonUsed(bool inUse, int teamSlotIndex)
 	{
 		StageTeamSlot stageTeamSlot = StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
 		stageTeamSlot.InUse = inUse;

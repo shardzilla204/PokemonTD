@@ -38,208 +38,269 @@ public partial class PokemonStatusCondition : Node
         Instance = this;
     }
 
-    public void ApplyBurnCondition<T>(T parameter)
+    public void ApplyBurnCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.Burn);
+        ApplyStatusColor(defendingPokemon, StatusCondition.Burn);
+
         float percentage = .0625f; // 1/16
-        if (parameter is StageSlot pokemonStageSlot)
+
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
             int healthPercent = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
-            DamagePokemonOverTime(pokemonStageSlot, healthPercent);
+            DamagePokemonOverTime(pokemonStageSlot, healthPercent, 2);
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             int healthPercent = GetHealthAmount(pokemonEnemy.Pokemon, percentage);
-            DamagePokemonOverTime(pokemonEnemy, healthPercent);
+            DamagePokemonOverTime(pokemonEnemy, healthPercent, 2);
         }
     }
 
-    public async void ApplyFreezeCondition<T>(T parameter)
+    public async void ApplyFreezeCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.Freeze);
-        FreezePokemon(parameter, 5f);
+        ApplyStatusColor(defendingPokemon, StatusCondition.Freeze);
+
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Fainted += (pokemonStageSlot) => { return; };
+        }
+
+        FreezePokemon(defendingPokemon, 5);
+
         await ToSignal(this, SignalName.Finished);
-        ApplyStatusColor(parameter, StatusCondition.None);
+
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
-    public async void ApplyParalysisCondition<T>(T parameter)
+    public async void ApplyParalysisCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.Paralysis);
-
-        if (IsFullyParalyzed()) 
+        ApplyStatusColor(defendingPokemon, StatusCondition.Paralysis);
+        
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
-            FreezePokemon(parameter, 3f);
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Fainted += (pokemonStageSlot) => { return; };
+        }
+
+        if (IsFullyParalyzed())
+        {
+            FreezePokemon(defendingPokemon, 3);
+
             await ToSignal(this, SignalName.Finished);
             return;
         }
 
-        ApplyParalysis(parameter);
+        ApplyParalysis(defendingPokemon);
     }
 
     private bool IsFullyParalyzed()
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        float fullParalysisThreshold = 0.25f;
         float randomValue = RNG.RandfRange(0, 1);
+        
+        float fullParalysisThreshold = 0.25f;
         return fullParalysisThreshold >= randomValue;
     }
 
-    public async void FreezePokemon<T>(T parameter, float timeSeconds)
+    public async void FreezePokemon<Defending>(Defending defendingPokemon, float timeSeconds)
     {
         CustomTimer timer = GetTimer(timeSeconds);
         AddChild(timer);
         _timers.Add(timer);
-        if (parameter is StageSlot pokemonStageSlot)
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+
             pokemonStageSlot.IsActive = false;
-
             await ToSignal(timer, Timer.SignalName.Timeout);
-
             pokemonStageSlot.IsActive = true;
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
+            pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
+
             pokemonEnemy.Pokemon.Speed = 0;
-
             await ToSignal(timer, Timer.SignalName.Timeout);
-
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
             pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
         }
         EmitSignal(SignalName.Finished);
     }
 
-    private async void ApplyParalysis<T>(T parameter)
+    public void TrapPokemon<Defending>(Defending defendingPokemon)
+    {
+        float percentage = .125f; // 1/8
+
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        int randomIterationCount = RNG.RandiRange(4, 5);
+
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            int healthPercent = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
+            DamagePokemonOverTime(pokemonStageSlot, healthPercent, randomIterationCount);
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            int healthPercent = GetHealthAmount(pokemonEnemy.Pokemon, percentage);
+            DamagePokemonOverTime(pokemonEnemy, healthPercent, randomIterationCount);
+        }
+    }
+
+    private async void ApplyParalysis<Defending>(Defending defendingPokemon)
     {
         float reductionPercent = 0.25f;
-        
-        float timeSeconds = 3f;
-        CustomTimer timer = GetTimer(timeSeconds);
+
+        CustomTimer timer = GetTimer(3);
         AddChild(timer);
         _timers.Add(timer);
 
-        if (parameter is StageSlot pokemonStageSlot)
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
             pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonStageSlot.Pokemon.Name);
             pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
-
             await ToSignal(timer, Timer.SignalName.Timeout);
-
             pokemonStageSlot.Pokemon.Speed = pokemonData.Speed;
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
+            pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
+
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
             pokemonEnemy.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
-
             await ToSignal(timer, Timer.SignalName.Timeout);
-
             pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
         }
 
         timer.QueueFree();
-        ApplyStatusColor(parameter, StatusCondition.None);
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
-    public void ApplyPoisonCondition<T>(T parameter)
+    public void ApplyPoisonCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.Poison);
+        ApplyStatusColor(defendingPokemon, StatusCondition.Poison);
 
         float percentage = .0625f; // 1/16
         int healthPercent = 0;
-        if (parameter is StageSlot pokemonStageSlot)
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
             healthPercent = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             healthPercent = GetHealthAmount(pokemonEnemy.Pokemon, percentage);
         }
-        DamagePokemonOverTime(parameter, healthPercent);
+        DamagePokemonOverTime(defendingPokemon, healthPercent, 2);
     }
 
-    private async void DamagePokemonOverTime<T>(T parameter, int healthAmount)
+    private async void DamagePokemonOverTime<Defending>(Defending defendingPokemon, int healthAmount, int iterations)
     {
-        int iterations = 2;
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Fainted += (pokemonStageSlot) => { return; };
+        }
+
         for (int i = 0; i < iterations; i++)
         {
-            float timeSeconds = 1f;
-            CustomTimer timer = GetTimer(timeSeconds);
+            CustomTimer timer = GetTimer(1);
             AddChild(timer);
 
             await ToSignal(timer, Timer.SignalName.Timeout);
-            
-            if (parameter is StageSlot pokemonStageSlot)
-            {
-                pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
-                pokemonStageSlot.DamagePokemon(healthAmount);
-            }
-            else if (parameter is PokemonEnemy pokemonEnemy)
-            {
-                pokemonEnemy.DamagePokemon(healthAmount);
-            }
+
+            DamagePokemon(defendingPokemon, healthAmount);
             timer.QueueFree();
         }
 
-        ApplyStatusColor(parameter, StatusCondition.None);
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
-    public async void ApplyBadlyPoisonedCondition<T>(T parameter)
+    public async void ApplyBadlyPoisonedCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.BadlyPoisoned);
+        ApplyStatusColor(defendingPokemon, StatusCondition.BadlyPoisoned);
+
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Fainted += (pokemonStageSlot) => { return; };
+        }
 
         int iterations = 2;
         float percentage = .0625f; // 1/16
         for (int i = 0; i < iterations; i++)
         {
-            float timeSeconds = 1f;
-            CustomTimer timer = GetTimer(timeSeconds);
+            CustomTimer timer = GetTimer(1);
             AddChild(timer);
 
             await ToSignal(timer, Timer.SignalName.Timeout);
 
-            if (parameter is StageSlot pokemonStageSlot)
-            {
-                pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
-
-                int healthAmount = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
-                pokemonStageSlot.DamagePokemon(healthAmount);
-            }
-            else if (parameter is PokemonEnemy pokemonEnemy)
-            {
-                int healthAmount = GetHealthAmount(pokemonEnemy.Pokemon, percentage);
-                pokemonEnemy.DamagePokemon(healthAmount);
-            }
+            DamagePokemon(defendingPokemon, percentage);
             percentage *= 2;
             timer.QueueFree();
         }
 
-        ApplyStatusColor(parameter, StatusCondition.None);
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
-    public async void ApplySleepCondition<T>(T parameter)
+    private void DamagePokemon<Defending>(Defending defendingPokemon, int healthAmount)
     {
-        ApplyStatusColor(parameter, StatusCondition.Sleep);
-        FreezePokemon(parameter, 3f);
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            if (pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(healthAmount);
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            if (pokemonEnemy.IsActive) pokemonEnemy.DamagePokemon(healthAmount);
+        }
+    }
+
+    private void DamagePokemon<Defending>(Defending defendingPokemon, float percentage)
+    {
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {
+            int healthAmount = GetHealthAmount(pokemonStageSlot.Pokemon, percentage);
+            if (pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(healthAmount);
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            int healthAmount = GetHealthAmount(pokemonEnemy.Pokemon, percentage);
+            if (pokemonEnemy.IsActive) pokemonEnemy.DamagePokemon(healthAmount);
+        }
+    }
+
+    public async void ApplySleepCondition<Defending>(Defending defendingPokemon)
+    {
+        ApplyStatusColor(defendingPokemon, StatusCondition.Sleep);
+        FreezePokemon(defendingPokemon, 3);
         await ToSignal(this, SignalName.Finished);
-        ApplyStatusColor(parameter, StatusCondition.None);
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
-    public async void ApplyConfuseCondition<T>(T parameter)
+    public async void ApplyConfuseCondition<Defending>(Defending defendingPokemon)
     {
-        ApplyStatusColor(parameter, StatusCondition.Confuse);
-        if (parameter is StageSlot pokemonStageSlot)
+        ApplyStatusColor(defendingPokemon, StatusCondition.Confuse);
+        if (defendingPokemon is StageSlot pokemonStageSlot)
         {
             pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
             int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
             pokemonStageSlot.Pokemon.Speed /= 2;
 
-            float timeSeconds = 3f;
-            CustomTimer timer = GetTimer(timeSeconds);
+            CustomTimer timer = GetTimer(3);
             AddChild(timer);
 
             await ToSignal(timer, Timer.SignalName.Timeout);
@@ -248,15 +309,14 @@ public partial class PokemonStatusCondition : Node
 
             timer.QueueFree();
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name);
 
             pokemonEnemy.IsMovingForward = false;
             pokemonEnemy.Pokemon.Speed = -pokemonData.Speed;
 
-            float timeSeconds = 1f;
-            CustomTimer timer = GetTimer(timeSeconds);
+            CustomTimer timer = GetTimer(1);
             AddChild(timer);
 
             await ToSignal(timer, Timer.SignalName.Timeout);
@@ -265,7 +325,7 @@ public partial class PokemonStatusCondition : Node
             pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
             timer.QueueFree();
         }
-        ApplyStatusColor(parameter, StatusCondition.None);
+        ApplyStatusColor(defendingPokemon, StatusCondition.None);
     }
 
     private int GetHealthAmount(Pokemon pokemon, float percentage)
@@ -274,18 +334,18 @@ public partial class PokemonStatusCondition : Node
         return healthAmount;
     }
 
-    private void ApplyStatusColor<T>(T parameter, StatusCondition statusCondtion)
+    private void ApplyStatusColor<Defending>(Defending defendingPokemon, StatusCondition statusCondtion)
     {
         string statusHexColor = GetStatusHexColor(statusCondtion);
         Color statusColor = Color.FromHtml(statusHexColor);
 
-        if (parameter is StageSlot pokemonStageSlot)
-        {
-            pokemonStageSlot.Sprite.SelfModulate = statusColor;
+        if (defendingPokemon is StageSlot pokemonStageSlot)
+        {   
+            if (pokemonStageSlot.IsActive) pokemonStageSlot.Sprite.SelfModulate = statusColor;
         }
-        else if (parameter is PokemonEnemy pokemonEnemy)
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.SelfModulate = statusColor;
+            if (pokemonEnemy.IsActive) pokemonEnemy.SelfModulate = statusColor;
         }
     }
 

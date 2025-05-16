@@ -38,13 +38,12 @@ public partial class PokemonGame : Node
 
     public async override void _Notification(int what)
     {
-        if (what == NotificationWMCloseRequest) 
-		{
-			float timeSeconds = 0.25f;
-			await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
-			GetTree().Quit();
-		}
+		if (what != NotificationWMCloseRequest) return;
+
+		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
+
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+		GetTree().Quit();
     }
 
     public void SaveGame()
@@ -56,6 +55,7 @@ public partial class PokemonGame : Node
 
 		gameFile.StoreLine(jsonString);
 
+		// Print Message To Console
 		string saveSuccessMessage = "Game File Successfully Saved";
 		if (PokemonTD.AreFilePathsVisible)
 		{
@@ -83,6 +83,7 @@ public partial class PokemonGame : Node
 		GC.Dictionary<string, Variant> gameData = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 		SetData(gameData);
 
+		// Print Message To Console
 		string loadSuccessMessage = "Game File Successfully Loaded";
 		if (PokemonTD.AreFilePathsVisible)
 		{

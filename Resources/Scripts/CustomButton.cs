@@ -14,16 +14,19 @@ public partial class CustomButton : Button
 
 	public override void _Ready()
 	{
-		MouseEntered += () => 
+		MouseEntered += () =>
 		{
+			PokemonTD.AudioManager.PlayButtonHovered();
+
 			_isHovering = true;
 			ChangeModulation(true);
 		};
-		MouseExited += () => 
+		MouseExited += () =>
 		{
 			_isHovering = false;
 			ChangeModulation(false);
 		};
+		Pressed += PokemonTD.AudioManager.PlayButtonPressed;
 	}
 
     public override void _Input(InputEvent @event)

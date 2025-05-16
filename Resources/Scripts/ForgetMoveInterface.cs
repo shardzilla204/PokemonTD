@@ -55,13 +55,13 @@ public partial class ForgetMoveInterface : CanvasLayer
 
 	private void ClearMoves()
 	{
-		// Clear current move to learn
+		// Clear Current Move To Learn
 		foreach (Node child in _moveToLearnOption.GetChildren())
 		{
 			if (child is CustomButton moveOption) moveOption.QueueFree();
 		}
 
-		// Clear moves you can forget
+		// Clear Moves You Can Forget
 		foreach (Node child in _moveForgetOptions.GetChildren())
 		{
 			child.QueueFree();
@@ -145,6 +145,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 		Pokemon.Moves.Remove(_moveToForget);
 		Pokemon.Moves.Insert(moveIndex, MoveToLearn);
 
+		// Print Message To Console
 		string forgotMoveMessage = $"{Pokemon.Name} Forgot {_moveToForget.Name} For {MoveToLearn.Name}";
 		PrintRich.PrintLine(TextColor.Purple, forgotMoveMessage);
 

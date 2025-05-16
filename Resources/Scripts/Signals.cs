@@ -5,6 +5,28 @@ namespace PokemonTD;
 public partial class Signals : Node
 {
     [Signal]
+    public delegate void SortButtonPressedEventHandler(int sortCategoryID);
+
+    [Signal]
+    public delegate void StageStartedEventHandler();
+
+    [Signal]
+    public delegate void PokeDollarsUpdatedEventHandler();
+
+    [Signal]
+    public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
+
+    [Signal]
+    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex, int levels);
+    
+    [Signal]
+    public delegate void PokemonEnemyPassedEventHandler(PokemonEnemy pokemonEnemy);
+
+    [Signal]
+    public delegate void PokemonEnemyCapturedEventHandler(PokemonEnemy pokemonEnemy);
+
+    // Game
+    [Signal]
     public delegate void GameStartedEventHandler();
 
     [Signal]
@@ -16,6 +38,7 @@ public partial class Signals : Node
     [Signal]
     public delegate void GameResetEventHandler();
 
+    // Pokemon
     [Signal]
     public delegate void PokemonStarterSelectedEventHandler(Pokemon pokemon);
 
@@ -29,25 +52,8 @@ public partial class Signals : Node
     public delegate void PokemonDamagedEventHandler(int damage, int teamSlotIndex);
 
     [Signal]
-    public delegate void SortButtonPressedEventHandler(int sortCategoryID);
-
-    [Signal]
-    public delegate void StageStartedEventHandler();
-
-    [Signal]
-    public delegate void PokeDollarsUpdatedEventHandler();
-
-    // Evolution
-    [Signal]
     public delegate void PokemonEvolvingEventHandler(Pokemon pokemon, int teamSlotIndex);
 
-    [Signal]
-    public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex, int levels);
-
-    [Signal]
-    public delegate void PokemonEvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
-
-    // Pokemon
     [Signal]
     public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon, int teamSlotIndex, int levels);
 
@@ -60,15 +66,6 @@ public partial class Signals : Node
     [Signal]
     public delegate void PokemonLearnedMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
 
-    // Enemy Pokemon
-    [Signal]
-    public delegate void PokemonEnemyFaintedEventHandler(PokemonEnemy pokemonEnemy);
-
-    [Signal]
-    public delegate void PokemonEnemyPassedEventHandler(PokemonEnemy pokemonEnemy);
-    
-    [Signal]
-    public delegate void PokemonEnemyCapturedEventHandler(PokemonEnemy pokemonEnemy);
 
     // Dragging 
     [Signal]
@@ -82,7 +79,7 @@ public partial class Signals : Node
 
     // Stage
     [Signal]
-    public delegate void PokemonInUseEventHandler(bool isInUse, int teamSlotIndex);
+    public delegate void PokemonUsedEventHandler(bool isInUse, int teamSlotIndex);
 
     [Signal]
     public delegate void HasWonEventHandler();
@@ -103,23 +100,19 @@ public partial class Signals : Node
     [Signal]
     public delegate void SpeedToggledEventHandler(float speed);
 
-    // Forget Move
-    [Signal]
-    public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
-
     // Audio
     [Signal]
-    public delegate void AudioMutedEventHandler(int busIndex, bool isMuted);
+    public delegate void AudioValueChangedEventHandler(int busIndex, int volume);
 
     [Signal]
-    public delegate void AudioValueChangedEventHandler(int busIndex, int volume);
+    public delegate void AudioMutedEventHandler(int busIndex, bool isMuted);
 
     [Signal]
     public delegate void StageTeamSlotMutedEventHandler(int teamSlotIndex, bool isMuted);
 
     // Stage Selection
     [Signal]
-    public delegate void OnStageSelectionEventHandler();
+    public delegate void StageSelectedEventHandler();
 
     [Signal]
     public delegate void StageSelectButtonHoveredEventHandler(PokemonStage pokemonStage);

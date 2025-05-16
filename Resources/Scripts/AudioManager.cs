@@ -38,15 +38,8 @@ public partial class AudioManager : AudioStreamPlayer
 		PokemonTD.Signals.AudioMuted += OnAudioMuted;
 
 		PokemonTD.Signals.GameStarted += () => PlaySong(1); // 01. ~Opening~
-		PokemonTD.Signals.OnStageSelection += MusicInterval;
+		PokemonTD.Signals.StageSelected += MusicInterval;
 		PokemonTD.Signals.PokemonStarterSelected += (pokemon) => MusicInterval();
-	}
-	
-	public override void _Input(InputEvent @event)
-	{
-	  	if (@event is not InputEventKey eventKey) return;
-
-		if (!eventKey.Pressed) return;
 	}
 
 	private void OnAudioValueChanged(int busIndex, int volume)
@@ -82,7 +75,7 @@ public partial class AudioManager : AudioStreamPlayer
 		return ResourceLoader.Load<AudioStream>($"{filePath}");
 	}
 
-	// GEN 1 Growl uses the Pokemon's cry
+	// GEN 1 Growl Uses The Pokemon's Cry
 	public void PlayPokemonMove(AudioStreamPlayer pokemonMovePlayer, string pokemonMoveName, Pokemon pokemon)
 	{
 		if (pokemonMoveName == "Growl")
@@ -100,13 +93,6 @@ public partial class AudioManager : AudioStreamPlayer
 		pokemonMovePlayer.Stream = pokemonMove;
 		pokemonMovePlayer.Play();
 	}
-
-	// public void PlayPokemonDamage()
-	// {
-	// 	string filePath = $"res://Assets/Audio/PokemonDamage.wav";
-	// 	AudioStream pokemonDamage = ResourceLoader.Load<AudioStream>($"{filePath}");
-	// 	PlaySound(pokemonDamage);
-	// }
 
 	public void PlayPokemonFaint()
 	{

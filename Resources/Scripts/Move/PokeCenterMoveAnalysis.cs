@@ -23,7 +23,7 @@ public partial class PokeCenterMoveAnalysis : NinePatchRect
     {
         PokemonTD.Signals.PokemonAnalyzed += OnPokemonAnalyzed;
 
-        ClearContainer();
+        ClearMoveOptions();
         _moveInfo.Text = "";
         Visible = false;
     }
@@ -31,7 +31,7 @@ public partial class PokeCenterMoveAnalysis : NinePatchRect
     private void OnPokemonAnalyzed(Pokemon pokemon)
     {
         _moveOptions.Clear();
-        ClearContainer();
+        ClearMoveOptions();
         _pokemon = pokemon;
         Visible = pokemon != null;
 
@@ -62,11 +62,11 @@ public partial class PokeCenterMoveAnalysis : NinePatchRect
         DarkenMoveOption(selectedMoveOption, true);
     }
 
-    private void ClearContainer()
+    private void ClearMoveOptions()
     {
-        foreach (Node child in _moveOptionContainer.GetChildren())
+        foreach (MoveOption moveOption in _moveOptionContainer.GetChildren())
         {
-            child.QueueFree();
+            moveOption.QueueFree();
         }
     }
 

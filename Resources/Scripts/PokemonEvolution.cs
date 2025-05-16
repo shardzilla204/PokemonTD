@@ -43,10 +43,11 @@ public partial class PokemonEvolution : Node
 
 		if (json.Parse(jsonString) != Error.Ok) return;
 
-        string loadSuccessMessage = "Pokemon Evolution File Successfully Loaded";
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-
 		_pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+		
+		// Print Message To Console
+		string loadSuccessMessage = "Pokemon Evolution File Successfully Loaded";
+        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}
 
 	public bool CanEvolve(Pokemon pokemon, int levels)
@@ -68,19 +69,19 @@ public partial class PokemonEvolution : Node
 	{
 		GC.Dictionary<string, Variant> pokemonEvolutionDictionary = _pokemonEvolutionDictionaries[pokemon.Name].As<GC.Dictionary<string, Variant>>();
 		string pokemonEvolutionNameString = pokemonEvolutionDictionary.Keys.ToList()[0];
-		return PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString);
+		
+		Pokemon pokemonEvolution = PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString);
+		pokemonEvolution.Level = pokemon.Level;
+		pokemonEvolution.Moves.AddRange(pokemon.Moves);
+		pokemonEvolution.Move = pokemon.Move;
+		return pokemonEvolution;
 	}
 
 	public Pokemon EvolvePokemon(Pokemon pokemon)
 	{
 		Pokemon pokemonEvolution = GetPokemonEvolution(pokemon);
 
-		pokemonEvolution.Level = pokemon.Level;
-		pokemonEvolution.Moves.AddRange(pokemon.Moves);
-		pokemonEvolution.Move = pokemon.Move;
-
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
-
 		return pokemonEvolution;
 	}
 
@@ -103,7 +104,8 @@ public partial class PokemonEvolution : Node
 
 	public void ShowNext(PokemonStage pokemonStage)
     {
-        pokemonStage.AddSibling(_evolutionQueue[0]);
+		EvolutionInterface nextEvolutionInterface = _evolutionQueue[0];
+        pokemonStage.AddSibling(nextEvolutionInterface);
     }
 
 	public bool IsQueueEmpty()

@@ -23,7 +23,7 @@ public partial class StagePath : Path2D
 	{
 		PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
 		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
-		double progressSpeed = (pokemonEnemy.Pokemon.Speed / 2) * PokemonTD.GameSpeed * delta;
+		double progressSpeed = pokemonEnemy.Pokemon.Speed / 2 * PokemonTD.GameSpeed * delta;
 		
 		pathFollow.Progress += (float) progressSpeed;
 

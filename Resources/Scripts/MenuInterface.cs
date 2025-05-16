@@ -19,26 +19,13 @@ public partial class MenuInterface : CanvasLayer
 		_settingsButton.Pressed += OnSettingsPressed;
 		_exitButton.Pressed += OnExitPressed;
 
-		_playButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_settingsButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-
 		if (!PokemonTD.AudioManager.IsPlayingSong(1)) PokemonTD.AudioManager.PlaySong(1); // 01. ~Opening~
 	}
 
 	private void OnPlayPressed()
 	{
-		if (!PokemonTD.HasSelectedStarter)
-		{
-			StarterSelectionInterface starterSelectionInterface = PokemonTD.PackedScenes.GetStarterSelectionInterface();
-			AddSibling(starterSelectionInterface);
-		}
-		else
-		{
-			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
-			AddSibling(stageSelectInterface);
-		}
-		PokemonTD.AudioManager.PlayButtonPressed();
+		Node interfaceToAdd = !PokemonTD.HasSelectedStarter ? PokemonTD.PackedScenes.GetStarterSelectionInterface() : PokemonTD.PackedScenes.GetStageSelectInterface();
+		AddSibling(interfaceToAdd);
 		QueueFree();
 
 		if (!PokemonTD.HasSelectedStarter) PokemonTD.AudioManager.PlayMusic(null);
@@ -49,18 +36,14 @@ public partial class MenuInterface : CanvasLayer
 		SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
 		settingsInterface.FromMainMenu = true;
 		AddSibling(settingsInterface);
-
-		PokemonTD.AudioManager.PlayButtonPressed();
 		QueueFree();
 	}
 
 	private async void OnExitPressed()
 	{
-		PokemonTD.AudioManager.PlayButtonPressed();
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
 
-		float timeSeconds = 0.25f;
-		await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
 		GetTree().Quit();
 	}

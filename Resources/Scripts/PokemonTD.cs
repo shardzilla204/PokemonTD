@@ -8,7 +8,6 @@ namespace PokemonTD;
     * Priority:
     TODO: Add move effect functionality
 
-    TODO: Create tutorial/information panel
     TODO: Add Poke mart to utilize poke dollars
     TODO: Add status condition icons to show multiple conditions
     TODO: Add evolution via stones
@@ -22,7 +21,7 @@ namespace PokemonTD;
     ! Stop status ailments when game is paused
 */
 
-public partial class PokemonTD : Node
+public partial class PokemonTD : Control
 {
     [Export]
     private PackedScenes _packedScenes;
@@ -33,14 +32,14 @@ public partial class PokemonTD : Node
     [Export]
     private bool _areConsoleMessagesEnabled = false;
 
-	[Export]
-	private bool _isTeamRandom;
+    [Export]
+    private bool _isTeamRandom;
 
-	[Export(PropertyHint.Range, "0,5,1")]
-	private int _teamCount = 5;
+    [Export(PropertyHint.Range, "0,5,1")]
+    private int _teamCount = 5;
 
     [Export]
-	private bool _areStagesEnabled = true;
+    private bool _areStagesEnabled = true;
 
     [Export]
     private bool _isCaptureModeEnabled = false;
@@ -107,7 +106,7 @@ public partial class PokemonTD : Node
     public static bool HasSelectedStarter = false;
 
     public static AudioManager AudioManager;
-    
+
     public static Signals Signals = new Signals();
 
     public static int PokeDollars = 0;
@@ -131,7 +130,7 @@ public partial class PokemonTD : Node
     {
         PackedScenes = _packedScenes;
         Tween = _pokemonTween;
-        
+
         AreStagesEnabled = _areStagesEnabled;
         IsTeamRandom = _isTeamRandom;
         AreConsoleMessagesEnabled = _areConsoleMessagesEnabled;
@@ -158,10 +157,10 @@ public partial class PokemonTD : Node
 
     public override void _Ready()
     {
-        Signals.GameReset += () => 
+        Signals.GameReset += () =>
         {
             HasSelectedStarter = false;
-		    PokeDollars = 0;
+            PokeDollars = 0;
         };
 
         Signals.PressedPlay += () => IsGamePaused = false;
@@ -172,12 +171,12 @@ public partial class PokemonTD : Node
     }
 
     public static void AddPokeDollars(Pokemon pokemon)
-    {  
-        int minPokeDollars = pokemon.Level * 5;
-        int maxPokeDollars = pokemon.Level * 10;
+    {
+        int minimumPokeDollars = pokemon.Level * 5;
+        int maximumPokeDollars = pokemon.Level * 10;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        PokeDollars += RNG.RandiRange(minPokeDollars, maxPokeDollars);
+        PokeDollars += RNG.RandiRange(minimumPokeDollars, maximumPokeDollars);
     }
 
     public static int GetRandomLevel()
@@ -186,10 +185,10 @@ public partial class PokemonTD : Node
         return RNG.RandiRange(MinRandomPokemonLevel, MaxRandomPokemonLevel);
     }
 
-    public static int GetRandomLevel(int minLevel, int maxLevel)
+    public static int GetRandomLevel(int minimumLevel, int maximumLevel)
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        return RNG.RandiRange(minLevel, maxLevel);
+        return RNG.RandiRange(minimumLevel, maximumLevel);
     }
 
     public static void AddStageConsoleMessage(TextColor textColor, string text)
@@ -204,17 +203,17 @@ public partial class PokemonTD : Node
     }
 
     public static Texture2D GetGenderSprite(Pokemon pokemon)
-	{
-		string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
-		return ResourceLoader.Load<Texture2D>(filePath);
-	}
+    {
+        string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
+        return ResourceLoader.Load<Texture2D>(filePath);
+    }
 
     public static GC.Dictionary<string, Variant> GetPokemonData(Pokemon pokemon)
     {
-        try 
+        try
         {
             if (pokemon == null) throw new NullReferenceException("Pokemon is null");
-            
+
             int pokemonMoveIndex = pokemon.Moves.IndexOf(pokemon.Move);
             GC.Dictionary<int, string> pokemonMovesData = GetPokemonMovesData(pokemon);
 
@@ -238,8 +237,8 @@ public partial class PokemonTD : Node
     public static Pokemon SetPokemonData(string pokemonName, GC.Dictionary<string, Variant> pokemonData)
     {
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName);
-		pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
-		pokemon.Level = pokemonData["Level"].As<int>();
+        pokemon.Gender = (Gender)pokemonData["Gender"].As<int>();
+        pokemon.Level = pokemonData["Level"].As<int>();
 
         SetExperienceData(pokemon, pokemonData);
         SetPokemonMovesData(pokemon, pokemonData);
@@ -248,41 +247,71 @@ public partial class PokemonTD : Node
     }
 
     private static GC.Dictionary<string, Variant> GetExperienceData(Pokemon pokemon)
-	{
-		return new GC.Dictionary<string, Variant>()
-		{
-			{ "Minimum", pokemon.Experience.Minimum },
-			{ "Maximum", pokemon.Experience.Maximum },
-		};
-	}
+    {
+        return new GC.Dictionary<string, Variant>()
+        {
+            { "Minimum", pokemon.Experience.Minimum },
+            { "Maximum", pokemon.Experience.Maximum },
+        };
+    }
 
     private static void SetExperienceData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
-	{
+    {
         GC.Dictionary<string, Variant> experienceData = pokemonData["Experience"].As<GC.Dictionary<string, Variant>>();
         pokemon.Experience.Minimum = experienceData["Minimum"].As<int>();
         pokemon.Experience.Maximum = experienceData["Maximum"].As<int>();
-	}
+    }
 
-	private static GC.Dictionary<int, string> GetPokemonMovesData(Pokemon pokemon)
-	{
-		GC.Dictionary<int, string> pokemonMovesData = new GC.Dictionary<int, string>();
-		for (int i = 0; i < pokemon.Moves.Count; i++)
-		{
-			pokemonMovesData.Add(i, pokemon.Moves[i].Name);
-		}
-		return pokemonMovesData;
-	}
+    private static GC.Dictionary<int, string> GetPokemonMovesData(Pokemon pokemon)
+    {
+        GC.Dictionary<int, string> pokemonMovesData = new GC.Dictionary<int, string>();
+        for (int i = 0; i < pokemon.Moves.Count; i++)
+        {
+            pokemonMovesData.Add(i, pokemon.Moves[i].Name);
+        }
+        return pokemonMovesData;
+    }
 
     private static void SetPokemonMovesData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
     {
         GC.Dictionary<int, string> pokemonMovesData = pokemonData["Moves"].As<GC.Dictionary<int, string>>();
         foreach (string pokemonMoveName in pokemonMovesData.Values)
         {
-            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
+            PokemonMove pokemonMove = PokemonMoves.Instance.FindPokemonMove(pokemonMoveName);
             pokemon.Moves.Add(pokemonMove);
         }
         string selectedPokemonMoveName = pokemonData["Move"].As<string>();
         PokemonMove selectedPokemonMove = pokemon.Moves.Find(pokemonMove => pokemonMove.Name == selectedPokemonMoveName);
         pokemon.Move = selectedPokemonMove;
+    }
+
+    public static Control GetStageDragPreview(Pokemon pokemon)
+    {
+        int minimumValue = 125;
+        Vector2 minSize = new Vector2(minimumValue, minimumValue);
+        TextureRect textureRect = new TextureRect()
+        {
+            CustomMinimumSize = minSize,
+            Texture = pokemon.Sprite,
+            TextureFilter = TextureFilterEnum.Nearest,
+            Position = -new Vector2(minSize.X / 2, minSize.Y / 4),
+            PivotOffset = new Vector2(minSize.X / 2, 0)
+        };
+
+        Control control = new Control();
+        control.AddChild(textureRect);
+
+        return control;
+    }
+
+    public static GC.Dictionary<string, Variant> GetStageDragData(Pokemon pokemon, int teamSlotIndex, bool fromTeamSlot, bool isMuted)
+    {
+        return new GC.Dictionary<string, Variant>()
+		{
+			{ "TeamSlotIndex", teamSlotIndex },
+			{ "FromTeamSlot", fromTeamSlot },
+			{ "IsMuted", isMuted },
+			{ "Pokemon", pokemon }
+		};
     }
 }

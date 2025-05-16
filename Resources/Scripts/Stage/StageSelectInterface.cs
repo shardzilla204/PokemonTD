@@ -15,7 +15,7 @@ public partial class StageSelectInterface : Node
 
     public override void _ExitTree()
     {
-		PokemonTD.Signals.StageSelectButtonPressed -= OnStageSelectButtonPressed;
+		PokemonTD.Signals.StageSelectButtonPressed -= StageSelectButtonPressed;
     }
 
 	public override void _Ready()
@@ -24,36 +24,29 @@ public partial class StageSelectInterface : Node
 		if (PokemonTD.AudioManager.IsPlayingSong(1) /* 01. ~Opening~ */
 		|| PokemonTD.AudioManager.IsPlayingSong(11) /* 11. Pokémon Center */) 
 		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.OnStageSelection);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelected);
 		}
 
-		PokemonTD.Signals.StageSelectButtonPressed += OnStageSelectButtonPressed;
+		PokemonTD.Signals.StageSelectButtonPressed += StageSelectButtonPressed;
 
 		_pokemonTeamButton.Pressed += () =>
 		{
 			PokeCenterInterface pokeCenterInterface = PokemonTD.PackedScenes.GetPokeCenterInterface();
 			AddSibling(pokeCenterInterface);
 			QueueFree();
-
-			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 		_exitButton.Pressed += () => 
 		{
 			MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
 			AddSibling(menuInterface);
 			QueueFree();
-
-			PokemonTD.AudioManager.PlayButtonPressed();
 		};
-
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_pokemonTeamButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 
 		ClearStageSelectButtons();
 		AddStageSelectButtons();
 	}
 
-	private void OnStageSelectButtonPressed(PokemonStage pokemonStage)
+	private void StageSelectButtonPressed(PokemonStage pokemonStage)
 	{
 		AddSibling(pokemonStage);
 		QueueFree();

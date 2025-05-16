@@ -64,9 +64,11 @@ public partial class PokemonTypes : Node
 
 		if (json.Parse(jsonString) != Error.Ok) return;
 
+		_typeMatchupDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+		
+		// Print Message To Console
 		string loadSuccessMessage = "Type Matchup File Successfully Loaded";
 		PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-		_typeMatchupDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 	}
 
 	public EffectiveType GetEffectiveType(float typeMultiplier) => typeMultiplier switch

@@ -39,10 +39,11 @@ public partial class PokemonMoveset : Node
 
 		if (json.Parse(jsonString) != Error.Ok) return;
 
+		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+
+        // Print Message To Console
         string loadSuccessMessage = "Pokemon Learnset File Successfully Loaded";
         PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
-
-		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
     }
 
     // Gets pokemon moves from the pokemons learnset
@@ -59,7 +60,7 @@ public partial class PokemonMoveset : Node
             bool hasPassedLevelRequirement = HasPassedLevelRequirement(levelRequirements, pokemon, levels);
             if (!hasPassedLevelRequirement) continue;
 
-            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonMoveName);
+            PokemonMove pokemonMove = PokemonMoves.Instance.FindPokemonMove(pokemonMoveName);
             pokemonMoves.Add(pokemonMove);
         }
 
@@ -93,7 +94,7 @@ public partial class PokemonMoveset : Node
 
         foreach (string pokemonLearnsetName in pokemonLearnsetNames)
         {
-            PokemonMove pokemonMove = PokemonMoves.Instance.GetPokemonMove(pokemonLearnsetName);
+            PokemonMove pokemonMove = PokemonMoves.Instance.FindPokemonMove(pokemonLearnsetName);
             pokemonMoves.Add(pokemonMove);
         }
 
@@ -106,6 +107,7 @@ public partial class PokemonMoveset : Node
 		{
 			pokemon.Moves.Add(pokemonMove);
 
+            // Print Message To Console
             string learnedMoveMessage = $"{pokemon.Name} Learned {pokemonMove.Name}";
             PrintRich.PrintLine(TextColor.Purple, learnedMoveMessage);
 		}

@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://cns7fl2chiobe"]
 
-[ext_resource type="Script" uid="uid://070f7jw0l66j" path="res://Resources/Scenes/InformationInterface.cs" id="1_12mkb"]
+[ext_resource type="Script" uid="uid://070f7jw0l66j" path="res://Resources/Scripts/InformationInterface.cs" id="1_12mkb"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_gdkss"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_k3mti"]
 [ext_resource type="VideoStream" uid="uid://dnp7p6iaoqshy" path="res://Assets/Videos/PokemonStage/CatchingPokemon.ogv" id="3_pxyer"]

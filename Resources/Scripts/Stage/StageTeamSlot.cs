@@ -49,12 +49,14 @@ public partial class StageTeamSlot : Button
 	{
 		PokemonTD.Signals.PokemonDamaged += OnPokemonDamaged;
 		PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
+
 		Toggled += (isToggled) => 
 		{
 			_mutedTexture.Visible = isToggled;
 			_isMuted = isToggled;
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.StageTeamSlotMuted, TeamSlotIndex, isToggled);
 		};
+
 		_mutedTexture.Visible = false;
 		_pokemonMoveButton.Pressed += OnMoveButtonPressed;
 		_pokemonSprite.MouseEntered += () => Input.SetCustomMouseCursor(GetMutedImage(), Input.CursorShape.Arrow);
@@ -67,9 +69,7 @@ public partial class StageTeamSlot : Button
 
 	public override void _Process(double delta)
 	{
-		if (_dragPreview == null) return;
-		
-		PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, _isDragging);
+		if (_dragPreview != null) PokemonTD.Tween.TweenSlotDragRotation(_dragPreview, _isDragging);
 	}
 
 	public override void _Notification(int what)
@@ -82,7 +82,7 @@ public partial class StageTeamSlot : Button
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageTeamSlot, false);
 
-		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonInUse, true, TeamSlotIndex);
+		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonUsed, true, TeamSlotIndex);
 	}
 
 	public void SetMute()
@@ -94,53 +94,42 @@ public partial class StageTeamSlot : Button
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
-		if (Disabled) return GetDragPreview();
+		if (Disabled) return PokemonTD.GetStageDragPreview(Pokemon);
 
 		_isDragging = true;
-		if (InUse) 
+		
+		if (InUse)
 		{
 			HighlightStageSlot();
-			return GetDragPreview();
+			return PokemonTD.GetStageDragPreview(Pokemon);
 		}
 
-		_dragPreview = GetDragPreview();
+		_dragPreview = PokemonTD.GetStageDragPreview(Pokemon);
+		SetDragPreview(_dragPreview);
+
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingStageTeamSlot, true);
 
-		SetDragPreview(_dragPreview);
-		return GetDragData();
+		return PokemonTD.GetStageDragData(Pokemon, TeamSlotIndex, true, _isMuted);
 	}
 
 	private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
 	{
-		if (TeamSlotIndex != teamSlotIndex) return;
-		SetControls(pokemonEvolution);
+		if (TeamSlotIndex == teamSlotIndex) SetControls(pokemonEvolution);
 	}
 
 	private void HighlightStageSlot()
 	{
 		PokemonStage pokemonStage = GetPokemonStage();
 		StageSlot stageSlot = pokemonStage.FindStageSlot(TeamSlotIndex);
-		if (stageSlot is null) return;
-		stageSlot.SetOpacity(_isDragging);
-	}
-
-	private Dictionary<string, Variant> GetDragData()
-	{
-		return new Dictionary<string, Variant>()
-		{
-			{ "TeamSlotIndex", TeamSlotIndex },
-			{ "FromTeamSlot", true },
-			{ "IsMuted", _isMuted },
-			{ "Pokemon", Pokemon }
-		};
+		if (stageSlot != null) stageSlot.SetOpacity(_isDragging);
 	}
 
 	private Image GetMutedImage()
 	{
-		int size = 20;
+		int minimumSize = 20;
 		Texture2D texture = _mutedTexture.Texture;
 		Image image = texture.GetImage();
-		image.Resize(size, size);
+		image.Resize(minimumSize, minimumSize);
 		return image;
 	}
 
@@ -151,6 +140,7 @@ public partial class StageTeamSlot : Button
 		{
 			Pokemon = pokemon;
 
+			// Remove Gender Icons In The Name For Nidoran
 			string pokemonName = pokemon == null ? "" : pokemon.Name;
         	if (Pokemon != null) pokemonName = pokemon.Name.Contains("Nidoran") ? "Nidoran" : pokemon.Name;
 
@@ -164,54 +154,41 @@ public partial class StageTeamSlot : Button
 			
 			_pokemonMoveButton.Update(pokemon.Move);
 		}
-		catch (NullReferenceException e)
+		catch (NullReferenceException error)
 		{
-			GD.PrintErr($"{e}");
+			GD.PrintErr($"{error}");
 		}
-	}
-
-	private Control GetDragPreview()
-	{
-		int minValue = 125;
-		Vector2 minSize = new Vector2(minValue, minValue);
-		TextureRect textureRect = new TextureRect()
-		{
-			CustomMinimumSize = minSize,
-			Texture = Pokemon.Sprite,
-			TextureFilter = TextureFilterEnum.Nearest,
-			Position = -new Vector2(minSize.X / 2, minSize.Y / 4),
-			PivotOffset = new Vector2(minSize.X / 2, 0)
-		};
-
-		Control control = new Control();
-		control.AddChild(textureRect);
-
-		return control;
 	}
 
 	private void OnPokemonMoveChanged(int id, PokemonMove pokemonMove)
 	{
 		if (TeamSlotIndex != id) return;
 
-		string changedPokemonMoveMessage = $"{Pokemon.Name}'s Move Is Now {pokemonMove.Name}";
-		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
-		
 		Pokemon.Move = pokemonMove;
 		_pokemonMoveButton.Update(pokemonMove);
+
+		// Print Message To Console
+		string changedPokemonMoveMessage = $"{Pokemon.Name}'s Move Is Now {pokemonMove.Name}";
+		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
 	}
 
    	private void OnMoveButtonPressed()
 	{
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.ChangeMovesetPressed);
 
+		MovesetInterface movesetInterface = GetMovesetInterface();
+		PokemonStage pokemonStage = GetPokemonStage();
+		pokemonStage.AddChild(movesetInterface);
+	}
+
+	private MovesetInterface GetMovesetInterface()
+	{
 		MovesetInterface movesetInterface = PokemonTD.PackedScenes.GetMovesetInterface();
 		movesetInterface.Pokemon = Pokemon;
 		movesetInterface.TeamSlotIndex = TeamSlotIndex;
-
 		movesetInterface.PokemonMoveChanged += OnPokemonMoveChanged;
-		
-		PokemonStage pokemonStage = GetPokemonStage();
-		pokemonStage.AddChild(movesetInterface);
+
+		return movesetInterface;
 	}
 
 	public void AddExperience(int experience)
@@ -220,9 +197,9 @@ public partial class StageTeamSlot : Button
 
 		_pokemonExperienceBar.AddExperience(Pokemon, experience);
 
+		// Print Message To Console
 		string pokemonGainedExperienceMessage = $"{Pokemon.Name} Gained {experience} EXP";
 		PrintRich.PrintLine(TextColor.Purple, pokemonGainedExperienceMessage);
-		PokemonTD.AddStageConsoleMessage(TextColor.Purple, pokemonGainedExperienceMessage);
 	}
 
 	public void OnPokemonDamaged(int damage, int teamSlotIndex)
