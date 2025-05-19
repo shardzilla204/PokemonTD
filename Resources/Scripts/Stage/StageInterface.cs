@@ -14,7 +14,7 @@ public partial class StageInterface : CanvasLayer
 	private Label _rareCandy;
 
 	[Export]
-	private StageTeamSlots _stageTeamSlots;
+	private PokemonTeamSlots _PokemonTeamSlots;
 
 	[Export]
 	private StageControls _stageControls;
@@ -33,14 +33,15 @@ public partial class StageInterface : CanvasLayer
 
 	private bool _isVisible = true;
 
-	public StageTeamSlots StageTeamSlots => _stageTeamSlots;
+	public PokemonTeamSlots PokemonTeamSlots => _PokemonTeamSlots;
 
     public override void _EnterTree()
     {
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated += PokeDollarsUpdated;
-		PokemonTD.Signals.DraggingStageSlot += Dragging;
-		PokemonTD.Signals.DraggingStageTeamSlot += Dragging;
+		PokemonTD.Signals.RareCandyUpdated += RareCandyUpdated;
+		PokemonTD.Signals.DraggingPokemonStageSlot += Dragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += Dragging;
 		PokemonTD.Signals.DraggingPokeBall += Dragging;
 		PokemonTD.Signals.PokemonUsed += PokemonUsed;
     }
@@ -49,8 +50,9 @@ public partial class StageInterface : CanvasLayer
     {
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated -= PokeDollarsUpdated;
-		PokemonTD.Signals.DraggingStageSlot -= Dragging;
-		PokemonTD.Signals.DraggingStageTeamSlot -= Dragging;
+		PokemonTD.Signals.RareCandyUpdated -= RareCandyUpdated;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= Dragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= Dragging;
 		PokemonTD.Signals.DraggingPokeBall -= Dragging;
 		PokemonTD.Signals.PokemonUsed -= PokemonUsed;
     }
@@ -81,17 +83,22 @@ public partial class StageInterface : CanvasLayer
 
 	private void PokemonUsed(bool inUse, int teamSlotIndex)
 	{
-		StageTeamSlot stageTeamSlot = StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
-		stageTeamSlot.InUse = inUse;
+		PokemonTeamSlot PokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		PokemonTeamSlot.InUse = inUse;
 	}
 
-	public bool IsStageTeamSlotInUse(int teamSlotIndex)
+	public bool IsPokemonTeamSlotInUse(int teamSlotIndex)
 	{
-		StageTeamSlot stageTeamSlot = StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
-		return stageTeamSlot.InUse;
+		PokemonTeamSlot PokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		return PokemonTeamSlot.InUse;
 	}
 
 	private void PokemonEnemyPassed(PokemonEnemy pokemonEnemy)
+	{
+		RareCandyUpdated();
+	}
+
+	private void RareCandyUpdated()
 	{
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 	}

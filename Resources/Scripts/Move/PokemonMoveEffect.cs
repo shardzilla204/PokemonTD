@@ -18,11 +18,13 @@ public partial class PokemonMoveEffect : Node
 
     public UniqueMoves UniqueMoves = new UniqueMoves();
     public HighCriticalRatioMoves HighCriticalRatioMoves = new HighCriticalRatioMoves(); // Done
-    public TrapMoves TrapMoves = new TrapMoves();
-    public FlinchMoves FlinchMoves = new FlinchMoves();
-    public OneHitKOMoves OneHitKOMoves = new OneHitKOMoves();
-    public ChargeMoves ChargeMoves = new ChargeMoves();
-    public StatMoves StatMoves = new StatMoves(); // Done
+    public TrapMoves TrapMoves = new TrapMoves(); // Done
+    public FlinchMoves FlinchMoves = new FlinchMoves(); // Done
+    public OneHitMoves OneHitMoves = new OneHitMoves(); // Done
+    public ChargeMoves ChargeMoves = new ChargeMoves(); // ? Done
+    public MissMoves MissMoves = new MissMoves(); // Done
+    public RecoverMoves RecoverMoves = new RecoverMoves(); // Done
+    public InflictingMoves InflictingMoves = new InflictingMoves(); // Done
 
     public override void _EnterTree()
     {
@@ -34,25 +36,25 @@ public partial class PokemonMoveEffect : Node
         int minimumHitCount = pokemonMove.HitCount[0];
         int maximumHitCount = pokemonMove.HitCount[1];
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        
+
         return RNG.RandiRange(minimumHitCount, maximumHitCount);
     }
 
     public float GetCriticalHitRatio(Pokemon pokemon, PokemonMove pokemonMove)
     {
-        Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name);
+        Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
         float criticalHitRatio = pokemonData.Speed / 2;
 
         bool isHighCriticalRatioMove = HighCriticalRatioMoves.IsHighCriticalRatioMove(pokemonMove);
         if (isHighCriticalRatioMove)
         {
-            float maxThreshold = 255;
-            criticalHitRatio = Math.Min(4 * criticalHitRatio, maxThreshold);
+            float maximumThreshold = 255;
+            criticalHitRatio = Math.Min(4 * criticalHitRatio, maximumThreshold);
         }
         return criticalHitRatio;
     }
 
-    public void ChangeStat(Pokemon pokemon, StatMove statMove)
+    public void DecreaseStat(Pokemon pokemon, StatMove statMove)
     {
         ApplyStatChange(pokemon, statMove);
 
@@ -68,57 +70,44 @@ public partial class PokemonMoveEffect : Node
         return Mathf.RoundToInt(statValue * statChangePercentage);
     }
 
-    private void ApplyStatChange(Pokemon pokemon, StatMove statMove)
+    public void ApplyStatChange(Pokemon pokemon, StatMove statMove)
     {
         int statValue = GetStatValue(pokemon, statMove);
+        float changeValue = statMove.IsSharp ? 1 : 0.5f;
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
-                pokemon.Attack = statValue;
+                pokemon.Attack = Mathf.Clamp(statValue, 0, 255);
                 break;
             case PokemonStat.SpecialAttack:
-                pokemon.SpecialAttack = statValue;
+                pokemon.SpecialAttack = Mathf.Clamp(statValue, 0, 255);
                 break;
             case PokemonStat.Defense:
-                pokemon.Defense = statValue;
+                pokemon.Defense = Mathf.Clamp(statValue, 0, 255);
                 break;
             case PokemonStat.SpecialDefense:
-                pokemon.SpecialDefense = statValue;
+                pokemon.SpecialDefense = Mathf.Clamp(statValue, 0, 255);
                 break;
             case PokemonStat.Speed:
-                pokemon.Speed = statValue;
+                pokemon.Speed = Mathf.Clamp(statValue, 0, 255);
                 break;
             case PokemonStat.Accuracy:
-                if (statMove.IsIncreasing)
-                {
-                    pokemon.Accuracy += statMove.IsSharp ? 1 : 0.5f;
-                }
-                else
-                {
-                    pokemon.Accuracy -= statMove.IsSharp ? 1 : 0.5f;
-                    pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
-                }
+                pokemon.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
                 break;
             case PokemonStat.Evasion:
-                if (statMove.IsIncreasing)
-                {
-                    pokemon.Evasion += statMove.IsSharp ? 1 : 0.5f;
-                }
-                else
-                {
-                    pokemon.Evasion -= statMove.IsSharp ? 1 : 0.5f;
-                    pokemon.Evasion = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
-                }
+                pokemon.Evasion += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Evasion = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
                 break;
         }
     }
 
     private float GetStatChangePercentage(StatMove statMove)
     {
-        float statChangePercentage = statMove.IsIncreasing ? 1.5f : 0.5f;
+        float statChangePercentage = statMove.IsIncreasing ? 1.25f : 0.75f;
         if (statMove.IsSharp)
         {
-            float sharpMultiplier = 1.5f;
+            float sharpMultiplier = 1.25f;
             if (statMove.IsIncreasing)
             {
                 statChangePercentage *= sharpMultiplier;
@@ -141,5 +130,55 @@ public partial class PokemonMoveEffect : Node
         };
         timer.Timeout += timer.QueueFree;
         return timer;
+    }
+
+    public void ApplyMoveEffect<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
+    {
+        if (UniqueMoves.IsUniqueMove(pokemonMove))
+        {
+            UniqueMoves.ApplyUniqueMove(attackingPokemon, pokemonMove, defendingPokemon);
+        }
+        else if (TrapMoves.IsTrapMove(pokemonMove))
+        {
+            TrapMoves.ApplyTrapMove(defendingPokemon);
+        }
+        else if (ChargeMoves.IsChargeMove(pokemonMove).IsChargeMove)
+        {
+            ChargeMoves.ApplyChargeMove(attackingPokemon, pokemonMove, defendingPokemon);
+            ChargeMoves.HasUsedDig(attackingPokemon, pokemonMove);
+        }
+        else if (FlinchMoves.IsFlinchMove(pokemonMove))
+        {
+            FlinchMoves.ApplyFlinchMove(defendingPokemon);
+        }
+        else if (OneHitMoves.IsOneHitKOMove(pokemonMove))
+        {
+            OneHitMoves.ApplyOneHitKO(defendingPokemon);
+        }
+        else if (RecoverMoves.IsHealthRecoveryMove(pokemonMove))
+        {
+            if (pokemonMove.Name == "Leech Seed")
+            {
+                RecoverMoves.LeechSeed(attackingPokemon, defendingPokemon);
+            }
+            else
+            {
+                RecoverMoves.ApplyHealthRecoveryMove(attackingPokemon, pokemonMove, defendingPokemon);
+            }
+        }
+        else if (RecoverMoves.IsRareCandyRecoveryMove(pokemonMove))
+        {
+            if (attackingPokemon is not PokemonStageSlot pokemonStageSlot) return;
+
+            RecoverMoves.ApplyRareCandyRecoveryMove(pokemonStageSlot, pokemonMove);
+        }
+        else if (InflictingMoves.IsRecoilDamageMove(pokemonMove))
+        {
+            InflictingMoves.ApplyRecoilDamage(attackingPokemon);
+        }
+        else if (InflictingMoves.IsFaintMove(pokemonMove))
+        {
+            InflictingMoves.ApplyFaint(attackingPokemon);
+        }
     }
 }

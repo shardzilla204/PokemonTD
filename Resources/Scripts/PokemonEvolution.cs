@@ -70,8 +70,8 @@ public partial class PokemonEvolution : Node
 		GC.Dictionary<string, Variant> pokemonEvolutionDictionary = _pokemonEvolutionDictionaries[pokemon.Name].As<GC.Dictionary<string, Variant>>();
 		string pokemonEvolutionNameString = pokemonEvolutionDictionary.Keys.ToList()[0];
 		
-		Pokemon pokemonEvolution = PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString);
-		pokemonEvolution.Level = pokemon.Level;
+		Pokemon pokemonEvolution = PokemonManager.Instance.GetPokemon(pokemonEvolutionNameString, pokemon.Level);
+		pokemonEvolution.Moves.Clear();
 		pokemonEvolution.Moves.AddRange(pokemon.Moves);
 		pokemonEvolution.Move = pokemon.Move;
 		return pokemonEvolution;

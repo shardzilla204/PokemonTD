@@ -42,10 +42,10 @@ public partial class PackedScenes : Node
 	private PackedScene _pokemonEnemy;
 
 	[Export]
-	private PackedScene _stageTeamSlot;
+	private PackedScene _PokemonTeamSlot;
 
 	[Export]
-	private PackedScene _emptyStageTeamSlot;
+	private PackedScene _emptyPokemonTeamSlot;
 
 	[Export]
 	private PackedScene _forgetMoveInterface;
@@ -61,6 +61,9 @@ public partial class PackedScenes : Node
 
 	[Export]
 	private PackedScene _informationInterface;
+
+	[Export]
+	private PackedScene _statusConditionIcon;
 
 	public MenuInterface GetMenuInterface()
 	{
@@ -84,6 +87,13 @@ public partial class PackedScenes : Node
 		};
 		
 		return forgetMoveInterface;
+	}
+
+	public StatusConditionIcon GetStatusConditionIcon(StatusCondition statusCondition)
+	{
+		StatusConditionIcon statusConditionIcon = _statusConditionIcon.Instantiate<StatusConditionIcon>();
+		statusConditionIcon.SetIcon(statusCondition);
+		return statusConditionIcon;
 	}
 
 	public StarterOption GetStarterOption()
@@ -154,14 +164,14 @@ public partial class PackedScenes : Node
 		return _pokemonStages[stageID].Instantiate<PokemonStage>();
 	}
 	
-	public StageTeamSlot GetStageTeamSlot()
+	public PokemonTeamSlot GetPokemonTeamSlot()
 	{
-		return _stageTeamSlot.Instantiate<StageTeamSlot>();
+		return _PokemonTeamSlot.Instantiate<PokemonTeamSlot>();
 	}
 
-	public Control GetEmptyStageTeamSlot()
+	public Control GetEmptyPokemonTeamSlot()
 	{
-		return _emptyStageTeamSlot.Instantiate<Control>();
+		return _emptyPokemonTeamSlot.Instantiate<Control>();
 	}
 
 	public PokeCenterInterface GetPokeCenterInterface()

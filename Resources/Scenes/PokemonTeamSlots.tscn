@@ -1,17 +1,17 @@
 [gd_scene load_steps=6 format=3 uid="uid://c0rupaqiw81fp"]
 
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="1_k3qor"]
-[ext_resource type="Script" uid="uid://bvn36736lbc3b" path="res://Resources/Scripts/StageTeamSlots.cs" id="1_udy6x"]
-[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/StageTeamSlot.tscn" id="2_nxpqd"]
+[ext_resource type="Script" uid="uid://bvn36736lbc3b" path="res://Resources/Scripts/PokemonTeamSlots.cs" id="1_udy6x"]
+[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/PokemonTeamSlot.tscn" id="2_nxpqd"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_yf1gp"]
-[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyStageTeamSlot.tscn" id="3_k3qor"]
+[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyPokemonTeamSlot.tscn" id="3_k3qor"]
 
-[node name="StageTeamSlots" type="VBoxContainer" node_paths=PackedStringArray("_visibilityToggle", "_container")]
+[node name="PokemonTeamSlots" type="VBoxContainer" node_paths=PackedStringArray("_visibilityToggle", "_container")]
 mouse_filter = 2
 alignment = 2
 script = ExtResource("1_udy6x")
 _visibilityToggle = NodePath("VisibilityToggle")
-_container = NodePath("StageTeamContainer")
+_container = NodePath("PokemonTeamSlotContainer")
 
 [node name="VisibilityToggle" type="Button" parent="."]
 custom_minimum_size = Vector2(175, 65)
@@ -38,27 +38,27 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="StageTeamContainer" type="HBoxContainer" parent="."]
+[node name="PokemonTeamSlotContainer" type="HBoxContainer" parent="."]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = 5
 
-[node name="StageTeamSlot" parent="StageTeamContainer" instance=ExtResource("2_nxpqd")]
+[node name="PokemonTeamSlot" parent="PokemonTeamSlotContainer" instance=ExtResource("2_nxpqd")]
 layout_mode = 2
 
-[node name="StageTeamSlot2" parent="StageTeamContainer" instance=ExtResource("2_nxpqd")]
+[node name="PokemonTeamSlot2" parent="PokemonTeamSlotContainer" instance=ExtResource("2_nxpqd")]
 layout_mode = 2
 
-[node name="EmptyStageTeamSlot" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+[node name="EmptyPokemonTeamSlot" parent="PokemonTeamSlotContainer" instance=ExtResource("3_k3qor")]
 layout_mode = 2
 
-[node name="EmptyStageTeamSlot2" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+[node name="EmptyPokemonTeamSlot2" parent="PokemonTeamSlotContainer" instance=ExtResource("3_k3qor")]
 layout_mode = 2
 
-[node name="EmptyStageTeamSlot3" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+[node name="EmptyPokemonTeamSlot3" parent="PokemonTeamSlotContainer" instance=ExtResource("3_k3qor")]
 layout_mode = 2
 
-[node name="EmptyStageTeamSlot4" parent="StageTeamContainer" instance=ExtResource("3_k3qor")]
+[node name="EmptyPokemonTeamSlot4" parent="PokemonTeamSlotContainer" instance=ExtResource("3_k3qor")]
 layout_mode = 2

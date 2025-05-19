@@ -8,10 +8,16 @@ namespace PokemonTD;
 public partial class PokemonEnemy : TextureRect
 {
 	[Signal]
+	public delegate void AttackedEventHandler();
+	
+	[Signal]
 	public delegate void FaintedEventHandler(PokemonEnemy pokemonEnemy);
 
 	[Export]
 	private TextureProgressBar _healthBar;
+
+	[Export]
+	private Container _statusConditions;
 
 	[Export]
 	private VisibleOnScreenNotifier2D _screenNotifier;
@@ -24,9 +30,12 @@ public partial class PokemonEnemy : TextureRect
 
 	public VisibleOnScreenNotifier2D ScreenNotifier => _screenNotifier;
 	public Pokemon Pokemon;
+	public List<PokemonStageSlot> PokemonQueue = new List<PokemonStageSlot>();
+
+	public bool IsActive = true;
+	public bool HasMoveSkipped = false;
+
 	public bool IsCatchable = false;
-	public bool IsActive = false;
-	public List<StageSlot> PokemonQueue = new List<StageSlot>();
 	public GC.Dictionary<int, int> SlotContributionCount = new GC.Dictionary<int, int>();
 
 	public int TeamSlotIndex = -1;
@@ -35,6 +44,10 @@ public partial class PokemonEnemy : TextureRect
 	public bool IsMovingForward = true;
 	public bool IsCharging = false;
 	public bool UsedDig = false;
+	public bool HasCounter = false;
+	public bool UsedQuickAttack = false;
+
+	private List<StatusConditionIcon> _statusConditionIcons = new List<StatusConditionIcon>();
 
 	public override void _Ready()
 	{
@@ -53,7 +66,11 @@ public partial class PokemonEnemy : TextureRect
 
 		ScreenNotifier.ScreenExited += () =>
 		{
-			if (!IsMovingForward) return;
+			if (!IsMovingForward)
+			{
+				QueueFree();
+				return;
+			}
 
 			PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyPassed, this);
@@ -67,6 +84,18 @@ public partial class PokemonEnemy : TextureRect
 		_area.AreaEntered += AddToQueue;
 		_area.AreaExited += RemoveFromQueue;
 		_attackTimer.Timeout += AttackPokemon;
+
+		foreach (PokemonMove pokemonMove in Pokemon.Moves)
+		{
+			List<StatMove> statIncreasingMoves = PokemonStats.Instance.FindIncreasingStatMoves(pokemonMove);
+			PokemonStats.Instance.IncreaseStats(Pokemon, statIncreasingMoves);
+		}
+
+		HasCounter = Pokemon.Moves[0].Name == "Counter";
+		UsedQuickAttack = Pokemon.Moves[0].Name == "Quick Attack";
+
+		_attackTimer.WaitTime *= UsedQuickAttack ? 1.65f : 1f;
+		_attackTimer.Start();
 	}
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
@@ -86,73 +115,84 @@ public partial class PokemonEnemy : TextureRect
 
 	private void AddToQueue(Area2D area)
 	{
-		StageSlot stageSlot = area.GetParentOrNull<StageSlot>();
-		stageSlot.PokemonEnemyQueue.Insert(stageSlot.PokemonEnemyQueue.Count, this);
+		PokemonStageSlot pokemonStageSlot = area.GetParentOrNull<PokemonStageSlot>();
+		pokemonStageSlot.PokemonEnemyQueue.Insert(pokemonStageSlot.PokemonEnemyQueue.Count, this);
 
-		if (stageSlot.Pokemon == null || !stageSlot.IsActive) return;
+		if (pokemonStageSlot.Pokemon == null || !pokemonStageSlot.IsActive) return;
 
-		stageSlot.Fainted += PokemonStageSlotFainted;
-		PokemonQueue.Insert(PokemonQueue.Count, stageSlot);
+		pokemonStageSlot.Fainted += PokemonStageSlotFainted;
+		PokemonQueue.Insert(PokemonQueue.Count, pokemonStageSlot);
 	}
 
-	private void PokemonStageSlotFainted(StageSlot pokemonStageSlot)
+	private void PokemonStageSlotFainted(PokemonStageSlot pokemonStageSlot)
 	{
 		// Remove When Pokemon Faints
-		if (pokemonStageSlot.Pokemon.HP <= 0)
-		{
-			PokemonQueue.Remove(pokemonStageSlot);
-			pokemonStageSlot.Fainted -= PokemonStageSlotFainted;
-		}
+		if (pokemonStageSlot.Pokemon.HP > 0) return;
+
+		PokemonQueue.Remove(pokemonStageSlot);
+		pokemonStageSlot.Fainted -= PokemonStageSlotFainted;
 	}
 
 	private void RemoveFromQueue(Area2D area)
 	{
-		StageSlot stageSlot = area.GetParentOrNull<StageSlot>();
-		stageSlot.PokemonEnemyQueue.Remove(this);
-		PokemonQueue.Remove(stageSlot);
+		PokemonStageSlot PokemonStageSlot = area.GetParentOrNull<PokemonStageSlot>();
+		PokemonStageSlot.PokemonEnemyQueue.Remove(this);
+		PokemonQueue.Remove(PokemonStageSlot);
 	}
 
 	private void AttackPokemon()
 	{
-		if (PokemonQueue.Count <= 0 || PokemonTD.IsGamePaused) return;
+		if (PokemonQueue.Count <= 0 || PokemonTD.IsGamePaused || !IsActive) return;
 
-		StageSlot pokemonStageSlot = PokemonQueue[0];
-		PokemonMove pokemonMove = Pokemon.Moves[0];
-
-		bool hasPokemonMoveHit = PokemonManager.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
-		if (!hasPokemonMoveHit)
+		if (HasMoveSkipped)
 		{
-			if (pokemonMove.Accuracy != 0)
-			{
-				// Print Message To Console
-				string missedMessage = $"{Pokemon.Name}'s {pokemonMove.Name} Missed";
-				PrintRich.PrintLine(TextColor.Purple, missedMessage);
-			}
+			HasMoveSkipped = false;
 			return;
 		}
+
+		PokemonMove pokemonMove = Pokemon.Moves[0];
+		pokemonMove = pokemonMove.Name == "Metronome" ? PokemonMoves.Instance.GetRandomPokemonMove() : pokemonMove;
+
+		PokemonStageSlot pokemonStageSlot = PokemonCombat.Instance.GetNextPokemonStageSlot(PokemonQueue, pokemonMove);
 		
-		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonStageSlot, pokemonMove);
-		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonStageSlot.Pokemon, pokemonMove);
+		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(this, pokemonMove, pokemonStageSlot);
+		if (!hasPokemonMoveHit) return;
 
 		// Print Message To Console
 		string usedMessage = $"{Pokemon.Name} Used {pokemonMove.Name} On {pokemonStageSlot.Pokemon.Name}";
 		PrintRich.PrintLine(TextColor.Red, usedMessage);
 
-		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, Pokemon.Moves[0], pokemonStageSlot);
+		PokemonCombat.Instance.DealDamage(this, pokemonMove, pokemonStageSlot);
+
+		StatusCondition statusCondition = PokemonStatusCondition.Instance.GetStatusCondition(pokemonStageSlot, pokemonMove);
+		PokemonStatusCondition.Instance.ApplyStatusCondition(pokemonStageSlot, statusCondition);
+
+		PokemonMoveEffect.Instance.ApplyMoveEffect(this, pokemonMove, pokemonStageSlot);
+		PokemonStats.Instance.CheckStatChanges(pokemonStageSlot, pokemonMove);
 	}
 
-	public void AttackPokemon(PokemonMove pokemonMove, StageSlot pokemonStageSlot)
+	// For Unique Moves
+	public void AttackPokemon(PokemonMove pokemonMove)
 	{
-		PokemonCombat.Instance.ApplyStatusConditions(TeamSlotIndex, pokemonStageSlot, pokemonMove);
-		PokemonMoveEffect.Instance.StatMoves.CheckStatChanges(pokemonStageSlot.Pokemon, pokemonMove);
+		PokemonStageSlot pokemonStageSlot = PokemonCombat.Instance.GetNextPokemonStageSlot(PokemonQueue, pokemonMove);
+		PokemonCombat.Instance.DealDamage(this, pokemonMove, pokemonStageSlot);
 
-		if (pokemonMove.Power != 0) PokemonCombat.Instance.ApplyDamage(this, Pokemon.Moves[0], pokemonStageSlot);
+		StatusCondition statusCondition = PokemonStatusCondition.Instance.GetStatusCondition(pokemonStageSlot, pokemonMove);
+		PokemonStatusCondition.Instance.ApplyStatusCondition(pokemonStageSlot, statusCondition);
+
+		PokemonStats.Instance.CheckStatChanges(pokemonStageSlot, pokemonMove);
 	}
 
 	public void SetPokemon(Pokemon pokemon)
 	{
 		Pokemon = pokemon;
 		Texture = pokemon != null ? pokemon.Sprite : null;
+	}
+
+	public void HealPokemon(int health)
+	{
+		_healthBar.Value += health;
+		CheckIsCatchable();
 	}
 
 	public void DamagePokemon(int damage)
@@ -187,9 +227,9 @@ public partial class PokemonEnemy : TextureRect
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
 		EmitSignal(SignalName.Fainted, this);
-		
+
 		IsActive = false;
-		
+
 		CalculateExperienceDistribution();
 		QueueFree();
 
@@ -205,13 +245,18 @@ public partial class PokemonEnemy : TextureRect
 		List<int> teamSlotIndexes = SlotContributionCount.Keys.ToList();
 		foreach (int teamSlotIndex in teamSlotIndexes)
 		{
-			for (int i = 0; i < SlotContributionCount[teamSlotIndex]; i++)
-			{
-				PokemonStage pokemonStage = GetParentOrNull<PathFollow2D>().GetParentOrNull<Path2D>().GetParentOrNull<PokemonStage>();
-				StageInterface stageInterface = pokemonStage.StageInterface;
-				StageTeamSlot stageTeamSlot = stageInterface.StageTeamSlots.FindStageTeamSlot(teamSlotIndex);
-				stageTeamSlot.AddExperience(experience);
-			}
+			GiveExperience(teamSlotIndex, experience);
+		}
+	}
+
+	private void GiveExperience(int teamSlotIndex, int experience)
+	{
+		for (int i = 0; i < SlotContributionCount[teamSlotIndex]; i++)
+		{
+			PokemonStage pokemonStage = GetParentOrNull<PathFollow2D>().GetParentOrNull<Path2D>().GetParentOrNull<PokemonStage>();
+			StageInterface stageInterface = pokemonStage.StageInterface;
+			PokemonTeamSlot PokemonTeamSlot = stageInterface.PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+			PokemonTeamSlot.AddExperience(experience);
 		}
 	}
 
@@ -220,6 +265,8 @@ public partial class PokemonEnemy : TextureRect
 	// EXP = b * L / 7
 	// b = Pokemon Enemy Experience Yield
 	// L = Pokemon Enemy Level
+	
+	// Divide and distribute to who contributed
 	public int GetExperience()
 	{
 		List<int> teamSlotIndexes = SlotContributionCount.Keys.ToList();
@@ -245,5 +292,28 @@ public partial class PokemonEnemy : TextureRect
 			totalContributions += SlotContributionCount[teamSlotIndex];
 		}
 		return totalContributions;
+	}
+
+	public void AddStatusConditionIcon(StatusCondition statusCondition)
+	{
+		bool hasStatusCondition = HasStatusCondition(statusCondition);
+		if (hasStatusCondition) return;
+
+		StatusConditionIcon statusConditionIcon = PokemonTD.PackedScenes.GetStatusConditionIcon(statusCondition);
+		_statusConditions.AddChild(statusConditionIcon);
+		_statusConditionIcons.Add(statusConditionIcon);
+	}
+
+	public void RemoveStatusConditionIcon(StatusCondition statusCondition)
+	{
+		StatusConditionIcon statusConditionIcon = _statusConditionIcons.Find(statusConditionIcon => statusConditionIcon.StatusCondition == statusCondition);
+		_statusConditionIcons.Remove(statusConditionIcon);
+		if (statusConditionIcon != null) statusConditionIcon.QueueFree();
+	}
+	
+	public bool HasStatusCondition(StatusCondition statusCondition)
+	{
+		StatusConditionIcon statusConditionIcon = _statusConditionIcons.Find(statusConditionIcon => statusConditionIcon.StatusCondition == statusCondition);
+		return statusConditionIcon != null;
 	}
 }

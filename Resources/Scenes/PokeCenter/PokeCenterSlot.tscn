@@ -38,6 +38,7 @@ grow_horizontal = 2
 scale = Vector2(1.25, 1.25)
 pivot_offset = Vector2(37.5, 37.5)
 size_flags_vertical = 0
+mouse_filter = 2
 texture = ExtResource("4_ino4a")
 stretch_mode = 5
 

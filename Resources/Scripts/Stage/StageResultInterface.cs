@@ -48,8 +48,8 @@ public partial class StageResultInterface : CanvasLayer
 
 	private PokemonStage GetPokemonStage(PokemonStage pokemonStageData)
 	{
-		int stageIndex = StageID - 1;
-		PokemonStage pokemonStage = PokemonTD.PackedScenes.GetPokemonStage(stageIndex);
+		int stageIndex = StageID;
+		PokemonStage pokemonStage = PokemonTD.PackedScenes.GetPokemonStage(stageIndex - 1);
 		pokemonStage.ID = stageIndex;
 		pokemonStage.WaveCount = pokemonStageData.WaveCount;
 		pokemonStage.PokemonNames = pokemonStageData.PokemonNames;

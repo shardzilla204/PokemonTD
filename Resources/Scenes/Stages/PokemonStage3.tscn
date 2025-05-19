@@ -1,10 +1,11 @@
-[gd_scene load_steps=12 format=4 uid="uid://ccoosttiq6n6v"]
+[gd_scene load_steps=13 format=4 uid="uid://ccoosttiq6n6v"]
 
 [ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/Stage/PokemonStage.cs" id="1_0u8vr"]
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_e1jtr"]
 [ext_resource type="Script" uid="uid://dqdpgyxsxsnpk" path="res://Resources/Scripts/StagePath.cs" id="3_e1jtr"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="3_n42v5"]
-[ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/StageSlot.tscn" id="4_ujokt"]
+[ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="4_48n54"]
+[ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="4_ujokt"]
 [ext_resource type="Texture2D" uid="uid://61fbayn4qi1p" path="res://Assets/Images/Pokemon/Pikachu.png" id="5_pljkb"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="6_ks4sb"]
 [ext_resource type="Texture2D" uid="uid://b4w136lcq6p5h" path="res://Assets/Images/Pokemon/Lapras.png" id="7_nmw10"]
@@ -13,15 +14,15 @@
 
 [sub_resource type="Curve2D" id="Curve2D_h2wtm"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -65, 96, 0, 0, 0, 0, 288, 96, 0, 0, 0, 0, 288, 384, 0, 0, 0, 0, 736, 384, 0, 0, 0, 0, 736, 640, 0, 0, 0, 0, 1088, 640, 0, 0, 0, 0, 1088, 192, 0, 0, 0, 0, 1354, 192)
+"points": PackedVector2Array(0, 0, 0, 0, -64, 96, 0, 0, 0, 0, 288, 96, 0, 0, 0, 0, 288, 384, 0, 0, 0, 0, 736, 384, 0, 0, 0, 0, 736, 640, 0, 0, 0, 0, 1088, 640, 0, 0, 0, 0, 1088, 192, 0, 0, 0, 0, 1344, 192)
 }
 point_count = 8
 
-[node name="PokemonStage3" type="Node2D" node_paths=PackedStringArray("_stagePath", "_stageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage3" type="Node2D" node_paths=PackedStringArray("_stagePath", "_PokemonStageSlots", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 script = ExtResource("1_0u8vr")
 _stagePath = NodePath("StagePath")
-_stageSlots = NodePath("StageSlots")
+_PokemonStageSlots = NodePath("PokemonStageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
 
@@ -66,18 +67,19 @@ tile_set = ExtResource("2_e1jtr")
 y_sort_enabled = true
 curve = SubResource("Curve2D_h2wtm")
 script = ExtResource("3_e1jtr")
+_rightArrowTexture = ExtResource("4_48n54")
 
 [node name="StageInterface" parent="." node_paths=PackedStringArray("_pokemonStage") instance=ExtResource("3_n42v5")]
 visible = false
 _pokemonStage = NodePath("..")
 
-[node name="StageSlots" type="Control" parent="."]
+[node name="PokemonStageSlots" type="Control" parent="."]
 y_sort_enabled = true
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 
-[node name="StageSlot" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 608.0
 offset_top = 256.0
@@ -85,7 +87,7 @@ offset_right = 672.0
 offset_bottom = 320.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot2" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot2" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 952.0
 offset_top = 473.0
@@ -93,7 +95,7 @@ offset_right = 1016.0
 offset_bottom = 537.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot3" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot3" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 320.0
 offset_top = 448.0
@@ -101,7 +103,7 @@ offset_right = 384.0
 offset_bottom = 512.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot4" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot4" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 160.0
 offset_top = 160.0
@@ -109,7 +111,7 @@ offset_right = 224.0
 offset_bottom = 224.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot5" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot5" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 1024.0
 offset_top = 64.0
@@ -117,7 +119,7 @@ offset_right = 1088.0
 offset_bottom = 128.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot6" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot6" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 1184.0
 offset_top = 320.0
@@ -125,7 +127,7 @@ offset_right = 1248.0
 offset_bottom = 384.0
 metadata/_edit_lock_ = true
 
-[node name="StageSlot7" parent="StageSlots" instance=ExtResource("4_ujokt")]
+[node name="PokemonStageSlot7" parent="PokemonStageSlots" instance=ExtResource("4_ujokt")]
 layout_mode = 0
 offset_left = 608.0
 offset_top = 544.0

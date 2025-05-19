@@ -16,7 +16,7 @@ public partial class PokemonStage : Node2D
 	private StagePath _stagePath;
 
 	[Export]
-	private Control _stageSlots;
+	private Control _PokemonStageSlots;
 
 	[Export]
 	private Node2D _transparentLayers;
@@ -37,7 +37,7 @@ public partial class PokemonStage : Node2D
 	public bool HasFinished;
 
 	public StageInterface StageInterface;
-	public List<StageSlot> StageSlots = new List<StageSlot>();
+	public List<PokemonStageSlot> PokemonStageSlots = new List<PokemonStageSlot>();
 	public List<PokemonEnemy> PokemonEnemies = new List<PokemonEnemy>(); // List for enemy scenes
 
 	public override void _EnterTree()
@@ -48,14 +48,14 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.ForgetMove += PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured += PokemonEnemyEvent;
-		PokemonTD.Signals.DraggingStageSlot += SetStageAlpha;
-		PokemonTD.Signals.DraggingStageTeamSlot += SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonStageSlot += SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += SetStageAlpha;
 		PokemonTD.Signals.DraggingPokeBall += SetStageAlpha;
 		PokemonTD.Signals.PokemonEvolving += PokemonEvolving;
 
-		foreach (Node child in _stageSlots.GetChildren())
+		foreach (Node child in _PokemonStageSlots.GetChildren())
 		{
-			if (child is StageSlot stageSlot) StageSlots.Add(stageSlot);
+			if (child is PokemonStageSlot PokemonStageSlot) PokemonStageSlots.Add(PokemonStageSlot);
 		}
 	}
 
@@ -65,8 +65,8 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.ForgetMove -= PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured -= PokemonEnemyEvent;
-		PokemonTD.Signals.DraggingStageSlot -= SetStageAlpha;
-		PokemonTD.Signals.DraggingStageTeamSlot -= SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= SetStageAlpha;
 		PokemonTD.Signals.DraggingPokeBall -= SetStageAlpha;
 		PokemonTD.Signals.PokemonEvolving -= PokemonEvolving;
     }
@@ -116,9 +116,9 @@ public partial class PokemonStage : Node2D
 		transparent.A = 0.65f;
 		_transparentLayers.Modulate = isDragging ? transparent : Colors.White;
 
-		foreach (StageSlot stageSlot in StageSlots)
+		foreach (PokemonStageSlot PokemonStageSlot in PokemonStageSlots)
 		{
-			stageSlot.SetOpacity(isDragging);
+			PokemonStageSlot.SetOpacity(isDragging);
 		}
 	}
 
@@ -213,7 +213,9 @@ public partial class PokemonStage : Node2D
 		pokemonEnemy.Fainted += PokemonEnemyEvent;
 		PokemonEnemies.Add(pokemonEnemy);
 		
-		_stagePath.AddPathFollow(pokemonEnemy);
+		PathFollow2D pathFollow = _stagePath.GetPathFollow(false, false);
+		pathFollow.AddChild(pokemonEnemy);
+		_stagePath.AddPathFollow(pathFollow);
 
 		// Print Message To Console
 		string spawnMessage = $"Spawning Level {randomPokemon.Level} {randomPokemon.Name}";
@@ -277,15 +279,15 @@ public partial class PokemonStage : Node2D
 		AddChild(resultInterface);
 	}
 
-	public StageSlot GetRandomStageSlot()
+	public PokemonStageSlot GetRandomPokemonStageSlot()
 	{
 		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		int randomIndex = RNG.RandiRange(0, StageSlots.Count - 1);
-		return StageSlots[randomIndex];
+		int randomIndex = RNG.RandiRange(0, PokemonStageSlots.Count - 1);
+		return PokemonStageSlots[randomIndex];
 	}
 
-	public StageSlot FindStageSlot(int teamSlotIndex)
+	public PokemonStageSlot FindPokemonStageSlot(int teamSlotIndex)
 	{
-		return StageSlots.Find(stageSlot => stageSlot.TeamSlotIndex == teamSlotIndex);
+		return PokemonStageSlots.Find(PokemonStageSlot => PokemonStageSlot.TeamSlotIndex == teamSlotIndex);
 	}
 }

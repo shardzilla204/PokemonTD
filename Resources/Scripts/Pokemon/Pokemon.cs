@@ -3,6 +3,7 @@ using GC = Godot.Collections;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace PokemonTD;
 
@@ -120,6 +121,17 @@ public partial class Pokemon : Node
 		
 		Moves.AddRange(pokemonMoves);
 		Move = Moves[0];
+
+		// Get a pokemon move that doesn't give stat increases
+		for (int i = 0; i < Moves.Count; i++)
+		{
+			// Skip to current move
+			PokemonMove nextPokemonMove = Moves.SkipWhile(move => move != Moves[i]).FirstOrDefault();
+			if (PokemonStats.Instance.HasIncreasingStatChanges(nextPokemonMove) && (Moves[i].Name != "Skull Bash" || Move.Name != "Rage")) continue;
+
+			Move = nextPokemonMove;
+			break;
+		}
 	}
 
 	public void SetLevel(int level)

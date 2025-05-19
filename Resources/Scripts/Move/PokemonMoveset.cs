@@ -68,23 +68,23 @@ public partial class PokemonMoveset : Node
     }
 
     // Get at most the first 4 moves
-	public List<PokemonMove> GetPokemonMoveset(Pokemon pokemon)
-	{
-		List<PokemonMove> learnablePokemonMoves = GetLearnablePokemonMoves(pokemon);
+    public List<PokemonMove> GetPokemonMoveset(Pokemon pokemon)
+    {
+        List<PokemonMove> learnablePokemonMoves = GetLearnablePokemonMoves(pokemon);
 
         // Get a random set of moves that the pokemon can learn if the count is above 4
         List<PokemonMove> pokemonMoveset = new List<PokemonMove>();
-		if (learnablePokemonMoves.Count > PokemonTD.MaxMoveCount)
-		{
-			pokemonMoveset.AddRange(GetRandomPokemonMoveset(learnablePokemonMoves));
-		}
+        if (learnablePokemonMoves.Count > PokemonTD.MaxMoveCount)
+        {
+            pokemonMoveset.AddRange(GetRandomPokemonMoveset(learnablePokemonMoves));
+        }
         else
         {
             pokemonMoveset.AddRange(learnablePokemonMoves);
         }
 
-		return pokemonMoveset;
-	}
+        return pokemonMoveset;
+    }
     
     // Gets all the moves that the pokemon can learn
     public List<PokemonMove> GetLearnablePokemonMoves(Pokemon pokemon)
@@ -117,22 +117,30 @@ public partial class PokemonMoveset : Node
 		}
 	}
 
-	private List<PokemonMove> GetRandomPokemonMoveset(List<PokemonMove> pokemonMoves)
-	{
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		List<PokemonMove> randomPokemonMoves = new List<PokemonMove>();
-        while (randomPokemonMoves.Count < PokemonTD.MaxMoveCount)
+    
+    public List<PokemonMove> GetRandomPokemonMoveset(List<PokemonMove> pokemonMoves)
+    {
+        List<PokemonMove> randomPokemonMoves = new List<PokemonMove>();
+        for (int i = 0; i < PokemonTD.MaxMoveCount; i++)
         {
-            int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
-            PokemonMove randomPokemonMove = pokemonMoves[randomMoveIndex];
-
-            if (!randomPokemonMoves.Contains(randomPokemonMove)) 
+            while (true)
             {
+                PokemonMove randomPokemonMove = GetRandomPokemonMove(pokemonMoves);
+                if (randomPokemonMoves.Contains(randomPokemonMove)) continue;
+                
                 randomPokemonMoves.Add(randomPokemonMove);
+                break;
             }
         }
-		return randomPokemonMoves;
-	}
+        return randomPokemonMoves;
+    }
+    
+    private PokemonMove GetRandomPokemonMove(List<PokemonMove> pokemonMoves)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        int randomMoveIndex = RNG.RandiRange(0, pokemonMoves.Count - 1);
+		return pokemonMoves[randomMoveIndex];
+    }
 
 	private List<string> GetPokemonLearnsetNames(Pokemon pokemon)
     {

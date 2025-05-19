@@ -1,16 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://i1ue4yt2cgs2"]
 
-[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_rtirl"]
-[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_t4021"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_xjxrg"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_uqqeq"]
 
-[node name="EmptyStageTeamSlot" type="NinePatchRect"]
+[node name="EmptyPokemonTeamSlot" type="NinePatchRect"]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0.2, 0.2, 0.2, 1)
 custom_minimum_size = Vector2(175, 250)
 size_flags_horizontal = 4
 size_flags_vertical = 4
-theme = ExtResource("1_rtirl")
-texture = ExtResource("2_t4021")
+theme = ExtResource("1_xjxrg")
+texture = ExtResource("2_uqqeq")
 patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
@@ -32,7 +32,7 @@ theme_override_constants/margin_bottom = 4
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
 self_modulate = Color(0.75, 0.75, 0.75, 1)
 layout_mode = 2
-texture = ExtResource("2_t4021")
+texture = ExtResource("2_uqqeq")
 patch_margin_left = 5
 patch_margin_top = 5
 patch_margin_right = 5

@@ -7,16 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_281dn"]
 [ext_resource type="Texture2D" uid="uid://decvlcj5dmndo" path="res://Assets/Images/RareCandy.png" id="6_a1xg6"]
 [ext_resource type="Texture2D" uid="uid://j1oxdu6th12n" path="res://Assets/Images/PokeBall.png" id="7_m2uel"]
-[ext_resource type="PackedScene" uid="uid://c0rupaqiw81fp" path="res://Resources/Scenes/StageTeamSlots.tscn" id="8_eh12w"]
+[ext_resource type="PackedScene" uid="uid://c0rupaqiw81fp" path="res://Resources/Scenes/PokemonTeamSlots.tscn" id="8_eh12w"]
 [ext_resource type="Script" uid="uid://b2s87qin4g71l" path="res://Resources/Scripts/PokeBall.cs" id="8_qc3tw"]
 [ext_resource type="Texture2D" uid="uid://lpiswxqwar21" path="res://Assets/Images/SettingsIcon.png" id="11_vg80v"]
 
-[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_stageTeamSlots", "_stageControls", "_exitButton", "_settingsButton", "_container")]
+[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_PokemonTeamSlots", "_stageControls", "_exitButton", "_settingsButton", "_container")]
 script = ExtResource("1_ijjim")
 _waveCount = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/WaveCount")
 _pokeDollars = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/PokeDollars")
 _rareCandy = NodePath("MarginContainer/VBoxContainer/HBoxContainer/RareCandy/RareCandy")
-_stageTeamSlots = NodePath("MarginContainer/VBoxContainer/Container/StageTeamSlots")
+_PokemonTeamSlots = NodePath("MarginContainer/VBoxContainer/Container/PokemonTeamSlots")
 _stageControls = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageControls")
 _exitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
 _settingsButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SettingsButton")
@@ -156,7 +156,7 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 10
 
-[node name="StageTeamSlots" parent="MarginContainer/VBoxContainer/Container" instance=ExtResource("8_eh12w")]
+[node name="PokemonTeamSlots" parent="MarginContainer/VBoxContainer/Container" instance=ExtResource("8_eh12w")]
 layout_mode = 2
 
 [node name="PokéBall" type="TextureRect" parent="MarginContainer/VBoxContainer/Container"]

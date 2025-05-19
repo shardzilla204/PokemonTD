@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace PokemonTD;
 
-public partial class OneHitKOMoves : Node
+public partial class OneHitMoves : Node
 {
-    private List<string> _oneHitKOMoveNames = new List<string>()
+    private List<string> _oneHitMoveNames = new List<string>()
     {
         "Fissure",
         "Guillotine",
@@ -14,21 +14,21 @@ public partial class OneHitKOMoves : Node
 
     public bool IsOneHitKOMove(PokemonMove pokemonMove)
     {
-        string pokemonMoveName = _oneHitKOMoveNames.Find(move => move == pokemonMove.Name);
+        string pokemonMoveName = _oneHitMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
         return pokemonMoveName != null;
     }
 
     public void ApplyOneHitKO<Defending>(Defending defendingPokemon)
     {
-        if (defendingPokemon is StageSlot pokemonStageSlot)
+        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
             int damage = pokemonStageSlot.Pokemon.HP;
-            PokemonCombat.Instance.ApplyDamage(pokemonStageSlot, damage);
+            PokemonCombat.Instance.DealDamage(pokemonStageSlot, damage);
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             int damage = pokemonEnemy.Pokemon.HP;
-            PokemonCombat.Instance.ApplyDamage(pokemonEnemy, damage);
+            PokemonCombat.Instance.DealDamage(pokemonEnemy, damage);
         }
     }
 }

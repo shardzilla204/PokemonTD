@@ -1,40 +1,13 @@
-Move Effect Removed:
-Leech Life
-Counter
-High Jump Kick
-Jump Kick
-Submission
-Fly
+Move Effect Removed/Undecided:
 Gust
-Absorb
-Leech Seed
-Mega Drain
 Petal Dance
-Bone Club
-Earthquake
-Mist
-Conversion
-Disable
-Headbutt
-Hyper Fang
-Quick Attack
-Recover
-Roar
-Self-Destruct
-Soft-Boiled
-Stomp
-Struggle
+Struggle (Removed)
 Substitute
-Take Down
 Thrash
 Transform
-Whirlwind
 Dream Eater
-Light Screen
-Reflect
-Rest
 
-Flinch Move:
+Flinch Moves:
 Bite
 Rolling Kick
 Sky Attack
@@ -45,20 +18,43 @@ Rock Slide
 Hyper Fang
 Waterfall
 
-Move Charge:
+Charge Moves:
 Sky Attack
 Solar Beam
 Dig
 Hyper Beam
 Razor Wind
+Fly
 
-Move Trap (?):
+Trap Moves:
 Fire Spin
 Bind
 Wrap
 Clamp
 
-High Critical Hit Ratio:
+Inflicting Moves:
+    Recoil Damage:
+    Double-Edge
+    Submission
+    Take Down
+
+    Faint:
+    Self-Destruct
+    Explosion
+
+Recovery Moves:
+    Health:
+    Leech Life
+    Absorb
+    Leech Seed
+    Mega Drain
+
+    Rare Candy:
+    Recover
+    Rest
+    Soft-Boiled
+
+High Critical Hit Ratio Moves:
 Razor Leaf
 Razor Wind
 Sky Attack
@@ -66,7 +62,7 @@ Karate Chop
 Slash
 Crabhammer
 
-One-Hit KO Move:
+One-Hit KO Moves:
 Fissure
 Guillotine
 Horn Drill
@@ -75,8 +71,13 @@ Move Effect Modified:
 Constrict
 Teleport
 Pay Day
-Quick Attack 
+Quick Attack (Attacks Faster)
 Recover (Recover Rare Candy)
+Soft-Boiled (Recover Rare Candy)
+Mist 
+Roar
+Whirlwind
+Disable
 
 Unique Moves:
 Dragon Rage
@@ -97,8 +98,10 @@ Light Screen
 Reflect
 Teleport
 
+Moves To Do:
+(?) Transform
 
-Increase Stat Move:
+Increasing Stat Moves:
 Defense Curl (Defense)
 Double Team (Evasiveness == Decrease Enemy Accuracy)
 Growth (Attack & Special Attack)
@@ -114,7 +117,7 @@ Amnesia (Sharp, Special Defense)
 Barrier (Sharp, Defense)
 Withdraw (Defense)
 
-Decrease Stat Move:
+Decreasing Stat Moves:
 String Shot (Sharp, Speed)
 Sand Attack (Accuracy)
 Aurora Beam (0.25, Attack)

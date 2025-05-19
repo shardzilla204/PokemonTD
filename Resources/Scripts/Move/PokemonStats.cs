@@ -3,9 +3,19 @@ using System.Collections.Generic;
 
 namespace PokemonTD;
 
-
-public partial class StatMoves : Node
+public partial class PokemonStats : Node
 {
+    private static PokemonStats _instance;
+
+    public static PokemonStats Instance
+    {
+        get => _instance;
+        private set
+        {
+            if (_instance == null) _instance = value;
+        }
+    }
+
     private List<StatMove> _statIncreaseMoves = new List<StatMove>()
     {
         new StatMove("Defense Curl", PokemonStat.Defense, true),
@@ -44,53 +54,79 @@ public partial class StatMoves : Node
         new StatMove("Bubble Beam", PokemonStat.Speed, false, 85)
     };
 
-    public List<StatMove> FindIncreaseStatMoves(PokemonMove pokemonMove)
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
+
+    public List<StatMove> FindIncreasingStatMoves(PokemonMove pokemonMove)
     {
         return _statIncreaseMoves.FindAll(statIncreaseMove => statIncreaseMove.PokemonMoveName == pokemonMove.Name);
     }
 
-    public List<StatMove> FindDecreaseStatMoves(PokemonMove pokemonMove)
+    public List<StatMove> FindDecreasingStatMoves(PokemonMove pokemonMove)
     {
         return _statDecreaseMoves.FindAll(statDecreaseMove => statDecreaseMove.PokemonMoveName == pokemonMove.Name);
     }
 
-    private bool HasIncreasingStatChanges(PokemonMove pokemonMove)
+    public bool HasIncreasingStatChanges(PokemonMove pokemonMove)
     {
-        List<StatMove> statIncreaseMoves = FindIncreaseStatMoves(pokemonMove);
-        return statIncreaseMoves.Count > 0;
+        List<StatMove> statIncreasingMoves = FindIncreasingStatMoves(pokemonMove);
+        return statIncreasingMoves.Count > 0;
     }
 
-    private bool HasDecreasingStatChanges(PokemonMove pokemonMove)
+    public bool HasDecreasingStatChanges(PokemonMove pokemonMove)
     {
-        List<StatMove> statDecreaseMoves = FindDecreaseStatMoves(pokemonMove);
-        return statDecreaseMoves.Count > 0;
+        List<StatMove> statDecreasingMoves = FindDecreasingStatMoves(pokemonMove);
+        return statDecreasingMoves.Count > 0;
     }
 
     public void CheckStatChanges<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
     {
-        if (defendingPokemon is StageSlot pokemonStageSlot)
+        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
             Pokemon pokemon = pokemonStageSlot.Pokemon;
-            ApplyStatChanges(pokemon, pokemonMove);
+            DecreaseStats(pokemon, pokemonMove);
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             Pokemon pokemon = pokemonEnemy.Pokemon;
-            ApplyStatChanges(pokemon, pokemonMove);
+            DecreaseStats(pokemon, pokemonMove);
         }
     }
 
-    private void ApplyStatChanges(Pokemon pokemon, PokemonMove pokemonMove)
+    public void IncreaseStats(Pokemon pokemon, List<StatMove> statMoves)
     {
-        if (HasIncreasingStatChanges(pokemonMove))
+        foreach (StatMove statMove in statMoves)
         {
-            List<StatMove> statIncreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindIncreaseStatMoves(pokemonMove);
-            PokemonCombat.Instance.ApplyStatChanges(pokemon, statIncreaseMoves);
+            PokemonMoveEffect.Instance.ApplyStatChange(pokemon, statMove);
         }
-        else if (HasDecreasingStatChanges(pokemonMove))
+    }
+
+    // Only apply if it doesn't have the change
+    public void DecreaseStats(Pokemon defendingPokemon, PokemonMove pokemonMove)
+    {
+        foreach (PokemonMove move in defendingPokemon.Moves)
         {
-            List<StatMove> statDecreaseMoves = PokemonMoveEffect.Instance.StatMoves.FindDecreaseStatMoves(pokemonMove);
-            PokemonCombat.Instance.ApplyStatChanges(pokemon, statDecreaseMoves);
+            if (move.Name == "Mist") return;
         }
+
+        if (!HasDecreasingStatChanges(pokemonMove)) return;
+
+        List<StatMove> statDecreasingMoves = FindDecreasingStatMoves(pokemonMove);
+        foreach (StatMove statDecreasingMove in statDecreasingMoves)
+        {
+            if (!CanApplyStatChange(statDecreasingMove)) continue;
+            PokemonMoveEffect.Instance.DecreaseStat(defendingPokemon, statDecreasingMove);
+        }
+    }
+    
+    private bool CanApplyStatChange(StatMove statMove)
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        int randomValue = Mathf.RoundToInt(RNG.RandfRange(0, 255));
+        randomValue = randomValue - statMove.Probability;
+
+        return randomValue <= 0;
     }
 }

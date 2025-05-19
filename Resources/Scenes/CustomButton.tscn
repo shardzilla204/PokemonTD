@@ -3,13 +3,12 @@
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="1_f76d5"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_hkspj"]
 
-[node name="CustomButton" type="Button" node_paths=PackedStringArray("_background")]
+[node name="CustomButton" type="Button"]
 custom_minimum_size = Vector2(100, 0)
 text = "
 "
 flat = true
 script = ExtResource("1_f76d5")
-_background = NodePath("Background")
 
 [node name="Background" type="NinePatchRect" parent="."]
 show_behind_parent = true

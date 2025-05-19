@@ -19,7 +19,7 @@ public partial class PokemonTeam : Node
     }
 
 	public List<Pokemon> Pokemon = new List<Pokemon>();
-	public List<int> StageTeamSlotsMuted = new List<int>();
+	public List<int> PokemonTeamSlotsMuted = new List<int>();
 
 	public override void _EnterTree()
 	{
@@ -30,7 +30,7 @@ public partial class PokemonTeam : Node
 	{
 		PokemonTD.Signals.PokemonStarterSelected += AddStarterPokemon;
 		PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
-		PokemonTD.Signals.StageTeamSlotMuted += StageTeamSlotMuted;
+		PokemonTD.Signals.PokemonTeamSlotMuted += PokemonTeamSlotMuted;
 		PokemonTD.Signals.GameReset += () => 
 		{
 			Pokemon.Clear();
@@ -40,17 +40,17 @@ public partial class PokemonTeam : Node
 		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
 	}
 
-	private void StageTeamSlotMuted(int teamSlotIndex, bool isMuted)
+	private void PokemonTeamSlotMuted(int teamSlotIndex, bool isMuted)
 	{
 		if (isMuted)
 		{
-			if (StageTeamSlotsMuted.Contains(teamSlotIndex)) return;
+			if (PokemonTeamSlotsMuted.Contains(teamSlotIndex)) return;
 			
-			StageTeamSlotsMuted.Add(teamSlotIndex);
+			PokemonTeamSlotsMuted.Add(teamSlotIndex);
 		}
 		else
 		{
-			StageTeamSlotsMuted.Remove(teamSlotIndex);
+			PokemonTeamSlotsMuted.Remove(teamSlotIndex);
 		}
 	}
 

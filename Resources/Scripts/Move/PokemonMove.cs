@@ -20,5 +20,5 @@ public partial class PokemonMove : Node
 	public int Accuracy;
 	public string Effect;
 	public List<int> HitCount = new List<int>();
-	public GC.Dictionary<string, Variant> StatusCondition = new GC.Dictionary<string, Variant>();
+	public GC.Dictionary<string, float> StatusCondition = new GC.Dictionary<string, float>();
 }

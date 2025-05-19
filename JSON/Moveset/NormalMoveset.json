@@ -35,8 +35,7 @@
         "Category": "Physical",
         "Power": 60,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -76,8 +75,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "Changes user's type to that of its first move.",
+        "Effect": "Changes user's type to that of its first move.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -107,8 +105,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "Opponent can't use its last attack for a few turns.",
+        "Effect": "Opponent can't use its last attack for a few turns.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -148,8 +145,7 @@
         "Category": "Physical",
         "Power": 120,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User receives recoil damage.",
+        "Effect": "User receives recoil damage.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -169,8 +165,7 @@
         "Category": "Physical",
         "Power": 250,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User faints.",
+        "Effect": "User faints.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -270,8 +265,7 @@
         "Category": "Physical",
         "Power": 70,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -311,8 +305,7 @@
         "Category": "Physical",
         "Power": 80,
         "Accuracy": 90,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -412,8 +405,7 @@
         "Category": "Physical",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User attacks first.",
+        "Effect": "Attacks faster.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -443,8 +435,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "User recovers half its max HP.",
+        "Effect": "User recovers some rare candy.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -454,8 +445,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Effect": "In battles, the opponent switches areas. In the wild, the Pokemon runs.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -485,8 +475,7 @@
         "Category": "Physical",
         "Power": 200,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User faints.",
+        "Effect": "User faints.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -556,8 +545,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "User recovers half its max HP.",
+        "Effect": "User recovers some rare candy.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -597,8 +585,7 @@
         "Category": "Physical",
         "Power": 65,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -609,16 +596,6 @@
         "Power": 80,
         "Accuracy": 100,
         "Effect": "",
-        "Hit Count": [1, 1], 
-        "Status Condition": {}
-    },
-    "Struggle (Removed)":
-    {
-        "Type": "Normal",
-        "Category": "Physical",
-        "Power": 50,
-        "Accuracy": 0,
-        "Effect": "Only usable when all PP are gone. Hurts the user.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -699,8 +676,7 @@
         "Category": "Physical",
         "Power": 90,
         "Accuracy": 85,
-        "Effect": "",
-        "EffectRemoved": "User receives recoil damage.",
+        "Effect": "User receives recoil damage.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -757,8 +733,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "In battles, the opponent switches. In the wild, the Pokemon runs.",
+        "Effect": "In battles, the opponent switches. In the wild, the Pokemon runs.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

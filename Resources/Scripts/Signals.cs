@@ -14,6 +14,9 @@ public partial class Signals : Node
     public delegate void PokeDollarsUpdatedEventHandler();
 
     [Signal]
+    public delegate void RareCandyUpdatedEventHandler();
+
+    [Signal]
     public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
 
     [Signal]
@@ -49,6 +52,9 @@ public partial class Signals : Node
     public delegate void PokemonTeamUpdatedEventHandler();
 
     [Signal]
+    public delegate void PokemonHealedEventHandler(int health, int teamSlotIndex);
+
+    [Signal]
     public delegate void PokemonDamagedEventHandler(int damage, int teamSlotIndex);
 
     [Signal]
@@ -69,10 +75,10 @@ public partial class Signals : Node
 
     // Dragging 
     [Signal]
-    public delegate void DraggingStageTeamSlotEventHandler(bool isDragging);
+    public delegate void DraggingPokemonTeamSlotEventHandler(bool isDragging);
 
     [Signal]
-    public delegate void DraggingStageSlotEventHandler(bool isDragging);
+    public delegate void DraggingPokemonStageSlotEventHandler(bool isDragging);
 
     [Signal]
     public delegate void DraggingPokeBallEventHandler(bool isDragging);
@@ -108,7 +114,7 @@ public partial class Signals : Node
     public delegate void AudioMutedEventHandler(int busIndex, bool isMuted);
 
     [Signal]
-    public delegate void StageTeamSlotMutedEventHandler(int teamSlotIndex, bool isMuted);
+    public delegate void PokemonTeamSlotMutedEventHandler(int teamSlotIndex, bool isMuted);
 
     // Stage Selection
     [Signal]

@@ -36,8 +36,7 @@
         "Category": "Special",
         "Power": 35,
         "Accuracy": 85,
-        "Effect": "",
-        "EffectRemoved": "Traps opponent, damaging them for 4-5 turns.",
+        "Effect": "Traps opponent, damaging them for 4-5 turns.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

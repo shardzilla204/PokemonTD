@@ -12,13 +12,14 @@ public partial class ChargeMoves : Node
         "Dig",
         "Hyper Beam",
         "Razor Wind",
-        "Skull Bash"
+        "Skull Bash",
+        "Fly"
     };
 
     // Hyper Beam attacks first then charges afterward
     public (bool IsChargeMove, bool IsHyperBeam) IsChargeMove(PokemonMove pokemonMove)
     {
-        string pokemonMoveName = _chargeMoveNames.Find(move => move == pokemonMove.Name);
+        string pokemonMoveName = _chargeMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
         if (pokemonMoveName == "Hyper Beam")
         {
             return (true, true);
@@ -30,8 +31,10 @@ public partial class ChargeMoves : Node
         return (false, false);
     }
 
-    public bool ApplyChargeMove<Defending>(bool isCharging, PokemonMove pokemonMove, Defending defendingPokemon)
+    public void ApplyChargeMove<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
     {
+        bool isCharging = false;
+        
         bool IsHyperBeam = PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove).IsHyperBeam;
         if (IsHyperBeam && !isCharging)
         {
@@ -44,13 +47,30 @@ public partial class ChargeMoves : Node
         else if (isCharging)
         {
             isCharging = false;
-            PokemonCombat.Instance.ApplyDamage(this, pokemonMove, defendingPokemon);
+            PokemonCombat.Instance.DealDamage(this, pokemonMove, defendingPokemon);
         }
-        return isCharging;
+
+        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.IsCharging = isCharging;
+        }
+        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.IsCharging = isCharging;
+        }
     }
 
-    public bool HasUsedDig(bool isCharging, PokemonMove pokemonMove)
+    public void HasUsedDig<Attacking>(Attacking attackingPokemon, PokemonMove pokemonMove)
     {
-        return isCharging && pokemonMove.Name == "Dig";
+        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            bool usedDig = pokemonStageSlot.IsCharging && pokemonMove.Name == "Dig";
+            pokemonStageSlot.UsedDig = usedDig;
+        }
+        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            bool usedDig = pokemonEnemy.IsCharging && pokemonMove.Name == "Dig";
+            pokemonEnemy.UsedDig = usedDig;
+        }
     }
 }

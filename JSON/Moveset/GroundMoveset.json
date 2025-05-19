@@ -5,8 +5,7 @@
         "Category": "Physical",
         "Power": 65,
         "Accuracy": 85,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -36,8 +35,7 @@
         "Category": "Physical",
         "Power": 100,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "Power is doubled if opponent is underground from using Dig.",
+        "Effect": "Power is doubled if opponent is underground from using Dig.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

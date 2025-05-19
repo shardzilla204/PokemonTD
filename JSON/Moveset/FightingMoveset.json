@@ -5,8 +5,8 @@
         "Category": "Physical",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "When hit by a Physical Attack, user strikes back with 2x power.",
+        "Effect": "When hit by a Physical Attack, user strikes back with 2x power.",
+
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -26,8 +26,7 @@
         "Category": "Physical",
         "Power": 130,
         "Accuracy": 90,
-        "Effect": "",
-        "EffectRemoved": "If it misses, the user loses half their HP.",
+        "Effect": "If it misses, the user loses half their HP.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -37,8 +36,7 @@
         "Category": "Physical",
         "Power": 100,
         "Accuracy": 95,
-        "Effect": "",
-        "EffectRemoved": "If it misses, the user loses half their HP.",
+        "Effect": "If it misses, the user loses half their HP.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -68,8 +66,7 @@
         "Category": "Physical",
         "Power": 60,
         "Accuracy": 85,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -89,8 +86,7 @@
         "Category": "Physical",
         "Power": 80,
         "Accuracy": 80,
-        "Effect": "",
-        "EffectRemoved": "User receives recoil damage.",
+        "Effect": "User receives recoil damage.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     }

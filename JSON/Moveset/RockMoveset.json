@@ -5,8 +5,7 @@
         "Category": "Physical",
         "Power": 75,
         "Accuracy": 90,
-        "Effect": "",
-        "EffectRemoved": "May cause flinching.",
+        "Effect": "May cause flinching.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

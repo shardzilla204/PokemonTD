@@ -15,8 +15,7 @@
         "Category": "Physical",
         "Power": 90,
         "Accuracy": 95,
-        "Effect": "",
-        "EffectRemoved": "Flies up on first turn, attacks on second turn.",
+        "Effect": "Flies up on first turn, attacks on second turn.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

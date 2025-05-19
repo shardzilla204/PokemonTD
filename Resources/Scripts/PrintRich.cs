@@ -111,7 +111,7 @@ public partial class PrintRich
       _ => "FFFFFF",
    };
 
-   public static string GetStatusConditionMessage(StatusCondition statusCondition) => statusCondition switch
+   public static string GetStatusConditionText(StatusCondition statusCondition) => statusCondition switch
    {
       StatusCondition.Burn => "Burn",
       StatusCondition.Freeze => "Frozen",

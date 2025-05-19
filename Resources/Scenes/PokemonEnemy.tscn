@@ -7,7 +7,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
 radius = 65.0
 
-[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_screenNotifier", "_area", "_attackTimer")]
+[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_statusConditions", "_screenNotifier", "_area", "_attackTimer")]
 y_sort_enabled = true
 texture_filter = 1
 custom_minimum_size = Vector2(100, 100)
@@ -26,17 +26,22 @@ mouse_filter = 2
 texture = ExtResource("1_w8eue")
 expand_mode = 1
 script = ExtResource("1_hour7")
-_healthBar = NodePath("HealthBar")
+_healthBar = NodePath("VBoxContainer/HealthBar")
+_statusConditions = NodePath("VBoxContainer/StatusConditions")
 _screenNotifier = NodePath("ScreenNotifier")
 _area = NodePath("Area2D")
 _attackTimer = NodePath("AttackTimer")
 
-[node name="HealthBar" type="TextureProgressBar" parent="."]
-custom_minimum_size = Vector2(75, 7.5)
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(100, 0)
 layout_mode = 0
-offset_left = 12.5
-offset_right = 87.5
-offset_bottom = 7.5
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HealthBar" type="TextureProgressBar" parent="VBoxContainer"]
+custom_minimum_size = Vector2(75, 7.5)
+layout_mode = 2
+size_flags_horizontal = 4
 mouse_filter = 2
 value = 100.0
 nine_patch_stretch = true
@@ -49,8 +54,14 @@ texture_progress = ExtResource("2_a4tex")
 tint_under = Color(1, 1, 1, 0)
 tint_progress = Color(0, 0.5, 0, 1)
 
+[node name="StatusConditions" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 3
+alignment = 1
+
 [node name="ScreenNotifier" type="VisibleOnScreenNotifier2D" parent="."]
-rect = Rect2(0, 0, 100, 100)
+position = Vector2(12.5, 12.5)
+rect = Rect2(0, 0, 75, 75)
 
 [node name="Area2D" type="Area2D" parent="."]
 position = Vector2(50, 50)

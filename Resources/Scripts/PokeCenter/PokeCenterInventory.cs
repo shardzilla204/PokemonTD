@@ -43,12 +43,12 @@ public partial class PokeCenterInventory : Container
 
     public override void _ExitTree()
     {
-		PokemonTD.Signals.PokemonTeamUpdated -= OnPokemonTeamUpdated;
+		PokemonTD.Signals.PokemonTeamUpdated -= SetPokemonPages;
     }	
 
     public override void _Ready()
     {
-		PokemonTD.Signals.PokemonTeamUpdated += OnPokemonTeamUpdated;
+		PokemonTD.Signals.PokemonTeamUpdated += SetPokemonPages;
 
 		_pokeCenterSearch.TextChanged += OnSearchTextChanged;
 
@@ -93,7 +93,6 @@ public partial class PokeCenterInventory : Container
 		if (text == "")
 		{
 			SetPokemonPages();
-
 			return;
 		}
 
@@ -119,11 +118,6 @@ public partial class PokeCenterInventory : Container
 			if (pokemonName == text.ToUpper()) return pokemon;
 		}
 		return null;
-	}
-
-	private void OnPokemonTeamUpdated()
-	{
-		SetPokemonPages();
 	}
 
 	private void SetPokemonPages()
@@ -154,8 +148,6 @@ public partial class PokeCenterInventory : Container
 
 	public override bool _CanDropData(Vector2 atPosition, Variant data)
 	{
-		if (PokemonTeam.Instance.Pokemon.Count == 0) return false;
-
 		GC.Dictionary<string, Variant> dataDictionary = data.As<GC.Dictionary<string, Variant>>();
 		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 		if (fromAnalysisSlot) return true;

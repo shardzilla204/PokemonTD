@@ -10,7 +10,8 @@ namespace PokemonTD;
 
     TODO: Add Poke mart to utilize poke dollars
     TODO: Add status condition icons to show multiple conditions
-    TODO: Add evolution via stones
+    TODO: Add evolution stones & it's functionality
+    TODO: Automatically apply stat increasing moves
 
     * Ideas:
     ? Add keybinds
@@ -18,7 +19,11 @@ namespace PokemonTD;
     ? Mute all stage team slot options in settings
 
     * Bugs:
-    ! Stop status ailments when game is paused
+
+    * Notes:
+    - Add HP Drain moves
+    - Print Out Unique Move Usage
+    - Check Focus Energy
 */
 
 public partial class PokemonTD : Control
@@ -208,6 +213,19 @@ public partial class PokemonTD : Control
         return ResourceLoader.Load<Texture2D>(filePath);
     }
 
+    public static Texture2D GetStatusIcon(StatusCondition statusCondition)
+    {
+        if (statusCondition == StatusCondition.None) return null;
+
+        string statusConditionFileName = statusCondition switch
+        {
+            StatusCondition.BadlyPoisoned => "Poison",
+            _ => statusCondition.ToString()
+        };
+        string filePath = $"res://Assets/Images/StatusConditionIcon/{statusConditionFileName}Icon.png";
+        return ResourceLoader.Load<Texture2D>(filePath);
+    }
+
     public static GC.Dictionary<string, Variant> GetPokemonData(Pokemon pokemon)
     {
         try
@@ -236,9 +254,9 @@ public partial class PokemonTD : Control
 
     public static Pokemon SetPokemonData(string pokemonName, GC.Dictionary<string, Variant> pokemonData)
     {
-        Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName);
-        pokemon.Gender = (Gender)pokemonData["Gender"].As<int>();
-        pokemon.Level = pokemonData["Level"].As<int>();
+        int pokemonLevel = pokemonData["Level"].As<int>();
+        Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
+        pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
 
         SetExperienceData(pokemon, pokemonData);
         SetPokemonMovesData(pokemon, pokemonData);
@@ -274,6 +292,7 @@ public partial class PokemonTD : Control
 
     private static void SetPokemonMovesData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
     {
+        pokemon.Moves.Clear();
         GC.Dictionary<int, string> pokemonMovesData = pokemonData["Moves"].As<GC.Dictionary<int, string>>();
         foreach (string pokemonMoveName in pokemonMovesData.Values)
         {
@@ -288,20 +307,20 @@ public partial class PokemonTD : Control
     public static Control GetStageDragPreview(Pokemon pokemon)
     {
         int minimumValue = 125;
-        Vector2 minSize = new Vector2(minimumValue, minimumValue);
+        Vector2 minimumSize = new Vector2(minimumValue, minimumValue);
         TextureRect textureRect = new TextureRect()
         {
-            CustomMinimumSize = minSize,
+            CustomMinimumSize = minimumSize,
             Texture = pokemon.Sprite,
             TextureFilter = TextureFilterEnum.Nearest,
-            Position = -new Vector2(minSize.X / 2, minSize.Y / 4),
-            PivotOffset = new Vector2(minSize.X / 2, 0)
+            Position = -new Vector2(minimumSize.X / 2, minimumSize.Y / 4),
+            PivotOffset = new Vector2(minimumSize.X / 2, 0)
         };
 
-        Control control = new Control();
-        control.AddChild(textureRect);
+        Control stageDragPreview = new Control();
+        stageDragPreview.AddChild(textureRect);
 
-        return control;
+        return stageDragPreview;
     }
 
     public static GC.Dictionary<string, Variant> GetStageDragData(Pokemon pokemon, int teamSlotIndex, bool fromTeamSlot, bool isMuted)

@@ -27,16 +27,16 @@ public partial class MovesetInterface : CanvasLayer
     {
         PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
 		PokemonTD.Signals.DraggingPokeBall -= OnDragging;
-		PokemonTD.Signals.DraggingStageSlot -= OnDragging;
-		PokemonTD.Signals.DraggingStageTeamSlot -= OnDragging;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= OnDragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= OnDragging;
     }
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
 		PokemonTD.Signals.DraggingPokeBall += OnDragging;
-		PokemonTD.Signals.DraggingStageSlot += OnDragging;
-		PokemonTD.Signals.DraggingStageTeamSlot += OnDragging;
+		PokemonTD.Signals.DraggingPokemonStageSlot += OnDragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += OnDragging;
 
 		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
 

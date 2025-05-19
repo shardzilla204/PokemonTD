@@ -84,9 +84,9 @@ public partial class StageControls : HBoxContainer
 		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
 		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
 
-		foreach (StageSlot stageSlot in pokemonStage.StageSlots)
+		foreach (PokemonStageSlot PokemonStageSlot in pokemonStage.PokemonStageSlots)
 		{
-			stageSlot.SetWaitTime();
+			PokemonStageSlot.SetWaitTime();
 		}
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, speed);

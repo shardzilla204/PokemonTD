@@ -76,8 +76,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "Halves damage from Special attacks for 5 turns.",
+        "Effect": "Halves damage from Special attacks for 5 turns.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -127,8 +126,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "Halves damage from Physical attacks for 5 turns.",
+        "Effect": "Halves damage from Physical attacks for 5 turns.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -138,8 +136,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User sleeps for 2 turns, but user is fully healed.",
+        "Effect": "User sleeps for 2 turns, but user is fully healed.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

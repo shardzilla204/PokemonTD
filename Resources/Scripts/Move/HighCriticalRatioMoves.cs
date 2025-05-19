@@ -17,7 +17,7 @@ public partial class HighCriticalRatioMoves : Node
 
     public bool IsHighCriticalRatioMove(PokemonMove pokemonMove)
     {
-        string pokemonMoveName = _highCriticalRatioMoveNames.Find(move => move == pokemonMove.Name);
+        string pokemonMoveName = _highCriticalRatioMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
         return pokemonMoveName != null;
     }
 

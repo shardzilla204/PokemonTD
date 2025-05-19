@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_ydwpq"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_sjk7f"]
-[ext_resource type="Script" uid="uid://ccvhp18lrvm38" path="res://Resources/Scripts/Stage/StageTeamSlot.cs" id="3_wpub2"]
+[ext_resource type="Script" uid="uid://ccvhp18lrvm38" path="res://Resources/Scripts/Stage/PokemonTeamSlot.cs" id="3_wpub2"]
 [ext_resource type="PackedScene" uid="uid://d1fjp0d0jq5c8" path="res://Resources/Scenes/PokemonExperienceBar.tscn" id="5_1qrho"]
 [ext_resource type="Texture2D" uid="uid://dk8cit4n2mn5g" path="res://Assets/Images/Mute.png" id="5_cn6qm"]
 [ext_resource type="Texture2D" uid="uid://cy4jbowumnl7n" path="res://Assets/Images/Gender/FemaleIcon.png" id="5_d4yxp"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cc0xcejesq3c4" path="res://Resources/Scenes/PokemonHealthBar.tscn" id="7_6s0w1"]
 [ext_resource type="PackedScene" uid="uid://c6gh683jjg4id" path="res://Resources/Scenes/PokemonSleepBar.tscn" id="7_bxqyd"]
 
-[node name="StageTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton", "_mutedTexture")]
+[node name="PokemonTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton", "_mutedTexture")]
 custom_minimum_size = Vector2(175, 250)
 anchors_preset = 15
 anchor_right = 1.0

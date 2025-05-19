@@ -56,8 +56,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "User's stats cannot be changed for a period of time.",
+        "Effect": "User's stats cannot be changed.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     }

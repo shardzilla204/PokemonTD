@@ -127,7 +127,7 @@ public partial class PokemonMoves : Node
             Accuracy = typeMovesetDictionary["Accuracy"].As<int>(),
             Effect = typeMovesetDictionary["Effect"].As<string>(),
             HitCount = typeMovesetDictionary["Hit Count"].As<GC.Array<int>>().ToList(),
-            StatusCondition = typeMovesetDictionary["Status Condition"].As<GC.Dictionary<string, Variant>>(),
+            StatusCondition = typeMovesetDictionary["Status Condition"].As<GC.Dictionary<string, float>>(),
         };
         Moves.Add(pokemonMove);
     }

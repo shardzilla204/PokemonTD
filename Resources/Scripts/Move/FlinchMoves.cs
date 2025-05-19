@@ -13,18 +13,38 @@ public partial class FlinchMoves : Node
         "Sky Attack",
         "Bone Club",
         "Stomp",
+        "Headbutt",
         "Rock Slide",
+        "Hyper Fang",
         "Waterfall"
     };
 
     public bool IsFlinchMove(PokemonMove pokemonMove)
     {
-        string pokemonMoveName = _flinchMoveNames.Find(move => move == pokemonMove.Name);
+        string pokemonMoveName = _flinchMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
         return pokemonMoveName != null;
     }
 
-    public void ApplyFlinchMove<T>(T defendingPokemon)
+    public void ApplyFlinchMove<Defending>(Defending defendingPokemon)
     {
-        PokemonStatusCondition.Instance.FreezePokemon(defendingPokemon, 1f);
+        if (!CanApplyFlinchMove()) return;
+        
+        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.HasMoveSkipped = true;
+        }
+        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.HasMoveSkipped = true;
+        }
+    }
+
+    private bool CanApplyFlinchMove()
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        float changeValue = 0.25f;
+        float randomThreshold = RNG.RandfRange(0, 1);
+        randomThreshold -= changeValue;
+        return randomThreshold <= 0;
     }
 }
