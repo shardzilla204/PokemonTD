@@ -51,11 +51,11 @@ public partial class PokemonSettings : Node
 
             // Print Message To Console
 			string saveSuccessMessage = "Settings File Successfully Saved";
-			if (PokemonTD.AreFilePathsVisible)
+			if (PrintRich.AreFilePathsVisible)
 			{
 				saveSuccessMessage += $" At {settingsFile.GetPathAbsolute()}";
 			}
-			PrintRich.PrintLine(TextColor.Green, saveSuccessMessage);
+			if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, saveSuccessMessage);
 		}
 
     public void LoadSettings()
@@ -80,11 +80,11 @@ public partial class PokemonSettings : Node
 
         // Print Message To Console
         string loadSuccessMessage = "Settings File Successfully Loaded";
-        if (PokemonTD.AreFilePathsVisible)
+        if (PrintRich.AreFilePathsVisible)
         {
             loadSuccessMessage += $" At {settingsFile.GetPathAbsolute()}";
         }
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+        if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }
 
     private GC.Dictionary<string, Variant> GetData()

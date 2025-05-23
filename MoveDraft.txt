@@ -1,11 +1,6 @@
 Move Effect Removed/Undecided:
-Gust
-Petal Dance
 Struggle (Removed)
 Substitute
-Thrash
-Transform
-Dream Eater
 
 Flinch Moves:
 Bite
@@ -78,6 +73,8 @@ Mist
 Roar
 Whirlwind
 Disable
+Petal Dance (Inactive for 4 seconds)
+Thrash (Inactive for 4 seconds)
 
 Unique Moves:
 Dragon Rage
@@ -97,9 +94,7 @@ Surf
 Light Screen
 Reflect
 Teleport
-
-Moves To Do:
-(?) Transform
+Transform
 
 Increasing Stat Moves:
 Defense Curl (Defense)

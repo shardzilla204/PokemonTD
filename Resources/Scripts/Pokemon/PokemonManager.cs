@@ -1,8 +1,6 @@
 using Godot;
 using GC = Godot.Collections;
-
 using System.Collections.Generic;
-using System;
 
 namespace PokemonTD;
 
@@ -50,7 +48,7 @@ public partial class PokemonManager : Node
 
         // Print Message To Console
         string loadSuccessMessage = "Pokemon File Successfully Loaded";
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+        if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }
 
     private Pokemon GetPokemon(string pokemonName)
@@ -75,6 +73,10 @@ public partial class PokemonManager : Node
         pokemon.Experience.Maximum = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
+        pokemon.HP = GetPokemonHP(pokemon);
+        pokemon.MaximumHP = GetPokemonHP(pokemon);
+        pokemon.Accuracy = 1;
+        pokemon.Evasion = 0;
         return pokemon;
     }
 
@@ -98,7 +100,7 @@ public partial class PokemonManager : Node
         bool canEvolve = PokemonEvolution.Instance.CanEvolve(pokemon, levels);
         if (canEvolve)
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, teamSlotIndex);
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, teamSlotIndex) ;
 
             await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionFinished);
 
@@ -112,6 +114,7 @@ public partial class PokemonManager : Node
 
         }
 
+        pokemon.MaximumHP = GetPokemonHP(pokemon);
         SetPokemonStats(pokemon);
 
         List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoves(pokemon, levels);
@@ -123,21 +126,31 @@ public partial class PokemonManager : Node
         }
 
         // Set level once potential moves have been added
-        pokemon.Level = Mathf.Clamp(pokemon.Level + levels, 1, PokemonTD.MaxPokemonLevel);
+        pokemon.Level += levels;
+        pokemon.Level = Mathf.Clamp(pokemon.Level, 1, PokemonTD.MaxPokemonLevel);
+    }
+
+    public Texture2D GetPokemonSprite(string pokemonName)
+    {
+        string filePath = $"res://Assets/Images/Pokemon/{pokemonName}.png";
+        return ResourceLoader.Load<Texture2D>(filePath);
+    }
+
+    public Gender GetRandomGender()
+    {
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+        int randomValue = RNG.RandiRange((int)Gender.Male, (int)Gender.Female);
+
+        return (Gender) randomValue;
     }
 
     public void SetPokemonStats(Pokemon pokemon)
     {
-        pokemon.HP = GetPokemonHP(pokemon);
         pokemon.Attack = GetOtherPokemonStat(pokemon, PokemonStat.Attack);
         pokemon.Defense = GetOtherPokemonStat(pokemon, PokemonStat.Defense);
         pokemon.SpecialAttack = GetOtherPokemonStat(pokemon, PokemonStat.SpecialAttack);
         pokemon.SpecialDefense = GetOtherPokemonStat(pokemon, PokemonStat.SpecialDefense);
         pokemon.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
-        pokemon.Accuracy = 1;
-        pokemon.Evasion = 0;
-
-        // PrintRich.PrintStats(TextColor.Purple, pokemon);
     }
 
     public string GetRandomPokemonName()
@@ -159,7 +172,7 @@ public partial class PokemonManager : Node
     {
         Pokemon pokemonData = GetPokemon(pokemon.Name);
         int hpStatValue = Mathf.RoundToInt(pokemonData.HP * 1.35f + pokemon.Level / 100 + pokemon.Level);
-        return Mathf.Clamp(hpStatValue, 0, 255);
+        return Mathf.Clamp(hpStatValue, 0, PokemonTD.MaxStatValue);
     }
 
     // ? Other Stat Formula
@@ -183,7 +196,7 @@ public partial class PokemonManager : Node
         };
 
         int pokemonStatValue = Mathf.RoundToInt(baseStatValue + pokemon.Level / 100);
-        return Mathf.Clamp(pokemonStatValue, 0, 255);
+        return Mathf.Clamp(pokemonStatValue, 0, PokemonTD.MaxStatValue);
     }
 
     // ? EXP Formula
@@ -198,7 +211,59 @@ public partial class PokemonManager : Node
 
     public void ChangeTypes(Pokemon attackingPokemon, Pokemon defendingPokemon)
     {
+        string attackingTypesString = PrintRich.GetTypesString(attackingPokemon);
+        string defendingTypesString = PrintRich.GetTypesString(defendingPokemon);
+        string typesChangedMessage = $"{attackingPokemon.Name} Has Changed It's Types {attackingTypesString} Into {defendingTypesString}";
+        PrintRich.PrintLine(TextColor.Orange, typesChangedMessage);
+
         attackingPokemon.Types.Clear();
         attackingPokemon.Types.AddRange(defendingPokemon.Types);
+    }
+
+    public void ChangePokemon(Pokemon attackingPokemon, Pokemon defendingPokemon)
+    {
+        attackingPokemon.Sprite = defendingPokemon.Sprite;
+        attackingPokemon.Species = defendingPokemon.Species;
+
+        attackingPokemon.Moves.Clear();
+        attackingPokemon.Moves.AddRange(defendingPokemon.Moves);
+        attackingPokemon.Move = defendingPokemon.Move;
+
+        attackingPokemon.Attack = defendingPokemon.Attack;
+        attackingPokemon.SpecialAttack = defendingPokemon.SpecialAttack;
+        attackingPokemon.Defense = defendingPokemon.Defense;
+        attackingPokemon.SpecialDefense = defendingPokemon.SpecialDefense;
+        attackingPokemon.Speed = defendingPokemon.Speed;
+
+        attackingPokemon.Height = defendingPokemon.Height;
+        attackingPokemon.Weight = defendingPokemon.Weight;
+
+        ChangeTypes(attackingPokemon, defendingPokemon);
+
+        string transformedMessage = $"{attackingPokemon.Name} Has Transformed Into {defendingPokemon.Name}";
+        PrintRich.PrintLine(TextColor.Orange, transformedMessage);
+    }
+
+    public Pokemon GetPokemonCopy(Pokemon pokemon)
+    {
+        Pokemon pokemonCopy = new Pokemon();
+
+        pokemonCopy.Sprite = pokemon.Sprite;
+        pokemonCopy.Species = pokemon.Species;
+
+        pokemonCopy.Moves.Clear();
+        pokemonCopy.Moves.AddRange(pokemon.Moves);
+        pokemonCopy.Move = pokemon.Move;
+
+        pokemonCopy.Attack = pokemon.Attack;
+        pokemonCopy.SpecialAttack = pokemon.SpecialAttack;
+        pokemonCopy.Defense = pokemon.Defense;
+        pokemonCopy.SpecialDefense = pokemon.SpecialDefense;
+        pokemonCopy.Speed = pokemon.Speed;
+
+        pokemonCopy.Height = pokemon.Height;
+        pokemonCopy.Weight = pokemon.Weight;
+        
+        return pokemonCopy;
     }
 }

@@ -1,9 +1,7 @@
 using Godot;
 using GC = Godot.Collections;
-
 using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace PokemonTD;
 
@@ -43,7 +41,7 @@ public partial class PokemonMoveset : Node
 
         // Print Message To Console
         string loadSuccessMessage = "Pokemon Learnset File Successfully Loaded";
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+        if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }
 
     // Gets pokemon moves from the pokemons learnset

@@ -74,9 +74,7 @@ public partial class StageInfo : Container
 
 		if (pokemonName is null) return textureRect; // Return an empty TextureRect 
 
-		Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, PokemonTD.MinPokemonEnemyLevel);
-		Texture2D pokemonSprite = pokemon.Sprite;
-		textureRect.Texture = pokemonSprite;
+		textureRect.Texture = PokemonManager.Instance.GetPokemonSprite(pokemonName);
 		return textureRect;
 	}
 

@@ -12,17 +12,19 @@ public partial class PokemonTeamSlots : Container
     private Container _container;
 
     private bool _isVisible = true;
-    private List<PokemonTeamSlot> _PokemonTeamSlots = new List<PokemonTeamSlot>();
+    private List<PokemonTeamSlot> _pokemonTeamSlots = new List<PokemonTeamSlot>();
 
     public override void _ExitTree()
     {
         PokemonTD.Signals.EvolutionFinished -= UpdatePokemonTeamSlot;
+		PokemonTD.Signals.PokemonUpdated -= UpdatePokemonTeamSlot;
         PokemonTD.Signals.PokemonTeamUpdated -= PokemonTeamUpdated;
     }
 
     public override void _Ready()
     {
         PokemonTD.Signals.EvolutionFinished += UpdatePokemonTeamSlot;
+		PokemonTD.Signals.PokemonUpdated += UpdatePokemonTeamSlot;
         PokemonTD.Signals.PokemonTeamUpdated += PokemonTeamUpdated;
 
         _visibilityToggle.Pressed += () => 
@@ -48,7 +50,7 @@ public partial class PokemonTeamSlots : Container
 
     private void ClearPokemonTeamSlots()
 	{
-		_PokemonTeamSlots.Clear();
+		_pokemonTeamSlots.Clear();
 		foreach (Node child in _container.GetChildren())
 		{
 			child.QueueFree();
@@ -77,31 +79,28 @@ public partial class PokemonTeamSlots : Container
 		}
 	}
 
-	private void AddPokemonTeamSlot(PokemonTeamSlot PokemonTeamSlot, int teamSlotIndex)
+	private void AddPokemonTeamSlot(PokemonTeamSlot pokemonTeamSlot, int teamSlotIndex)
 	{
-		_container.AddChild(PokemonTeamSlot);
-		_container.MoveChild(PokemonTeamSlot, teamSlotIndex);
-		_PokemonTeamSlots.Insert(teamSlotIndex, PokemonTeamSlot);
+		_container.AddChild(pokemonTeamSlot);
+		_container.MoveChild(pokemonTeamSlot, teamSlotIndex);
+		_pokemonTeamSlots.Insert(teamSlotIndex, pokemonTeamSlot);
 	}
 
-	public void UpdatePokemonTeamSlot(Pokemon pokemonEvolution, int teamSlotIndex, int levels)
+	public void UpdatePokemonTeamSlot(Pokemon pokemon, int teamSlotIndex)
 	{
-		PokemonTeamSlot oldPokemonTeamSlot = _container.GetChildOrNull<PokemonTeamSlot>(teamSlotIndex);
-		oldPokemonTeamSlot.QueueFree();
-
 		PokemonTeamSlot newPokemonTeamSlot = GetPokemonTeamSlot(teamSlotIndex);
-		AddPokemonTeamSlot(newPokemonTeamSlot, teamSlotIndex);
+		newPokemonTeamSlot.SetControls(pokemon);
 	}
 
 	private PokemonTeamSlot GetPokemonTeamSlot(int teamSlotIndex)
 	{
-		PokemonTeamSlot PokemonTeamSlot = PokemonTD.PackedScenes.GetPokemonTeamSlot();
-		PokemonTeamSlot.TeamSlotIndex = teamSlotIndex;
+		PokemonTeamSlot pokemonTeamSlot = PokemonTD.PackedScenes.GetPokemonTeamSlot();
+		pokemonTeamSlot.TeamSlotIndex = teamSlotIndex;
 		
 		Pokemon pokemon = PokemonTeam.Instance.Pokemon[teamSlotIndex];
-		PokemonTeamSlot.SetControls(pokemon);
+		pokemonTeamSlot.SetControls(pokemon);
 
-		return PokemonTeamSlot;
+		return pokemonTeamSlot;
 	}
 
 	// Fill the rest of the slots with an empty slot state
@@ -117,7 +116,7 @@ public partial class PokemonTeamSlots : Container
 
     public PokemonTeamSlot FindPokemonTeamSlot(int teamSlotIndex)
 	{
-		return _PokemonTeamSlots.Find(PokemonTeamSlot => PokemonTeamSlot.TeamSlotIndex == teamSlotIndex);
+		return _pokemonTeamSlots.Find(PokemonTeamSlot => PokemonTeamSlot.TeamSlotIndex == teamSlotIndex);
 	}
 
     private void PokemonTeamUpdated()
@@ -125,7 +124,7 @@ public partial class PokemonTeamSlots : Container
 		int iteration = PokemonTeam.Instance.Pokemon.Count - 1;
 		RemoveEmptyPokemonTeamSlot(iteration);
 
-		PokemonTeamSlot PokemonTeamSlot = GetPokemonTeamSlot(iteration);
-		AddPokemonTeamSlot(PokemonTeamSlot, iteration);
+		PokemonTeamSlot pokemonTeamSlot = GetPokemonTeamSlot(iteration);
+		AddPokemonTeamSlot(pokemonTeamSlot, iteration);
 	}
 }

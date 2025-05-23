@@ -281,7 +281,6 @@ public partial class PokeCenter : Node
 		{
 			Pokemon randomPokemon = PokemonManager.Instance.GetRandomPokemon();
 			Pokemon.Add(randomPokemon);
-			PrintRich.Print(TextColor.Purple, $"{i}. {randomPokemon.Name} {randomPokemon.Level} ");
 		}
 	}
 

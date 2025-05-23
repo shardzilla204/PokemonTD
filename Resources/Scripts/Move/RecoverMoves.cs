@@ -10,7 +10,8 @@ public partial class RecoverMoves : Node
         "Leech Life",
         "Absorb",
         "Leech Seed",
-        "Mega Drain"
+        "Mega Drain",
+        "Dream Eater"
     };
 
     private List<string> _rareCandyRecoveryMoves = new List<string>()
@@ -43,6 +44,10 @@ public partial class RecoverMoves : Node
             int healthRecoverAmount = pokemonMoveDamage / 2;
             pokemonStageSlot.HealPokemon(healthRecoverAmount);
 
+            // Print Message To Console
+            string healthRecoveryMessage = $"{pokemonStageSlot.Pokemon.Name} Healed {healthRecoverAmount} HP";
+            PrintRich.PrintLine(TextColor.Purple, healthRecoveryMessage);
+
         }
         else if (attackingPokemon is PokemonEnemy)
         {
@@ -52,6 +57,10 @@ public partial class RecoverMoves : Node
             int pokemonMoveDamage = PokemonCombat.Instance.GetPokemonMoveDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
             int healthRecoverAmount = pokemonMoveDamage / 2;
             pokemonStageSlot.HealPokemon(healthRecoverAmount);
+
+            // Print Message To Console
+            string healthRecoveryMessage = $"{pokemonEnemy.Pokemon.Name} Healed {healthRecoverAmount} HP";
+            PrintRich.PrintLine(TextColor.Red, healthRecoveryMessage);
         }
     }
 
@@ -61,7 +70,7 @@ public partial class RecoverMoves : Node
         PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<PokemonStage>();
         pokemonStage.RareCandy += pokemonMove.Name == "Rest" ? 5 : 2;
         pokemonStage.RareCandy = Mathf.Clamp(pokemonStage.RareCandy, 0, maximumRareCandyCount);
-        pokemonStageSlot.HasMoveSkipped = pokemonMove.Name == "Rest";
+        pokemonStageSlot.Effects.HasMoveSkipped = pokemonMove.Name == "Rest";
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.RareCandyUpdated);
     }
@@ -76,30 +85,43 @@ public partial class RecoverMoves : Node
         {
             PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
             PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
-
+            pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
+        
             for (int i = 0; i < iterationCount; i++)
             {
+                if (!IsInstanceValid(pokemonEnemy)) return;
+
                 int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.HP * drainPercentage);
                 pokemonStageSlot.HealPokemon(damage);
                 pokemonEnemy.DamagePokemon(damage);
 
-                await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+                await ToSignal(pokemonStageSlot.GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+
+                // Print Message To Console
+                string healthRecoveryMessage = $"{pokemonStageSlot.Pokemon.Name} Healed {damage} HP";
+                PrintRich.PrintLine(TextColor.Purple, healthRecoveryMessage);
             }
         }
         else if (attackingPokemon is PokemonEnemy)
         {
             PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
             PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
+            pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
 
             for (int i = 0; i < iterationCount; i++)
             {
+                if (!IsInstanceValid(pokemonEnemy)) return;
+                
                 int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.HP * drainPercentage);
                 pokemonEnemy.HealPokemon(damage);
                 pokemonStageSlot.DamagePokemon(damage);
 
-                await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+                await ToSignal(pokemonEnemy.GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+
+                // Print Message To Console
+                string healthRecoveryMessage = $"{pokemonEnemy.Pokemon.Name} Healed {damage} HP";
+                PrintRich.PrintLine(TextColor.Red, healthRecoveryMessage);
             }
         }
-
     }
 }

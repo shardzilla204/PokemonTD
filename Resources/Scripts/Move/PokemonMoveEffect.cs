@@ -54,13 +54,13 @@ public partial class PokemonMoveEffect : Node
         return criticalHitRatio;
     }
 
-    public void DecreaseStat(Pokemon pokemon, StatMove statMove)
+    public void ChangeStat(Pokemon pokemon, StatMove statMove)
     {
         ApplyStatChange(pokemon, statMove);
 
-        Timer timer = GetTimer(1.5f);
-        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(pokemon); // Resets Stats
-        AddChild(timer);
+        Timer timer = GetTimer(2);
+        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(pokemon); // Reset Stats
+         AddChild(timer);
     }
 
     private int GetStatValue(Pokemon pokemon, StatMove statMove)
@@ -77,19 +77,19 @@ public partial class PokemonMoveEffect : Node
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
-                pokemon.Attack = Mathf.Clamp(statValue, 0, 255);
+                pokemon.Attack = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
                 break;
             case PokemonStat.SpecialAttack:
-                pokemon.SpecialAttack = Mathf.Clamp(statValue, 0, 255);
+                pokemon.SpecialAttack = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
                 break;
             case PokemonStat.Defense:
-                pokemon.Defense = Mathf.Clamp(statValue, 0, 255);
+                pokemon.Defense = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
                 break;
             case PokemonStat.SpecialDefense:
-                pokemon.SpecialDefense = Mathf.Clamp(statValue, 0, 255);
+                pokemon.SpecialDefense = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
                 break;
             case PokemonStat.Speed:
-                pokemon.Speed = Mathf.Clamp(statValue, 0, 255);
+                pokemon.Speed = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
                 break;
             case PokemonStat.Accuracy:
                 pokemon.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
@@ -140,7 +140,7 @@ public partial class PokemonMoveEffect : Node
         }
         else if (TrapMoves.IsTrapMove(pokemonMove))
         {
-            TrapMoves.ApplyTrapMove(defendingPokemon);
+            TrapMoves.ApplyTrapMove(attackingPokemon, defendingPokemon);
         }
         else if (ChargeMoves.IsChargeMove(pokemonMove).IsChargeMove)
         {

@@ -45,7 +45,7 @@ public partial class PokemonStages : Node
 
 		// Print Message To Console
 		string loadSuccessMessage = "Pokemon Stages File Successfully Loaded";
-		PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}
 
 	public PokemonStage FindPokemonStage(int stageID)

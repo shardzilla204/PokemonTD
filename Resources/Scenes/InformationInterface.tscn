@@ -1,17 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://cns7fl2chiobe"]
+[gd_scene load_steps=10 format=3 uid="uid://cns7fl2chiobe"]
 
 [ext_resource type="Script" uid="uid://070f7jw0l66j" path="res://Resources/Scripts/InformationInterface.cs" id="1_12mkb"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_gdkss"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_k3mti"]
-[ext_resource type="VideoStream" uid="uid://dnp7p6iaoqshy" path="res://Assets/Videos/PokemonStage/CatchingPokemon.ogv" id="3_pxyer"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_v31gx"]
 [ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="4_d6ca2"]
-[ext_resource type="VideoStream" uid="uid://dll6x83g6v4gq" path="res://Assets/Videos/PokemonStage/ChangingMoves.ogv" id="4_luyef"]
-[ext_resource type="VideoStream" uid="uid://buorwx5c1petf" path="res://Assets/Videos/PokemonStage/PlacingPokemon.ogv" id="5_12mkb"]
 [ext_resource type="Texture2D" uid="uid://cid8emm0n7q5e" path="res://Assets/Images/LeftArrow.png" id="5_80yth"]
-[ext_resource type="VideoStream" uid="uid://b05t3s2v6b3fm" path="res://Assets/Videos/PokemonStage/MovingPokemon.ogv" id="5_v5led"]
 [ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="6_12mkb"]
-[ext_resource type="VideoStream" uid="uid://cic6abexwuhjt" path="res://Assets/Videos/PokeCenter/AnalyzingPokemon.ogv" id="7_y81m7"]
 [ext_resource type="VideoStream" uid="uid://bda8yfvn6pa34" path="res://Assets/Videos/PokeCenter/ChangingPokemonTeam.ogv" id="10_pxyer"]
 
 [sub_resource type="FontVariation" id="FontVariation_ohwq2"]
@@ -21,20 +16,15 @@ variation_opentype = {
 2003265652: 650
 }
 
-[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
+[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_notesLabel", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
 script = ExtResource("1_12mkb")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/Label/ExitButton")
+_notesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/Notes")
 _videoStreamPlayer = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/VideoStreamPlayer")
 _videoTitle = NodePath("Background/MarginContainer/VBoxContainer/VideoTitle")
 _videoCaption = NodePath("Background/MarginContainer/VBoxContainer/VideoCaption")
 _nextButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/NextButton")
 _previousButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/PreviousButton")
-_placingPokemon = ExtResource("5_12mkb")
-_catchingPokemon = ExtResource("3_pxyer")
-_changingMoves = ExtResource("4_luyef")
-_movingPokemon = ExtResource("5_v5led")
-_analyzingPokemon = ExtResource("7_y81m7")
-_changingPokemonTeam = ExtResource("10_pxyer")
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -106,6 +96,14 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 ratio = 1.7778
+
+[node name="Notes" type="Label" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 25
+text = "- Moves That Increase Stats Are Automatically Applied"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="VideoStreamPlayer" type="VideoStreamPlayer" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
 layout_mode = 2

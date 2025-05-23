@@ -249,6 +249,16 @@
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
+    "Gust":
+    {
+        "Type": "Normal",
+        "Category": "Special",
+        "Power": 40,
+        "Accuracy": 100,
+        "Effect": "",
+        "Hit Count": [1, 1], 
+        "Status Condition": {}
+    },
     "Harden":
     {
         "Type": "Normal",
@@ -605,8 +615,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "Uses HP to creates a decoy that takes hits.",
+        "Effect": "Uses HP to creates a decoy that takes hits.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -686,8 +695,7 @@
         "Category": "Physical",
         "Power": 120,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User attacks for 2-3 turns but then becomes confused.",
+        "Effect": "User attacks, but is then inactive for 4 seconds.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -697,8 +705,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "",
-        "EffectRemoved": "User takes on the form and attacks of the opponent.",
+        "Effect": "User takes on the form and attacks of the opponent.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

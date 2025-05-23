@@ -1,4 +1,5 @@
 using Godot;
+using System;
 using System.Collections.Generic;
 
 namespace PokemonTD;
@@ -64,6 +65,11 @@ public partial class PokemonStats : Node
         return _statIncreaseMoves.FindAll(statIncreaseMove => statIncreaseMove.PokemonMoveName == pokemonMove.Name);
     }
 
+    public StatMove FindIncreasingStatMove(string pokemonMoveName)
+    {
+         return _statIncreaseMoves.Find(statIncreaseMove => statIncreaseMove.PokemonMoveName == pokemonMoveName);
+    }
+
     public List<StatMove> FindDecreasingStatMoves(PokemonMove pokemonMove)
     {
         return _statDecreaseMoves.FindAll(statDecreaseMove => statDecreaseMove.PokemonMoveName == pokemonMove.Name);
@@ -75,6 +81,15 @@ public partial class PokemonStats : Node
         return statIncreasingMoves.Count > 0;
     }
 
+    public bool HasAnyIncreasingStatChanges(List<PokemonMove> pokemonMoves)
+    {
+        foreach (PokemonMove pokemonMove in pokemonMoves)
+        {
+            if (HasIncreasingStatChanges(pokemonMove)) return true;
+        }
+        return false;
+    }
+
     public bool HasDecreasingStatChanges(PokemonMove pokemonMove)
     {
         List<StatMove> statDecreasingMoves = FindDecreasingStatMoves(pokemonMove);
@@ -83,22 +98,24 @@ public partial class PokemonStats : Node
 
     public void CheckStatChanges<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
     {
+        Pokemon pokemon = null;
         if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            Pokemon pokemon = pokemonStageSlot.Pokemon;
-            DecreaseStats(pokemon, pokemonMove);
+            pokemon = pokemonStageSlot.Pokemon;
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
-            Pokemon pokemon = pokemonEnemy.Pokemon;
-            DecreaseStats(pokemon, pokemonMove);
+            pokemon = pokemonEnemy.Pokemon;
         }
+        DecreaseStats(pokemon, pokemonMove);
     }
 
     public void IncreaseStats(Pokemon pokemon, List<StatMove> statMoves)
     {
         foreach (StatMove statMove in statMoves)
         {
+            if (statMove.Name == "Rage") continue;
+
             PokemonMoveEffect.Instance.ApplyStatChange(pokemon, statMove);
         }
     }
@@ -106,10 +123,8 @@ public partial class PokemonStats : Node
     // Only apply if it doesn't have the change
     public void DecreaseStats(Pokemon defendingPokemon, PokemonMove pokemonMove)
     {
-        foreach (PokemonMove move in defendingPokemon.Moves)
-        {
-            if (move.Name == "Mist") return;
-        }
+        PokemonMove hasMist = defendingPokemon.Moves.Find(move => move.Name == "Mist");
+        if (hasMist != null) return;
 
         if (!HasDecreasingStatChanges(pokemonMove)) return;
 
@@ -117,7 +132,7 @@ public partial class PokemonStats : Node
         foreach (StatMove statDecreasingMove in statDecreasingMoves)
         {
             if (!CanApplyStatChange(statDecreasingMove)) continue;
-            PokemonMoveEffect.Instance.DecreaseStat(defendingPokemon, statDecreasingMove);
+            PokemonMoveEffect.Instance.ChangeStat(defendingPokemon, statDecreasingMove);
         }
     }
     

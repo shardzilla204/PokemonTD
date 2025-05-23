@@ -18,7 +18,7 @@ public partial class StagePath : Path2D
 		if (!pokemonStage.HasStarted)
 		{
 			TextureRect arrow = GetArrow();
-			_arrowPathFollow = GetPathFollow(true, true);
+			_arrowPathFollow = GetPathFollow(true, true, false);
 			pokemonStage.StartedWave += _arrowPathFollow.QueueFree;
 			_arrowPathFollow.TreeExiting += () =>
 			{
@@ -70,13 +70,18 @@ public partial class StagePath : Path2D
 		AddChild(pathFollow);
 	}
 
+	public void RemovePathFollow(PathFollow2D pathFollow)
+	{
+		_pathFollows.Remove(pathFollow);
+	}
+
 	public void RemovePathFollow(PokemonEnemy pokemonEnemy)
 	{
 		PathFollow2D pathFollow = pokemonEnemy.GetParentOrNull<PathFollow2D>();
 		pathFollow.QueueFree();
 	}
 
-	public PathFollow2D GetPathFollow(bool isRotating, bool isLooping)
+	public PathFollow2D GetPathFollow(bool isRotating, bool isLooping, bool isClone)
 	{
 		PathFollow2D pathFollow = new PathFollow2D()
 		{
@@ -84,7 +89,7 @@ public partial class StagePath : Path2D
 			Loop = isLooping,
 			YSortEnabled = true
 		};
-		pathFollow.TreeExiting += () => _pathFollows.Remove(pathFollow);
+		if (!isClone) pathFollow.TreeExiting += () => _pathFollows.Remove(pathFollow);
 
 		return pathFollow;
 	}

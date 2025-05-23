@@ -38,11 +38,14 @@ public partial class PokeCenterAnalysis : NinePatchRect
     [Export]
     private NinePatchRect _pokeCenterStats;
 
+    [Export]
+    private InteractComponent _interactComponent;
+
     public Pokemon Pokemon;
 
     public override void _ExitTree()
     {
-        if (Pokemon is not null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
+        if (Pokemon != null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
     }
 
     public override void _Ready()
@@ -51,15 +54,20 @@ public partial class PokeCenterAnalysis : NinePatchRect
         {
             if (PokeCenter.Instance.Pokemon.Count != 0) SetPokemon(null);
         };
+        _interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) =>
+        {
+            if (!isDoubleClick || !isLeftClick || Pokemon == null) return;
+
+            PokeCenter.Instance.AddPokemon(Pokemon);
+            SetPokemon(null);
+        };
 
         SetPokemon(null);
     }
 
     public override void _Notification(int what)
     {
-        if (what != NotificationWMCloseRequest) return;
-
-        if (Pokemon is not null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
+        if (what == NotificationWMCloseRequest && Pokemon != null) PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
     }
 
     public override Variant _GetDragData(Vector2 atPosition)

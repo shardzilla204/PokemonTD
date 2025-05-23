@@ -18,11 +18,11 @@ _data = {
 }
 point_count = 8
 
-[node name="PokemonStage3" type="Node2D" node_paths=PackedStringArray("_stagePath", "_PokemonStageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage3" type="Node2D" node_paths=PackedStringArray("_stagePath", "_pokemonStageSlots", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 script = ExtResource("1_0u8vr")
 _stagePath = NodePath("StagePath")
-_PokemonStageSlots = NodePath("PokemonStageSlots")
+_pokemonStageSlots = NodePath("PokemonStageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
 

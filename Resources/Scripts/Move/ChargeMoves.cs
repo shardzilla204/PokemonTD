@@ -33,30 +33,49 @@ public partial class ChargeMoves : Node
 
     public void ApplyChargeMove<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
     {
-        bool isCharging = false;
+        // Check if it already is charging
+        if (attackingPokemon is PokemonStageSlot)
+        {
+            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
+            if (pokemonStageSlot.Effects.IsCharging) return;
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            if (pokemonEnemy.Effects.IsCharging) return;
+        }
         
+        bool isCharging = false;
         bool IsHyperBeam = PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove).IsHyperBeam;
         if (IsHyperBeam && !isCharging)
         {
             isCharging = true;
+            PokemonCombat.Instance.DealDamage(attackingPokemon, pokemonMove, defendingPokemon);
         }
         else if (!IsHyperBeam)
         {
             isCharging = true;
         }
-        else if (isCharging)
-        {
-            isCharging = false;
-            PokemonCombat.Instance.DealDamage(this, pokemonMove, defendingPokemon);
-        }
 
-        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        if (attackingPokemon is PokemonStageSlot)
         {
-            pokemonStageSlot.IsCharging = isCharging;
+            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
+            pokemonStageSlot.Effects.IsCharging = isCharging;
+
+            if (!isCharging) return;
+
+            string chargingMessage = $"{pokemonStageSlot.Pokemon.Name} Is Charging";
+            PrintRich.PrintLine(TextColor.Purple, chargingMessage);
         }
-        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        else if (attackingPokemon is PokemonEnemy)
         {
-            pokemonEnemy.IsCharging = isCharging;
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            pokemonEnemy.Effects.IsCharging = isCharging;
+
+            if (!isCharging) return;
+
+            string chargingMessage = $"{pokemonEnemy.Pokemon.Name} Is Charging";
+            PrintRich.PrintLine(TextColor.Red, chargingMessage);
         }
     }
 
@@ -64,13 +83,13 @@ public partial class ChargeMoves : Node
     {
         if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            bool usedDig = pokemonStageSlot.IsCharging && pokemonMove.Name == "Dig";
-            pokemonStageSlot.UsedDig = usedDig;
+            bool usedDig = pokemonStageSlot.Effects.IsCharging && pokemonMove.Name == "Dig";
+            pokemonStageSlot.Effects.UsedDig = usedDig;
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {
-            bool usedDig = pokemonEnemy.IsCharging && pokemonMove.Name == "Dig";
-            pokemonEnemy.UsedDig = usedDig;
+            bool usedDig = pokemonEnemy.Effects.IsCharging && pokemonMove.Name == "Dig";
+            pokemonEnemy.Effects.UsedDig = usedDig;
         }
     }
 }

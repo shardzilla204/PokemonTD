@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://bc0jpdpmf1kc0"]
+[gd_scene load_steps=6 format=3 uid="uid://bc0jpdpmf1kc0"]
 
-[ext_resource type="Script" uid="uid://vlxdrypgdsjl" path="res://Resources/Scripts/Pokemon/PokemonEnemy.cs" id="1_hour7"]
-[ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="1_w8eue"]
-[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_a4tex"]
+[ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="1_smjy8"]
+[ext_resource type="Script" uid="uid://vlxdrypgdsjl" path="res://Resources/Scripts/Pokemon/PokemonEnemy.cs" id="2_dwexy"]
+[ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="3_0vakl"]
+[ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scenes/Stage/StatusConditionContainer.cs" id="4_ojny1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
 radius = 65.0
 
-[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_statusConditions", "_screenNotifier", "_area", "_attackTimer")]
+[node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_statusConditionContainer", "_screenNotifier", "_area", "_attackTimer")]
 y_sort_enabled = true
 texture_filter = 1
 custom_minimum_size = Vector2(100, 100)
@@ -23,11 +24,11 @@ offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource("1_w8eue")
+texture = ExtResource("1_smjy8")
 expand_mode = 1
-script = ExtResource("1_hour7")
+script = ExtResource("2_dwexy")
 _healthBar = NodePath("VBoxContainer/HealthBar")
-_statusConditions = NodePath("VBoxContainer/StatusConditions")
+_statusConditionContainer = NodePath("VBoxContainer/StatusConditionContainer")
 _screenNotifier = NodePath("ScreenNotifier")
 _area = NodePath("Area2D")
 _attackTimer = NodePath("AttackTimer")
@@ -49,15 +50,16 @@ stretch_margin_left = 1
 stretch_margin_top = 1
 stretch_margin_right = 1
 stretch_margin_bottom = 1
-texture_under = ExtResource("2_a4tex")
-texture_progress = ExtResource("2_a4tex")
+texture_under = ExtResource("3_0vakl")
+texture_progress = ExtResource("3_0vakl")
 tint_under = Color(1, 1, 1, 0)
 tint_progress = Color(0, 0.5, 0, 1)
 
-[node name="StatusConditions" type="HBoxContainer" parent="VBoxContainer"]
+[node name="StatusConditionContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 theme_override_constants/separation = 3
 alignment = 1
+script = ExtResource("4_ojny1")
 
 [node name="ScreenNotifier" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(12.5, 12.5)

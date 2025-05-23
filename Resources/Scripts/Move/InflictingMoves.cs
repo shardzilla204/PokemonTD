@@ -39,6 +39,9 @@ public partial class InflictingMoves : Node
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
             int damage = Mathf.RoundToInt(pokemonData.HP * recoilPercentage);
             pokemonStageSlot.DamagePokemon(damage);
+
+            string recoilMessage = $"{pokemon.Name} Took {damage} Recoil Damage";
+            PrintRich.PrintLine(TextColor.Yellow, recoilMessage);
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {
@@ -46,6 +49,9 @@ public partial class InflictingMoves : Node
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
             int damage = Mathf.RoundToInt(pokemonData.HP * recoilPercentage);
             pokemonEnemy.DamagePokemon(damage);
+
+            string recoilMessage = $"{pokemon.Name} Took {damage} Recoil Damage";
+            PrintRich.PrintLine(TextColor.Red, recoilMessage);
         }
     }
 
@@ -55,6 +61,8 @@ public partial class InflictingMoves : Node
         {
             int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.HP);
             pokemonStageSlot.DamagePokemon(damage);
+
+            pokemonStageSlot.Effects.UsedFaintMove = true;
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {

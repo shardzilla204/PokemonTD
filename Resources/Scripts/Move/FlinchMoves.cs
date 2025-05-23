@@ -31,11 +31,11 @@ public partial class FlinchMoves : Node
         
         if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.HasMoveSkipped = true;
+            pokemonStageSlot.Effects.HasMoveSkipped = true;
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.HasMoveSkipped = true;
+            pokemonEnemy.Effects.HasMoveSkipped = true;
         }
     }
 

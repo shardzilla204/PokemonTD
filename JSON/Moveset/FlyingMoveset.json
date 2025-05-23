@@ -19,17 +19,6 @@
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
-    "Gust":
-    {
-        "Type": "Flying",
-        "Category": "Special",
-        "Power": 40,
-        "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "Hits Pokemon using Fly/Bounce/Sky Drop with double power.",
-        "Hit Count": [1, 1], 
-        "Status Condition": {}
-    },
     "Mirror Move":
     {
         "Type": "Flying",

@@ -14,14 +14,11 @@ public partial class PokemonHealthBar : Container
     [Export]
     private TextureProgressBar _healthBar;
 
-    private int _pokemonHealth;
-
     public void Update(Pokemon pokemon)
     {
-        _pokemonHealth = PokemonManager.Instance.GetPokemonHP(pokemon);
         _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
 
-		_healthBar.MaxValue = pokemon != null ? pokemon.HP : 100;
+        _healthBar.MaxValue = pokemon != null ? pokemon.MaximumHP : 100;
         _healthBar.Value = pokemon != null ? pokemon.HP : 100;
     }
 
@@ -38,24 +35,22 @@ public partial class PokemonHealthBar : Container
 
     private void SetHealth(Pokemon pokemon, int value)
     {
-        pokemon.HP = Math.Clamp(pokemon.HP + value, 0, pokemon.HP);
+        pokemon.HP += value;
+        pokemon.HP = Math.Clamp(pokemon.HP, 0, pokemon.MaximumHP);
         _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
         _healthBar.Value = pokemon.HP;
     }
 
     public void ResetHealth(Pokemon pokemon)
     {
-        pokemon.HP = _pokemonHealth;
-        _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.HP} HP" : null;
-
-        _healthBar.MaxValue = pokemon != null ? pokemon.HP : 100;
-        _healthBar.Value = pokemon != null ? pokemon.HP : 100;
+        pokemon.HP = pokemon.MaximumHP;
+        Update(pokemon);
     }
 
     private void CheckHealth()
     {
         if (_healthBar.Value > _healthBar.MinValue) return;
-        
+
         EmitSignal(SignalName.Fainted);
     }
 }

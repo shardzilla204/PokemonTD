@@ -47,6 +47,7 @@ public partial class Pokemon : Node
 	public List<PokemonMove> Moves = new List<PokemonMove>();
 
 	public int HP;
+	public int MaximumHP;
 	public int Attack;
 	public int Defense;
 	public int SpecialAttack;
@@ -59,8 +60,11 @@ public partial class Pokemon : Node
 	public PokemonExperience Experience;
 
 	public Gender Gender;
-
 	public PokemonMove Move;
+
+	private List<StatusCondition> _statusConditions = new List<StatusCondition>();
+
+	public Pokemon() {}
 
 	public Pokemon(string pokemonName, GC.Dictionary<string, Variant> pokemonDictionary, GC.Array<string> pokemonTypes, GC.Dictionary<string, Variant> pokemonStats)
 	{
@@ -70,19 +74,20 @@ public partial class Pokemon : Node
 		Height = pokemonDictionary["Height"].As<float>();
 		Weight = pokemonDictionary["Weight"].As<float>();
 		Description = pokemonDictionary["Description"].As<string>();
-		Sprite = GetPokemonSprite(pokemonName);
+		Sprite = PokemonManager.Instance.GetPokemonSprite(pokemonName);
 
 		int experienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
 		Experience = new PokemonExperience(experienceYield);
 
-		foreach (string pokemonType in pokemonTypes) 
+		foreach (string pokemonType in pokemonTypes)
 		{
 			Types.Add(Enum.Parse<PokemonType>(pokemonType));
 		}
 
 		HP = pokemonStats["HP"].As<int>();
+		MaximumHP = pokemonStats["HP"].As<int>();
 		Attack = pokemonStats["Attack"].As<int>();
-		Defense = pokemonStats["Defense"].As<int>(); 
+		Defense = pokemonStats["Defense"].As<int>();
 		SpecialAttack = pokemonStats["Special Attack"].As<int>();
 		SpecialDefense = pokemonStats["Special Defense"].As<int>();
 		Speed = pokemonStats["Speed"].As<int>();
@@ -92,7 +97,7 @@ public partial class Pokemon : Node
 			AssignGender(pokemonName);
 			return;
 		}
-		Gender = GetRandomGender();
+		Gender = PokemonManager.Instance.GetRandomGender();
 	}
 
 	// For Nidoran Female & Nidoran Male
@@ -122,12 +127,44 @@ public partial class Pokemon : Node
 		Moves.AddRange(pokemonMoves);
 		Move = Moves[0];
 
-		// Get a pokemon move that doesn't give stat increases
+		GetNextMove();
+	}
+	
+	public void AddStatusCondition(StatusCondition statusCondition)
+	{
+		_statusConditions.Add(statusCondition);
+	}
+
+	public void RemoveStatusCondition(StatusCondition statusCondition)
+	{
+		_statusConditions.Remove(statusCondition);
+	}
+
+	public void RemoveAllStatusConditions()
+	{
+		_statusConditions.Clear();
+	}
+
+	public List<StatusCondition> GetStatusConditions()
+	{
+		return _statusConditions;
+	}
+
+	public bool HasStatusCondition(StatusCondition statusCondition)
+	{
+		return _statusConditions.Contains(statusCondition);
+	}
+
+	// Set Current Move
+	public void GetNextMove()
+	{
+		// Filter out most pokemon moves that give stat increases 
 		for (int i = 0; i < Moves.Count; i++)
 		{
 			// Skip to current move
 			PokemonMove nextPokemonMove = Moves.SkipWhile(move => move != Moves[i]).FirstOrDefault();
-			if (PokemonStats.Instance.HasIncreasingStatChanges(nextPokemonMove) && (Moves[i].Name != "Skull Bash" || Move.Name != "Rage")) continue;
+			bool hasIncreasingStatChanges = PokemonStats.Instance.HasIncreasingStatChanges(nextPokemonMove) && (nextPokemonMove.Name != "Skull Bash" || nextPokemonMove.Name != "Rage");
+			if (hasIncreasingStatChanges || nextPokemonMove.Name == "Focus Energy") continue;
 
 			Move = nextPokemonMove;
 			break;
@@ -139,20 +176,6 @@ public partial class Pokemon : Node
 		// Default to the minimum level if below the threshold
 		level = level < PokemonTD.MinPokemonLevel ? PokemonTD.MinPokemonLevel : level;
 		Level = PokemonTD.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
-	}
-
-	private Texture2D GetPokemonSprite(string pokemonName)
-    {
-		string filePath = $"res://Assets/Images/Pokemon/{pokemonName}.png";
-        return ResourceLoader.Load<Texture2D>(filePath);
-    }
-
-	private Gender GetRandomGender()
-	{
-		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		int randomValue = RNG.RandiRange((int) Gender.Male, (int) Gender.Female);
-
-		return (Gender) randomValue;
 	}
 }
 

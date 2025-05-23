@@ -1,0 +1,32 @@
+{
+    "Placing Pokemon":
+    {
+        "Caption": "Drag & Drop The Pokemon Onto A Highlighted Slot. Double Click To Retrieve The Pokemon.",
+        "File Path": "res://Assets/Videos/PokemonStage/PlacingPokemon.ogv"
+    },
+    "Changing The Pokemon's Move":
+    {
+        "Caption": "Click To Open The Pokemon's Moveset Menu And Select A Move.",
+        "File Path": "res://Assets/Videos/PokemonStage/ChangingMoves.ogv"
+    },
+    "Catching Pokemon":
+    {
+        "Caption": "Drag & Drop The Pokeball Onto An Enemy Pokemon When It's Health Is Red.",
+        "File Path": "res://Assets/Videos/PokemonStage/ChangingPokemon.ogv"
+    },
+    "Moving Pokemon":
+    {
+        "Caption": "You Can Swap Between Slots Wherever They Are On The Map. You Can Also Swap Between Pokemon.",
+        "File Path": "res://Assets/Videos/PokemonStage/MovingPokemon.ogv"
+    },
+    "Changing Pokemon Team":
+    {
+        "Caption": "Double Click The Pokemon From Your Team To Send It Back To The PC. Vise Versa.",
+        "File Path": "res://Assets/Videos/PokeCenter/ChangingPokemonTeam.ogv"
+    },
+    "Analyzing Pokemon":
+    {
+        "Caption": "Drag & Drop Your Pokemon Into The Area To See Various Stats.",
+        "File Path": "res://Assets/Videos/PokeCenter/AnalyzingPokemon.ogv"
+    }
+}

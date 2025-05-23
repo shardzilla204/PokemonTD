@@ -57,11 +57,11 @@ public partial class PokemonGame : Node
 
 		// Print Message To Console
 		string saveSuccessMessage = "Game File Successfully Saved";
-		if (PokemonTD.AreFilePathsVisible)
+		if (PrintRich.AreFilePathsVisible)
 		{
 			saveSuccessMessage += $" At {gameFile.GetPathAbsolute()}";
 		}
-		PrintRich.PrintLine(TextColor.Green, saveSuccessMessage);
+		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, saveSuccessMessage);
     }
 
     public void LoadGame()
@@ -85,11 +85,11 @@ public partial class PokemonGame : Node
 
 		// Print Message To Console
 		string loadSuccessMessage = "Game File Successfully Loaded";
-		if (PokemonTD.AreFilePathsVisible)
+		if (PrintRich.AreFilePathsVisible)
 		{
 			loadSuccessMessage += $" At {gameFile.GetPathAbsolute()}";
 		}
-		PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }
 
     public GC.Dictionary<string, Variant> GetData()

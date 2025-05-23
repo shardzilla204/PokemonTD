@@ -35,8 +35,7 @@
         "Category": "Special",
         "Power": 40,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User attacks for 2-3 turns but then becomes confused.",
+        "Effect": "User attacks, but is then inactive for 4 seconds.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

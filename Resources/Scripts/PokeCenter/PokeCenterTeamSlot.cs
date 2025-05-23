@@ -23,9 +23,7 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 
 		_interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) =>
 		{
-			if (Pokemon is null) return;
-			
-			if (PokemonTeam.Instance.Pokemon.Count == 0) return;
+			if (PokemonTeam.Instance.Pokemon.Count == 0 || Pokemon == null) return;
 			
 			if (!isLeftClick || !isDoubleClick) return;
 

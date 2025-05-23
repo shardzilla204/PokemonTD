@@ -45,8 +45,7 @@
         "Category": "Special",
         "Power": 100,
         "Accuracy": 100,
-        "Effect": "",
-        "EffectRemoved": "User recovers half the HP inflicted on a sleeping opponent.",
+        "Effect": "User recovers half the HP inflicted on a sleeping opponent.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

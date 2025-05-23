@@ -47,9 +47,9 @@ public partial class PokemonSleepBar : TextureProgressBar
         _sleepTimer.Start();
     }
 
-    public void Start(Pokemon pokemon)
+    public void Start(Pokemon pokemon, float additionalTime)
     {
-        float waitTime = GetWaitTime(pokemon);
+        float waitTime = GetWaitTime(pokemon) + additionalTime;
         Value = waitTime;
         MaxValue = waitTime;
         _sleepTimer.WaitTime = waitTime;

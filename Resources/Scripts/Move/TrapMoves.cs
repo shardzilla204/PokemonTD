@@ -20,22 +20,34 @@ public partial class TrapMoves : Node
         return pokemonMoveName != null;
     }
     
-    public void ApplyTrapMove<Defending>(Defending defendingPokemon)
+    public void ApplyTrapMove<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
     {
         float percentage = .125f; // 1/8
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         int randomIterationCount = RNG.RandiRange(4, 5);
 
-        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
+        if (attackingPokemon is PokemonStageSlot)
         {
-            int damageAmount = PokemonCombat.Instance.GetDamageAmount(pokemonStageSlot.Pokemon, percentage);
-            PokemonCombat.Instance.DamagePokemonOverTime(pokemonStageSlot, damageAmount, randomIterationCount, StatusCondition.None);
-        }
-        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
-        {
+            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+
             int damageAmount = PokemonCombat.Instance.GetDamageAmount(pokemonEnemy.Pokemon, percentage);
-            PokemonCombat.Instance.DamagePokemonOverTime(pokemonEnemy, damageAmount, randomIterationCount, StatusCondition.None);
+            PokemonCombat.Instance.DamagePokemonOverTime(pokemonStageSlot, pokemonEnemy, damageAmount, randomIterationCount, StatusCondition.None);
+
+            string trappedMessage = $"{pokemonEnemy.Pokemon.Name} Is Trapped";
+            PrintRich.PrintLine(TextColor.Yellow, trappedMessage);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
+
+            int damageAmount = PokemonCombat.Instance.GetDamageAmount(pokemonStageSlot.Pokemon, percentage);
+            PokemonCombat.Instance.DamagePokemonOverTime(pokemonEnemy, pokemonStageSlot, damageAmount, randomIterationCount, StatusCondition.None);
+
+            string trappedMessage = $"{pokemonStageSlot.Pokemon.Name} Is Trapped";
+            PrintRich.PrintLine(TextColor.Red, trappedMessage);
         }
     }
 }

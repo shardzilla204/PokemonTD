@@ -66,11 +66,13 @@ public partial class StageInterface : CanvasLayer
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 		
         _pokemonStage.StartedWave += () => _waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
-		_exitButton.Pressed += () => 
+		_exitButton.Pressed += () =>
 		{
 			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			_pokemonStage.AddSibling(stageSelectInterface);
 			_pokemonStage.QueueFree();
+
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLeftStage);
 		};
 		_settingsButton.Pressed += () =>
 		{
@@ -83,14 +85,14 @@ public partial class StageInterface : CanvasLayer
 
 	private void PokemonUsed(bool inUse, int teamSlotIndex)
 	{
-		PokemonTeamSlot PokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
-		PokemonTeamSlot.InUse = inUse;
+		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		pokemonTeamSlot.InUse = inUse;
 	}
 
 	public bool IsPokemonTeamSlotInUse(int teamSlotIndex)
 	{
-		PokemonTeamSlot PokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
-		return PokemonTeamSlot.InUse;
+		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		return pokemonTeamSlot.InUse;
 	}
 
 	private void PokemonEnemyPassed(PokemonEnemy pokemonEnemy)

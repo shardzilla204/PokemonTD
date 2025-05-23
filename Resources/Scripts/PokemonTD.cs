@@ -5,25 +5,21 @@ using System;
 namespace PokemonTD;
 
 /* 
-    * Priority:
-    TODO: Add move effect functionality
-
-    TODO: Add Poke mart to utilize poke dollars
-    TODO: Add status condition icons to show multiple conditions
+    * Tasks:
+    TODO: Add a Poke mart to utilize poke dollars
     TODO: Add evolution stones & it's functionality
-    TODO: Automatically apply stat increasing moves
 
     * Ideas:
-    ? Add keybinds
-    ? Shiny pokemon
     ? Mute all stage team slot options in settings
+    ? Make conversion apply automatically
+    ? Add keybinds
+    ? Shiny pokemon through color palettes
 
     * Bugs:
 
     * Notes:
-    - Add HP Drain moves
-    - Print Out Unique Move Usage
-    - Check Focus Energy
+    - Pin Missile SFX Will Be Damage SFX
+    - Growl SFX Is The Pokemon's Cry
 */
 
 public partial class PokemonTD : Control
@@ -33,9 +29,6 @@ public partial class PokemonTD : Control
 
     [Export]
     private PokemonTween _pokemonTween;
-
-    [Export]
-    private bool _areConsoleMessagesEnabled = false;
 
     [Export]
     private bool _isTeamRandom;
@@ -62,16 +55,13 @@ public partial class PokemonTD : Control
     private bool _isScreenshotModeOn = false;
 
     [Export]
-    private bool _areFilePathsVisible = false;
-
-    [Export]
     private bool _isExportingForMobile = false;
 
     [ExportCategory("Poke Center")]
     [Export]
     private bool _isPokeCenterRandomized = false;
 
-    [Export(PropertyHint.Range, "0,120,1")]
+    [Export(PropertyHint.Range, "0,999,1")]
     private int _pokeCenterCount;
 
     [ExportCategory("Pokemon Level")]
@@ -89,8 +79,6 @@ public partial class PokemonTD : Control
 
     public static PackedScenes PackedScenes;
 
-    public static bool AreConsoleMessagesEnabled = false;
-
     public static float GameSpeed = 1;
     public static bool IsGamePaused;
     public static PokemonTween Tween;
@@ -101,7 +89,7 @@ public partial class PokemonTD : Control
     public static bool AreLevelsRandomized = false;
     public static bool AreMovesRandomized = false;
     public static bool IsScreenshotModeOn = false;
-    public static bool AreFilePathsVisible = false;
+
     public static bool IsExportingForMobile = false;
 
     public static int StarterPokemonLevel = 5;
@@ -128,6 +116,7 @@ public partial class PokemonTD : Control
 
     public const int MaxTeamSize = 6;
     public const int MaxMoveCount = 4;
+    public const int MaxStatValue = 255;
 
     public static StageConsole StageConsole;
 
@@ -138,12 +127,10 @@ public partial class PokemonTD : Control
 
         AreStagesEnabled = _areStagesEnabled;
         IsTeamRandom = _isTeamRandom;
-        AreConsoleMessagesEnabled = _areConsoleMessagesEnabled;
         IsCaptureModeEnabled = _isCaptureModeEnabled;
         AreLevelsRandomized = _areLevelsRandomized;
         AreMovesRandomized = _areMovesRandomized;
         IsScreenshotModeOn = _isScreenshotModeOn;
-        AreFilePathsVisible = _areFilePathsVisible;
         IsExportingForMobile = _isExportingForMobile;
 
         StarterPokemonLevel = _starterPokemonLevel;
@@ -238,6 +225,7 @@ public partial class PokemonTD : Control
             GC.Dictionary<string, Variant> pokemonData = new GC.Dictionary<string, Variant>()
             {
                 { "Name", pokemon.Name },
+                { "HP", pokemon.HP },
                 { "Gender", (int) pokemon.Gender },
                 { "Level", pokemon.Level },
                 { "Experience", GetExperienceData(pokemon) },
@@ -256,6 +244,7 @@ public partial class PokemonTD : Control
     {
         int pokemonLevel = pokemonData["Level"].As<int>();
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
+        pokemon.HP = pokemonData["HP"].As<int>();
         pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
 
         SetExperienceData(pokemon, pokemonData);

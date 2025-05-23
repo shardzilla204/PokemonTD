@@ -40,25 +40,43 @@ public partial class PokeCenterInventory : Container
 
 	private int _pageIndex = 0;
 	private int _maxPageIndex = 999;
+	private SortCategory _sortCategory;
+	private bool _isDescending;
 
     public override void _ExitTree()
-    {
-		PokemonTD.Signals.PokemonTeamUpdated -= SetPokemonPages;
-    }	
+	{
+		PokemonTD.Signals.PokemonTeamUpdated -= PokemonTeamUpdated;
+	}	
 
     public override void _Ready()
     {
-		PokemonTD.Signals.PokemonTeamUpdated += SetPokemonPages;
+		PokemonTD.Signals.PokemonTeamUpdated += PokemonTeamUpdated;
 
-		_pokeCenterSearch.TextChanged += OnSearchTextChanged;
+		_pokeCenterSearch.TextChanged += SearchTextChanged;
 
         _cycleLeftButton.Pressed += () => CycleInventory(false);
         _cycleRightButton.Pressed += () => CycleInventory(true);
 
-		_sortByLevel.Pressed += () => SortBy(SortCategory.Level, _sortByLevel.IsDescending);
-		_sortByName.Pressed += () => SortBy(SortCategory.Name, _sortByName.IsDescending);
-		_sortByNumber.Pressed += () => SortBy(SortCategory.NationalNumber, _sortByNumber.IsDescending);
-		_sortByType.Pressed  += () => SortBy(SortCategory.Type, _sortByType.IsDescending);
+		_sortByLevel.Pressed += () =>
+		{
+			SortBy(SortCategory.Level, _sortByLevel.IsDescending);
+			SetPokemonPages();
+		};
+		_sortByName.Pressed += () =>
+		{
+			SortBy(SortCategory.Name, _sortByName.IsDescending);
+			SetPokemonPages();
+		};
+		_sortByNumber.Pressed += () =>
+		{
+			SortBy(SortCategory.NationalNumber, _sortByNumber.IsDescending);
+			SetPokemonPages();
+		};
+		_sortByType.Pressed += () =>
+		{
+			SortBy(SortCategory.Type, _sortByType.IsDescending);
+			SetPokemonPages();
+		};
 
 		SetPokemonPages();
 		
@@ -69,25 +87,37 @@ public partial class PokeCenterInventory : Container
 	
 	private void SortBy(SortCategory sortCategory, bool isDescending)
 	{
+		_sortCategory = sortCategory;
+		_isDescending = isDescending;
 		switch (sortCategory)
 		{
 			case SortCategory.Level:
 				PokeCenter.Instance.OrderByLevel(isDescending);
-			break;
+				break;
 			case SortCategory.Name:
 				PokeCenter.Instance.OrderByName(isDescending);
-			break;
+				break;
 			case SortCategory.NationalNumber:
 				PokeCenter.Instance.OrderByNationalNumber(isDescending);
-			break;
+				break;
 			case SortCategory.Type:
 				PokeCenter.Instance.OrderByType(isDescending);
-			break;
+				break;
 		}
+	}
+
+	private void PokemonTeamUpdated()
+	{
+		if (_pokeCenterSearch.Text != "")
+		{
+			SearchTextChanged(_pokeCenterSearch.Text);
+			return;
+		}
+		SortBy(_sortCategory, _isDescending);
 		SetPokemonPages();
 	}
 
-	private void OnSearchTextChanged(string text)
+	private void SearchTextChanged(string text)
 	{
 		text = text.Trim();
 		if (text == "")
@@ -105,6 +135,8 @@ public partial class PokeCenterInventory : Container
 			if (pokemon != null) filteredPokemon.Add(pokemon);
 		}
 		int pageCount = PokeCenter.Instance.GetPageCount(filteredPokemon.Count);
+
+		SortBy(_sortCategory, _isDescending);
 		SetPokemonPages(pageCount, filteredPokemon);
 	}
 

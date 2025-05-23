@@ -1,14 +1,15 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdfv2agri4jy7"]
+[gd_scene load_steps=7 format=3 uid="uid://cdfv2agri4jy7"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_y82w6"]
 [ext_resource type="Script" uid="uid://bijtn2qgen5e4" path="res://Resources/Scripts/Stage/PokemonStageSlot.cs" id="2_crn5j"]
+[ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scenes/Stage/StatusConditionContainer.cs" id="3_crn5j"]
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_ech5t"]
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="4_hkqr4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoqv1"]
 radius = 150.0
 
-[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_statusConditions", "_attackTimer", "_pokemonMovePlayer")]
+[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(64, 64)
 offset_right = 64.0
@@ -22,12 +23,12 @@ script = ExtResource("2_crn5j")
 _area = NodePath("Area2D")
 _sprite = NodePath("InteractComponent/Control/Sprite")
 _interactComponent = NodePath("InteractComponent")
-_statusConditions = NodePath("StatusConditions")
+_statusConditionContainer = NodePath("StatusConditionContainer")
 _attackTimer = NodePath("AttackTimer")
 _pokemonMovePlayer = NodePath("PokemonMovePlayer")
 metadata/_edit_group_ = true
 
-[node name="StatusConditions" type="HBoxContainer" parent="."]
+[node name="StatusConditionContainer" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -40,6 +41,7 @@ grow_horizontal = 2
 mouse_filter = 2
 theme_override_constants/separation = 3
 alignment = 1
+script = ExtResource("3_crn5j")
 
 [node name="InteractComponent" type="MarginContainer" parent="."]
 y_sort_enabled = true

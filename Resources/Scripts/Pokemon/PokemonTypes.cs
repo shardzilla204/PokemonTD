@@ -68,7 +68,7 @@ public partial class PokemonTypes : Node
 		
 		// Print Message To Console
 		string loadSuccessMessage = "Type Matchup File Successfully Loaded";
-		PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}
 
 	public EffectiveType GetEffectiveType(float typeMultiplier) => typeMultiplier switch

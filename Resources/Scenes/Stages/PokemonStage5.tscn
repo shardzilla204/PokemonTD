@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://s728ytolcipn"]
+[gd_scene load_steps=13 format=4 uid="uid://s728ytolcipn"]
 
 [ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/Stage/PokemonStage.cs" id="1_w3aw8"]
 [ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_ub8d4"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="3_srxv6"]
 [ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="4_v6y3x"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="4_yc82l"]
-[ext_resource type="PackedScene" uid="uid://bc0jpdpmf1kc0" path="res://Resources/Scenes/PokemonEnemy.tscn" id="5_d2w7d"]
 [ext_resource type="Texture2D" uid="uid://c6voojnt0n5fy" path="res://Assets/Images/Pokemon/Grimer.png" id="5_gvcfm"]
 [ext_resource type="Texture2D" uid="uid://b6ufa2xecn7td" path="res://Assets/Images/Pokemon/Gastly.png" id="6_w3aw8"]
 [ext_resource type="Texture2D" uid="uid://bwgqqpqjhjel4" path="res://Assets/Images/Pokemon/Koffing.png" id="7_ub8d4"]
@@ -24,11 +23,11 @@ _data = {
 }
 point_count = 5
 
-[node name="PokemonStage5" type="Node2D" node_paths=PackedStringArray("_stagePath", "_PokemonStageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage5" type="Node2D" node_paths=PackedStringArray("_stagePath", "_pokemonStageSlots", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 script = ExtResource("1_w3aw8")
 _stagePath = NodePath("StagePath")
-_PokemonStageSlots = NodePath("PokemonStageSlots")
+_pokemonStageSlots = NodePath("PokemonStageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
 
@@ -78,17 +77,6 @@ y_sort_enabled = true
 curve = SubResource("Curve2D_1vpji")
 script = ExtResource("3_h4vle")
 _rightArrowTexture = ExtResource("4_v6y3x")
-
-[node name="PathFollow2D" type="PathFollow2D" parent="StagePath"]
-position = Vector2(1344, 92)
-progress = 3222.01
-rotates = false
-
-[node name="PokemonEnemy" parent="StagePath/PathFollow2D" instance=ExtResource("5_d2w7d")]
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
 
 [node name="Path2" type="Path2D" parent="."]
 curve = SubResource("Curve2D_cfmor")

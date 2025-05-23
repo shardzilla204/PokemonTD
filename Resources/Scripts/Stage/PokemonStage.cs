@@ -16,7 +16,7 @@ public partial class PokemonStage : Node2D
 	private StagePath _stagePath;
 
 	[Export]
-	private Control _PokemonStageSlots;
+	private Control _pokemonStageSlots;
 
 	[Export]
 	private Node2D _transparentLayers;
@@ -53,7 +53,7 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.DraggingPokeBall += SetStageAlpha;
 		PokemonTD.Signals.PokemonEvolving += PokemonEvolving;
 
-		foreach (Node child in _PokemonStageSlots.GetChildren())
+		foreach (Node child in _pokemonStageSlots.GetChildren())
 		{
 			if (child is PokemonStageSlot PokemonStageSlot) PokemonStageSlots.Add(PokemonStageSlot);
 		}
@@ -163,20 +163,20 @@ public partial class PokemonStage : Node2D
 	{
 		string resultMessage = "You've Won!";
 		ShowResultInterface(resultMessage);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasWon);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasWonStage);
 
 		// Print Message To Console
-		PrintRich.PrintLine(TextColor.Yellow, resultMessage);
+		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
 	}
 
 	private void LostStage()
 	{
 		string resultMessage = "You've Lost All Your Candy!";
 		ShowResultInterface(resultMessage);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLost);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLostStage);
 
 		// Print Message To Console
-		PrintRich.PrintLine(TextColor.Yellow, resultMessage);
+		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
 	}
 
 	private void StartWave()
@@ -188,7 +188,7 @@ public partial class PokemonStage : Node2D
 
 		// Print Message To Console
 		string waveMessage = $"Starting Wave {CurrentWave} / {WaveCount}";
-		PrintRich.PrintLine(TextColor.Yellow, waveMessage);
+		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, waveMessage);
 	}
 
 	private async void SpawnWave()
@@ -213,20 +213,46 @@ public partial class PokemonStage : Node2D
 		pokemonEnemy.Fainted += PokemonEnemyEvent;
 		PokemonEnemies.Add(pokemonEnemy);
 		
-		PathFollow2D pathFollow = _stagePath.GetPathFollow(false, false);
+		PathFollow2D pathFollow = _stagePath.GetPathFollow(false, false, false);
+		pathFollow.TreeExiting += () =>
+		{
+			PokemonEnemies.Remove(pokemonEnemy);
+			_stagePath.RemovePathFollow(pathFollow);
+		};
 		pathFollow.AddChild(pokemonEnemy);
 		_stagePath.AddPathFollow(pathFollow);
 
 		// Print Message To Console
 		string spawnMessage = $"Spawning Level {randomPokemon.Level} {randomPokemon.Name}";
-		PrintRich.PrintLine(TextColor.Yellow, spawnMessage);
+		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, spawnMessage);
+	}
+
+	public void SpawnClone(PokemonEnemy pokemonEnemy, PokemonEnemy pokemonEnemyClone)
+	{
+		PathFollow2D pathFollow = pokemonEnemy.GetParentOrNull<PathFollow2D>();
+
+		PathFollow2D pathFollowClone = _stagePath.GetPathFollow(false, false, true);
+		pathFollowClone.AddChild(pokemonEnemyClone);
+		pathFollowClone.ProgressRatio = pathFollow.ProgressRatio;
+
+		_stagePath.AddPathFollow(pathFollowClone);
+	}
+
+	public PokemonEnemy GetPokemonClone(PokemonEnemy pokemonEnemy)
+	{
+		Pokemon pokemonClone = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name, pokemonEnemy.Pokemon.Level);
+		pokemonClone.HP /= 3;
+		
+		PokemonEnemy pokemonEnemyClone = PokemonTD.PackedScenes.GetPokemonEnemy();
+		pokemonEnemyClone.SetPokemon(pokemonClone);
+		return pokemonEnemyClone;
 	}
 
 	private PokemonEnemy GetPokemonEnemy(Pokemon pokemon)
 	{
 		PokemonEnemy pokemonEnemy = PokemonTD.PackedScenes.GetPokemonEnemy();
 		pokemonEnemy.SetPokemon(pokemon);
-		pokemonEnemy.ScreenNotifier.ScreenExited += () => 
+		pokemonEnemy.ScreenNotifier.ScreenExited += () =>
 		{
 			DecreaseRareCandy(pokemon);
 			_stagePath.RemovePathFollow(pokemonEnemy);

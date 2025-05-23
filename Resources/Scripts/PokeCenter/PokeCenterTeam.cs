@@ -100,6 +100,6 @@ public partial class PokeCenterTeam : Container
 			Pokemon pokemon = PokemonTeam.Instance.Pokemon[i];
 			_teamSlots[i].UpdateSlot(pokemon);
 		}
-		PrintRich.PrintTeam(TextColor.Orange);
+		PrintRich.PrintTeam(TextColor.Yellow);
 	}
 }

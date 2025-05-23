@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Godot;
+using System.Collections.Generic;
 
 namespace PokemonTD;
 
@@ -9,15 +9,57 @@ public enum TextColor
    Orange, // Action
    Yellow, // General Event
    Green, // In-Game Success
-   Blue,
    Purple, // Pokemon Event
+   Blue,
+   Pink,
+   LightBlue,
+   Brown,
 }
 
-public partial class PrintRich
+public partial class PrintRich : Node
 {
+   [Export]
+   private bool _areConsoleMessagesEnabled = true;
+
+   [Export]
+   private bool _areFileMessagesEnabled = false;
+
+   [Export]
+   private bool _areFilePathsVisible = false;
+
+   [Export]
+   private bool _areStagesMessagesEnabled = false;
+
+   [ExportCategory("Pokemon")]
+   [Export]
+   private bool _arePokemonMessagesEnabled = true;
+
+   [Export]
+   private bool _arePokemonStatChangeMessagesEnabled = true;
+
+   [ExportCategory("Pokemon Enemy")]
+   [Export]
+   private bool _arePokemonEnemyMessagesEnabled = true;
+
+   [Export]
+   private bool _arePokemonEnemyStatChangeMessagesEnabled = true;
+
+   public static bool AreConsoleMessagesEnabled;
+   public static bool AreFileMessagesEnabled;
+   public static bool AreFilePathsVisible;
+   public static bool AreStageMessagesEnabled;
+
+   public override void _EnterTree()
+   {
+      AreConsoleMessagesEnabled = _areConsoleMessagesEnabled;
+      AreFileMessagesEnabled = _areFileMessagesEnabled;
+      AreFilePathsVisible = _areFilePathsVisible;
+      AreStageMessagesEnabled = _areStagesMessagesEnabled;
+   }
+
    public static void Print(TextColor textColor, string text)
    {
-      if (!PokemonTD.AreConsoleMessagesEnabled) return;
+      if (!AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
@@ -25,7 +67,7 @@ public partial class PrintRich
 
    public static void PrintLine(TextColor textColor, string text)
    {
-      if (!PokemonTD.AreConsoleMessagesEnabled) return;
+      if (!AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
       GD.PrintRich($"[color={textColorString}]{text}[/color]");
@@ -34,7 +76,7 @@ public partial class PrintRich
 
    public static void PrintTeam(TextColor textColor)
 	{
-      if (!PokemonTD.AreConsoleMessagesEnabled) return;
+      if (!AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
 
@@ -50,7 +92,7 @@ public partial class PrintRich
 
    public static void PrintStats(TextColor textColor, Pokemon pokemon)
    {
-      if (!PokemonTD.AreConsoleMessagesEnabled) return;
+      if (!AreConsoleMessagesEnabled) return;
 
       string textColorString = GetColorHex(textColor);
 
@@ -100,14 +142,29 @@ public partial class PrintRich
       return firstTypeMultiplier;
    }
 
-   public static string GetColorHex(TextColor textColor) => textColor switch 
+   public static string GetTypesString(Pokemon pokemon)
+   {
+      string typesString = "[";
+      foreach (PokemonType pokemonType in pokemon.Types)
+      {
+         typesString += $"{pokemonType},";
+      }
+      typesString = typesString.TrimSuffix(",");
+      typesString += "]";
+      return typesString;
+   }
+
+   public static string GetColorHex(TextColor textColor) => textColor switch
    {
       TextColor.Red => "FF4040",
       TextColor.Orange => "F88158",
       TextColor.Yellow => "E9D66B",
       TextColor.Green => "76CD26",
-      TextColor.Blue => "6495ED",
       TextColor.Purple => "CA9BF7",
+      TextColor.Blue => "6495ED",
+      TextColor.Pink => "FF69B4",
+      TextColor.LightBlue => "ADD8E6",
+      TextColor.Brown => "C4A484",
       _ => "FFFFFF",
    };
 

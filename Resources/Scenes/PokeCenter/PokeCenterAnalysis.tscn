@@ -1,43 +1,45 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmcelavbxx1ih"]
+[gd_scene load_steps=7 format=3 uid="uid://bmcelavbxx1ih"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_jt2sa"]
+[ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="2_a467c"]
 [ext_resource type="Script" uid="uid://bslbv1vtb4qm2" path="res://Resources/Scripts/PokeCenter/PokeCenterAnalysis.cs" id="2_gfgl2"]
 [ext_resource type="Texture2D" uid="uid://dvk7wmke6bpjo" path="res://Assets/Images/Gender/MaleIcon.png" id="3_a467c"]
 [ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_kmbo8"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="5_md6ax"]
 
-[node name="PokeCenterAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_pokemonName", "_pokemonLevel", "_genderIcon", "_pokemonHeight", "_pokemonWeight", "_pokemonStats", "_pokemonSprite", "_pokemonDescription", "_releaseButton", "_pokeCenterInfo", "_pokeCenterStats")]
+[node name="PokeCenterAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_pokemonName", "_pokemonLevel", "_genderIcon", "_pokemonHeight", "_pokemonWeight", "_pokemonStats", "_pokemonSprite", "_pokemonDescription", "_releaseButton", "_pokeCenterInfo", "_pokeCenterStats", "_interactComponent")]
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 custom_minimum_size = Vector2(355, 100)
 size_flags_vertical = 3
-mouse_filter = 0
+mouse_filter = 1
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 script = ExtResource("2_gfgl2")
-_pokemonName = NodePath("HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonName")
-_pokemonLevel = NodePath("HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonLevel")
-_genderIcon = NodePath("HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/GenderIcon")
-_pokemonHeight = NodePath("HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonHeight")
-_pokemonWeight = NodePath("HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonWeight")
-_pokemonStats = NodePath("HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/PokemonStats")
-_pokemonSprite = NodePath("HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer/PokemonSprite")
-_pokemonDescription = NodePath("HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/PokemonDescription")
-_releaseButton = NodePath("HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/ReleaseButton")
-_pokeCenterInfo = NodePath("HBoxContainer/PokeCenterInfo")
-_pokeCenterStats = NodePath("HBoxContainer/PokeCenterStats")
+_pokemonName = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonName")
+_pokemonLevel = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonLevel")
+_genderIcon = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/GenderIcon")
+_pokemonHeight = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonHeight")
+_pokemonWeight = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonWeight")
+_pokemonStats = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/PokemonStats")
+_pokemonSprite = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer/PokemonSprite")
+_pokemonDescription = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/PokemonDescription")
+_releaseButton = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/ReleaseButton")
+_pokeCenterInfo = NodePath("InteractComponent/PokeCenterInfo")
+_pokeCenterStats = NodePath("InteractComponent/PokeCenterStats")
+_interactComponent = NodePath("InteractComponent")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
+[node name="InteractComponent" type="HBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
+script = ExtResource("2_a467c")
 
-[node name="PokeCenterInfo" type="NinePatchRect" parent="HBoxContainer"]
+[node name="PokeCenterInfo" type="NinePatchRect" parent="InteractComponent"]
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 custom_minimum_size = Vector2(350, 100)
 layout_mode = 2
@@ -47,7 +49,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PokeCenterInfo"]
+[node name="MarginContainer" type="MarginContainer" parent="InteractComponent/PokeCenterInfo"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -60,35 +62,35 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PokeCenterInfo/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="PokemonName" type="Label" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="PokemonName" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25
 text = "Bulbasaur"
 
-[node name="PokemonLevel" type="Label" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="PokemonLevel" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 18
 text = "LVL. 1"
 
-[node name="NinePatchRect" type="NinePatchRect" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="NinePatchRect" type="NinePatchRect" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
 self_modulate = Color(0.6, 0.6, 0.6, 1)
 custom_minimum_size = Vector2(85, 85)
 layout_mode = 2
@@ -100,7 +102,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect"]
+[node name="MarginContainer" type="MarginContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -113,7 +115,7 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="PokemonSprite" type="TextureRect" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer"]
+[node name="PokemonSprite" type="TextureRect" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/NinePatchRect/MarginContainer"]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 mouse_filter = 2
@@ -121,7 +123,7 @@ texture = ExtResource("4_kmbo8")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="PokemonDescription" type="Label" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer"]
+[node name="PokemonDescription" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(175, 0)
 layout_mode = 2
@@ -130,7 +132,7 @@ theme_override_font_sizes/font_size = 18
 text = "A strange seed was planted on its back at birth. The plant sprouts and grows with this Pokémon."
 autowrap_mode = 2
 
-[node name="ReleaseButton" type="Button" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer"]
+[node name="ReleaseButton" type="Button" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer"]
 visible = false
 custom_minimum_size = Vector2(125, 50)
 layout_mode = 2
@@ -139,7 +141,7 @@ text = "Release"
 flat = true
 script = ExtResource("5_md6ax")
 
-[node name="Background" type="NinePatchRect" parent="HBoxContainer/PokeCenterInfo/MarginContainer/VBoxContainer/ReleaseButton"]
+[node name="Background" type="NinePatchRect" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/ReleaseButton"]
 self_modulate = Color(0.6, 0.6, 0.6, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -154,7 +156,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="PokeCenterStats" type="NinePatchRect" parent="HBoxContainer"]
+[node name="PokeCenterStats" type="NinePatchRect" parent="InteractComponent"]
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 size_flags_horizontal = 3
@@ -165,7 +167,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/PokeCenterStats"]
+[node name="MarginContainer" type="MarginContainer" parent="InteractComponent/PokeCenterStats"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,50 +180,50 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PokeCenterStats/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterStats/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="GenderIcon" type="TextureRect" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="GenderIcon" type="TextureRect" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(20, 0)
 layout_mode = 2
 texture = ExtResource("3_a467c")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer"]
 layout_mode = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="PokemonHeight" type="Label" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="PokemonHeight" type="Label" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 25
 text = "Height"
 
-[node name="PokemonWeight" type="Label" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+[node name="PokemonWeight" type="Label" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 25
 text = "Weight"
 
-[node name="PokemonStats" type="Label" parent="HBoxContainer/PokeCenterStats/MarginContainer/VBoxContainer"]
+[node name="PokemonStats" type="Label" parent="InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/line_spacing = -4
 theme_override_font_sizes/font_size = 20

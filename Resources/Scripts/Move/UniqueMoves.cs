@@ -24,7 +24,11 @@ public partial class UniqueMoves : Node
         "Disable",
         "Conversion",
         "Roar",
-        "Whirlwind"
+        "Whirlwind",
+        "Transform",
+        "Petal Dance",
+        "Thrash",
+        "Substitute"
     };
 
     public bool IsUniqueMove(PokemonMove pokemonMove)
@@ -90,6 +94,18 @@ public partial class UniqueMoves : Node
             case "Whirlwind":
                 Whirlwind(defendingPokemon);
                 break;
+            case "Transform":
+                Transform(attackingPokemon, defendingPokemon);
+                break;
+            case "Thrash":
+                Thrash(attackingPokemon);
+                break;
+            case "Petal Dance":
+                PetalDance(attackingPokemon);
+                break;
+            case "Substitute":
+                Substitute(attackingPokemon);
+                break;
         }
     }
 
@@ -116,7 +132,7 @@ public partial class UniqueMoves : Node
         PokemonCombat.Instance.DealDamage(defendingPokemon, damage);
     }
 
-    //Inflicts damage equal to user's level
+    // Inflicts damage equal to user's level
     public void SeismicToss<Defending>(Defending defendingPokemon)
     {
         int damage = 0;
@@ -142,6 +158,9 @@ public partial class UniqueMoves : Node
 
             PokemonMove pokemonMove = pokemonStageSlot.Pokemon.Move;
             pokemonEnemy.AttackPokemon(pokemonMove);
+
+            string copiedMoveMessage = $"{pokemonStageSlot.Pokemon.Name} Has Copied {pokemonEnemy.Pokemon.Name}'s Move And Used {pokemonMove.Name}";
+            PrintRich.PrintLine(TextColor.Orange, copiedMoveMessage);
         }
         else if (attackingPokemon is PokemonEnemy)
         {
@@ -150,10 +169,13 @@ public partial class UniqueMoves : Node
 
             PokemonMove pokemonMove = pokemonEnemy.Pokemon.Move;
             pokemonStageSlot.AttackPokemonEnemy(pokemonMove);
+
+            string copiedMoveMessage = $"{pokemonEnemy.Pokemon.Name} Has Copied {pokemonStageSlot.Pokemon.Name}'s Move And Used {pokemonMove.Name}";
+            PrintRich.PrintLine(TextColor.Orange, copiedMoveMessage);
         }
     }
 
-    //Inflicts damage equal to user's level
+    // Inflicts damage equal to user's level
     public void NightShade<Defending>(Defending defendingPokemon)
     {
         int damage = 0;
@@ -179,6 +201,9 @@ public partial class UniqueMoves : Node
 
             PokemonMove pokemonMove = pokemonStageSlot.Pokemon.Move;
             pokemonEnemy.AttackPokemon(pokemonMove);
+
+            string copiedMoveMessage = $"{pokemonStageSlot.Pokemon.Name} Has Copied {pokemonEnemy.Pokemon.Name}'s Move And Used {pokemonMove.Name}";
+            PrintRich.PrintLine(TextColor.Orange, copiedMoveMessage);
         }
         else if (attackingPokemon is PokemonEnemy)
         {
@@ -187,6 +212,9 @@ public partial class UniqueMoves : Node
 
             PokemonMove pokemonMove = pokemonEnemy.Pokemon.Move;
             pokemonStageSlot.AttackPokemonEnemy(pokemonMove);
+
+            string copiedMoveMessage = $"{pokemonEnemy.Pokemon.Name} Has Copied {pokemonStageSlot.Pokemon.Name}'s Move And Used {pokemonMove.Name}";
+            PrintRich.PrintLine(TextColor.Orange, copiedMoveMessage);
         }
     }
 
@@ -265,11 +293,11 @@ public partial class UniqueMoves : Node
     {
         if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.LightScreenCount = 5;
+            pokemonStageSlot.Effects.LightScreenCount = 5;
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.LightScreenCount = 5;
+            pokemonEnemy.Effects.LightScreenCount = 5;
         }
     }
 
@@ -278,11 +306,11 @@ public partial class UniqueMoves : Node
     {
         if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.ReflectCount = 5;
+            pokemonStageSlot.Effects.ReflectCount = 5;
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.ReflectCount = 5;
+            pokemonEnemy.Effects.ReflectCount = 5;
         }
     }
 
@@ -306,6 +334,8 @@ public partial class UniqueMoves : Node
                 randomPokemonStageSlot.SwapPokemon(pokemonStageSlot);
             }
         }
+
+
     }
 
     // PokemonCombat
@@ -314,11 +344,11 @@ public partial class UniqueMoves : Node
     {
         if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.HasCounter = true;
+            pokemonStageSlot.Effects.HasCounter = true;
         }
         else if (attackingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.HasCounter = true;
+            pokemonEnemy.Effects.HasCounter = true;
         }
     }
 
@@ -327,11 +357,11 @@ public partial class UniqueMoves : Node
     {
         if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.HasMoveSkipped = true;
+            pokemonStageSlot.Effects.HasMoveSkipped = true;
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.HasMoveSkipped = true;
+            pokemonEnemy.Effects.HasMoveSkipped = true;
         }
     }
 
@@ -377,6 +407,84 @@ public partial class UniqueMoves : Node
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
             pokemonEnemy.IsMovingForward = false;
+        }
+    }
+
+    // User takes on the form and attacks of the opponent.
+    public void Transform<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
+    {
+        if (attackingPokemon is PokemonStageSlot)
+        {
+            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
+            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+
+            pokemonStageSlot.Effects.PokemonTransform = PokemonManager.Instance.GetPokemonCopy(pokemonStageSlot.Pokemon);
+            PokemonManager.Instance.ChangePokemon(pokemonStageSlot.Pokemon, pokemonEnemy.Pokemon);
+
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonUpdated, pokemonStageSlot.Pokemon, pokemonStageSlot.TeamSlotIndex);
+        }
+        else if (attackingPokemon is PokemonEnemy)
+        {
+            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
+            PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
+
+            pokemonEnemy.Effects.PokemonTransform = pokemonEnemy.Pokemon;
+            PokemonManager.Instance.ChangePokemon(pokemonEnemy.Pokemon, pokemonStageSlot.Pokemon);
+        }
+    }
+
+    // User attacks, but is then inactive for 4 seconds.
+    public void Thrash<Attacking>(Attacking attackingPokemon)
+    {
+        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            PokemonStatusCondition.Instance.FreezePokemon(pokemonStageSlot, StatusCondition.None, 4);
+        }
+        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            PokemonStatusCondition.Instance.FreezePokemon(pokemonEnemy, StatusCondition.None,  4);
+        }
+    }
+
+    // User attacks, but is then inactive for 4 seconds.
+    public void PetalDance<Attacking>(Attacking attackingPokemon)
+    {
+        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            PokemonStatusCondition.Instance.FreezePokemon(pokemonStageSlot, StatusCondition.None,  4);
+        }
+        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            PokemonStatusCondition.Instance.FreezePokemon(pokemonEnemy, StatusCondition.None, 4);
+        }
+    }
+
+    // Uses HP to creates a decoy that takes hits.
+    public async void Substitute<Attacking>(Attacking attackingPokemon)
+    {
+        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        {
+            int substituteIndex = pokemonStageSlot.Pokemon.Moves.FindIndex(move => move.Name == "Substitute");
+
+            pokemonStageSlot.Effects.HasSubstitute = true;
+            pokemonStageSlot.Pokemon.GetNextMove();
+
+            await ToSignal(GetTree().CreateTimer(2.5f / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
+
+            pokemonStageSlot.Effects.HasSubstitute = false;
+            pokemonStageSlot.Pokemon.Move = pokemonStageSlot.Pokemon.Moves[substituteIndex];
+        }
+        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Effects.HasSubstitute = true;
+
+            StagePath stagePath = pokemonEnemy.GetParentOrNull<PathFollow2D>().GetOwnerOrNull<StagePath>();
+            PokemonStage pokemonStage = stagePath.GetOwnerOrNull<PokemonStage>();
+
+            PokemonEnemy pokemonClone = pokemonStage.GetPokemonClone(pokemonEnemy);
+            pokemonClone.Fainted += (enemy) => pokemonEnemy.Effects.HasSubstitute = false;
+
+            pokemonStage.SpawnClone(pokemonEnemy, pokemonClone);
         }
     }
 }

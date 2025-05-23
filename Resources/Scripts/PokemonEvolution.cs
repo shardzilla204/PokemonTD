@@ -47,7 +47,7 @@ public partial class PokemonEvolution : Node
 		
 		// Print Message To Console
 		string loadSuccessMessage = "Pokemon Evolution File Successfully Loaded";
-        PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
+        if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}
 
 	public bool CanEvolve(Pokemon pokemon, int levels)

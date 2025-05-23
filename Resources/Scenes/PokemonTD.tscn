@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=30 format=3 uid="uid://hvrq7bqyr4x8"]
 
 [ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
 [ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dejp0ypq88xe4" path="res://Resources/Scenes/Stage/StageSelectButton.tscn" id="7_21ucs"]
 [ext_resource type="PackedScene" uid="uid://csavuq02w7qrm" path="res://Resources/Scenes/StarterSelectionInterface.tscn" id="8_gfuil"]
 [ext_resource type="PackedScene" uid="uid://d27ld10r6gsup" path="res://Resources/Scenes/StarterOption.tscn" id="9_omcsq"]
-[ext_resource type="PackedScene" uid="uid://bc0jpdpmf1kc0" path="res://Resources/Scenes/PokemonEnemy.tscn" id="11_cedxp"]
+[ext_resource type="PackedScene" uid="uid://bc0jpdpmf1kc0" path="res://Resources/Scenes/Stage/PokemonEnemy.tscn" id="11_cedxp"]
 [ext_resource type="PackedScene" uid="uid://jcfh6tp6od31" path="res://Resources/Scenes/Stage/StageResultInterface.tscn" id="12_yc2d3"]
 [ext_resource type="PackedScene" uid="uid://bwvg6bl137m4m" path="res://Resources/Scenes/Stages/PokemonStage1.tscn" id="13_pgy84"]
 [ext_resource type="PackedScene" uid="uid://b5yi0qb8amvcj" path="res://Resources/Scenes/Stages/PokemonStage2.tscn" id="14_1mgql"]
@@ -28,6 +28,7 @@
 [ext_resource type="Script" uid="uid://n14u7sui1dd7" path="res://Resources/Scripts/PokemonTween.cs" id="24_u4bgx"]
 [ext_resource type="PackedScene" uid="uid://cns7fl2chiobe" path="res://Resources/Scenes/InformationInterface.tscn" id="25_6jdnx"]
 [ext_resource type="PackedScene" uid="uid://b5r7urrtc6j84" path="res://StatusConditionIcon.tscn" id="26_lpw2n"]
+[ext_resource type="Script" uid="uid://r3pbccgmun6t" path="res://Resources/Scripts/PrintRich.cs" id="29_1jrto"]
 
 [node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
 layout_mode = 3
@@ -36,9 +37,8 @@ mouse_filter = 2
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
-_areConsoleMessagesEnabled = true
-_areFilePathsVisible = true
-_pokeCenterCount = 120
+_isPokeCenterRandomized = true
+_pokeCenterCount = 999
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
@@ -79,3 +79,7 @@ layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("24_u4bgx")
+
+[node name="PrintRich" type="Node" parent="."]
+script = ExtResource("29_1jrto")
+_areFilePathsVisible = true
