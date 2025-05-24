@@ -246,9 +246,9 @@ public partial class PokeCenterInventory : Container
 	private void AddPokeCenterSlot(Pokemon pokemon)
 	{
 		PokeCenterSlot pokeCenterSlot = PokemonTD.PackedScenes.GetPokeCenterSlot();
-		pokeCenterSlot.Pokemon = pokemon;
 		pokeCenterSlot.ID = _pokemon.Count;
 		
+		pokeCenterSlot.UpdateSlot(pokemon);
 		_pokeCenterSlots.AddChild(pokeCenterSlot);
 		Slots.Add(pokeCenterSlot);
 	}

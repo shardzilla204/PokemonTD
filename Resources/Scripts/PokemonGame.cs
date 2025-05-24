@@ -98,7 +98,8 @@ public partial class PokemonGame : Node
 		{
 			{ "Has Selected Starter", PokemonTD.HasSelectedStarter },
 			{ "Poke Dollars", PokemonTD.PokeDollars },
-			{ "Pokemon Team", PokemonTeam.Instance.GetData() }
+			{ "Pokemon Team", PokemonTeam.Instance.GetData() },
+			{ "Pokemon Inventory", PokeMart.Instance.GetData() }
 		};
 
         return gameData;
@@ -106,13 +107,16 @@ public partial class PokemonGame : Node
 
     public void SetData(GC.Dictionary<string, Variant> gameData)
     {
-        try 
+		try
 		{
 			PokemonTD.HasSelectedStarter = gameData["Has Selected Starter"].As<bool>();
 			PokemonTD.PokeDollars = gameData["Poke Dollars"].As<int>();
 
 			GC.Dictionary<string, Variant> pokemonTeamData = gameData["Pokemon Team"].As<GC.Dictionary<string, Variant>>();
 			PokemonTeam.Instance.SetData(pokemonTeamData);
+			
+			GC.Dictionary<string, Variant> pokemonInventoryData = gameData["Pokemon Inventory"].As<GC.Dictionary<string, Variant>>();
+			PokeMart.Instance.SetData(pokemonInventoryData);
 		}
 		catch (KeyNotFoundException e)
 		{

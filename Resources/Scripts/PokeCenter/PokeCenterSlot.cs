@@ -9,6 +9,9 @@ public partial class PokeCenterSlot : NinePatchRect
 	private InteractComponent _interactComponent;
 
 	[Export]
+	private TextureProgressBar _healthBar;
+
+	[Export]
 	private TextureRect _pokemonSprite;
 
 	[Export]
@@ -20,9 +23,6 @@ public partial class PokeCenterSlot : NinePatchRect
 
 	public override void _Ready()
 	{
-		_pokemonSprite.Texture = Pokemon == null ? null : Pokemon.Sprite;
-		_pokemonLevel.Text = Pokemon == null ? "" : $"LVL {Pokemon.Level}";
-
 		_interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) =>
 		{
 			if (PokemonTeam.Instance.Pokemon.Count >= PokemonTD.MaxTeamSize) return;
@@ -65,8 +65,12 @@ public partial class PokeCenterSlot : NinePatchRect
 	{
 		Pokemon = pokemon;
 
+		_healthBar.Visible = pokemon != null;
+		_healthBar.MaxValue = pokemon == null ? 100 : pokemon.MaxHP;
+		_healthBar.Value = pokemon == null ? 100 : pokemon.HP;
+
 		_pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
 		_pokemonLevel.Text = pokemon == null ? "" : $"LVL {pokemon.Level}";
-		IsFilled = pokemon == null ? false : true;
+		IsFilled = pokemon != null;
 	}
 }

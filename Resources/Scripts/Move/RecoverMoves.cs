@@ -66,10 +66,10 @@ public partial class RecoverMoves : Node
 
     public void ApplyRareCandyRecoveryMove(PokemonStageSlot pokemonStageSlot, PokemonMove pokemonMove)
     {
-        int maximumRareCandyCount = 200;
+        int MaxRareCandyCount = 200;
         PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<PokemonStage>();
         pokemonStage.RareCandy += pokemonMove.Name == "Rest" ? 5 : 2;
-        pokemonStage.RareCandy = Mathf.Clamp(pokemonStage.RareCandy, 0, maximumRareCandyCount);
+        pokemonStage.RareCandy = Mathf.Clamp(pokemonStage.RareCandy, 0, MaxRareCandyCount);
         pokemonStageSlot.Effects.HasMoveSkipped = pokemonMove.Name == "Rest";
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.RareCandyUpdated);

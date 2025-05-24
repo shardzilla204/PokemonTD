@@ -1,0 +1,127 @@
+[gd_scene load_steps=7 format=3 uid="uid://tsbjbgmn6lb1"]
+
+[ext_resource type="Script" uid="uid://hqolftmeuaxe" path="res://Resources/Scenes/PokeMartInterface.cs" id="1_6l4nt"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_e2fpt"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_p8oow"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_huhwu"]
+[ext_resource type="PackedScene" uid="uid://bm6jrfhjihwmc" path="res://Resources/Scenes/PokeMartTeamSlots.tscn" id="6_e2fpt"]
+[ext_resource type="PackedScene" uid="uid://bavw8pxrktjb1" path="res://Resources/Scenes/PokeMartInventory.tscn" id="6_xe03f"]
+
+[node name="PokeMartInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_pokeDollarsLabel", "_pokeMartItems", "_pokeMartTeamSlots", "_pokeMartInventory")]
+script = ExtResource("1_6l4nt")
+_exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
+_pokeDollarsLabel = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokeDollars")
+_pokeMartItems = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/ScrollContainer/PokeMartItems")
+_pokeMartTeamSlots = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam/PokeMartTeamSlots")
+_pokeMartInventory = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeMartInventory")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_e2fpt")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 50
+text = "Poke Mart"
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "X
+"
+flat = true
+script = ExtResource("2_p8oow")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_huhwu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+
+[node name="PokeDollars" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "₽ 100"
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Items"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer"]
+custom_minimum_size = Vector2(400, 365)
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="PokeMartItems" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PokemonTeam" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 10
+mouse_filter = 0
+theme = ExtResource("1_e2fpt")
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Team"
+
+[node name="PokeMartTeamSlots" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam" instance=ExtResource("6_e2fpt")]
+layout_mode = 2
+
+[node name="PokeMartInventory" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("6_xe03f")]
+custom_minimum_size = Vector2(460, 0)
+layout_mode = 2
+size_flags_horizontal = 10

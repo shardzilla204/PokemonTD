@@ -358,7 +358,7 @@ public partial class PokemonStatusCondition : Node
 
         if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
         {
-            if (pokemonStageSlot.IsActive) pokemonStageSlot.Sprite.SelfModulate = statusColor;
+            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.Sprite.SelfModulate = statusColor;
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {

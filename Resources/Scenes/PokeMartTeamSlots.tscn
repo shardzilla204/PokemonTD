@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://bm6jrfhjihwmc"]
+
+[ext_resource type="Script" uid="uid://md5mrnr8yy3s" path="res://Resources/Scenes/PokeMartTeamSlots.cs" id="1_12str"]
+[ext_resource type="PackedScene" uid="uid://dtl8yygopkt6v" path="res://Resources/Scenes/PokeMartTeamSlot.tscn" id="1_372ne"]
+
+[node name="PokeMartTeamSlots" type="GridContainer"]
+size_flags_horizontal = 0
+mouse_filter = 2
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+columns = 2
+script = ExtResource("1_12str")
+
+[node name="PokeMartTeamSlot" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2
+
+[node name="PokeMartTeamSlot2" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2
+
+[node name="PokeMartTeamSlot3" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2
+
+[node name="PokeMartTeamSlot4" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2
+
+[node name="PokeMartTeamSlot5" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2
+
+[node name="PokeMartTeamSlot6" parent="." instance=ExtResource("1_372ne")]
+layout_mode = 2

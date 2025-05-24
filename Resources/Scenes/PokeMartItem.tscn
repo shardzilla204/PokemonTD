@@ -1,0 +1,80 @@
+[gd_scene load_steps=5 format=3 uid="uid://d0hccl3odqa75"]
+
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_4ke20"]
+[ext_resource type="Script" uid="uid://b2cccew3ssrob" path="res://Resources/Scenes/PokeMartItem.cs" id="1_s5x43"]
+[ext_resource type="Texture2D" uid="uid://dagl8j28upyep" path="res://Assets/Images/EvolutionStone/FireStone.png" id="2_s5x43"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_dfpou"]
+
+[node name="PokeMartItem" type="HBoxContainer" node_paths=PackedStringArray("_itemSprite", "_itemName", "_itemPrice", "_buyButton")]
+script = ExtResource("1_s5x43")
+_itemSprite = NodePath("NinePatchRect/MarginContainer/HBoxContainer/ItemSprite")
+_itemName = NodePath("NinePatchRect/MarginContainer/HBoxContainer/ItemName")
+_itemPrice = NodePath("NinePatchRect/MarginContainer/HBoxContainer/ItemPrice")
+_buyButton = NodePath("BuyButton")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+custom_minimum_size = Vector2(325, 65)
+layout_mode = 2
+texture = ExtResource("1_4ke20")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="ItemSprite" type="TextureRect" parent="NinePatchRect/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(40, 40)
+layout_mode = 2
+texture = ExtResource("2_s5x43")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ItemName" type="Label" parent="NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 25
+text = "Fire Stone"
+
+[node name="ItemPrice" type="Label" parent="NinePatchRect/MarginContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 25
+text = "₽  100"
+horizontal_alignment = 2
+
+[node name="BuyButton" type="Button" parent="."]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "+"
+flat = true
+script = ExtResource("4_dfpou")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="BuyButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_4ke20")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10

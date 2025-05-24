@@ -17,21 +17,21 @@ public partial class PokemonExperienceBar : Container
     {
         _pokemonLevel.Text = pokemon != null ? $"LVL. {pokemon.Level}" : null;
 
-        _experienceBar.Value = pokemon != null ? pokemon.Experience.Minimum : 0;
-        _experienceBar.MaxValue = pokemon != null ? pokemon.Experience.Maximum : 100;
+        _experienceBar.Value = pokemon != null ? pokemon.Experience.Min : 0;
+        _experienceBar.MaxValue = pokemon != null ? pokemon.Experience.Max : 100;
     }
 
     public void AddExperience(Pokemon pokemon, int experience)
     {
         _experienceBar.Value += experience;
-        pokemon.Experience.Minimum += experience;
+        pokemon.Experience.Min += experience;
 
         CheckExperience(pokemon);
     }
 
     private void CheckExperience(Pokemon pokemon)
     {
-        if (pokemon.Experience.Minimum < pokemon.Experience.Maximum) return;
+        if (pokemon.Experience.Min < pokemon.Experience.Max) return;
 
         LevelUp(pokemon);
         Update(pokemon);
@@ -52,7 +52,7 @@ public partial class PokemonExperienceBar : Container
     private int GetLevels(Pokemon pokemon)
     {
         int levels = 0;
-        while (pokemon.Experience.Minimum >= pokemon.Experience.Maximum)
+        while (pokemon.Experience.Min >= pokemon.Experience.Max)
         {
             levels++;
 
@@ -64,10 +64,10 @@ public partial class PokemonExperienceBar : Container
 
     private void SetExperience(Pokemon pokemon)
     {
-        pokemon.Experience.Minimum -= pokemon.Experience.Maximum;
+        pokemon.Experience.Min -= pokemon.Experience.Max;
 
         // ? Comment Out For Faster Level Ups
         int experienceRequired = PokemonManager.Instance.GetExperienceRequired(pokemon);
-        pokemon.Experience.Maximum = experienceRequired;
+        pokemon.Experience.Max = experienceRequired;
     }
 }

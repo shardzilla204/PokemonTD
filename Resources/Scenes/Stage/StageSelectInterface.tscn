@@ -6,10 +6,11 @@
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_ytw0q"]
 [ext_resource type="PackedScene" uid="uid://yb2nr2xa6drk" path="res://Resources/Scenes/Stage/StageInfo.tscn" id="5_l6dv5"]
 
-[node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_pokemonTeamButton", "_exitButton", "_stageSelectButtons")]
+[node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_pokeCenterButton", "_pokeMartButton", "_stageSelectButtons")]
 script = ExtResource("1_gq7qg")
-_pokemonTeamButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeamButton")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/ExitButton")
+_pokeCenterButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeCenterButton")
+_pokeMartButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeMartButton")
 _stageSelectButtons = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/StageSelectButtons")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -35,7 +36,7 @@ layout_mode = 2
 [node name="HBoxContainer2" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="PokemonTeamButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="PokeCenterButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(175, 65)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -46,7 +47,33 @@ text = "Poke Center
 flat = true
 script = ExtResource("3_y72j3")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeamButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeCenterButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ytw0q")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="PokeMartButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(175, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 25
+text = "Poke Mart
+"
+flat = true
+script = ExtResource("3_y72j3")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeMartButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
 show_behind_parent = true
 layout_mode = 1

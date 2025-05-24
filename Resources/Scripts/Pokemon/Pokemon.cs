@@ -1,6 +1,5 @@
 using Godot;
 using GC = Godot.Collections;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +8,7 @@ namespace PokemonTD;
 
 public enum EvolutionStone
 {
+	None,
 	Fire,
 	Water,
 	Thunder,
@@ -47,7 +47,7 @@ public partial class Pokemon : Node
 	public List<PokemonMove> Moves = new List<PokemonMove>();
 
 	public int HP;
-	public int MaximumHP;
+	public int MaxHP;
 	public int Attack;
 	public int Defense;
 	public int SpecialAttack;
@@ -85,7 +85,7 @@ public partial class Pokemon : Node
 		}
 
 		HP = pokemonStats["HP"].As<int>();
-		MaximumHP = pokemonStats["HP"].As<int>();
+		MaxHP = pokemonStats["HP"].As<int>();
 		Attack = pokemonStats["Attack"].As<int>();
 		Defense = pokemonStats["Defense"].As<int>();
 		SpecialAttack = pokemonStats["Special Attack"].As<int>();
@@ -171,6 +171,17 @@ public partial class Pokemon : Node
 		}
 	}
 
+	public void IncreaseLevel(int levels)
+	{
+		Level += levels;
+		Level = Mathf.Clamp(Level, 1, PokemonTD.MaxPokemonLevel);
+
+		MaxHP = PokemonManager.Instance.GetPokemonHP(this);
+		HP = PokemonManager.Instance.GetPokemonHP(this);
+		
+		PokemonManager.Instance.SetPokemonStats(this);
+	}
+
 	public void SetLevel(int level)
 	{
 		// Default to the minimum level if below the threshold
@@ -187,6 +198,6 @@ public partial class PokemonExperience : Node
 	}
 
 	public int Yield;
-	public int Minimum;
-	public int Maximum = 100;
+	public int Min;
+	public int Max = 100;
 }

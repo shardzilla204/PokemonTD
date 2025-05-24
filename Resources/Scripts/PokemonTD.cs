@@ -6,7 +6,7 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
-    TODO: Add a Poke mart to utilize poke dollars
+    TODO: Add potion functionality
     TODO: Add evolution stones & it's functionality
 
     * Ideas:
@@ -32,6 +32,9 @@ public partial class PokemonTD : Control
 
     [Export]
     private bool _isTeamRandom;
+
+    [Export]
+    private int _startingPokeDollars;
 
     [Export(PropertyHint.Range, "0,5,1")]
     private int _teamCount = 5;
@@ -116,7 +119,6 @@ public partial class PokemonTD : Control
 
     public const int MaxTeamSize = 6;
     public const int MaxMoveCount = 4;
-    public const int MaxStatValue = 255;
 
     public static StageConsole StageConsole;
 
@@ -125,8 +127,8 @@ public partial class PokemonTD : Control
         PackedScenes = _packedScenes;
         Tween = _pokemonTween;
 
-        AreStagesEnabled = _areStagesEnabled;
         IsTeamRandom = _isTeamRandom;
+        AreStagesEnabled = _areStagesEnabled;
         IsCaptureModeEnabled = _isCaptureModeEnabled;
         AreLevelsRandomized = _areLevelsRandomized;
         AreMovesRandomized = _areMovesRandomized;
@@ -152,7 +154,7 @@ public partial class PokemonTD : Control
         Signals.GameReset += () =>
         {
             HasSelectedStarter = false;
-            PokeDollars = 0;
+            PokeDollars = _startingPokeDollars;
         };
 
         Signals.PressedPlay += () => IsGamePaused = false;
@@ -165,10 +167,23 @@ public partial class PokemonTD : Control
     public static void AddPokeDollars(Pokemon pokemon)
     {
         int minimumPokeDollars = pokemon.Level * 5;
-        int maximumPokeDollars = pokemon.Level * 10;
+        int MaxPokeDollars = pokemon.Level * 10;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        PokeDollars += RNG.RandiRange(minimumPokeDollars, maximumPokeDollars);
+        PokeDollars += RNG.RandiRange(minimumPokeDollars, MaxPokeDollars);
+        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+    }
+
+    public static void AddPokeDollars(int amount)
+    {
+        PokeDollars += amount;
+        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+    }
+
+    public static void SubtractPokeDollars(int amount)
+    {
+        PokeDollars -= amount;
+        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
     }
 
     public static int GetRandomLevel()
@@ -177,10 +192,10 @@ public partial class PokemonTD : Control
         return RNG.RandiRange(MinRandomPokemonLevel, MaxRandomPokemonLevel);
     }
 
-    public static int GetRandomLevel(int minimumLevel, int maximumLevel)
+    public static int GetRandomLevel(int minimumLevel, int MaxLevel)
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        return RNG.RandiRange(minimumLevel, maximumLevel);
+        return RNG.RandiRange(minimumLevel, MaxLevel);
     }
 
     public static void AddStageConsoleMessage(TextColor textColor, string text)
@@ -245,7 +260,7 @@ public partial class PokemonTD : Control
         int pokemonLevel = pokemonData["Level"].As<int>();
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
         pokemon.HP = pokemonData["HP"].As<int>();
-        pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
+        pokemon.Gender = (Gender)pokemonData["Gender"].As<int>();
 
         SetExperienceData(pokemon, pokemonData);
         SetPokemonMovesData(pokemon, pokemonData);
@@ -257,16 +272,16 @@ public partial class PokemonTD : Control
     {
         return new GC.Dictionary<string, Variant>()
         {
-            { "Minimum", pokemon.Experience.Minimum },
-            { "Maximum", pokemon.Experience.Maximum },
+            { "Min", pokemon.Experience.Min },
+            { "Max", pokemon.Experience.Max },
         };
     }
 
     private static void SetExperienceData(Pokemon pokemon, GC.Dictionary<string, Variant> pokemonData)
     {
         GC.Dictionary<string, Variant> experienceData = pokemonData["Experience"].As<GC.Dictionary<string, Variant>>();
-        pokemon.Experience.Minimum = experienceData["Minimum"].As<int>();
-        pokemon.Experience.Maximum = experienceData["Maximum"].As<int>();
+        pokemon.Experience.Min = experienceData["Min"].As<int>();
+        pokemon.Experience.Max = experienceData["Max"].As<int>();
     }
 
     private static GC.Dictionary<int, string> GetPokemonMovesData(Pokemon pokemon)
@@ -315,11 +330,16 @@ public partial class PokemonTD : Control
     public static GC.Dictionary<string, Variant> GetStageDragData(Pokemon pokemon, int teamSlotIndex, bool fromTeamSlot, bool isMuted)
     {
         return new GC.Dictionary<string, Variant>()
-		{
-			{ "TeamSlotIndex", teamSlotIndex },
-			{ "FromTeamSlot", fromTeamSlot },
-			{ "IsMuted", isMuted },
-			{ "Pokemon", pokemon }
-		};
+        {
+            { "TeamSlotIndex", teamSlotIndex },
+            { "FromTeamSlot", fromTeamSlot },
+            { "IsMuted", isMuted },
+            { "Pokemon", pokemon }
+        };
+    }
+
+    public static Texture2D GetSprite(string filePath)
+    {
+        return ResourceLoader.Load<Texture2D>(filePath);
     }
 }

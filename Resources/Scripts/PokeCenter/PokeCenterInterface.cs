@@ -9,7 +9,6 @@ public partial class PokeCenterInterface : CanvasLayer
 
 	public override void _Ready()
 	{
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
 		_exitButton.Pressed += () => 
 		{
 			if (PokemonTeam.Instance.Pokemon.Count == 0) return;
@@ -18,7 +17,6 @@ public partial class PokeCenterInterface : CanvasLayer
 			AddSibling(stageSelectInterface);
 			QueueFree();
 
-			PokemonTD.AudioManager.PlayButtonPressed();
 		};
 
 		if (!PokemonTD.AudioManager.IsPlayingSong(11)) PokemonTD.AudioManager.PlaySong(11); // 11. Pokémon Center

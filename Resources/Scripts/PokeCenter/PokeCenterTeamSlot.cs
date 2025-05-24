@@ -9,6 +9,9 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 	private InteractComponent _interactComponent;
 
 	[Export]
+	private TextureProgressBar _healthBar;
+
+	[Export]
 	private TextureRect _pokemonSprite;
 
 	[Export]
@@ -18,6 +21,10 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 
 	public override void _Ready()
 	{
+		_healthBar.Visible = Pokemon != null;
+		_healthBar.MaxValue = Pokemon == null ? 100 : Pokemon.MaxHP;
+		_healthBar.Value = Pokemon == null ? 100 : Pokemon.HP;
+
 		_pokemonSprite.Texture = Pokemon == null ? null : Pokemon.Sprite;
 		_pokemonLevel.Text = Pokemon == null ? "" : $"LVL {Pokemon.Level}";
 
@@ -61,6 +68,10 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 	public void UpdateSlot(Pokemon pokemon)
 	{
 		Pokemon = pokemon;
+
+		_healthBar.Visible = Pokemon != null;
+		_healthBar.MaxValue = Pokemon == null ? 100 : Pokemon.MaxHP;
+		_healthBar.Value = Pokemon == null ? 100 : Pokemon.HP;
 
 		_pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
 		_pokemonLevel.Text = pokemon == null ? "" : $"LVL {pokemon.Level}";

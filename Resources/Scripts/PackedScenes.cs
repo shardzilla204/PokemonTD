@@ -16,7 +16,7 @@ public partial class PackedScenes : Node
 
 	[Export]
 	private PackedScene _pokeCenterInterface;
-	
+
 	[Export]
 	private PackedScene _pokeCenterSlot;
 
@@ -65,6 +65,15 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _statusConditionIcon;
 
+	[Export]
+	private PackedScene _pokeMartInterface;
+
+	[Export]
+	private PackedScene _pokeMartItem;
+
+	[Export]
+	private PackedScene _pokeMartSlot;
+
 	public MenuInterface GetMenuInterface()
 	{
 		return _menuInterface.Instantiate<MenuInterface>();
@@ -85,7 +94,7 @@ public partial class PackedScenes : Node
 			if (PokemonMoves.Instance.IsQueueEmpty() && PokemonEvolution.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 			forgetMoveInterface.QueueFree();
 		};
-		
+
 		return forgetMoveInterface;
 	}
 
@@ -106,7 +115,7 @@ public partial class PackedScenes : Node
 		return _settingsInterface.Instantiate<SettingsInterface>();
 	}
 
-    public PokeCenterSlot GetPokeCenterSlot()
+	public PokeCenterSlot GetPokeCenterSlot()
 	{
 		return _pokeCenterSlot.Instantiate<PokeCenterSlot>();
 	}
@@ -141,10 +150,11 @@ public partial class PackedScenes : Node
 		return _stageResultInterface.Instantiate<StageResultInterface>();
 	}
 
-	public EvolutionInterface GetEvolutionInterface(Pokemon pokemon, int teamSlotIndex)
+	public EvolutionInterface GetEvolutionInterface(Pokemon pokemon, Pokemon pokemonEvolution, int teamSlotIndex)
 	{
 		EvolutionInterface evolutionInterface = _evolutionInterface.Instantiate<EvolutionInterface>();
 		evolutionInterface.Pokemon = pokemon;
+		evolutionInterface.Evolution = pokemonEvolution;
 		evolutionInterface.Finished += (pokemonEvolution) =>
 		{
 			if (PokemonEvolution.Instance.IsQueueEmpty() && PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
@@ -163,7 +173,7 @@ public partial class PackedScenes : Node
 	{
 		return _pokemonStages[stageID].Instantiate<PokemonStage>();
 	}
-	
+
 	public PokemonTeamSlot GetPokemonTeamSlot()
 	{
 		return _PokemonTeamSlot.Instantiate<PokemonTeamSlot>();
@@ -182,5 +192,26 @@ public partial class PackedScenes : Node
 	public StageConsoleLabel GetStageConsoleLabel()
 	{
 		return _stageConsoleLabel.Instantiate<StageConsoleLabel>();
+	}
+
+	public PokeMartInterface GetPokeMartInterface()
+	{
+		return _pokeMartInterface.Instantiate<PokeMartInterface>();
+	}
+
+	public PokeMartItem GetPokeMartItem(PokeMartItem pokeMartItemData)
+	{
+		PokeMartItem pokeMartItem = _pokeMartItem.Instantiate<PokeMartItem>();
+		pokeMartItem.Name = pokeMartItemData.Name;
+		pokeMartItem.Sprite = pokeMartItemData.Sprite;
+		pokeMartItem.Price = pokeMartItemData.Price;
+		return pokeMartItem;
+	}
+
+	public PokeMartSlot GetPokeMartSlot(PokeMartItem pokeMartItem)
+	{
+		PokeMartSlot pokeMartSlot = _pokeMartSlot.Instantiate<PokeMartSlot>();
+		pokeMartSlot.SetPokeMartItem(pokeMartItem);
+		return pokeMartSlot;
 	}
 }

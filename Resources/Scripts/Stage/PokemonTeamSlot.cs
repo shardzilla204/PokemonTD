@@ -65,7 +65,7 @@ public partial class PokemonTeamSlot : Button
 		_pokemonSprite.MouseEntered += () => Input.SetCustomMouseCursor(GetMutedImage(), Input.CursorShape.Arrow);
 		_pokemonSprite.MouseExited += () => Input.SetCustomMouseCursor(null, Input.CursorShape.Arrow);
 
-		_pokemonExperienceBar.LeveledUp += (levels) => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, Pokemon, TeamSlotIndex, levels);
+		_pokemonExperienceBar.LeveledUp += (levels) => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, levels, TeamSlotIndex);
 		_pokemonHealthBar.Fainted += PokemonFainted;
 		_pokemonSleepBar.Finished += SleepFinished;
 	}

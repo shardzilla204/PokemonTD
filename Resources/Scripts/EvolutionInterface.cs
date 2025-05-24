@@ -35,8 +35,7 @@ public partial class EvolutionInterface : CanvasLayer
 	private TextureRect _pokemonEvolutionSilhouette;
 
 	public Pokemon Pokemon;
-
-	private Pokemon _pokemonEvolution;
+	public Pokemon Evolution;
 
 	private Tween _tween;
 
@@ -44,13 +43,11 @@ public partial class EvolutionInterface : CanvasLayer
 
 	public override void _Ready()
 	{
-		_pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(Pokemon);
-
 		_pokemonSprite.Texture = Pokemon.Sprite;
 		_pokemonSilhouette.Texture = Pokemon.Sprite;
 
-		_pokemonEvolutionSprite.Texture = _pokemonEvolution.Sprite;
-		_pokemonEvolutionSilhouette.Texture = _pokemonEvolution.Sprite;
+		_pokemonEvolutionSprite.Texture = Evolution.Sprite;
+		_pokemonEvolutionSilhouette.Texture = Evolution.Sprite;
 
 		_pokemonEvolutionSprite.Visible = false;
 		_pokemonEvolutionSilhouette.Visible = false;
@@ -71,7 +68,7 @@ public partial class EvolutionInterface : CanvasLayer
 			PokemonEvolution.Instance.RemoveFromQueue(this);
 			PokemonEvolution.Instance.IsQueueEmpty();
 
-			EmitSignal(SignalName.Finished, _pokemonEvolution);
+			EmitSignal(SignalName.Finished, Evolution);
 			QueueFree();
 		};
 
@@ -117,6 +114,6 @@ public partial class EvolutionInterface : CanvasLayer
 		_pokemonEvolutionSilhouette.Visible = false;
 		
 		_hasEvolved = true;
-		_evolveLabel.Text = $"{Pokemon.Name} has evolved into \n{_pokemonEvolution.Name}!";
+		_evolveLabel.Text = $"{Pokemon.Name} has evolved into \n{Evolution.Name}!";
 	}
 }

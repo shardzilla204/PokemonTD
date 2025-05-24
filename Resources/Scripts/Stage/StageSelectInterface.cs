@@ -5,10 +5,13 @@ namespace PokemonTD;
 public partial class StageSelectInterface : Node
 {
 	[Export]
-	private CustomButton _pokemonTeamButton;
+	private CustomButton _exitButton;
 
 	[Export]
-	private CustomButton _exitButton;
+	private CustomButton _pokeCenterButton;
+
+	[Export]
+	private CustomButton _pokeMartButton;
 
 	[Export]
 	private Container _stageSelectButtons;
@@ -29,16 +32,22 @@ public partial class StageSelectInterface : Node
 
 		PokemonTD.Signals.StageSelectButtonPressed += StageSelectButtonPressed;
 
-		_pokemonTeamButton.Pressed += () =>
+		_exitButton.Pressed += () => 
+		{
+			MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
+			AddSibling(menuInterface);
+			QueueFree();
+		};
+		_pokeCenterButton.Pressed += () =>
 		{
 			PokeCenterInterface pokeCenterInterface = PokemonTD.PackedScenes.GetPokeCenterInterface();
 			AddSibling(pokeCenterInterface);
 			QueueFree();
 		};
-		_exitButton.Pressed += () => 
+		_pokeMartButton.Pressed += () =>
 		{
-			MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
-			AddSibling(menuInterface);
+			PokeMartInterface pokeMartInterface = PokemonTD.PackedScenes.GetPokeMartInterface();
+			AddSibling(pokeMartInterface);
 			QueueFree();
 		};
 

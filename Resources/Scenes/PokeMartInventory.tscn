@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://bavw8pxrktjb1"]
+
+[ext_resource type="Script" uid="uid://boktex6ivygiu" path="res://Resources/Scenes/PokeMartInventory.cs" id="1_ebfq7"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_jti45"]
+[ext_resource type="PackedScene" uid="uid://3f8kd210tfty" path="res://Resources/Scenes/PokeMartSlot.tscn" id="2_84j1v"]
+
+[node name="PokeMartInventory" type="VBoxContainer" node_paths=PackedStringArray("_pokeMartSlots")]
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_ebfq7")
+_pokeMartSlots = NodePath("NinePatchRect/MarginContainer/PokeMartSlots")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Inventory"
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("1_jti45")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PokeMartSlots" type="FlowContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/h_separation = 10
+theme_override_constants/v_separation = 10
+
+[node name="PokeMartSlot" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot2" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot3" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot4" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot5" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot6" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot7" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2
+
+[node name="PokeMartSlot8" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
+self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
+layout_mode = 2

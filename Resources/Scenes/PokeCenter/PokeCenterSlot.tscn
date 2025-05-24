@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dcou0d0mxotei"]
+[gd_scene load_steps=9 format=3 uid="uid://dcou0d0mxotei"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_6mjjq"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_ino4a"]
@@ -6,12 +6,13 @@
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_vyyrb"]
 [ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_ino4a"]
 [ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="4_xf2xb"]
+[ext_resource type="Texture2D" uid="uid://bsfgwbxnod1ey" path="res://Assets/Images/CircleFlat.png" id="5_4ncot"]
 
 [sub_resource type="FontVariation" id="FontVariation_vobjb"]
 base_font = ExtResource("4_xf2xb")
 variation_embolden = 0.5
 
-[node name="PokemonCenterSlot" type="NinePatchRect" node_paths=PackedStringArray("_interactComponent", "_pokemonSprite", "_pokemonLevel")]
+[node name="PokeCenterSlot" type="NinePatchRect" node_paths=PackedStringArray("_interactComponent", "_healthBar", "_pokemonSprite", "_pokemonLevel")]
 self_modulate = Color(0.75, 0.75, 0.75, 1)
 custom_minimum_size = Vector2(85, 85)
 offset_right = 75.0
@@ -24,6 +25,7 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 script = ExtResource("2_ajv44")
 _interactComponent = NodePath("InteractComponent")
+_healthBar = NodePath("MarginContainer/HealthBar")
 _pokemonSprite = NodePath("PokemonSprite")
 _pokemonLevel = NodePath("InteractComponent/PokemonLevel")
 
@@ -41,6 +43,31 @@ size_flags_vertical = 0
 mouse_filter = 2
 texture = ExtResource("4_ino4a")
 stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="HealthBar" type="TextureProgressBar" parent="MarginContainer"]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+value = 75.0
+fill_mode = 5
+nine_patch_stretch = true
+texture_under = ExtResource("5_4ncot")
+texture_progress = ExtResource("5_4ncot")
+tint_under = Color(0.588235, 0.129412, 0.129412, 1)
+tint_progress = Color(0, 0.54902, 0.0470588, 1)
 
 [node name="InteractComponent" type="MarginContainer" parent="."]
 layout_mode = 1

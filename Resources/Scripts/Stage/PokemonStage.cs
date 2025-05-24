@@ -96,11 +96,13 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 	}
 
-	private async void PokemonEvolving(Pokemon pokemon, int teamSlotIndex)
+	private async void PokemonEvolving(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex)
 	{
 		if (!PokemonMoves.Instance.IsQueueEmpty()) await ToSignal(PokemonMoves.Instance, PokemonMoves.SignalName.QueueCleared);
 
-		EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, teamSlotIndex);
+		string pokemonEvolutionName = PokemonEvolution.Instance.GetPokemonEvolutionName(pokemon, EvolutionStone.None);
+        Pokemon pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(pokemon, pokemonEvolutionName);
+		EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, pokemonEvolution, teamSlotIndex);
 		evolutionInterface.Finished += (pokemonEvolution) =>
 		{
 			if (!PokemonEvolution.Instance.IsQueueEmpty()) PokemonEvolution.Instance.ShowNext(this);
@@ -275,8 +277,8 @@ public partial class PokemonStage : Node2D
 	{
 		RandomNumberGenerator RNG = new RandomNumberGenerator();
 		int minimumLevel = PokemonLevels[0];
-		int maximumLevel = PokemonLevels[1];
-		int randomLevel = RNG.RandiRange(minimumLevel, maximumLevel);
+		int MaxLevel = PokemonLevels[1];
+		int randomLevel = RNG.RandiRange(minimumLevel, MaxLevel);
 
 		return randomLevel;
 	}

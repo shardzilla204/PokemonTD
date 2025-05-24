@@ -31,6 +31,7 @@ public partial class PokemonManager : Node
     public override void _Ready()
     {
         PokemonTD.Signals.PokemonLeveledUp += PokemonLeveledUp;
+        PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
     }
 
     private void LoadPokemonFile()
@@ -70,11 +71,11 @@ public partial class PokemonManager : Node
         pokemon.SetMoves(pokemonMoves);
 
         // ? Comment Out To Level Up Instantly
-        pokemon.Experience.Maximum = GetExperienceRequired(pokemon);
+        pokemon.Experience.Max = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
         pokemon.HP = GetPokemonHP(pokemon);
-        pokemon.MaximumHP = GetPokemonHP(pokemon);
+        pokemon.MaxHP = GetPokemonHP(pokemon);
         pokemon.Accuracy = 1;
         pokemon.Evasion = 0;
         return pokemon;
@@ -95,27 +96,16 @@ public partial class PokemonManager : Node
         return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
     }
 
-    private async void PokemonLeveledUp(Pokemon pokemon, int teamSlotIndex, int levels)
+    private async void PokemonLeveledUp(int levels, int teamSlotIndex)
     {
+        Pokemon pokemon = PokemonTeam.Instance.Pokemon[teamSlotIndex];
         bool canEvolve = PokemonEvolution.Instance.CanEvolve(pokemon, levels);
         if (canEvolve)
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, teamSlotIndex) ;
-
+            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, (int) EvolutionStone.None, teamSlotIndex);
             await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionFinished);
-
             pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
-
-            // Update the pokemon that evolved
-            PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
-            PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemon);
-
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, teamSlotIndex);
-
         }
-
-        pokemon.MaximumHP = GetPokemonHP(pokemon);
-        SetPokemonStats(pokemon);
 
         List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoves(pokemon, levels);
         foreach (PokemonMove pokemonMove in pokemonMoves)
@@ -125,9 +115,17 @@ public partial class PokemonManager : Node
             PokemonMoveset.Instance.AddPokemonMove(pokemon, pokemonMove);
         }
 
-        // Set level once potential moves have been added
-        pokemon.Level += levels;
-        pokemon.Level = Mathf.Clamp(pokemon.Level, 1, PokemonTD.MaxPokemonLevel);
+        // Set level once potential moves and potential evolution have been added
+        pokemon.IncreaseLevel(levels);
+
+        if (canEvolve) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, teamSlotIndex);
+    }
+
+    private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
+    {
+        // Update the pokemon that evolved
+        PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
+        PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemonEvolution);
     }
 
     public Texture2D GetPokemonSprite(string pokemonName)
@@ -139,7 +137,7 @@ public partial class PokemonManager : Node
     public Gender GetRandomGender()
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        int randomValue = RNG.RandiRange((int)Gender.Male, (int)Gender.Female);
+        int randomValue = RNG.RandiRange((int) Gender.Male, (int) Gender.Female);
 
         return (Gender) randomValue;
     }
@@ -172,7 +170,7 @@ public partial class PokemonManager : Node
     {
         Pokemon pokemonData = GetPokemon(pokemon.Name);
         int hpStatValue = Mathf.RoundToInt(pokemonData.HP * 1.35f + pokemon.Level / 100 + pokemon.Level);
-        return Mathf.Clamp(hpStatValue, 0, PokemonTD.MaxStatValue);
+        return Mathf.Max(0, hpStatValue);
     }
 
     // ? Other Stat Formula
@@ -196,7 +194,7 @@ public partial class PokemonManager : Node
         };
 
         int pokemonStatValue = Mathf.RoundToInt(baseStatValue + pokemon.Level / 100);
-        return Mathf.Clamp(pokemonStatValue, 0, PokemonTD.MaxStatValue);
+        return Mathf.Max(0, pokemonStatValue);
     }
 
     // ? EXP Formula

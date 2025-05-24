@@ -144,9 +144,9 @@ public partial class PokemonMoves : Node
         return Moves.Find(pokemonMove => pokemonMove.Name == pokemonMoveName);
     }
 
-    public void AddToQueue(ForgetMoveInterface forgetMoveInterface, PokemonStage pokemonStage)
+    public void AddToQueue(ForgetMoveInterface forgetMoveInterface, Node sibling)
     {
-        if (_forgetMoveQueue.Count == 0) pokemonStage.AddSibling(forgetMoveInterface);
+        if (_forgetMoveQueue.Count == 0) sibling.AddSibling(forgetMoveInterface);
 
         _forgetMoveQueue.Add(forgetMoveInterface);
     }
@@ -157,9 +157,9 @@ public partial class PokemonMoves : Node
         EmitSignal(SignalName.QueueUpdated, forgetMoveInterface);
     }
 
-    public void ShowNext(PokemonStage pokemonStage)
+    public void ShowNext(Node sibling)
     {
-        pokemonStage.AddSibling(_forgetMoveQueue[0]);
+        sibling.AddSibling(_forgetMoveQueue[0]);
     }
     
     public bool IsQueueEmpty()

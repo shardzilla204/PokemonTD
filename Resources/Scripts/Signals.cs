@@ -61,10 +61,10 @@ public partial class Signals : Node
     public delegate void PokemonDamagedEventHandler(int damage, int teamSlotIndex);
 
     [Signal]
-    public delegate void PokemonEvolvingEventHandler(Pokemon pokemon, int teamSlotIndex);
+    public delegate void PokemonEvolvingEventHandler(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex);
 
     [Signal]
-    public delegate void PokemonLeveledUpEventHandler(Pokemon pokemon, int teamSlotIndex, int levels);
+    public delegate void PokemonLeveledUpEventHandler(int levels, int teamSlotIndex);
 
     [Signal]
     public delegate void PokemonEvolvedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);

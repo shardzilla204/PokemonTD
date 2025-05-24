@@ -239,7 +239,6 @@ public partial class PokemonEnemy : TextureRect
 		PokemonTD.AudioManager.PlayPokemonFaint();
 		PokemonTD.AddPokeDollars(Pokemon);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
 		EmitSignal(SignalName.Fainted, this);
 
 		CalculateExperienceDistribution();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=33 format=3 uid="uid://hvrq7bqyr4x8"]
 
 [ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
 [ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
@@ -28,6 +28,9 @@
 [ext_resource type="Script" uid="uid://n14u7sui1dd7" path="res://Resources/Scripts/PokemonTween.cs" id="24_u4bgx"]
 [ext_resource type="PackedScene" uid="uid://cns7fl2chiobe" path="res://Resources/Scenes/InformationInterface.tscn" id="25_6jdnx"]
 [ext_resource type="PackedScene" uid="uid://b5r7urrtc6j84" path="res://StatusConditionIcon.tscn" id="26_lpw2n"]
+[ext_resource type="PackedScene" uid="uid://tsbjbgmn6lb1" path="res://Resources/Scenes/PokeMartInterface.tscn" id="27_3kk4q"]
+[ext_resource type="PackedScene" uid="uid://d0hccl3odqa75" path="res://Resources/Scenes/PokeMartItem.tscn" id="27_v3jpj"]
+[ext_resource type="PackedScene" uid="uid://3f8kd210tfty" path="res://Resources/Scenes/PokeMartSlot.tscn" id="28_v3jpj"]
 [ext_resource type="Script" uid="uid://r3pbccgmun6t" path="res://Resources/Scripts/PrintRich.cs" id="29_1jrto"]
 
 [node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
@@ -37,7 +40,6 @@ mouse_filter = 2
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
-_isPokeCenterRandomized = true
 _pokeCenterCount = 999
 
 [node name="PackedScenes" type="Node" parent="."]
@@ -62,6 +64,9 @@ _stageConsoleLabel = ExtResource("21_ecryk")
 _settingsInterface = ExtResource("22_u4bgx")
 _informationInterface = ExtResource("25_6jdnx")
 _statusConditionIcon = ExtResource("26_lpw2n")
+_pokeMartInterface = ExtResource("27_3kk4q")
+_pokeMartItem = ExtResource("27_v3jpj")
+_pokeMartSlot = ExtResource("28_v3jpj")
 
 [node name="AudioManager" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("_musicStreamPlayer", "_soundStreamPlayer")]
 script = ExtResource("22_s4j0d")

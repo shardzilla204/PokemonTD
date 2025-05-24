@@ -34,10 +34,10 @@ public partial class PokemonMoveEffect : Node
     public int GetRandomHitCount(PokemonMove pokemonMove)
     {
         int minimumHitCount = pokemonMove.HitCount[0];
-        int maximumHitCount = pokemonMove.HitCount[1];
+        int MaxHitCount = pokemonMove.HitCount[1];
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        return RNG.RandiRange(minimumHitCount, maximumHitCount);
+        return RNG.RandiRange(minimumHitCount, MaxHitCount);
     }
 
     public float GetCriticalHitRatio(Pokemon pokemon, PokemonMove pokemonMove)
@@ -48,8 +48,8 @@ public partial class PokemonMoveEffect : Node
         bool isHighCriticalRatioMove = HighCriticalRatioMoves.IsHighCriticalRatioMove(pokemonMove);
         if (isHighCriticalRatioMove)
         {
-            float maximumThreshold = 255;
-            criticalHitRatio = Math.Min(4 * criticalHitRatio, maximumThreshold);
+            float MaxThreshold = 255;
+            criticalHitRatio = Math.Min(4 * criticalHitRatio, MaxThreshold);
         }
         return criticalHitRatio;
     }
@@ -77,19 +77,19 @@ public partial class PokemonMoveEffect : Node
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
-                pokemon.Attack = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
+                pokemon.Attack = Math.Max(0, pokemon.Attack + statValue);
                 break;
             case PokemonStat.SpecialAttack:
-                pokemon.SpecialAttack = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
+                pokemon.SpecialAttack = Math.Max(0, pokemon.SpecialAttack + statValue);
                 break;
             case PokemonStat.Defense:
-                pokemon.Defense = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
+                pokemon.Defense = Math.Max(0, pokemon.Defense + statValue);
                 break;
             case PokemonStat.SpecialDefense:
-                pokemon.SpecialDefense = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
+                pokemon.SpecialDefense = Math.Max(0, pokemon.SpecialDefense + statValue);
                 break;
             case PokemonStat.Speed:
-                pokemon.Speed = Mathf.Clamp(statValue, 0, PokemonTD.MaxStatValue);
+                pokemon.Speed = Math.Max(0, pokemon.Speed + statValue);
                 break;
             case PokemonStat.Accuracy:
                 pokemon.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;

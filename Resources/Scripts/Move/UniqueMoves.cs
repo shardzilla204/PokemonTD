@@ -221,8 +221,7 @@ public partial class UniqueMoves : Node
     // Money is earned.
     public void PayDay()
     {
-        PokemonTD.PokeDollars += 5;
-        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+        PokemonTD.AddPokeDollars(5);
     }
 
     // Always inflicts 20 HP
