@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="1_smjy8"]
 [ext_resource type="Script" uid="uid://vlxdrypgdsjl" path="res://Resources/Scripts/Pokemon/PokemonEnemy.cs" id="2_dwexy"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="3_0vakl"]
-[ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scenes/Stage/StatusConditionContainer.cs" id="4_ojny1"]
+[ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scripts/StatusConditionContainer.cs" id="4_ojny1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
 radius = 65.0

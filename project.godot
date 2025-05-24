@@ -16,7 +16,7 @@ warnings/check_invalid_track_paths=false
 
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
-config/version="0.5.1"
+config/version="0.5.2"
 run/main_scene="res://Resources/Scenes/MenuInterface.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot/app_userdata/PokemonTD"
@@ -36,7 +36,7 @@ PokemonMoves="*res://Resources/Scripts/Move/PokemonMoves.cs"
 PokemonStatusCondition="*res://Resources/Scripts/PokemonStatusCondition.cs"
 PokemonMoveEffect="*res://Resources/Scripts/Move/PokemonMoveEffect.cs"
 PokemonMoveset="*res://Resources/Scripts/Move/PokemonMoveset.cs"
-PokeMart="*res://Resources/Scripts/PokeMart.cs"
+PokeMart="*res://Resources/Scripts/PokeMart/PokeMart.cs"
 PokemonStages="*res://Resources/Scripts/Stage/PokemonStages.cs"
 PokemonTypes="*res://Resources/Scripts/Pokemon/PokemonTypes.cs"
 PokemonTeam="*res://Resources/Scripts/Pokemon/PokemonTeam.cs"

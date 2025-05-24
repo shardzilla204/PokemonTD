@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_86rdi"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="2_w3g7f"]
-[ext_resource type="Script" uid="uid://csxhtjm6pojr0" path="res://Resources/Scenes/PokeMartTeamSlot.cs" id="3_5efpi"]
+[ext_resource type="Script" uid="uid://csxhtjm6pojr0" path="res://Resources/Scripts/PokeMart/PokeMartTeamSlot.cs" id="3_5efpi"]
 [ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_4wdcv"]
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="5_i1ges"]
 [ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="6_rqesw"]

@@ -1,11 +1,11 @@
 [gd_scene load_steps=7 format=3 uid="uid://tsbjbgmn6lb1"]
 
-[ext_resource type="Script" uid="uid://hqolftmeuaxe" path="res://Resources/Scenes/PokeMartInterface.cs" id="1_6l4nt"]
+[ext_resource type="Script" uid="uid://hqolftmeuaxe" path="res://Resources/Scripts/PokeMart/PokeMartInterface.cs" id="1_6l4nt"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_e2fpt"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_p8oow"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_huhwu"]
-[ext_resource type="PackedScene" uid="uid://bm6jrfhjihwmc" path="res://Resources/Scenes/PokeMartTeamSlots.tscn" id="6_e2fpt"]
-[ext_resource type="PackedScene" uid="uid://bavw8pxrktjb1" path="res://Resources/Scenes/PokeMartInventory.tscn" id="6_xe03f"]
+[ext_resource type="PackedScene" uid="uid://bm6jrfhjihwmc" path="res://Resources/Scenes/PokeMart/PokeMartTeamSlots.tscn" id="6_e2fpt"]
+[ext_resource type="PackedScene" uid="uid://bavw8pxrktjb1" path="res://Resources/Scenes/PokeMart/PokeMartInventory.tscn" id="6_xe03f"]
 
 [node name="PokeMartInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_pokeDollarsLabel", "_pokeMartItems", "_pokeMartTeamSlots", "_pokeMartInventory")]
 script = ExtResource("1_6l4nt")

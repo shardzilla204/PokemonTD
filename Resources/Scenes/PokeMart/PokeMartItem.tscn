@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://d0hccl3odqa75"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_4ke20"]
-[ext_resource type="Script" uid="uid://b2cccew3ssrob" path="res://Resources/Scenes/PokeMartItem.cs" id="1_s5x43"]
+[ext_resource type="Script" uid="uid://b2cccew3ssrob" path="res://Resources/Scripts/PokeMart/PokeMartItem.cs" id="1_s5x43"]
 [ext_resource type="Texture2D" uid="uid://dagl8j28upyep" path="res://Assets/Images/EvolutionStone/FireStone.png" id="2_s5x43"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_dfpou"]
 

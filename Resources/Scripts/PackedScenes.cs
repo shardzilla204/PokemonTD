@@ -42,7 +42,7 @@ public partial class PackedScenes : Node
 	private PackedScene _pokemonEnemy;
 
 	[Export]
-	private PackedScene _PokemonTeamSlot;
+	private PackedScene _pokemonTeamSlot;
 
 	[Export]
 	private PackedScene _emptyPokemonTeamSlot;
@@ -176,7 +176,7 @@ public partial class PackedScenes : Node
 
 	public PokemonTeamSlot GetPokemonTeamSlot()
 	{
-		return _PokemonTeamSlot.Instantiate<PokemonTeamSlot>();
+		return _pokemonTeamSlot.Instantiate<PokemonTeamSlot>();
 	}
 
 	public Control GetEmptyPokemonTeamSlot()
@@ -187,11 +187,6 @@ public partial class PackedScenes : Node
 	public PokeCenterInterface GetPokeCenterInterface()
 	{
 		return _pokeCenterInterface.Instantiate<PokeCenterInterface>();
-	}
-
-	public StageConsoleLabel GetStageConsoleLabel()
-	{
-		return _stageConsoleLabel.Instantiate<StageConsoleLabel>();
 	}
 
 	public PokeMartInterface GetPokeMartInterface()

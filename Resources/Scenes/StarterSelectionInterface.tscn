@@ -46,10 +46,11 @@ theme_override_constants/separation = 50
 alignment = 1
 
 [node name="ExitButton" type="Button" parent="Background/MarginContainer"]
-custom_minimum_size = Vector2(50, 50)
+custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
 text = "X"
 flat = true
 script = ExtResource("3_p1isw")

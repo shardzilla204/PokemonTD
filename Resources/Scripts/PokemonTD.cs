@@ -119,8 +119,6 @@ public partial class PokemonTD : Control
     public const int MaxTeamSize = 6;
     public const int MaxMoveCount = 4;
 
-    public static StageConsole StageConsole;
-
     public override void _EnterTree()
     {
         PackedScenes = _packedScenes;
@@ -207,17 +205,6 @@ public partial class PokemonTD : Control
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         return RNG.RandiRange(minimumLevel, MaxLevel);
-    }
-
-    public static void AddStageConsoleMessage(TextColor textColor, string text)
-    {
-        if (StageConsole == null) return;
-
-        StageConsoleLabel stageConsoleLabel = PackedScenes.GetStageConsoleLabel();
-        stageConsoleLabel.Text = text;
-        stageConsoleLabel.SelfModulate = Color.FromHtml(PrintRich.GetColorHex(textColor));
-
-        StageConsole.AddMessage(stageConsoleLabel);
     }
 
     public static Texture2D GetGenderSprite(Pokemon pokemon)
