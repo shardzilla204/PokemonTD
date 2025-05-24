@@ -6,8 +6,6 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
-    TODO: Add potion functionality
-    TODO: Add evolution stones & it's functionality
 
     * Ideas:
     ? Mute all stage team slot options in settings
@@ -16,6 +14,7 @@ namespace PokemonTD;
     ? Shiny pokemon through color palettes
 
     * Bugs:
+    ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
 
     * Notes:
     - Pin Missile SFX Will Be Damage SFX
@@ -167,10 +166,11 @@ public partial class PokemonTD : Control
     public static void AddPokeDollars(Pokemon pokemon)
     {
         int minimumPokeDollars = pokemon.Level * 5;
-        int MaxPokeDollars = pokemon.Level * 10;
+        int maxPokeDollars = pokemon.Level * 10;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        PokeDollars += RNG.RandiRange(minimumPokeDollars, MaxPokeDollars);
+        int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
+        PokeDollars += amount;
         Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
     }
 
@@ -180,9 +180,20 @@ public partial class PokemonTD : Control
         Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
     }
 
+    public static void SubtractPokeDollars(Pokemon pokemon)
+    {
+        int minimumPokeDollars = pokemon.Level * 10;
+        int maxPokeDollars = pokemon.Level * 15;
+        RandomNumberGenerator RNG = new RandomNumberGenerator();
+
+        int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
+        PokeDollars = Mathf.Max(0, PokeDollars - amount);
+        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+    }
+
     public static void SubtractPokeDollars(int amount)
     {
-        PokeDollars -= amount;
+        PokeDollars = Mathf.Max(0, PokeDollars - amount);
         Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
     }
 

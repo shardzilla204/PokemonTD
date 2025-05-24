@@ -30,7 +30,7 @@ public partial class PokemonHealthBar : Container
     public void SubtractHealth(Pokemon pokemon, int damage)
     {
         SetHealth(pokemon, -damage);
-        CheckHealth();
+        CheckHealth(pokemon);
     }
 
     private void SetHealth(Pokemon pokemon, int value)
@@ -47,10 +47,11 @@ public partial class PokemonHealthBar : Container
         Update(pokemon);
     }
 
-    private void CheckHealth()
+    private void CheckHealth(Pokemon pokemon)
     {
         if (_healthBar.Value > _healthBar.MinValue) return;
 
+        PokemonTD.SubtractPokeDollars(pokemon);
         EmitSignal(SignalName.Fainted);
     }
 }

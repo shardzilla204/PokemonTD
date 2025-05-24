@@ -15,7 +15,6 @@ public enum PokeMartItemCategory
 public partial class PokeMart : Node
 {
     private static PokeMart _instance;
-
     public static PokeMart Instance
     {
         get => _instance;

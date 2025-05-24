@@ -19,7 +19,7 @@ public partial class StatusConditionContainer : Container
         StatusConditionIcon statusConditionIcon = _statusConditionIcons.Find(statusConditionIcon => statusConditionIcon.StatusCondition == statusCondition);
         _statusConditionIcons.Remove(statusConditionIcon);
 
-        if (statusConditionIcon != null) statusConditionIcon.QueueFree();
+        if (statusConditionIcon != null && IsInstanceValid(statusConditionIcon)) statusConditionIcon.QueueFree();
     }
 
     public void RemoveAllStatusConditions()
