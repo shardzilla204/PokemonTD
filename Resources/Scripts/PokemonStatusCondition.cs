@@ -2,7 +2,6 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace PokemonTD;
 
@@ -39,8 +38,8 @@ public partial class PokemonStatusCondition : Node
 
         PokemonTD.Signals.PressedPlay += StartTimers;
         PokemonTD.Signals.PressedPause += StopTimers;
-        PokemonTD.Signals.DraggingPokemonStageSlot += Dragging;
-        PokemonTD.Signals.DraggingPokemonTeamSlot += Dragging;
+        PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
+        PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
         PokemonTD.Signals.DraggingPokeBall += Dragging;
         PokemonTD.Signals.HasLeftStage += HasLeftStage;
     }
@@ -124,8 +123,14 @@ public partial class PokemonStatusCondition : Node
                 RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
             };
 
-            pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
-            pokemonStageSlot.Retrieved += timer.QueueFree;
+            pokemonStageSlot.Retrieved += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonStageSlot.Fainted += (pokemonStageSlot) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
@@ -146,8 +151,14 @@ public partial class PokemonStatusCondition : Node
                 RemoveEnemyStatusCondition(pokemonEnemy, statusCondition);
             };
 
-            pokemonEnemy.TreeExiting += timer.QueueFree;
-            pokemonEnemy.Fainted += (pokemonEnemy) => timer.QueueFree();
+            pokemonEnemy.TreeExiting += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonEnemy.Fainted += (pokemonEnemy) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
     }
 
@@ -182,8 +193,14 @@ public partial class PokemonStatusCondition : Node
                 RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
             };
 
-            pokemonStageSlot.Retrieved += timer.QueueFree;
-            pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
+            pokemonStageSlot.Retrieved += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonStageSlot.Fainted += (pokemonStageSlot) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
@@ -204,8 +221,14 @@ public partial class PokemonStatusCondition : Node
                 RemoveEnemyStatusCondition(pokemonEnemy, statusCondition);
             };
 
-            pokemonEnemy.TreeExiting += timer.QueueFree;
-            pokemonEnemy.Fainted += (pokemonEnemy) => timer.QueueFree();
+            pokemonEnemy.TreeExiting += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonEnemy.Fainted += (pokemonEnemy) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
     }
 
@@ -257,8 +280,14 @@ public partial class PokemonStatusCondition : Node
                     RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
                 };
 
-                pokemonStageSlot.Retrieved += timer.QueueFree;
-                pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
+                pokemonStageSlot.Retrieved += () =>
+                {
+                    if (IsInstanceValid(timer)) timer.QueueFree();
+                };
+                pokemonStageSlot.Fainted += (pokemonStageSlot) =>
+                {
+                    if (IsInstanceValid(timer)) timer.QueueFree();
+                };
             }
             else if (defendingPokemon is PokemonEnemy pokemonEnemy)
             {
@@ -270,8 +299,14 @@ public partial class PokemonStatusCondition : Node
                     RemoveEnemyStatusCondition(pokemonEnemy, statusCondition);
                 };
 
-                pokemonEnemy.TreeExiting += timer.QueueFree;
-                pokemonEnemy.Fainted += (pokemonEnemy) => timer.QueueFree();
+                pokemonEnemy.TreeExiting += () =>
+                {
+                    if (IsInstanceValid(timer)) timer.QueueFree();
+                };
+                pokemonEnemy.Fainted += (pokemonEnemy) =>
+                {
+                    if (IsInstanceValid(timer)) timer.QueueFree();
+                };
             }
             AddChild(timer);
         }
@@ -318,8 +353,14 @@ public partial class PokemonStatusCondition : Node
             };
             AddChild(timer);
 
-            pokemonStageSlot.Retrieved += timer.QueueFree;
-            pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
+            pokemonStageSlot.Retrieved += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonStageSlot.Fainted += (pokemonStageSlot) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
         else if (defendingPokemon is PokemonEnemy pokemonEnemy)
         {
@@ -346,8 +387,14 @@ public partial class PokemonStatusCondition : Node
             };
             AddChild(timer);
 
-            pokemonEnemy.TreeExiting += timer.QueueFree;
-            pokemonEnemy.Fainted += (pokemonEnemy) => timer.QueueFree();
+            pokemonEnemy.TreeExiting += () =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
+            pokemonEnemy.Fainted += (pokemonEnemy) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
         }
     }
 
@@ -407,6 +454,16 @@ public partial class PokemonStatusCondition : Node
         timer.WaitTimeLeft = timer.TimeLeft;
         timer.Stop();
     }
+
+    private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	{
+		Dragging(isDragging);
+	}
+
+	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		Dragging(isDragging);
+	}
 
     private async void Dragging(bool isDragging)
     {

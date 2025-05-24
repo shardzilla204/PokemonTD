@@ -40,9 +40,15 @@ public partial class PokemonEnemy : TextureRect
 	public bool IsMovingForward = true;
 	public int TeamSlotIndex = -1;
 	public PokemonEffects Effects = new PokemonEffects();
+
+    public override void _ExitTree()
+    {
+		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
+    }
 	
 	public override void _Ready()
 	{
+		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
 		if (PokemonTD.AreLevelsRandomized) Pokemon.Level = PokemonTD.GetRandomLevel(PokemonTD.MinPokemonEnemyLevel, PokemonTD.MaxPokemonEnemyLevel);
 
 		if (PokemonTD.IsCaptureModeEnabled)
@@ -105,6 +111,11 @@ public partial class PokemonEnemy : TextureRect
 		// Print Message To Console
 		string capturedMessage = $"{Pokemon.Name} Has Been Captured";
 		PrintRich.PrintLine(TextColor.Yellow, capturedMessage);
+	}
+
+	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		if (!isDragging) PokemonQueue.Remove(pokemonStageSlot);
 	}
 
 	private void AddToQueue(Area2D area)

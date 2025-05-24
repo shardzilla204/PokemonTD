@@ -83,7 +83,7 @@ public partial class PokemonTeamSlot : Button
 		_isDragging = false;
 		HighlightPokemonStageSlot();
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonTeamSlot, false);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonTeamSlot, this, false);
 
 		if (IsDragSuccessful()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonUsed, true, TeamSlotIndex);
 	}
@@ -110,7 +110,7 @@ public partial class PokemonTeamSlot : Button
 		_dragPreview = PokemonTD.GetStageDragPreview(Pokemon);
 		SetDragPreview(_dragPreview);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonTeamSlot, true);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonTeamSlot, this, true);
 
 		return PokemonTD.GetStageDragData(Pokemon, TeamSlotIndex, true, _isMuted);
 	}

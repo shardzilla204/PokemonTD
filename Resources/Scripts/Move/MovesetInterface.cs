@@ -26,17 +26,17 @@ public partial class MovesetInterface : CanvasLayer
     public override void _ExitTree()
     {
         PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
 		PokemonTD.Signals.DraggingPokeBall -= Dragging;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= Dragging;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= Dragging;
     }
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
 		PokemonTD.Signals.DraggingPokeBall += Dragging;
-		PokemonTD.Signals.DraggingPokemonStageSlot += Dragging;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += Dragging;
 
 		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
 
@@ -79,6 +79,16 @@ public partial class MovesetInterface : CanvasLayer
         if (effect != "" && accuracy != "") accuracy += "\n\n";
 
 		_effect.Text = $"{power}{accuracy}{effect}";
+	}
+
+	private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	{
+		Dragging(isDragging);
+	}
+
+	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		Dragging(isDragging);
 	}
 
 	private void Dragging(bool isDragging)

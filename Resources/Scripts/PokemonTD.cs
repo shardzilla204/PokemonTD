@@ -163,8 +163,8 @@ public partial class PokemonTD : Control
 
     public static void AddPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level * 5;
-        int maxPokeDollars = pokemon.Level * 10;
+        int minimumPokeDollars = pokemon.Level * 10;
+        int maxPokeDollars = pokemon.Level * 15;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
@@ -180,8 +180,8 @@ public partial class PokemonTD : Control
 
     public static void SubtractPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level * 10;
-        int maxPokeDollars = pokemon.Level * 15;
+        int minimumPokeDollars = pokemon.Level * 3;
+        int maxPokeDollars = pokemon.Level * 6;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);

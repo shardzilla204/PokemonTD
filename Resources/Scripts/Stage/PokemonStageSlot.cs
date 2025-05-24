@@ -56,8 +56,8 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		PokemonTD.Signals.PokemonEnemyPassed -= UpdatePokemonQueue;
 		PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= SetOpacity;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= SetOpacity;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
 		PokemonTD.Signals.PokemonEvolved -= PokemonEvolved;
 		PokemonTD.Signals.SpeedToggled -= SpeedToggled;
 		PokemonTD.Signals.PokemonTeamSlotMuted -= PokemonTeamSlotMuted;
@@ -78,8 +78,8 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		PokemonTD.Signals.PokemonEnemyPassed += UpdatePokemonQueue;
 		PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += SetOpacity;
-		PokemonTD.Signals.DraggingPokemonStageSlot += SetOpacity;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
 		PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
 		PokemonTD.Signals.SpeedToggled += SpeedToggled;
 		PokemonTD.Signals.PokemonTeamSlotMuted += PokemonTeamSlotMuted;
@@ -152,8 +152,8 @@ public partial class PokemonStageSlot : NinePatchRect
 			return;
 		}
 
-		_attackTimer.WaitTime = 100 / (Pokemon.Speed * PokemonTD.GameSpeed);
-		_attackTimer.WaitTime *= Effects.UsedQuickAttack ? 1.65f : 1;
+		_attackTimer.WaitTime = 100 / (Pokemon.Speed * PokemonTD.GameSpeed * 1.25f);
+		_attackTimer.WaitTime *= Effects.UsedQuickAttack ? 0.75f : 1;
 		_attackTimer.Start();
 	}
 
@@ -190,7 +190,7 @@ public partial class PokemonStageSlot : NinePatchRect
 
 		_isDragging = false;
 		SetOpacity(false);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonStageSlot, false);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonStageSlot, this, false);
 
 		StatusConditions.RemoveAllStatusConditions();
 	}
@@ -202,7 +202,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		_isDragging = true;
 		SetOpacity(true);
 		EmitSignal(SignalName.Dragging);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonStageSlot, true);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokemonStageSlot, this, true);
 
 		_dragPreview = PokemonTD.GetStageDragPreview(Pokemon);
 		SetDragPreview(_dragPreview);
@@ -322,6 +322,16 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
 		return pokemonStage.StageInterface;
+	}
+
+	private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	{
+		SetOpacity(isDragging);
+	}
+
+	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		SetOpacity(isDragging);
 	}
 
 	public void SetOpacity(bool isDragging)

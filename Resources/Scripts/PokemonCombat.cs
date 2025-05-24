@@ -75,9 +75,10 @@ public partial class PokemonCombat : Node
     // ? Comment In Value For Higher Damage
     private void DamagePokemonEnemy(PokemonStageSlot pokemonStageSlot, PokemonMove pokemonMove, PokemonEnemy pokemonEnemy, int hitCount, string usedMessage)
     {
+        float damageIncrease = 1.85f;
         for (int i = 0; i < hitCount; i++)
         {
-            int pokemonMoveDamage = GetPokemonMoveDamage(pokemonStageSlot, pokemonMove, pokemonEnemy) /* * 100 */;
+            int pokemonMoveDamage = Mathf.RoundToInt(GetPokemonMoveDamage(pokemonStageSlot, pokemonMove, pokemonEnemy) * damageIncrease);
             pokemonEnemy.DamagePokemon(pokemonMoveDamage);
 
             string damageMessage = PrintRich.GetDamageMessage(pokemonMoveDamage, pokemonEnemy.Pokemon, pokemonMove);
@@ -87,11 +88,10 @@ public partial class PokemonCombat : Node
 
     private void DamagePokemonStageSlot(PokemonEnemy pokemonEnemy, PokemonMove pokemonMove, PokemonStageSlot pokemonStageSlot, int hitCount, string usedMessage)
     {
-        float damageReduction = 0.75f;
+        float damageReduction = 0.65f;
         for (int i = 0; i < hitCount; i++)
         {
-            int pokemonMoveDamage = GetPokemonMoveDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
-            pokemonMoveDamage = Mathf.RoundToInt(pokemonMoveDamage * damageReduction);
+            int pokemonMoveDamage = Mathf.RoundToInt(GetPokemonMoveDamage(pokemonEnemy, pokemonMove, pokemonStageSlot) * damageReduction);
             pokemonStageSlot.DamagePokemon(pokemonMoveDamage);
 
             string damageMessage = PrintRich.GetDamageMessage(pokemonMoveDamage, pokemonStageSlot.Pokemon, pokemonMove);

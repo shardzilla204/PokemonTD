@@ -40,9 +40,9 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated += PokeDollarsUpdated;
 		PokemonTD.Signals.RareCandyUpdated += RareCandyUpdated;
-		PokemonTD.Signals.DraggingPokemonStageSlot += Dragging;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += Dragging;
-		PokemonTD.Signals.DraggingPokeBall += Dragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
+		PokemonTD.Signals.DraggingPokeBall += SetVisibility;
 		PokemonTD.Signals.PokemonUsed += PokemonUsed;
     }
 
@@ -51,9 +51,9 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated -= PokeDollarsUpdated;
 		PokemonTD.Signals.RareCandyUpdated -= RareCandyUpdated;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= Dragging;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= Dragging;
-		PokemonTD.Signals.DraggingPokeBall -= Dragging;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
+		PokemonTD.Signals.DraggingPokeBall -= SetVisibility;
 		PokemonTD.Signals.PokemonUsed -= PokemonUsed;
     }
 
@@ -110,7 +110,17 @@ public partial class StageInterface : CanvasLayer
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
 	}
 
-	private void Dragging(bool isDragging)
+	private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	{
+		SetVisibility(isDragging);
+	}
+
+	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		SetVisibility(isDragging);
+	}
+
+	private void SetVisibility(bool isDragging)
 	{
 		_container.Visible = !isDragging;
 	}

@@ -77,10 +77,10 @@ public partial class Signals : Node
 
     // Dragging 
     [Signal]
-    public delegate void DraggingPokemonTeamSlotEventHandler(bool isDragging);
+    public delegate void DraggingPokemonTeamSlotEventHandler(PokemonTeamSlot pokemonTeamSlot, bool isDragging);
 
     [Signal]
-    public delegate void DraggingPokemonStageSlotEventHandler(bool isDragging);
+    public delegate void DraggingPokemonStageSlotEventHandler(PokemonStageSlot pokemonStageSlot, bool isDragging);
 
     [Signal]
     public delegate void DraggingPokeBallEventHandler(bool isDragging);

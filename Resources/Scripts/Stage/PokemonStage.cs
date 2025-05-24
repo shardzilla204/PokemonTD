@@ -48,9 +48,9 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.ForgetMove += PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured += PokemonEnemyEvent;
-		PokemonTD.Signals.DraggingPokemonStageSlot += SetStageAlpha;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += SetStageAlpha;
-		PokemonTD.Signals.DraggingPokeBall += SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
+		PokemonTD.Signals.DraggingPokeBall += SetStageOpacity;
 		PokemonTD.Signals.PokemonEvolving += PokemonEvolving;
 
 		foreach (Node child in _pokemonStageSlots.GetChildren())
@@ -65,9 +65,9 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.ForgetMove -= PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured -= PokemonEnemyEvent;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= SetStageAlpha;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= SetStageAlpha;
-		PokemonTD.Signals.DraggingPokeBall -= SetStageAlpha;
+		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
+		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
+		PokemonTD.Signals.DraggingPokeBall -= SetStageOpacity;
 		PokemonTD.Signals.PokemonEvolving -= PokemonEvolving;
     }
 
@@ -112,15 +112,25 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 	}
 
-	private void SetStageAlpha(bool isDragging)
+	public void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	{
+		SetStageOpacity(isDragging);
+	}
+
+	public void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
+	{
+		SetStageOpacity(isDragging);
+	}
+
+	private void SetStageOpacity(bool isDragging)
 	{
 		Color transparent = Colors.White;
 		transparent.A = 0.65f;
 		_transparentLayers.Modulate = isDragging ? transparent : Colors.White;
 
-		foreach (PokemonStageSlot PokemonStageSlot in PokemonStageSlots)
+		foreach (PokemonStageSlot pokemonStageSlot in PokemonStageSlots)
 		{
-			PokemonStageSlot.SetOpacity(isDragging);
+			pokemonStageSlot.SetOpacity(isDragging);
 		}
 	}
 

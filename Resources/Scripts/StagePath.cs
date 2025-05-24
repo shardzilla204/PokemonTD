@@ -48,13 +48,15 @@ public partial class StagePath : Path2D
 	{
 		PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
 		if (pokemonEnemy == null) return;
-		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
-		double progressSpeed = pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed * delta * 2;
+		
+		float speedMultiplier = 1.25f;
+		double progressSpeed = pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed * delta * speedMultiplier;
 
 		pathFollow.Progress += (float) progressSpeed;
 
+		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
 		Vector2 direction = previousPosition.DirectionTo(pokemonEnemy.GlobalPosition);
-		bool isMovingRight = Math.Round(direction.X, 1) >= 0;
+		bool isMovingRight = Math.Round(direction.X, 1) >= -0.05f;
 		pokemonEnemy.FlipH = isMovingRight;
 	}
 
