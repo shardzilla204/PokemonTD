@@ -101,7 +101,8 @@ ratio = 1.7778
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25
-text = "- Moves That Increase Stats Are Automatically Applied"
+text = "- Moves That Increase Stats Are Automatically Applied
+- Don't Let Your Pokemon Faint, Or You'll Have to Pay For It"
 horizontal_alignment = 1
 vertical_alignment = 1
 

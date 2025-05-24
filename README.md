@@ -13,3 +13,5 @@ Includes only Pokémon from Generation 1 (151)
 [Pokémon Music](https://downloads.khinsider.com/game-soundtracks/album/pokemon-10th-anniversary-happy-birthday-concert-junichi-masuda-selection)
 
 [Pokémon Cries](https://pokemoncries.com)
+
+[Pokémon Move SFX](https://downloads.khinsider.com/game-soundtracks/album/pokemon-sfx-gen-1-attack-moves-rby)
