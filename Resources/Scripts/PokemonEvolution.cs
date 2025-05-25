@@ -19,9 +19,6 @@ public partial class PokemonEvolution : Node
     }
 
 	[Signal]
-	public delegate void QueueUpdatedEventHandler(EvolutionInterface evolutionInterface);
-
-	[Signal]
 	public delegate void QueueClearedEventHandler();
 
 	private GC.Dictionary<string, Variant> _pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>();
@@ -145,27 +142,34 @@ public partial class PokemonEvolution : Node
 		return evolutionStones;
 	}
 
-	public void AddToQueue(EvolutionInterface evolutionInterface, Node sibling)
+	public void AddToQueue(EvolutionInterface evolutionInterface)
 	{
-		if (_evolutionQueue.Count == 0) sibling.AddSibling(evolutionInterface);
+		if (_evolutionQueue.Count == 0)
+		{
+			Node parentNode = GetParentOrNull<Node>();
+			parentNode.AddChild(evolutionInterface);
+			parentNode.MoveChild(evolutionInterface, GetChildCount() - 1);
+		}
 		_evolutionQueue.Add(evolutionInterface);
 	}
 
 	public void RemoveFromQueue(EvolutionInterface evolutionInterface)
 	{
 		_evolutionQueue.Remove(evolutionInterface);
-		EmitSignal(SignalName.QueueUpdated, evolutionInterface);
 	}
 
-	public void ShowNext(Node sibling)
+	public void ShowNext()
     {
 		EvolutionInterface nextEvolutionInterface = _evolutionQueue[0];
-        sibling.AddSibling(nextEvolutionInterface);
+
+		Node parentNode = GetParentOrNull<Node>();
+		parentNode.AddChild(nextEvolutionInterface);
+		parentNode.MoveChild(nextEvolutionInterface, GetChildCount() - 1);
     }
 
 	public bool IsQueueEmpty()
 	{
-		if (_evolutionQueue.Count == 0) EmitSignal(SignalName.QueueCleared);
+		if (_evolutionQueue.Count == 0) Instance.EmitSignal(SignalName.QueueCleared);
 		return _evolutionQueue.Count == 0;
 	}
 }

@@ -4,6 +4,9 @@ namespace PokemonTD;
 
 public partial class PokeMartSlot : NinePatchRect
 {
+    [Signal]
+    public delegate void UsedEventHandler();
+
 	[Export]
 	private TextureRect _itemSprite;
 
@@ -18,7 +21,7 @@ public partial class PokeMartSlot : NinePatchRect
         if (what != NotificationDragEnd || !_isDragging) return;
 
         _isDragging = false;
-        PokeMartItem.EmitSignal(PokeMartItem.SignalName.Used);
+        EmitSignal(SignalName.Used);
     }
 
 

@@ -61,6 +61,7 @@ public partial class Pokemon : Node
 
 	public Gender Gender;
 	public PokemonMove Move;
+	public bool HasCanceledEvolution;
 
 	private List<StatusCondition> _statusConditions = new List<StatusCondition>();
 

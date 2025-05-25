@@ -43,13 +43,17 @@ public partial class ForgetMoveInterface : CanvasLayer
 		_moveToForgetOption.UpdateOption(_moveToForget);
 
 		// Resume game after deciding
-		_swap.Pressed += () => 
+		_swap.Pressed += () =>
 		{
+			PokemonMoves.Instance.RemoveFromQueue(this);
+			PokemonMoves.Instance.IsQueueEmpty();
+
 			if (_moveToForget != MoveToLearn) ForgetMove();
 
+			EmitSignal(SignalName.Finished);
 			QueueFree();
 		};
-
+		
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 	}
 
@@ -148,9 +152,5 @@ public partial class ForgetMoveInterface : CanvasLayer
 		// Print Message To Console
 		string forgotMoveMessage = $"{Pokemon.Name} Forgot {_moveToForget.Name} For {MoveToLearn.Name}";
 		PrintRich.PrintLine(TextColor.Purple, forgotMoveMessage);
-
-		PokemonMoves.Instance.RemoveFromQueue(this);
-		PokemonMoves.Instance.IsQueueEmpty();
-		EmitSignal(SignalName.Finished);
 	}
 }

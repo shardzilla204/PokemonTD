@@ -181,7 +181,7 @@ public partial class PokemonEnemy : TextureRect
 		PokemonStatusCondition.Instance.ApplyStatusCondition(this, pokemonStageSlot, statusCondition);
 
 		if (!Effects.IsCharging) PokemonMoveEffect.Instance.ApplyMoveEffect(this, pokemonMove, pokemonStageSlot);	
-		PokemonStats.Instance.CheckStatChanges(pokemonStageSlot, pokemonMove);
+		PokemonStats.Instance.DecreaseStats(pokemonStageSlot, pokemonMove);
 
 		if (!Effects.IsCharging) PokemonCombat.Instance.DealDamage(this, pokemonMove, pokemonStageSlot);
 	}
@@ -195,7 +195,7 @@ public partial class PokemonEnemy : TextureRect
 		StatusCondition statusCondition = PokemonStatusCondition.Instance.GetStatusCondition(pokemonStageSlot, pokemonMove);
 		PokemonStatusCondition.Instance.ApplyStatusCondition(this, pokemonStageSlot, statusCondition);
 
-		PokemonStats.Instance.CheckStatChanges(pokemonStageSlot, pokemonMove);
+		PokemonStats.Instance.DecreaseStats(pokemonStageSlot, pokemonMove);
 	}
 
 	public void SetPokemon(Pokemon pokemon)
@@ -239,7 +239,7 @@ public partial class PokemonEnemy : TextureRect
 			if (Effects.HasRage)
 			{
 				StatMove statIncreaseMove = PokemonStats.Instance.FindIncreasingStatMove("Rage");
-				PokemonMoveEffect.Instance.ChangeStat(Pokemon, statIncreaseMove); 
+				PokemonStats.Instance.ChangeStat(Pokemon, statIncreaseMove); 
 
 				string activatedRageMessage = $"{Pokemon.Name} Has Been Enraged";
 				PrintRich.PrintLine(TextColor.Red, activatedRageMessage);

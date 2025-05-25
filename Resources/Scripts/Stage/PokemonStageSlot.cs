@@ -289,7 +289,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		if (Effects.HasRage)
 		{
 			StatMove statIncreaseMove = PokemonStats.Instance.FindIncreasingStatMove("Rage");
-			PokemonMoveEffect.Instance.ChangeStat(Pokemon, statIncreaseMove);
+			PokemonStats.Instance.ChangeStat(Pokemon, statIncreaseMove);
 
 			string activatedRageMessage = $"{Pokemon.Name} Has Been Enraged";
 			PrintRich.PrintLine(TextColor.Purple, activatedRageMessage);
@@ -392,7 +392,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonStatusCondition.Instance.ApplyStatusCondition(this, pokemonEnemy, statusCondition);
 
 		if (!Effects.IsCharging) PokemonMoveEffect.Instance.ApplyMoveEffect(this, pokemonMove, pokemonEnemy);
-		PokemonStats.Instance.CheckStatChanges(pokemonEnemy, pokemonMove);
+		PokemonStats.Instance.DecreaseStats(pokemonEnemy, pokemonMove);
 
 		if (!Effects.IsCharging) PokemonCombat.Instance.DealDamage(this, pokemonMove, pokemonEnemy);
 	}
@@ -406,7 +406,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		StatusCondition statusCondition = PokemonStatusCondition.Instance.GetStatusCondition(pokemonEnemy, pokemonMove);
 		PokemonStatusCondition.Instance.ApplyStatusCondition(this, pokemonEnemy, statusCondition);
 
-		PokemonStats.Instance.CheckStatChanges(pokemonEnemy, pokemonMove);
+		PokemonStats.Instance.DecreaseStats(pokemonEnemy, pokemonMove);
 	}
 
 	public void AddContribution(PokemonEnemy pokemonEnemy)

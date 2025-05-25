@@ -45,13 +45,11 @@ public partial class PokemonStage : Node2D
 		StageInterface = _stageInterface;
 
 		PokemonTD.Signals.PressedPlay += CheckGameState;
-		PokemonTD.Signals.ForgetMove += PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured += PokemonEnemyEvent;
 		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
 		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
 		PokemonTD.Signals.DraggingPokeBall += SetStageOpacity;
-		PokemonTD.Signals.PokemonEvolving += PokemonEvolving;
 
 		foreach (Node child in _pokemonStageSlots.GetChildren())
 		{
@@ -62,13 +60,11 @@ public partial class PokemonStage : Node2D
     public override void _ExitTree()
     {
 		PokemonTD.Signals.PressedPlay -= CheckGameState;
-		PokemonTD.Signals.ForgetMove -= PokemonForgettingMove;
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured -= PokemonEnemyEvent;
 		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
 		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
 		PokemonTD.Signals.DraggingPokeBall -= SetStageOpacity;
-		PokemonTD.Signals.PokemonEvolving -= PokemonEvolving;
     }
 
    	public override void _Ready()
@@ -81,37 +77,6 @@ public partial class PokemonStage : Node2D
 	{
 		if (!HasStarted) PokemonTD.IsGamePaused = true;
 	}
-
-	private async void PokemonForgettingMove(Pokemon pokemon, PokemonMove pokemonMove)
-	{
-		if (!PokemonEvolution.Instance.IsQueueEmpty()) await ToSignal(PokemonEvolution.Instance, PokemonEvolution.SignalName.QueueCleared);
-		
-		ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface(pokemon, pokemonMove);
-		forgetMoveInterface.Finished += () =>
-		{
-			if (!PokemonMoves.Instance.IsQueueEmpty()) PokemonMoves.Instance.ShowNext(this);
-		};
-
-		PokemonMoves.Instance.AddToQueue(forgetMoveInterface, this);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
-	}
-
-	private async void PokemonEvolving(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex)
-	{
-		if (!PokemonMoves.Instance.IsQueueEmpty()) await ToSignal(PokemonMoves.Instance, PokemonMoves.SignalName.QueueCleared);
-
-		string pokemonEvolutionName = PokemonEvolution.Instance.GetPokemonEvolutionName(pokemon, EvolutionStone.None);
-        Pokemon pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(pokemon, pokemonEvolutionName);
-		EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, pokemonEvolution, teamSlotIndex);
-		evolutionInterface.Finished += (pokemonEvolution) =>
-		{
-			if (!PokemonEvolution.Instance.IsQueueEmpty()) PokemonEvolution.Instance.ShowNext(this);
-		};
-
-		PokemonEvolution.Instance.AddToQueue(evolutionInterface, this);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
-	}
-
 	public void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
 	{
 		SetStageOpacity(isDragging);

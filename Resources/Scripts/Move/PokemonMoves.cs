@@ -37,9 +37,6 @@ public partial class PokemonMoves : Node
     }
 
     [Signal]
-    public delegate void QueueUpdatedEventHandler(ForgetMoveInterface forgetMoveInterface);
-
-    [Signal]
     public delegate void QueueClearedEventHandler();
 
     private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
@@ -144,9 +141,14 @@ public partial class PokemonMoves : Node
         return Moves.Find(pokemonMove => pokemonMove.Name == pokemonMoveName);
     }
 
-    public void AddToQueue(ForgetMoveInterface forgetMoveInterface, Node sibling)
+    public void AddToQueue(ForgetMoveInterface forgetMoveInterface)
     {
-        if (_forgetMoveQueue.Count == 0) sibling.AddSibling(forgetMoveInterface);
+        if (_forgetMoveQueue.Count == 0)
+        {
+            Node parentNode = GetParentOrNull<Node>();
+		    parentNode.AddChild(forgetMoveInterface);
+		    parentNode.MoveChild(forgetMoveInterface, GetChildCount() - 1); 
+        }
 
         _forgetMoveQueue.Add(forgetMoveInterface);
     }
@@ -154,12 +156,15 @@ public partial class PokemonMoves : Node
     public void RemoveFromQueue(ForgetMoveInterface forgetMoveInterface)
     {
         _forgetMoveQueue.Remove(forgetMoveInterface);
-        EmitSignal(SignalName.QueueUpdated, forgetMoveInterface);
     }
 
-    public void ShowNext(Node sibling)
+    public void ShowNext()
     {
-        sibling.AddSibling(_forgetMoveQueue[0]);
+        ForgetMoveInterface nextForgetMoveInterface = _forgetMoveQueue[0];
+        
+        Node parentNode = GetParentOrNull<Node>();
+		parentNode.AddChild(nextForgetMoveInterface);
+		parentNode.MoveChild(nextForgetMoveInterface, GetChildCount() - 1);
     }
     
     public bool IsQueueEmpty()

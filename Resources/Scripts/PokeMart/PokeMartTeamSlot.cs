@@ -37,8 +37,15 @@ public partial class PokeMartTeamSlot : NinePatchRect
     {
         PokeMartItem pokeMartItem = data.As<PokeMartItem>();
 
-        if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone) return PokemonEvolution.Instance.CanEvolveWithStone(_pokemon);
-        return pokeMartItem != null;
+        if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
+        {
+            return PokemonEvolution.Instance.CanEvolveWithStone(_pokemon);
+        }
+        else if (pokeMartItem.Category != PokeMartItemCategory.EvolutionStone)
+        {
+            return pokeMartItem != null;
+        }
+        return false;
     }
 
     public override async void _DropData(Vector2 atPosition, Variant data)
@@ -72,11 +79,18 @@ public partial class PokeMartTeamSlot : NinePatchRect
             int pokemonTeamIndex = PokemonTeam.Instance.Pokemon.IndexOf(_pokemon);
             string evolutionStoneName = pokeMartItem.Name.TrimSuffix("Stone").Trim();
             EvolutionStone evolutionStone = Enum.Parse<EvolutionStone>(evolutionStoneName);
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, _pokemon, (int) evolutionStone, pokemonTeamIndex);
 
-            await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionFinished);
+            Pokemon pokemonResult = await PokemonManager.Instance.PokemonEvolving(_pokemon, evolutionStone, pokemonTeamIndex);
+            if (pokemonResult != _pokemon)
+            {
+                _pokemon = PokemonEvolution.Instance.EvolvePokemonWithStone(_pokemon, evolutionStone);
+            }
+            else
+            {
+                pokeMartItem.Quantity++; // Give back stone if canceled evolution
+                PokemonTD.Signals.EmitSignal(Signals.SignalName.ItemReceived);
+            }
 
-            _pokemon = PokemonEvolution.Instance.EvolvePokemonWithStone(_pokemon, evolutionStone);
             PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, _pokemon, pokemonTeamIndex);
         }
     }

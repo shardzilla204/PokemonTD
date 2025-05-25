@@ -8,11 +8,11 @@
 [ext_resource type="Material" uid="uid://cmlmhke2ynq4k" path="res://Resources/EvolutionMaterial.tres" id="5_p8ju4"]
 [ext_resource type="Texture2D" uid="uid://dgrgeeph534kp" path="res://Assets/Images/Pokemon/Ivysaur.png" id="6_2aoc4"]
 
-[node name="EvolutionInterface" type="CanvasLayer" node_paths=PackedStringArray("_evolutionTimer", "_evolveLabel", "_exitButton", "_continueButton", "_skipButton", "_pokemonSprite", "_pokemonSilhouette", "_pokemonEvolutionSprite", "_pokemonEvolutionSilhouette")]
+[node name="EvolutionInterface" type="CanvasLayer" node_paths=PackedStringArray("_evolutionTimer", "_evolveLabel", "_cancelButton", "_continueButton", "_skipButton", "_pokemonSprite", "_pokemonSilhouette", "_pokemonEvolutionSprite", "_pokemonEvolutionSilhouette")]
 script = ExtResource("1_rcwvo")
 _evolutionTimer = NodePath("EvolutionTimer")
 _evolveLabel = NodePath("Background/MarginContainer/VBoxContainer/EvolveLabel")
-_exitButton = NodePath("Background/MarginContainer/VBoxContainer/ExitButton")
+_cancelButton = NodePath("Background/MarginContainer/VBoxContainer/CancelButton")
 _continueButton = NodePath("Background/MarginContainer/VBoxContainer/ContinueButton")
 _skipButton = NodePath("Background/MarginContainer/VBoxContainer/SkipButton")
 _pokemonSprite = NodePath("Background/MarginContainer/VBoxContainer/Sprites/PokemonSprite")
@@ -41,7 +41,7 @@ grow_vertical = 2
 layout_mode = 2
 theme_override_constants/separation = 25
 
-[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer"]
+[node name="CancelButton" type="Button" parent="Background/MarginContainer/VBoxContainer"]
 custom_minimum_size = Vector2(150, 65)
 layout_mode = 2
 size_flags_horizontal = 10
@@ -51,7 +51,7 @@ text = "Cancel"
 flat = true
 script = ExtResource("2_d8dhp")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/ExitButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/CancelButton"]
 self_modulate = Color(0.27, 0.27, 0.27, 1)
 show_behind_parent = true
 layout_mode = 1

@@ -67,7 +67,7 @@ public partial class PokemonStats : Node
 
     public StatMove FindIncreasingStatMove(string pokemonMoveName)
     {
-         return _statIncreaseMoves.Find(statIncreaseMove => statIncreaseMove.PokemonMoveName == pokemonMoveName);
+        return _statIncreaseMoves.Find(statIncreaseMove => statIncreaseMove.PokemonMoveName == pokemonMoveName);
     }
 
     public List<StatMove> FindDecreasingStatMoves(PokemonMove pokemonMove)
@@ -96,7 +96,18 @@ public partial class PokemonStats : Node
         return statDecreasingMoves.Count > 0;
     }
 
-    public void CheckStatChanges<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
+    public void IncreaseStats(Pokemon pokemon, List<StatMove> statMoves)
+    {
+        foreach (StatMove statMove in statMoves)
+        {
+            if (statMove.Name == "Rage") continue;
+
+            ApplyStatChange(pokemon, statMove);
+        }
+    }
+
+    // Only apply if it doesn't have the change
+    public void DecreaseStats<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
     {
         Pokemon pokemon = null;
         if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
@@ -107,23 +118,9 @@ public partial class PokemonStats : Node
         {
             pokemon = pokemonEnemy.Pokemon;
         }
-        DecreaseStats(pokemon, pokemonMove);
-    }
+        if (pokemon == null) return;
 
-    public void IncreaseStats(Pokemon pokemon, List<StatMove> statMoves)
-    {
-        foreach (StatMove statMove in statMoves)
-        {
-            if (statMove.Name == "Rage") continue;
-
-            PokemonMoveEffect.Instance.ApplyStatChange(pokemon, statMove);
-        }
-    }
-
-    // Only apply if it doesn't have the change
-    public void DecreaseStats(Pokemon defendingPokemon, PokemonMove pokemonMove)
-    {
-        PokemonMove hasMist = defendingPokemon.Moves.Find(move => move.Name == "Mist");
+        PokemonMove hasMist = pokemon.Moves.Find(move => move.Name == "Mist");
         if (hasMist != null) return;
 
         if (!HasDecreasingStatChanges(pokemonMove)) return;
@@ -132,10 +129,10 @@ public partial class PokemonStats : Node
         foreach (StatMove statDecreasingMove in statDecreasingMoves)
         {
             if (!CanApplyStatChange(statDecreasingMove)) continue;
-            PokemonMoveEffect.Instance.ChangeStat(defendingPokemon, statDecreasingMove);
+            ChangeStat(pokemon, statDecreasingMove);
         }
     }
-    
+
     private bool CanApplyStatChange(StatMove statMove)
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
@@ -144,4 +141,76 @@ public partial class PokemonStats : Node
 
         return randomValue <= 0;
     }
+    
+    public void ChangeStat(Pokemon pokemon, StatMove statMove)
+    {
+        ApplyStatChange(pokemon, statMove);
+
+        Timer timer = GetTimer(2);
+        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(pokemon); // Reset Stats
+         AddChild(timer);
+    }
+
+    private int GetStatValue(Pokemon pokemon, StatMove statMove)
+    {
+        float statChangePercentage = GetStatChangePercentage(statMove);
+        int statValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat);
+        return Mathf.RoundToInt(statValue * statChangePercentage);
+    }
+
+    public void ApplyStatChange(Pokemon pokemon, StatMove statMove)
+    {
+        int statValue = GetStatValue(pokemon, statMove);
+        float changeValue = statMove.IsSharp ? 1 : 0.5f; // For accuracy and evasion
+        switch (statMove.PokemonStat)
+        {
+            case PokemonStat.Attack:
+                pokemon.Attack = Math.Max(0, pokemon.Attack + statValue);
+                break;
+            case PokemonStat.SpecialAttack:
+                pokemon.SpecialAttack = Math.Max(0, pokemon.SpecialAttack + statValue);
+                break;
+            case PokemonStat.Defense:
+                pokemon.Defense = Math.Max(0, pokemon.Defense + statValue);
+                break;
+            case PokemonStat.SpecialDefense:
+                pokemon.SpecialDefense = Math.Max(0, pokemon.SpecialDefense + statValue);
+                break;
+            case PokemonStat.Speed:
+                pokemon.Speed = Math.Max(0, pokemon.Speed + statValue);
+                break;
+            case PokemonStat.Accuracy:
+                pokemon.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                break;
+            case PokemonStat.Evasion:
+                pokemon.Evasion += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Evasion = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                break;
+        }
+    }
+
+    private float GetStatChangePercentage(StatMove statMove)
+    {
+        float statChangePercentage = statMove.IsIncreasing ? 1.25f : -1.25f;
+        if (statMove.IsSharp)
+        {
+            float sharpMultiplier = 1.5f;
+            statChangePercentage *= sharpMultiplier;
+        }
+
+        return statChangePercentage;
+    }
+
+    private Timer GetTimer(float waitTime)
+    {
+        Timer timer = new Timer()
+        {
+            WaitTime = waitTime,
+            Autostart = true
+        };
+        timer.Timeout += timer.QueueFree;
+        return timer;
+    }
+
 }

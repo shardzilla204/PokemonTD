@@ -20,12 +20,6 @@ public partial class PokeMartItem : Container
         Sprite = PokemonTD.GetSprite(filePath);
     }
 
-    [Signal]
-    public delegate void BoughtEventHandler();
-
-    [Signal]
-    public delegate void UsedEventHandler();
-
     [Export]
     private TextureRect _itemSprite;
 
@@ -60,7 +54,7 @@ public partial class PokeMartItem : Container
         PokeMartItem pokeMartItem = PokeMart.Instance.Items.Find(item => item.Name == Name);
         pokeMartItem.Quantity++;
 
-        EmitSignal(SignalName.Bought);
+        PokemonTD.Signals.EmitSignal(Signals.SignalName.ItemReceived);
         PokemonTD.SubtractPokeDollars(Price);
     }
 }

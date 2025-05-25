@@ -17,7 +17,7 @@ public partial class Signals : Node
     public delegate void RareCandyUpdatedEventHandler();
 
     [Signal]
-    public delegate void ForgetMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
+    public delegate void PokemonForgettingMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
 
     [Signal]
     public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int teamSlotIndex);
@@ -61,9 +61,6 @@ public partial class Signals : Node
     public delegate void PokemonDamagedEventHandler(int damage, int teamSlotIndex);
 
     [Signal]
-    public delegate void PokemonEvolvingEventHandler(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex);
-
-    [Signal]
     public delegate void PokemonLeveledUpEventHandler(int levels, int teamSlotIndex);
 
     [Signal]
@@ -74,6 +71,9 @@ public partial class Signals : Node
 
     [Signal]
     public delegate void PokemonLearnedMoveEventHandler(Pokemon pokemon, PokemonMove pokemonMove);
+
+    [Signal]
+    public delegate void ItemReceivedEventHandler();
 
     // Dragging 
     [Signal]

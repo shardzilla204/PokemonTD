@@ -14,7 +14,7 @@ public partial class EvolutionInterface : CanvasLayer
 	private Label _evolveLabel;
 
 	[Export]
-	private CustomButton _exitButton;
+	private CustomButton _cancelButton;
 
 	[Export]
 	private CustomButton _continueButton;
@@ -54,11 +54,17 @@ public partial class EvolutionInterface : CanvasLayer
 
 		_evolveLabel.Text = $"{Pokemon.Name}\n is evolving!";
 
-		_exitButton.Pressed += () => 
+		_cancelButton.Pressed += () => 
 		{
 			_evolutionTimer.Stop();
 			_tween.Kill();
 
+			PokemonEvolution.Instance.RemoveFromQueue(this);
+			PokemonEvolution.Instance.IsQueueEmpty();
+
+			Pokemon.HasCanceledEvolution = true;
+
+			EmitSignal(SignalName.Finished, Pokemon);
 			QueueFree();
 		};
 		_skipButton.Pressed += EvolvePokemon;
@@ -102,7 +108,7 @@ public partial class EvolutionInterface : CanvasLayer
 		Color transparent = Colors.White;
 		transparent.A = 0f;
 
-		_exitButton.Modulate = transparent;
+		_cancelButton.Modulate = transparent;
 		
 		_skipButton.Visible = false;
 		_continueButton.Visible = true;

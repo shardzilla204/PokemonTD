@@ -15,10 +15,16 @@ namespace PokemonTD;
 
     * Bugs:
     ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
+    !? Pokeball will eventually not pause the game when picked up
 
     * Notes:
     - Pin Missile SFX Will Be Damage SFX
     - Growl SFX Is The Pokemon's Cry
+    - Haunter will evolve to Gengar by LVL 34
+    - Kadabra will evolve to Alakazam by LVL 33
+    - Machoke will evolve to Machamp by LVL 36
+    - Graveler will evolve to Golem by LVL 33
+    - Pokemon evolves first then learns potential moves
 */
 
 public partial class PokemonTD : Control
@@ -163,8 +169,8 @@ public partial class PokemonTD : Control
 
     public static void AddPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level * 10;
-        int maxPokeDollars = pokemon.Level * 15;
+        int minimumPokeDollars = pokemon.Level * 3;
+        int maxPokeDollars = pokemon.Level * 6;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
@@ -180,8 +186,8 @@ public partial class PokemonTD : Control
 
     public static void SubtractPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level * 3;
-        int maxPokeDollars = pokemon.Level * 6;
+        int minimumPokeDollars = pokemon.Level;
+        int maxPokeDollars = pokemon.Level * 3;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
         int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
@@ -244,6 +250,7 @@ public partial class PokemonTD : Control
                 { "Experience", GetExperienceData(pokemon) },
                 { "Move", pokemonMovesData[pokemonMoveIndex] },
                 { "Moves", pokemonMovesData },
+                { "Has Canceled Evolution", pokemon.HasCanceledEvolution}
             };
             return pokemonData;
         }
@@ -258,7 +265,8 @@ public partial class PokemonTD : Control
         int pokemonLevel = pokemonData["Level"].As<int>();
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
         pokemon.HP = pokemonData["HP"].As<int>();
-        pokemon.Gender = (Gender)pokemonData["Gender"].As<int>();
+        pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
+        pokemon.HasCanceledEvolution = pokemonData["Has Canceled Evolution"].As<bool>();
 
         SetExperienceData(pokemon, pokemonData);
         SetPokemonMovesData(pokemon, pokemonData);

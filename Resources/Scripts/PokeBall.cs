@@ -8,8 +8,6 @@ public partial class PokeBall : TextureRect
 
     public override Variant _GetDragData(Vector2 atPosition)
     {
-		if (PokemonTD.IsGamePaused) return GetDragPreview();
-		
 		_isDragging = true;
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokeBall, true);

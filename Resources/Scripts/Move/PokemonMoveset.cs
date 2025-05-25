@@ -60,6 +60,7 @@ public partial class PokemonMoveset : Node
 
             PokemonMove pokemonMove = PokemonMoves.Instance.FindPokemonMove(pokemonMoveName);
             pokemonMoves.Add(pokemonMove);
+             GD.Print($"Move Name: {pokemonMove.Name}");
         }
 
         return pokemonMoves;
@@ -111,7 +112,7 @@ public partial class PokemonMoveset : Node
 		}
 		else
 		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.ForgetMove, pokemon, pokemonMove);
+			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonForgettingMove, pokemon, pokemonMove);
 		}
 	}
 
@@ -186,15 +187,12 @@ public partial class PokemonMoveset : Node
 	// Checks the level requirement
     private bool HasPassedLevelRequirement(List<int> levelRequirements, Pokemon pokemon, int levels)
     {
-        for (int i = 0; i < levels; i++)
+        for (int i = 1; i <= levels; i++)
         {
             int pokemonLevel = pokemon.Level + i;
             foreach (int levelRequirement in levelRequirements)
             {
-                if (pokemonLevel == levelRequirement) 
-                {
-                    return true;
-                }
+                if (pokemonLevel == levelRequirement) return true;
             }
         }
 

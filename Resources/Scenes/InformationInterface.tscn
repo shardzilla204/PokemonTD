@@ -102,7 +102,12 @@ layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25
 text = "- Moves That Increase Stats Are Automatically Applied
-- Don't Let Your Pokemon Faint, Or You'll Have to Pay For It"
+- Don't Let Your Pokemon Faint, Or You'll Have to Pay For It
+
+- Haunter will evolve to Gengar by LVL 34
+- Kadabra will evolve to Alakazam by LVL 33
+- Machoke will evolve to Machamp by LVL 36
+- Graveler will evolve to Golem by LVL 33"
 horizontal_alignment = 1
 vertical_alignment = 1
 

@@ -1,6 +1,7 @@
 using Godot;
 using GC = Godot.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PokemonTD;
 
@@ -32,6 +33,7 @@ public partial class PokemonManager : Node
     {
         PokemonTD.Signals.PokemonLeveledUp += PokemonLeveledUp;
         PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
+        PokemonTD.Signals.PokemonForgettingMove += PokemonForgettingMove;
     }
 
     private void LoadPokemonFile()
@@ -80,6 +82,38 @@ public partial class PokemonManager : Node
         pokemon.Evasion = 0;
         return pokemon;
     }
+    
+    public async Task<Pokemon> PokemonEvolving(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex)
+    {
+        string pokemonEvolutionName = PokemonEvolution.Instance.GetPokemonEvolutionName(pokemon, evolutionStone);
+        Pokemon pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(pokemon, pokemonEvolutionName);
+        EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, pokemonEvolution, teamSlotIndex);
+
+        Pokemon evolution = new Pokemon();
+        evolutionInterface.Finished += (evolutionResult) =>
+        {
+            evolution = evolutionResult;
+            if (!PokemonEvolution.Instance.IsQueueEmpty()) PokemonEvolution.Instance.ShowNext();
+        };
+        PokemonEvolution.Instance.AddToQueue(evolutionInterface);
+
+        await ToSignal(evolutionInterface, EvolutionInterface.SignalName.Finished);
+
+        return evolution;
+    }
+
+    private async void PokemonForgettingMove(Pokemon pokemon, PokemonMove pokemonMove)
+    {
+        if (!PokemonEvolution.Instance.IsQueueEmpty()) await ToSignal(PokemonEvolution.Instance, PokemonEvolution.SignalName.QueueCleared);
+
+        ForgetMoveInterface forgetMoveInterface = PokemonTD.PackedScenes.GetForgetMoveInterface(pokemon, pokemonMove);
+        forgetMoveInterface.Finished += () =>
+        {
+            if (!PokemonMoves.Instance.IsQueueEmpty()) PokemonMoves.Instance.ShowNext();
+        };
+
+        PokemonMoves.Instance.AddToQueue(forgetMoveInterface);
+    }
 
     public Pokemon GetRandomPokemon()
     {
@@ -100,18 +134,16 @@ public partial class PokemonManager : Node
     {
         Pokemon pokemon = PokemonTeam.Instance.Pokemon[teamSlotIndex];
         bool canEvolve = PokemonEvolution.Instance.CanEvolve(pokemon, levels);
-        if (canEvolve)
+        if (canEvolve && !pokemon.HasCanceledEvolution)
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolving, pokemon, (int) EvolutionStone.None, teamSlotIndex);
-            await ToSignal(PokemonTD.Signals, Signals.SignalName.EvolutionFinished);
-            pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
+            Pokemon pokemonResult = await PokemonEvolving(pokemon, EvolutionStone.None, teamSlotIndex);
+            if (pokemonResult != pokemon) pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
         }
 
         List<PokemonMove> pokemonMoves = PokemonMoveset.Instance.GetPokemonMoves(pokemon, levels);
         foreach (PokemonMove pokemonMove in pokemonMoves)
         {
             if (pokemonMove == null || pokemon.Moves.Contains(pokemonMove)) continue;
-
             PokemonMoveset.Instance.AddPokemonMove(pokemon, pokemonMove);
         }
 

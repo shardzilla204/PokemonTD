@@ -9,19 +9,21 @@ public partial class PokeMartInventory : Container
 
     public override void _ExitTree()
     {
-        base._ExitTree();
+        PokemonTD.Signals.ItemReceived -= UpdateSlots;
     }
 
     public override void _Ready()
     {
+        PokemonTD.Signals.ItemReceived += UpdateSlots;
         UpdateSlots();
     }
 
     private void ClearSlots()
     {
-        foreach (Node child in _pokeMartSlots.GetChildren())
+        foreach (PokeMartSlot pokeMartSlot in _pokeMartSlots.GetChildren())
         {
-            child.QueueFree();
+            pokeMartSlot.Used -= UpdateSlots;
+            pokeMartSlot.QueueFree();
         }
     }
 
@@ -32,7 +34,7 @@ public partial class PokeMartInventory : Container
             if (pokeMartItem.Quantity == 0) continue;
 
             PokeMartSlot pokeMartSlot = PokemonTD.PackedScenes.GetPokeMartSlot(pokeMartItem);
-            pokeMartItem.Used += UpdateSlots;
+            pokeMartSlot.Used += UpdateSlots;
             pokeMartSlot.PokeMartItem = pokeMartItem;
             _pokeMartSlots.AddChild(pokeMartSlot);
         }
