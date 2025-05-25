@@ -142,7 +142,7 @@ public partial class PokemonStage : Node2D
 		ShowResultInterface(resultMessage);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasWonStage);
 
-		// Print Message To Console
+		// Print message to console
 		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
 	}
 
@@ -152,7 +152,7 @@ public partial class PokemonStage : Node2D
 		ShowResultInterface(resultMessage);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLostStage);
 
-		// Print Message To Console
+		// Print message to console
 		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
 	}
 
@@ -163,7 +163,7 @@ public partial class PokemonStage : Node2D
 		SpawnWave();
 		EmitSignal(SignalName.StartedWave);
 
-		// Print Message To Console
+		// Print message to console
 		string waveMessage = $"Starting Wave {CurrentWave} / {WaveCount}";
 		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, waveMessage);
 	}
@@ -199,7 +199,7 @@ public partial class PokemonStage : Node2D
 		pathFollow.AddChild(pokemonEnemy);
 		_stagePath.AddPathFollow(pathFollow);
 
-		// Print Message To Console
+		// Print message to console
 		string spawnMessage = $"Spawning Level {randomPokemon.Level} {randomPokemon.Name}";
 		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, spawnMessage);
 	}

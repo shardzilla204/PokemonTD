@@ -66,7 +66,7 @@ public partial class PokemonTypes : Node
 
 		_typeMatchupDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 		
-		// Print Message To Console
+		// Print message to console
 		string loadSuccessMessage = "Type Matchup File Successfully Loaded";
 		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}

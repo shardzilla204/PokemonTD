@@ -25,26 +25,19 @@ public partial class FlinchMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyFlinchMove<Defending>(Defending defendingPokemon)
+    public void ApplyFlinchMove(GodotObject defending)
     {
         if (!CanApplyFlinchMove()) return;
-        
-        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
-        {
-            pokemonStageSlot.Effects.HasMoveSkipped = true;
-        }
-        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
-        {
-            pokemonEnemy.Effects.HasMoveSkipped = true;
-        }
+
+        PokemonEffects defendingPokemonEffects = PokemonCombat.Instance.GetDefendingPokemonEffects(defending);
+        defendingPokemonEffects.HasMoveSkipped = true;
     }
 
     private bool CanApplyFlinchMove()
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         float changeValue = 0.25f;
-        float randomThreshold = RNG.RandfRange(0, 1);
-        randomThreshold -= changeValue;
+        float randomThreshold = RNG.RandfRange(0, 1) - changeValue;
         return randomThreshold <= 0;
     }
 }

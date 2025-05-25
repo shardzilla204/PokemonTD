@@ -33,95 +33,61 @@ public partial class RecoverMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyHealthRecoveryMove<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
+    public void ApplyHealthRecoveryMove(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
     {
-        if (attackingPokemon is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
-            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
 
-            int pokemonMoveDamage = PokemonCombat.Instance.GetPokemonMoveDamage(pokemonStageSlot, pokemonMove, pokemonEnemy);
-            int healthRecoverAmount = pokemonMoveDamage / 2;
-            pokemonStageSlot.HealPokemon(healthRecoverAmount);
+        int damage = PokemonCombat.Instance.GetDamage(attacking, pokemonMove, defending);
+        int health = damage / 2;
+        PokemonCombat.Instance.HealPokemon(attacking, health);
 
-            // Print Message To Console
-            string healthRecoveryMessage = $"{pokemonStageSlot.Pokemon.Name} Healed {healthRecoverAmount} HP";
-            PrintRich.PrintLine(TextColor.Purple, healthRecoveryMessage);
-
-        }
-        else if (attackingPokemon is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
-            PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
-
-            int pokemonMoveDamage = PokemonCombat.Instance.GetPokemonMoveDamage(pokemonEnemy, pokemonMove, pokemonStageSlot);
-            int healthRecoverAmount = pokemonMoveDamage / 2;
-            pokemonStageSlot.HealPokemon(healthRecoverAmount);
-
-            // Print Message To Console
-            string healthRecoveryMessage = $"{pokemonEnemy.Pokemon.Name} Healed {healthRecoverAmount} HP";
-            PrintRich.PrintLine(TextColor.Red, healthRecoveryMessage);
-        }
+        // Print message to console
+        string healthRecoveryMessage = $"{attackingPokemon.Name} Healed {health} HP";
+        PrintRich.PrintLine(TextColor.Purple, healthRecoveryMessage);
     }
 
     public void ApplyRareCandyRecoveryMove(PokemonStageSlot pokemonStageSlot, PokemonMove pokemonMove)
     {
-        int MaxRareCandyCount = 200;
+        int maxRareCandyCount = 200;
         PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<PokemonStage>();
         pokemonStage.RareCandy += pokemonMove.Name == "Rest" ? 5 : 2;
-        pokemonStage.RareCandy = Mathf.Clamp(pokemonStage.RareCandy, 0, MaxRareCandyCount);
+        pokemonStage.RareCandy = Mathf.Clamp(pokemonStage.RareCandy, 0, maxRareCandyCount);
         pokemonStageSlot.Effects.HasMoveSkipped = pokemonMove.Name == "Rest";
 
         PokemonTD.Signals.EmitSignal(Signals.SignalName.RareCandyUpdated);
     }
 
-    public async void LeechSeed<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
+    public async void LeechSeed(GodotObject attacking, GodotObject defending)
     {
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
+
         int iterationCount = 3;
         float drainPercentage = 0.1f;
         float timeSeconds = 0.75f;
 
-        if (attackingPokemon is PokemonStageSlot)
+        if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
-            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
-            pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
-        
-            for (int i = 0; i < iterationCount; i++)
-            {
-                if (!IsInstanceValid(pokemonEnemy)) return;
-
-                int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.HP * drainPercentage);
-                pokemonStageSlot.HealPokemon(damage);
-                pokemonEnemy.DamagePokemon(damage);
-
-                await ToSignal(pokemonStageSlot.GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
-
-                // Print Message To Console
-                string healthRecoveryMessage = $"{pokemonStageSlot.Pokemon.Name} Healed {damage} HP";
-                PrintRich.PrintLine(TextColor.Purple, healthRecoveryMessage);
-            }
-        }
-        else if (attackingPokemon is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
-            PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
             pokemonStageSlot.Fainted += (pokemonStageSlot) => { return; };
+        }
+        else if (defending is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
+        }
 
-            for (int i = 0; i < iterationCount; i++)
-            {
-                if (!IsInstanceValid(pokemonEnemy)) return;
-                
-                int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.HP * drainPercentage);
-                pokemonEnemy.HealPokemon(damage);
-                pokemonStageSlot.DamagePokemon(damage);
+        for (int i = 0; i < iterationCount; i++)
+        {
+            if (!IsInstanceValid(defending)) return;
 
-                await ToSignal(pokemonEnemy.GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+            int damage = Mathf.RoundToInt(defendingPokemon.HP * drainPercentage);
+            PokemonCombat.Instance.HealPokemon(attacking, damage);
+            PokemonCombat.Instance.DealDamage(defending, damage);
 
-                // Print Message To Console
-                string healthRecoveryMessage = $"{pokemonEnemy.Pokemon.Name} Healed {damage} HP";
-                PrintRich.PrintLine(TextColor.Red, healthRecoveryMessage);
-            }
+            await ToSignal(GetTree().CreateTimer(timeSeconds), SceneTreeTimer.SignalName.Timeout);
+
+            // Print message to console
+            string healthRecoveryMessage = $"{attackingPokemon.Name} Healed {damage} HP";
+            PrintRich.PrintLine(TextColor.Red, healthRecoveryMessage);
         }
     }
 }

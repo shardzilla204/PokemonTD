@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Reflection;
 
 namespace PokemonTD;
 
@@ -54,53 +55,53 @@ public partial class PokemonMoveEffect : Node
         return criticalHitRatio;
     }
 
-    public void ApplyMoveEffect<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
+    public void ApplyMoveEffect(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
     {
         if (UniqueMoves.IsUniqueMove(pokemonMove))
         {
-            UniqueMoves.ApplyUniqueMove(attackingPokemon, pokemonMove, defendingPokemon);
+            UniqueMoves.ApplyUniqueMove(pokemonMove);
         }
         else if (TrapMoves.IsTrapMove(pokemonMove))
         {
-            TrapMoves.ApplyTrapMove(attackingPokemon, defendingPokemon);
+            TrapMoves.ApplyTrapMove(attacking, defending);
         }
         else if (ChargeMoves.IsChargeMove(pokemonMove).IsChargeMove)
         {
-            ChargeMoves.ApplyChargeMove(attackingPokemon, pokemonMove, defendingPokemon);
-            ChargeMoves.HasUsedDig(attackingPokemon, pokemonMove);
+            ChargeMoves.ApplyChargeMove(attacking, pokemonMove, defending);
+            ChargeMoves.HasUsedDig(attacking, pokemonMove);
         }
         else if (FlinchMoves.IsFlinchMove(pokemonMove))
         {
-            FlinchMoves.ApplyFlinchMove(defendingPokemon);
+            FlinchMoves.ApplyFlinchMove(defending);
         }
         else if (OneHitMoves.IsOneHitKOMove(pokemonMove))
         {
-            OneHitMoves.ApplyOneHitKO(defendingPokemon);
+            OneHitMoves.ApplyOneHitKO(defending);
         }
         else if (RecoverMoves.IsHealthRecoveryMove(pokemonMove))
         {
             if (pokemonMove.Name == "Leech Seed")
             {
-                RecoverMoves.LeechSeed(attackingPokemon, defendingPokemon);
+                RecoverMoves.LeechSeed(attacking, defending);
             }
             else
             {
-                RecoverMoves.ApplyHealthRecoveryMove(attackingPokemon, pokemonMove, defendingPokemon);
+                RecoverMoves.ApplyHealthRecoveryMove(attacking, pokemonMove, defending);
             }
         }
         else if (RecoverMoves.IsRareCandyRecoveryMove(pokemonMove))
         {
-            if (attackingPokemon is not PokemonStageSlot pokemonStageSlot) return;
+            if (attacking is not PokemonStageSlot pokemonStageSlot) return;
 
             RecoverMoves.ApplyRareCandyRecoveryMove(pokemonStageSlot, pokemonMove);
         }
         else if (InflictingMoves.IsRecoilDamageMove(pokemonMove))
         {
-            InflictingMoves.ApplyRecoilDamage(attackingPokemon);
+            InflictingMoves.ApplyRecoilDamage(attacking);
         }
         else if (InflictingMoves.IsFaintMove(pokemonMove))
         {
-            InflictingMoves.ApplyFaint(attackingPokemon);
+            InflictingMoves.ApplyFaint(attacking);
         }
     }
 }

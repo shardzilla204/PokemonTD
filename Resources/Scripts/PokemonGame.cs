@@ -55,7 +55,7 @@ public partial class PokemonGame : Node
 
 		gameFile.StoreLine(jsonString);
 
-		// Print Message To Console
+		// Print message to console
 		string saveSuccessMessage = "Game File Successfully Saved";
 		if (PrintRich.AreFilePathsVisible)
 		{
@@ -83,7 +83,7 @@ public partial class PokemonGame : Node
 		GC.Dictionary<string, Variant> gameData = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 		SetData(gameData);
 
-		// Print Message To Console
+		// Print message to console
 		string loadSuccessMessage = "Game File Successfully Loaded";
 		if (PrintRich.AreFilePathsVisible)
 		{

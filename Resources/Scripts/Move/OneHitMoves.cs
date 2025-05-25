@@ -18,17 +18,11 @@ public partial class OneHitMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyOneHitKO<Defending>(Defending defendingPokemon)
+    public void ApplyOneHitKO(GodotObject defending)
     {
-        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
-        {
-            int damage = pokemonStageSlot.Pokemon.HP;
-            PokemonCombat.Instance.DealDamage(pokemonStageSlot, damage);
-        }
-        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
-        {
-            int damage = pokemonEnemy.Pokemon.HP;
-            PokemonCombat.Instance.DealDamage(pokemonEnemy, damage);
-        }
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
+       
+        int damage = defendingPokemon.HP;
+        PokemonCombat.Instance.DealDamage(defending, damage);
     }
 }

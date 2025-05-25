@@ -49,7 +49,7 @@ public partial class PokemonSettings : Node
 
 			settingsFile.StoreLine(jsonString);
 
-            // Print Message To Console
+            // Print message to console
 			string saveSuccessMessage = "Settings File Successfully Saved";
 			if (PrintRich.AreFilePathsVisible)
 			{
@@ -78,7 +78,7 @@ public partial class PokemonSettings : Node
         GC.Dictionary<string, Variant> settingsData = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
         SetData(settingsData);
 
-        // Print Message To Console
+        // Print message to console
         string loadSuccessMessage = "Settings File Successfully Loaded";
         if (PrintRich.AreFilePathsVisible)
         {

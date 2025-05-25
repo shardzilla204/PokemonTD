@@ -81,6 +81,7 @@ script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _startingPokeDollars = 500
+_isPokeCenterRandomized = true
 _pokeCenterCount = 999
 
 [node name="PackedScenes" type="Node" parent="."]
@@ -128,5 +129,4 @@ script = ExtResource("24_u4bgx")
 
 [node name="PrintRich" type="Node" parent="."]
 script = ExtResource("29_1jrto")
-_areConsoleMessagesEnabled = false
 _areFilePathsVisible = true

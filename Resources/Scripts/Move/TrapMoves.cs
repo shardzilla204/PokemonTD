@@ -20,34 +20,17 @@ public partial class TrapMoves : Node
         return pokemonMoveName != null;
     }
     
-    public void ApplyTrapMove<Attacking, Defending>(Attacking attackingPokemon, Defending defendingPokemon)
+    public void ApplyTrapMove(GodotObject attacking, GodotObject defending)
     {
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
         float percentage = .125f; // 1/8
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         int randomIterationCount = RNG.RandiRange(4, 5);
+        int damage = PokemonCombat.Instance.GetDamage(defendingPokemon, percentage);
+        PokemonCombat.Instance.DamagePokemonOverTime(attacking, defending, damage, randomIterationCount, StatusCondition.None);
 
-        if (attackingPokemon is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
-            PokemonEnemy pokemonEnemy = defendingPokemon as PokemonEnemy;
-
-            int damageAmount = PokemonCombat.Instance.GetDamageAmount(pokemonEnemy.Pokemon, percentage);
-            PokemonCombat.Instance.DamagePokemonOverTime(pokemonStageSlot, pokemonEnemy, damageAmount, randomIterationCount, StatusCondition.None);
-
-            string trappedMessage = $"{pokemonEnemy.Pokemon.Name} Is Trapped";
-            PrintRich.PrintLine(TextColor.Yellow, trappedMessage);
-        }
-        else if (attackingPokemon is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
-            PokemonStageSlot pokemonStageSlot = defendingPokemon as PokemonStageSlot;
-
-            int damageAmount = PokemonCombat.Instance.GetDamageAmount(pokemonStageSlot.Pokemon, percentage);
-            PokemonCombat.Instance.DamagePokemonOverTime(pokemonEnemy, pokemonStageSlot, damageAmount, randomIterationCount, StatusCondition.None);
-
-            string trappedMessage = $"{pokemonStageSlot.Pokemon.Name} Is Trapped";
-            PrintRich.PrintLine(TextColor.Red, trappedMessage);
-        }
+        string trappedMessage = $"{defendingPokemon.Name} Is Trapped";
+        PrintRich.PrintLine(TextColor.Yellow, trappedMessage);
     }
 }

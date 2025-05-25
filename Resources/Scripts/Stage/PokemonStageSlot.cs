@@ -98,7 +98,7 @@ public partial class PokemonStageSlot : NinePatchRect
 			Effects.RevertTypes(Pokemon);
 			_statusConditionContainer.RemoveAllStatusConditions();
 
-			// Print Message To Console
+			// Print message to console
 			string offStageMessage = $"{Pokemon.Name} Is Off Stage";
 			PrintRich.PrintLine(TextColor.Purple, offStageMessage);
 
@@ -382,7 +382,7 @@ public partial class PokemonStageSlot : NinePatchRect
 			PrintRich.PrintLine(TextColor.Purple, dischargeMessage);
 		}
 
-		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(this, pokemonMove, pokemonEnemy);
+		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonEnemy.Pokemon);
 		if (!hasPokemonMoveHit) return;
 
 		TweenAttack(pokemonEnemy);

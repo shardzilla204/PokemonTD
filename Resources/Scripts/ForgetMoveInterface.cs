@@ -149,7 +149,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 		Pokemon.Moves.Remove(_moveToForget);
 		Pokemon.Moves.Insert(moveIndex, MoveToLearn);
 
-		// Print Message To Console
+		// Print message to console
 		string forgotMoveMessage = $"{Pokemon.Name} Forgot {_moveToForget.Name} For {MoveToLearn.Name}";
 		PrintRich.PrintLine(TextColor.Purple, forgotMoveMessage);
 	}

@@ -39,7 +39,7 @@ public partial class PokemonMoveset : Node
 
 		_pokemonLearnsetDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 
-        // Print Message To Console
+        // Print message to console
         string loadSuccessMessage = "Pokemon Learnset File Successfully Loaded";
         if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }
@@ -106,7 +106,7 @@ public partial class PokemonMoveset : Node
 		{
 			pokemon.Moves.Add(pokemonMove);
 
-            // Print Message To Console
+            // Print message to console
             string learnedMoveMessage = $"{pokemon.Name} Learned {pokemonMove.Name}";
             PrintRich.PrintLine(TextColor.Purple, learnedMoveMessage);
 		}

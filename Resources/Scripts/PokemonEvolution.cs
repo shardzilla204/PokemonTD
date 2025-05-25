@@ -43,7 +43,7 @@ public partial class PokemonEvolution : Node
 
 		_pokemonEvolutionDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 		
-		// Print Message To Console
+		// Print message to console
 		string loadSuccessMessage = "Pokemon Evolution File Successfully Loaded";
         if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}
@@ -113,7 +113,7 @@ public partial class PokemonEvolution : Node
 		List<EvolutionStone> evolutionStones = GetEvolutionStones(pokemonEvolutionDictionary);
 		foreach (EvolutionStone evolutionStone in evolutionStones)
 		{
-			// Print Message To Console
+			// Print message to console
 			string canEvolveWithStone = $"{pokemon.Name} Can Evolve With {evolutionStone}";
 			if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, canEvolveWithStone);
 		}

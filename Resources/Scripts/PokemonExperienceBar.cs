@@ -44,7 +44,7 @@ public partial class PokemonExperienceBar : Container
         int levels = GetLevels(pokemon);
         EmitSignal(SignalName.LeveledUp, levels);
 
-        // Print Message To Console
+        // Print message to console
         string pokemonLeveledUpMessage = $"{pokemon.Name} Has Leveled Up To Level {pokemon.Level}";
         PrintRich.PrintLine(TextColor.Purple, pokemonLeveledUpMessage);
     }

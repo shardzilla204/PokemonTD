@@ -12,10 +12,29 @@ namespace PokemonTD;
     ? Make conversion apply automatically
     ? Add keybinds
     ? Shiny pokemon through color palettes
+    ? Add option to fullscreen
+    ? Pitch variation on hovering button
+    ? Add option to disable button SFX
+    ? Show what items do
+    ? Add poke mart tutorials
+    ? Show attack range 
+    ? Show team and stage without having to hide/show
+    ? Add varying attack range
+    ? Show feedback on not having enough money
+    ?? Figure out a way to compensate paying for fainting pokemon
+    ? Describe what status conditions do 
+    ? Drag pokemon onto another and swap it out
 
     * Bugs:
     ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
-    !? Pokeball will eventually not pause the game when picked up
+    !! Pokeball will eventually not pause the game when picked up
+    ! Visual bug on stage 2
+    ! Pikachu evolves off level
+    ! Pokemon sometimes freezes
+    ! Pokemon permanently dies 
+    ! When forgetting move, it shows on team slot
+    ! Damage over time moves do not pause 
+    ! Mirror move doesn't reset / Work on mirror move
 
     * Notes:
     - Pin Missile SFX Will Be Damage SFX

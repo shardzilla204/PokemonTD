@@ -49,7 +49,7 @@ public partial class PokemonManager : Node
 
         _pokemonDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary)json.Data);
 
-        // Print Message To Console
+        // Print message to console
         string loadSuccessMessage = "Pokemon File Successfully Loaded";
         if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }

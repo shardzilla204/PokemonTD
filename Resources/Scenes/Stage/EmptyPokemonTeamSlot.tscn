@@ -6,7 +6,7 @@
 [node name="EmptyPokemonTeamSlot" type="NinePatchRect"]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0.2, 0.2, 0.2, 1)
-custom_minimum_size = Vector2(175, 250)
+custom_minimum_size = Vector2(175, 137.5)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_xjxrg")

@@ -64,7 +64,7 @@ public partial class PokemonTeam : Node
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
-		// Print Message To Console
+		// Print message to console
 		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
 	}
@@ -81,7 +81,7 @@ public partial class PokemonTeam : Node
 
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
 
-		// Print Message To Console
+		// Print message to console
 		string addedMessage = $"{capturedPokemon.Name} Was Added To The Team";
 		PrintRich.PrintLine(TextColor.Yellow, addedMessage);
 	}

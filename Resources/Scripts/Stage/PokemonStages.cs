@@ -43,7 +43,7 @@ public partial class PokemonStages : Node
 		
 		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
 
-		// Print Message To Console
+		// Print message to console
 		string loadSuccessMessage = "Pokemon Stages File Successfully Loaded";
 		if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
 	}

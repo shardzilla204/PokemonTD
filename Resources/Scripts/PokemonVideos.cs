@@ -40,7 +40,7 @@ public partial class PokemonVideos : Node
         GC.Dictionary<string, Variant> pokemonVideoDictionaries = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
         SetVideos(pokemonVideoDictionaries);
 
-        // Print Message To Console
+        // Print message to console
         string loadSuccessMessage = "Pokemon Video File Successfully Loaded";
         if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, loadSuccessMessage);
     }

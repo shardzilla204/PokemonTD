@@ -12,14 +12,14 @@
 [ext_resource type="PackedScene" uid="uid://c6gh683jjg4id" path="res://Resources/Scenes/PokemonSleepBar.tscn" id="7_bxqyd"]
 
 [node name="PokemonTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton", "_mutedTexture")]
-custom_minimum_size = Vector2(175, 250)
+custom_minimum_size = Vector2(175, 137.5)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -22.5
+offset_left = -35.0
 offset_top = -50.0
-offset_right = -1152.5
-offset_bottom = -520.0
+offset_right = -1140.0
+offset_bottom = -632.5
 grow_horizontal = 2
 grow_vertical = 2
 toggle_mode = true
@@ -115,7 +115,9 @@ stretch_mode = 5
 layout_mode = 2
 
 [node name="PokemonSprite" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer3"]
+visible = false
 texture_filter = 1
+custom_minimum_size = Vector2(0, 110)
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("6_iutga")

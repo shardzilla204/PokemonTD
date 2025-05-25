@@ -75,7 +75,7 @@ public partial class PokemonEnemy : TextureRect
 			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyPassed, this);
 			QueueFree();
 
-			// Print Message To Console
+			// Print message to console
 			string passedMessage = $"{Pokemon.Name} Has Breached The Defenses";
 			PrintRich.PrintLine(TextColor.Yellow, passedMessage);
 		};
@@ -108,7 +108,7 @@ public partial class PokemonEnemy : TextureRect
 		PokemonTD.AudioManager.PlayPokemonCry(Pokemon, true);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEnemyCaptured, this);
 
-		// Print Message To Console
+		// Print message to console
 		string capturedMessage = $"{Pokemon.Name} Has Been Captured";
 		PrintRich.PrintLine(TextColor.Yellow, capturedMessage);
 	}
@@ -174,7 +174,7 @@ public partial class PokemonEnemy : TextureRect
 			PrintRich.PrintLine(TextColor.Red, dischargeMessage);
 		}
 
-		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(this, pokemonMove, pokemonStageSlot);
+		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
 		if (!hasPokemonMoveHit) return;
 
 		StatusCondition statusCondition = PokemonStatusCondition.Instance.GetStatusCondition(pokemonStageSlot, pokemonMove);
@@ -255,7 +255,7 @@ public partial class PokemonEnemy : TextureRect
 		CalculateExperienceDistribution();
 		QueueFree();
 
-		// Print Message To Console
+		// Print message to console
 		string faintMessage = $"{Pokemon.Name} Has Fainted";
 		PrintRich.PrintLine(TextColor.Yellow, faintMessage);
 	}

@@ -174,7 +174,7 @@ public partial class PokemonTeamSlot : Button
 		PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(TeamSlotIndex);
 		if (pokemonStageSlot != null) pokemonStageSlot.Effects.HasCounter = pokemonMove.Name == "Counter";
 
-		// Print Message To Console
+		// Print message to console
 		string changedPokemonMoveMessage = $"{Pokemon.Name}'s Move Is Now {pokemonMove.Name}";
 		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
 	}
@@ -204,7 +204,7 @@ public partial class PokemonTeamSlot : Button
 
 		_pokemonExperienceBar.AddExperience(Pokemon, experience);
 
-		// Print Message To Console
+		// Print message to console
 		string pokemonGainedExperienceMessage = $"{Pokemon.Name} Gained {experience} EXP";
 		PrintRich.PrintLine(TextColor.Purple, pokemonGainedExperienceMessage);
 	}

@@ -31,65 +31,37 @@ public partial class ChargeMoves : Node
         return (false, false);
     }
 
-    public void ApplyChargeMove<Attacking, Defending>(Attacking attackingPokemon, PokemonMove pokemonMove, Defending defendingPokemon)
+    public void ApplyChargeMove(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
     {
-        // Check if it already is charging
-        if (attackingPokemon is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
-            if (pokemonStageSlot.Effects.IsCharging) return;
-        }
-        else if (attackingPokemon is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
-            if (pokemonEnemy.Effects.IsCharging) return;
-        }
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
+        PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
+
+        if (attackingPokemonEffects.IsCharging) return;
         
         bool isCharging = false;
         bool IsHyperBeam = PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove).IsHyperBeam;
         if (IsHyperBeam && !isCharging)
         {
             isCharging = true;
-            PokemonCombat.Instance.DealDamage(attackingPokemon, pokemonMove, defendingPokemon);
+            PokemonCombat.Instance.DealDamage(attacking, pokemonMove, defending);
         }
         else if (!IsHyperBeam)
         {
             isCharging = true;
         }
 
-        if (attackingPokemon is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = attackingPokemon as PokemonStageSlot;
-            pokemonStageSlot.Effects.IsCharging = isCharging;
+        attackingPokemonEffects.IsCharging = isCharging;
 
-            if (!isCharging) return;
+        if (!isCharging) return;
 
-            string chargingMessage = $"{pokemonStageSlot.Pokemon.Name} Is Charging";
-            PrintRich.PrintLine(TextColor.Purple, chargingMessage);
-        }
-        else if (attackingPokemon is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attackingPokemon as PokemonEnemy;
-            pokemonEnemy.Effects.IsCharging = isCharging;
-
-            if (!isCharging) return;
-
-            string chargingMessage = $"{pokemonEnemy.Pokemon.Name} Is Charging";
-            PrintRich.PrintLine(TextColor.Red, chargingMessage);
-        }
+        string chargingMessage = $"{attackingPokemon.Name} Is Charging";
+        PrintRich.PrintLine(TextColor.Purple, chargingMessage);
     }
 
-    public void HasUsedDig<Attacking>(Attacking attackingPokemon, PokemonMove pokemonMove)
+    public void HasUsedDig(GodotObject attacking, PokemonMove pokemonMove)
     {
-        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
-        {
-            bool usedDig = pokemonStageSlot.Effects.IsCharging && pokemonMove.Name == "Dig";
-            pokemonStageSlot.Effects.UsedDig = usedDig;
-        }
-        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
-        {
-            bool usedDig = pokemonEnemy.Effects.IsCharging && pokemonMove.Name == "Dig";
-            pokemonEnemy.Effects.UsedDig = usedDig;
-        }
+        PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
+        bool usedDig = attackingPokemonEffects.IsCharging && pokemonMove.Name == "Dig";
+        attackingPokemonEffects.UsedDig = usedDig;
     }
 }

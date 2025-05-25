@@ -20,10 +20,4 @@ public partial class HighCriticalRatioMoves : Node
         string pokemonMoveName = _highCriticalRatioMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
         return pokemonMoveName != null;
     }
-
-    // Charges on first turn, attacks on second. May cause flinching. High critical hit ratio.
-    public void SkyAttack()
-    {
-
-    }
 }
