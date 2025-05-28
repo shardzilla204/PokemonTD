@@ -5,6 +5,34 @@ using System.Threading.Tasks;
 
 namespace PokemonTD;
 
+public enum EvolutionStone
+{
+	None,
+	Fire,
+	Water,
+	Thunder,
+	Leaf,
+	Moon
+}
+
+public enum Gender
+{
+	Male,
+	Female
+}
+
+public enum PokemonStat
+{
+	HP,
+	Attack,
+	Defense,
+	SpecialAttack,
+	SpecialDefense,
+	Speed,
+	Accuracy,
+	Evasion
+}
+
 public partial class PokemonManager : Node
 {
     private static PokemonManager _instance;
@@ -76,18 +104,18 @@ public partial class PokemonManager : Node
         pokemon.Experience.Max = GetExperienceRequired(pokemon);
 
         SetPokemonStats(pokemon);
-        pokemon.HP = GetPokemonHP(pokemon);
-        pokemon.MaxHP = GetPokemonHP(pokemon);
-        pokemon.Accuracy = 1;
-        pokemon.Evasion = 0;
+        pokemon.Stats.HP = GetPokemonHP(pokemon);
+        pokemon.Stats.MaxHP = GetPokemonHP(pokemon);
+        pokemon.Stats.Accuracy = 1;
+        pokemon.Stats.Evasion = 0;
         return pokemon;
     }
     
-    public async Task<Pokemon> PokemonEvolving(Pokemon pokemon, EvolutionStone evolutionStone, int teamSlotIndex)
+    public async Task<Pokemon> PokemonEvolving(Pokemon pokemon, EvolutionStone evolutionStone, int pokemonTeamIndex)
     {
         string pokemonEvolutionName = PokemonEvolution.Instance.GetPokemonEvolutionName(pokemon, evolutionStone);
         Pokemon pokemonEvolution = PokemonEvolution.Instance.GetPokemonEvolution(pokemon, pokemonEvolutionName);
-        EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, pokemonEvolution, teamSlotIndex);
+        EvolutionInterface evolutionInterface = PokemonTD.PackedScenes.GetEvolutionInterface(pokemon, pokemonEvolution, pokemonTeamIndex);
 
         Pokemon evolution = new Pokemon();
         evolutionInterface.Finished += (evolutionResult) =>
@@ -130,13 +158,13 @@ public partial class PokemonManager : Node
         return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
     }
 
-    private async void PokemonLeveledUp(int levels, int teamSlotIndex)
+    private async void PokemonLeveledUp(int levels, int pokemonTeamIndex)
     {
-        Pokemon pokemon = PokemonTeam.Instance.Pokemon[teamSlotIndex];
+        Pokemon pokemon = PokemonTeam.Instance.Pokemon[pokemonTeamIndex];
         bool canEvolve = PokemonEvolution.Instance.CanEvolve(pokemon, levels);
         if (canEvolve && !pokemon.HasCanceledEvolution)
         {
-            Pokemon pokemonResult = await PokemonEvolving(pokemon, EvolutionStone.None, teamSlotIndex);
+            Pokemon pokemonResult = await PokemonEvolving(pokemon, EvolutionStone.None, pokemonTeamIndex);
             if (pokemonResult != pokemon) pokemon = PokemonEvolution.Instance.EvolvePokemon(pokemon);
         }
 
@@ -150,14 +178,14 @@ public partial class PokemonManager : Node
         // Set level once potential moves and potential evolution have been added
         pokemon.IncreaseLevel(levels);
 
-        if (canEvolve) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, teamSlotIndex);
+        if (canEvolve) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, pokemonTeamIndex);
     }
 
-    private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
+    private void PokemonEvolved(Pokemon pokemonEvolution, int pokemonTeamIndex)
     {
         // Update the pokemon that evolved
-        PokemonTeam.Instance.Pokemon.RemoveAt(teamSlotIndex);
-        PokemonTeam.Instance.Pokemon.Insert(teamSlotIndex, pokemonEvolution);
+        PokemonTeam.Instance.Pokemon.RemoveAt(pokemonTeamIndex);
+        PokemonTeam.Instance.Pokemon.Insert(pokemonTeamIndex, pokemonEvolution);
     }
 
     public Texture2D GetPokemonSprite(string pokemonName)
@@ -166,21 +194,39 @@ public partial class PokemonManager : Node
         return ResourceLoader.Load<Texture2D>(filePath);
     }
 
+    public Gender GetGender(string pokemonName)
+    {
+        foreach (string nidoranFemaleString in NidoranFemaleStrings)
+        {
+            if (!pokemonName.Contains(nidoranFemaleString)) continue;
+
+            return Gender.Female;
+        }
+
+        foreach (string nidoranMaleString in NidoranMaleStrings)
+        {
+            if (!pokemonName.Contains(nidoranMaleString)) continue;
+
+            return Gender.Male;
+        }
+        return GetRandomGender();
+    }
+
     public Gender GetRandomGender()
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        int randomValue = RNG.RandiRange((int) Gender.Male, (int) Gender.Female);
+        int randomValue = RNG.RandiRange((int)Gender.Male, (int)Gender.Female);
 
-        return (Gender) randomValue;
+        return (Gender)randomValue;
     }
 
     public void SetPokemonStats(Pokemon pokemon)
     {
-        pokemon.Attack = GetOtherPokemonStat(pokemon, PokemonStat.Attack);
-        pokemon.Defense = GetOtherPokemonStat(pokemon, PokemonStat.Defense);
-        pokemon.SpecialAttack = GetOtherPokemonStat(pokemon, PokemonStat.SpecialAttack);
-        pokemon.SpecialDefense = GetOtherPokemonStat(pokemon, PokemonStat.SpecialDefense);
-        pokemon.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
+        pokemon.Stats.Attack = GetOtherPokemonStat(pokemon, PokemonStat.Attack);
+        pokemon.Stats.Defense = GetOtherPokemonStat(pokemon, PokemonStat.Defense);
+        pokemon.Stats.SpecialAttack = GetOtherPokemonStat(pokemon, PokemonStat.SpecialAttack);
+        pokemon.Stats.SpecialDefense = GetOtherPokemonStat(pokemon, PokemonStat.SpecialDefense);
+        pokemon.Stats.Speed = GetOtherPokemonStat(pokemon, PokemonStat.Speed);
     }
 
     public string GetRandomPokemonName()
@@ -201,7 +247,7 @@ public partial class PokemonManager : Node
     public int GetPokemonHP(Pokemon pokemon)
     {
         Pokemon pokemonData = GetPokemon(pokemon.Name);
-        int hpStatValue = Mathf.RoundToInt(pokemonData.HP * 1.35f + pokemon.Level / 100 + pokemon.Level);
+        int hpStatValue = Mathf.RoundToInt(pokemonData.Stats.HP * 1.35f + pokemon.Level / 100 + pokemon.Level);
         return Mathf.Max(0, hpStatValue);
     }
 
@@ -215,14 +261,14 @@ public partial class PokemonManager : Node
 
         int baseStatValue = pokemonStat switch
         {
-            PokemonStat.Attack => pokemonData.Attack,
-            PokemonStat.Defense => pokemonData.Defense,
-            PokemonStat.SpecialAttack => pokemonData.SpecialAttack,
-            PokemonStat.SpecialDefense => pokemonData.SpecialDefense,
-            PokemonStat.Speed => pokemonData.Speed,
+            PokemonStat.Attack => pokemonData.Stats.Attack,
+            PokemonStat.Defense => pokemonData.Stats.Defense,
+            PokemonStat.SpecialAttack => pokemonData.Stats.SpecialAttack,
+            PokemonStat.SpecialDefense => pokemonData.Stats.SpecialDefense,
+            PokemonStat.Speed => pokemonData.Stats.Speed,
             PokemonStat.Accuracy => 1,
             PokemonStat.Evasion => 0,
-            _ => pokemonData.Attack,
+            _ => pokemonData.Stats.Attack,
         };
 
         int pokemonStatValue = Mathf.RoundToInt(baseStatValue + pokemon.Level / 100);
@@ -259,11 +305,11 @@ public partial class PokemonManager : Node
         attackingPokemon.Moves.AddRange(defendingPokemon.Moves);
         attackingPokemon.Move = defendingPokemon.Move;
 
-        attackingPokemon.Attack = defendingPokemon.Attack;
-        attackingPokemon.SpecialAttack = defendingPokemon.SpecialAttack;
-        attackingPokemon.Defense = defendingPokemon.Defense;
-        attackingPokemon.SpecialDefense = defendingPokemon.SpecialDefense;
-        attackingPokemon.Speed = defendingPokemon.Speed;
+        attackingPokemon.Stats.Attack = defendingPokemon.Stats.Attack;
+        attackingPokemon.Stats.SpecialAttack = defendingPokemon.Stats.SpecialAttack;
+        attackingPokemon.Stats.Defense = defendingPokemon.Stats.Defense;
+        attackingPokemon.Stats.SpecialDefense = defendingPokemon.Stats.SpecialDefense;
+        attackingPokemon.Stats.Speed = defendingPokemon.Stats.Speed;
 
         attackingPokemon.Height = defendingPokemon.Height;
         attackingPokemon.Weight = defendingPokemon.Weight;
@@ -285,11 +331,11 @@ public partial class PokemonManager : Node
         pokemonCopy.Moves.AddRange(pokemon.Moves);
         pokemonCopy.Move = pokemon.Move;
 
-        pokemonCopy.Attack = pokemon.Attack;
-        pokemonCopy.SpecialAttack = pokemon.SpecialAttack;
-        pokemonCopy.Defense = pokemon.Defense;
-        pokemonCopy.SpecialDefense = pokemon.SpecialDefense;
-        pokemonCopy.Speed = pokemon.Speed;
+        pokemonCopy.Stats.Attack = pokemon.Stats.Attack;
+        pokemonCopy.Stats.SpecialAttack = pokemon.Stats.SpecialAttack;
+        pokemonCopy.Stats.Defense = pokemon.Stats.Defense;
+        pokemonCopy.Stats.SpecialDefense = pokemon.Stats.SpecialDefense;
+        pokemonCopy.Stats.Speed = pokemon.Stats.Speed;
 
         pokemonCopy.Height = pokemon.Height;
         pokemonCopy.Weight = pokemon.Weight;

@@ -40,9 +40,7 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated += PokeDollarsUpdated;
 		PokemonTD.Signals.RareCandyUpdated += RareCandyUpdated;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
-		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
-		PokemonTD.Signals.DraggingPokeBall += SetVisibility;
+		PokemonTD.Signals.Dragging += SetVisibility;
 		PokemonTD.Signals.PokemonUsed += PokemonUsed;
     }
 
@@ -51,9 +49,7 @@ public partial class StageInterface : CanvasLayer
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyPassed;
 		PokemonTD.Signals.PokeDollarsUpdated -= PokeDollarsUpdated;
 		PokemonTD.Signals.RareCandyUpdated -= RareCandyUpdated;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
-		PokemonTD.Signals.DraggingPokeBall -= SetVisibility;
+		PokemonTD.Signals.Dragging -= SetVisibility;
 		PokemonTD.Signals.PokemonUsed -= PokemonUsed;
     }
 
@@ -83,15 +79,15 @@ public partial class StageInterface : CanvasLayer
 		};
 	}
 
-	private void PokemonUsed(bool inUse, int teamSlotIndex)
+	private void PokemonUsed(bool inUse, int pokemonTeamIndex)
 	{
-		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(pokemonTeamIndex);
 		pokemonTeamSlot.InUse = inUse;
 	}
 
-	public bool IsPokemonTeamSlotInUse(int teamSlotIndex)
+	public bool IsPokemonTeamSlotInUse(int pokemonTeamIndex)
 	{
-		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(teamSlotIndex);
+		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(pokemonTeamIndex);
 		return pokemonTeamSlot.InUse;
 	}
 

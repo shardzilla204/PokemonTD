@@ -34,8 +34,8 @@ public partial class EvolutionInterface : CanvasLayer
 	[Export]
 	private TextureRect _pokemonEvolutionSilhouette;
 
-	public Pokemon Pokemon;
-	public Pokemon Evolution;
+	private Pokemon _pokemon;
+	private Pokemon _pokemonEvolution;
 
 	private Tween _tween;
 
@@ -43,16 +43,10 @@ public partial class EvolutionInterface : CanvasLayer
 
 	public override void _Ready()
 	{
-		_pokemonSprite.Texture = Pokemon.Sprite;
-		_pokemonSilhouette.Texture = Pokemon.Sprite;
-
-		_pokemonEvolutionSprite.Texture = Evolution.Sprite;
-		_pokemonEvolutionSilhouette.Texture = Evolution.Sprite;
-
 		_pokemonEvolutionSprite.Visible = false;
 		_pokemonEvolutionSilhouette.Visible = false;
 
-		_evolveLabel.Text = $"{Pokemon.Name}\n is evolving!";
+		_evolveLabel.Text = $"{_pokemon.Name}\n is evolving!";
 
 		_cancelButton.Pressed += () => 
 		{
@@ -62,9 +56,9 @@ public partial class EvolutionInterface : CanvasLayer
 			PokemonEvolution.Instance.RemoveFromQueue(this);
 			PokemonEvolution.Instance.IsQueueEmpty();
 
-			Pokemon.HasCanceledEvolution = true;
+			_pokemon.HasCanceledEvolution = true;
 
-			EmitSignal(SignalName.Finished, Pokemon);
+			EmitSignal(SignalName.Finished, _pokemon);
 			QueueFree();
 		};
 		_skipButton.Pressed += EvolvePokemon;
@@ -74,31 +68,43 @@ public partial class EvolutionInterface : CanvasLayer
 			PokemonEvolution.Instance.RemoveFromQueue(this);
 			PokemonEvolution.Instance.IsQueueEmpty();
 
-			EmitSignal(SignalName.Finished, Evolution);
+			EmitSignal(SignalName.Finished, _pokemonEvolution);
 			QueueFree();
 		};
 
-		TweenEvolution();
-
+		TweenEvolution(_pokemonSprite, _pokemonSilhouette, _pokemonEvolutionSilhouette);
+		
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 	}
 
-	private async void TweenEvolution()
+	public async void TweenEvolution(TextureRect pokemonSprite, TextureRect pokemonSilhouette, TextureRect pokemonEvolutionSilhouette)
 	{
 		Color transparent = Colors.White;
 		transparent.A = 0f;
 
 		_tween = GetTree().CreateTween();
-		_tween.TweenProperty(_pokemonSprite, "modulate", transparent, 2f);
+		_tween.TweenProperty(pokemonSprite, "modulate", transparent, 2f);
 
 		await ToSignal(_tween, Tween.SignalName.Finished);
 
 		float tweenDuration = 0.25f;
 		_tween = GetTree().CreateTween().SetLoops().SetParallel(true);
-		_tween.TweenProperty(_pokemonEvolutionSilhouette, "visible", true, tweenDuration);
-		_tween.TweenProperty(_pokemonSilhouette, "visible", false, tweenDuration);
-		_tween.Chain().TweenProperty(_pokemonEvolutionSilhouette, "visible", false, tweenDuration);
-		_tween.TweenProperty(_pokemonSilhouette, "visible", true, tweenDuration);
+		_tween.TweenProperty(pokemonEvolutionSilhouette, "visible", true, tweenDuration);
+		_tween.TweenProperty(pokemonSilhouette, "visible", false, tweenDuration);
+		_tween.Chain().TweenProperty(pokemonEvolutionSilhouette, "visible", false, tweenDuration);
+		_tween.TweenProperty(pokemonSilhouette, "visible", true, tweenDuration);
+	}
+
+	public void SetPokemon(Pokemon pokemon, Pokemon pokemonEvolution)
+	{
+		_pokemon = pokemon;
+		_pokemonEvolution = pokemonEvolution;
+
+		_pokemonSprite.Texture = pokemon.Sprite;
+		_pokemonSilhouette.Texture = pokemon.Sprite;
+
+		_pokemonEvolutionSprite.Texture = pokemonEvolution.Sprite;
+		_pokemonEvolutionSilhouette.Texture = pokemonEvolution.Sprite;
 	}
 
 	private void EvolvePokemon()
@@ -109,7 +115,7 @@ public partial class EvolutionInterface : CanvasLayer
 		transparent.A = 0f;
 
 		_cancelButton.Modulate = transparent;
-		
+
 		_skipButton.Visible = false;
 		_continueButton.Visible = true;
 
@@ -118,8 +124,8 @@ public partial class EvolutionInterface : CanvasLayer
 
 		_pokemonEvolutionSprite.Visible = true;
 		_pokemonEvolutionSilhouette.Visible = false;
-		
+
 		_hasEvolved = true;
-		_evolveLabel.Text = $"{Pokemon.Name} has evolved into \n{Evolution.Name}!";
+		_evolveLabel.Text = $"{_pokemon.Name} has evolved into \n{_pokemonEvolution.Name}!";
 	}
 }

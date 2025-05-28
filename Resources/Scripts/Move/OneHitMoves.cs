@@ -22,7 +22,7 @@ public partial class OneHitMoves : Node
     {
         Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
        
-        int damage = defendingPokemon.HP;
+        int damage = defendingPokemon.Stats.HP;
         PokemonCombat.Instance.DealDamage(defending, damage);
     }
 }

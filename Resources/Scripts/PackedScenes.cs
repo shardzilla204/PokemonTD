@@ -149,16 +149,15 @@ public partial class PackedScenes : Node
 		return _stageResultInterface.Instantiate<StageResultInterface>();
 	}
 
-	public EvolutionInterface GetEvolutionInterface(Pokemon pokemon, Pokemon pokemonEvolution, int teamSlotIndex)
+	public EvolutionInterface GetEvolutionInterface(Pokemon pokemon, Pokemon pokemonEvolution, int pokemonTeamIndex)
 	{
 		EvolutionInterface evolutionInterface = _evolutionInterface.Instantiate<EvolutionInterface>();
-		evolutionInterface.Pokemon = pokemon;
-		evolutionInterface.Evolution = pokemonEvolution;
+		evolutionInterface.SetPokemon(pokemon, pokemonEvolution);
 		evolutionInterface.Finished += (evolution) =>
 		{
 			if (PokemonEvolution.Instance.IsQueueEmpty() && PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
 			
-			if (evolution != null) PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, evolution, teamSlotIndex);
+			if (evolution != null) PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, evolution, pokemonTeamIndex);
 		};
 		return evolutionInterface;
 	}
@@ -197,8 +196,9 @@ public partial class PackedScenes : Node
 	{
 		PokeMartItem pokeMartItem = _pokeMartItem.Instantiate<PokeMartItem>();
 		pokeMartItem.Name = pokeMartItemData.Name;
-		pokeMartItem.Sprite = pokeMartItemData.Sprite;
+		pokeMartItem.Description = pokeMartItemData.Description;
 		pokeMartItem.Price = pokeMartItemData.Price;
+		pokeMartItem.Sprite = pokeMartItemData.Sprite;
 		return pokeMartItem;
 	}
 

@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scripts/StatusConditionContainer.cs" id="4_ojny1"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hvj7q"]
-radius = 65.0
+radius = 50.0
 
 [node name="PokemonEnemy" type="TextureRect" node_paths=PackedStringArray("_healthBar", "_statusConditionContainer", "_screenNotifier", "_area", "_attackTimer")]
 y_sort_enabled = true

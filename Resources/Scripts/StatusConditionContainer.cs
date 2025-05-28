@@ -22,7 +22,7 @@ public partial class StatusConditionContainer : Container
         if (statusConditionIcon != null && IsInstanceValid(statusConditionIcon)) statusConditionIcon.QueueFree();
     }
 
-    public void RemoveAllStatusConditions()
+    public void ClearStatusConditions()
     {
         foreach (StatusConditionIcon statusConditionIcon in _statusConditionIcons)
         {

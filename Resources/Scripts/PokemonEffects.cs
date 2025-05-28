@@ -9,11 +9,12 @@ public partial class PokemonEffects : Node
     public bool IsCharging = false;
     public bool UsedDig = false;
     public bool HasCounter = false;
-    public bool UsedQuickAttack = false;
+    public bool HasQuickAttack = false;
     public bool HasSubstitute = false;
     public bool UsedFaintMove = false;
     public bool HasRage = false;
     public bool HasMoveSkipped = false;
+    public bool HasHyperBeam = false;
     public Pokemon PokemonTransform = null; // For Pokemon that used Transform
 
     public void Reset()
@@ -23,11 +24,12 @@ public partial class PokemonEffects : Node
         IsCharging = false;
         UsedDig = false;
         HasCounter = false;
-        UsedQuickAttack = false;
+        HasQuickAttack = false;
         HasSubstitute = false;
         UsedFaintMove = false;
         HasRage = false;
         HasMoveSkipped = false;
+        HasHyperBeam = false;
         PokemonTransform = null;
     }
     
@@ -40,7 +42,7 @@ public partial class PokemonEffects : Node
     
     public void RevertTransformation(Pokemon pokemon)
     {
-        string tranformationRevertedMessage = $"{PokemonTransform.Name} Has Reverted Back To Normal";
+        string tranformationRevertedMessage = $"{pokemon.Name} Has Reverted Back To Normal";
         PrintRich.PrintLine(TextColor.Orange, tranformationRevertedMessage);
 
         pokemon.Sprite = PokemonTransform.Sprite;
@@ -50,11 +52,11 @@ public partial class PokemonEffects : Node
         pokemon.Moves.AddRange(PokemonTransform.Moves);
         pokemon.Move = PokemonTransform.Move;
 
-        pokemon.Attack = PokemonTransform.Attack;
-        pokemon.SpecialAttack = PokemonTransform.SpecialAttack;
-        pokemon.Defense = PokemonTransform.Defense;
-        pokemon.SpecialDefense = PokemonTransform.SpecialDefense;
-        pokemon.Speed = PokemonTransform.Speed;
+        pokemon.Stats.Attack = PokemonTransform.Stats.Attack;
+        pokemon.Stats.SpecialAttack = PokemonTransform.Stats.SpecialAttack;
+        pokemon.Stats.Defense = PokemonTransform.Stats.Defense;
+        pokemon.Stats.SpecialDefense = PokemonTransform.Stats.SpecialDefense;
+        pokemon.Stats.Speed = PokemonTransform.Stats.Speed;
 
         pokemon.Height = PokemonTransform.Height;
         pokemon.Weight = PokemonTransform.Weight;

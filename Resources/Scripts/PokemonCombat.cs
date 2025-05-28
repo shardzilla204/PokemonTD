@@ -22,23 +22,21 @@ public partial class PokemonCombat : Node
         Instance = this;
     }
 
-    public void DealDamage(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
+    public void DealDamage(GodotObject attacking, GodotObject defending, PokemonMove pokemonMove)
     {
         Pokemon attackingPokemon = GetAttackingPokemon(attacking);
         Pokemon defendingPokemon = GetDefendingPokemon(defending);
 
-        int randomHitCount = PokemonMoveEffect.Instance.GetRandomHitCount(pokemonMove);
-
-        string usedMessage = $"{attackingPokemon.Name} Used {pokemonMove.Name} On {defendingPokemon.Name} ";
         if (pokemonMove.Power == 0)
         {
+            string usedMessage =  PrintRich.GetPokemonMoveUsedMessage(attackingPokemon, defendingPokemon, pokemonMove);
             PrintRich.PrintLine(TextColor.Orange, usedMessage);
             return;
         }
 
         if (pokemonMove.Name == "Dream Eater" && !defendingPokemon.HasStatusCondition(StatusCondition.Sleep)) return;
 
-        DamagePokemon(attacking, pokemonMove, defending, randomHitCount, usedMessage);
+        DamagePokemon(attacking, pokemonMove, defending);
     }
 
     // Mainly for moves like Dragon Rage and Sonic Boom
@@ -66,11 +64,14 @@ public partial class PokemonCombat : Node
         }
     }
 
-    private void DamagePokemon(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending, int hitCount, string usedMessage)
+    private void DamagePokemon(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
     {
+        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
         Pokemon defendingPokemon = GetDefendingPokemon(defending);
         PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
-        for (int i = 0; i < hitCount; i++)
+        
+        int randomHitCount = PokemonMoveEffect.Instance.GetRandomHitCount(pokemonMove);
+        for (int i = 0; i < randomHitCount; i++)
         {
             int damage = GetDamage(attacking, pokemonMove, defending);
             DealDamage(defending, damage);
@@ -78,7 +79,8 @@ public partial class PokemonCombat : Node
             bool canPokemonCounter = CanPokemonCounter(defendingPokemonEffects.HasCounter, pokemonMove);
             if (canPokemonCounter) DealCounterDamage(attacking, damage, defending);
 
-            string damageMessage = PrintRich.GetDamageMessage(damage, defendingPokemon, pokemonMove);
+            string usedMessage = PrintRich.GetPokemonMoveUsedMessage(attackingPokemon, defendingPokemon, pokemonMove);
+            string damageMessage = PrintRich.GetPokemonMoveDamageMessage(defendingPokemon, pokemonMove, damage);
             PrintRich.PrintLine(TextColor.Orange, usedMessage + damageMessage);
         }
     }
@@ -141,20 +143,20 @@ public partial class PokemonCombat : Node
                 PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
 
                 PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-                int teamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+                int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
 
                 if (!IsInstanceValid(pokemonEnemy)) return;
 
                 timer.TreeExiting += () =>
                 {
-                    pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                    pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                     if (!IsInstanceValid(pokemonStageSlot) || pokemonStageSlot == null) return;
 
                     PokemonStatusCondition.Instance.ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
                     PokemonStatusCondition.Instance.RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
                 };
 
-                pokemonStageSlot.Retrieved += timer.QueueFree;
+                pokemonStageSlot.Retrieved += (pokemonStageSlot) => timer.QueueFree();
                 pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
             }
             AddChild(timer);
@@ -208,6 +210,8 @@ public partial class PokemonCombat : Node
     {
         Pokemon attackingPokemon = GetAttackingPokemon(attacking);
         Pokemon defendingPokemon = GetDefendingPokemon(defending);
+        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
+
         int power = GetPokemonMovePower(defending, pokemonMove);
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(attackingPokemon, pokemonMove);
         float attackDefenseRatio = GetAttackDefenseRatio(attackingPokemon, pokemonMove, defendingPokemon);
@@ -216,7 +220,6 @@ public partial class PokemonCombat : Node
         damage = ApplyTypeMultipliers(defendingPokemon, pokemonMove, damage);
         damage = HalveDamage(defending, pokemonMove, damage);
 
-        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
         if (defendingPokemonEffects.UsedDig && pokemonMove.Name != "Earthquake") return 0;
 
         float damageMultiplier = 1;
@@ -254,7 +257,7 @@ public partial class PokemonCombat : Node
     // Get amount based off the Pokemon's HP
     public int GetDamage(Pokemon pokemon, float percentage)
     {
-        int damageAmount = Mathf.RoundToInt(pokemon.HP * percentage);
+        int damageAmount = Mathf.RoundToInt(pokemon.Stats.HP * percentage);
         return damageAmount;
     }
 
@@ -287,9 +290,8 @@ public partial class PokemonCombat : Node
             bool hasPassedAccuracy = CheckAccuracy(attackingPokemon, pokemonMove, defendingPokemon);
             return hasPassedAccuracy;
         }
-        catch (NullReferenceException error)
+        catch (NullReferenceException)
         {
-            GD.PrintErr(error);
             return false;
         }
     }
@@ -308,20 +310,6 @@ public partial class PokemonCombat : Node
         return attackingPokemon;
     }
 
-    public PokemonEffects GetAttackingPokemonEffects(GodotObject attacking)
-    {
-        PokemonEffects attackingPokemonEffects = null;
-        if (attacking is PokemonStageSlot pokemonStageSlot)
-        {
-            attackingPokemonEffects = pokemonStageSlot.Effects;
-        }
-        else if (attacking is PokemonEnemy pokemonEnemy)
-        {
-            attackingPokemonEffects = pokemonEnemy.Effects;
-        }
-        return attackingPokemonEffects;
-    }
-
     public Pokemon GetDefendingPokemon(GodotObject defending)
     {
         Pokemon defendingPokemon = null;
@@ -334,6 +322,20 @@ public partial class PokemonCombat : Node
             defendingPokemon = pokemonEnemy.Pokemon;
         }
         return defendingPokemon;
+    }
+
+    public PokemonEffects GetAttackingPokemonEffects(GodotObject attacking)
+    {
+        PokemonEffects attackingPokemonEffects = null;
+        if (attacking is PokemonStageSlot pokemonStageSlot)
+        {
+            attackingPokemonEffects = pokemonStageSlot.Effects;
+        }
+        else if (attacking is PokemonEnemy pokemonEnemy)
+        {
+            attackingPokemonEffects = pokemonEnemy.Effects;
+        }
+        return attackingPokemonEffects;
     }
 
     public PokemonEffects GetDefendingPokemonEffects(GodotObject defending)
@@ -390,13 +392,13 @@ public partial class PokemonCombat : Node
         if (!isMissMove) return;
 
         Pokemon attackingPokemon = GetAttackingPokemon(attacking);
-        int damage = attackingPokemon.HP / 2;
+        int damage = attackingPokemon.Stats.HP / 2;
         DealDamage(attacking, damage);
     }
 
     private int GetAccuracy(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        int accuracy = Mathf.RoundToInt((attackingPokemon.Accuracy - defendingPokemon.Evasion) * pokemonMove.Accuracy);
+        int accuracy = Mathf.RoundToInt((attackingPokemon.Stats.Accuracy - defendingPokemon.Stats.Evasion) * pokemonMove.Accuracy);
         return accuracy;
     }
 
@@ -428,6 +430,7 @@ public partial class PokemonCombat : Node
     {
         Pokemon defendingPokemon = GetDefendingPokemon(defending);
         PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
+
         if (defendingPokemonEffects.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
         {
             damage /= 2;
@@ -451,8 +454,8 @@ public partial class PokemonCombat : Node
 
     private float GetAttackDefenseRatio(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float specialRatio = (float) attackingPokemon.SpecialAttack / defendingPokemon.SpecialDefense;
-        float normalRatio = (float) attackingPokemon.Attack / defendingPokemon.Defense;
+        float specialRatio = (float) attackingPokemon.Stats.SpecialAttack / defendingPokemon.Stats.SpecialDefense;
+        float normalRatio = (float) attackingPokemon.Stats.Attack / defendingPokemon.Stats.Defense;
 
         float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
 

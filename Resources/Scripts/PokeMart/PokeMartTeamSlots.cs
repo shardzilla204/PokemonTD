@@ -45,13 +45,13 @@ public partial class PokeMartTeamSlots : Container
         }
     }
 
-    private void PokemonLeveledUp(int levels, int teamSlotIndex)
+    private void PokemonLeveledUp(int levels, int pokemonTeamIndex)
     {
         ClearSlots();
         FillSlots();
     }
 
-    private void PokemonEvolved(Pokemon pokemonEvolution, int teamSlotIndex)
+    private void PokemonEvolved(Pokemon pokemonEvolution, int pokemonTeamIndex)
     {
         ClearSlots();
         FillSlots();

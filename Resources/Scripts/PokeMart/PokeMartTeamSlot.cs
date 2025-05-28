@@ -26,8 +26,8 @@ public partial class PokeMartTeamSlot : NinePatchRect
         _pokemon = pokemon;
 
         _healthBar.Visible = pokemon != null;
-        _healthBar.MaxValue = pokemon == null ? 100 : pokemon.MaxHP;
-        _healthBar.Value = pokemon == null ? 100 : pokemon.HP;
+        _healthBar.MaxValue = pokemon == null ? 100 : pokemon.Stats.MaxHP;
+        _healthBar.Value = pokemon == null ? 100 : pokemon.Stats.HP;
 
         _pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
         _pokemonLevel.Text = pokemon == null ? "" : $"LVL {pokemon.Level}";
@@ -35,6 +35,8 @@ public partial class PokeMartTeamSlot : NinePatchRect
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
+        if (_pokemon == null) return false;
+        
         PokeMartItem pokeMartItem = data.As<PokeMartItem>();
 
         if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
@@ -64,7 +66,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         else if (pokeMartItem.Category == PokeMartItemCategory.Medicine)
         {
             int healAmount = GetHealAmount(pokeMartItem.Name);
-            _pokemon.HP = Mathf.Clamp(_pokemon.HP + healAmount, 0, _pokemon.MaxHP);
+            _pokemon.Stats.HP = Mathf.Clamp(_pokemon.Stats.HP + healAmount, 0, _pokemon.Stats.MaxHP);
 
             SetPokemon(_pokemon);
 
@@ -100,7 +102,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         "Potion" => 20,
         "Super Potion" => 50,
         "Hyper Potion" => 200,
-        "Max Potion" => _pokemon.MaxHP,
+        "Max Potion" => _pokemon.Stats.MaxHP,
         _ => 20
     };
 }

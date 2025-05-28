@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.Reflection;
 
 namespace PokemonTD;
 
@@ -26,6 +25,7 @@ public partial class PokemonMoveEffect : Node
     public MissMoves MissMoves = new MissMoves(); // Done
     public RecoverMoves RecoverMoves = new RecoverMoves(); // Done
     public InflictingMoves InflictingMoves = new InflictingMoves(); // Done
+    public CopyMoves CopyMoves = new CopyMoves(); // Done
 
     public override void _EnterTree()
     {
@@ -41,10 +41,10 @@ public partial class PokemonMoveEffect : Node
         return RNG.RandiRange(minimumHitCount, MaxHitCount);
     }
 
-    public float GetCriticalHitRatio(Pokemon pokemon, PokemonMove pokemonMove)
+    public float GetCriticalHitRatio(Pokemon attackingPokemon, PokemonMove pokemonMove)
     {
-        Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
-        float criticalHitRatio = pokemonData.Speed / 2;
+        Pokemon pokemonData = PokemonManager.Instance.GetPokemon(attackingPokemon.Name, attackingPokemon.Level);
+        float criticalHitRatio = pokemonData.Stats.Speed / 2;
 
         bool isHighCriticalRatioMove = HighCriticalRatioMoves.IsHighCriticalRatioMove(pokemonMove);
         if (isHighCriticalRatioMove)
@@ -55,20 +55,15 @@ public partial class PokemonMoveEffect : Node
         return criticalHitRatio;
     }
 
-    public void ApplyMoveEffect(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
+    public void ApplyMoveEffect(GodotObject attacking, GodotObject defending, PokemonMove pokemonMove)
     {
         if (UniqueMoves.IsUniqueMove(pokemonMove))
         {
-            UniqueMoves.ApplyUniqueMove(pokemonMove);
+            UniqueMoves.ApplyUniqueMove(attacking, defending, pokemonMove);
         }
         else if (TrapMoves.IsTrapMove(pokemonMove))
         {
             TrapMoves.ApplyTrapMove(attacking, defending);
-        }
-        else if (ChargeMoves.IsChargeMove(pokemonMove).IsChargeMove)
-        {
-            ChargeMoves.ApplyChargeMove(attacking, pokemonMove, defending);
-            ChargeMoves.HasUsedDig(attacking, pokemonMove);
         }
         else if (FlinchMoves.IsFlinchMove(pokemonMove))
         {
@@ -86,7 +81,7 @@ public partial class PokemonMoveEffect : Node
             }
             else
             {
-                RecoverMoves.ApplyHealthRecoveryMove(attacking, pokemonMove, defending);
+                RecoverMoves.ApplyHealthRecoveryMove(attacking, defending, pokemonMove);
             }
         }
         else if (RecoverMoves.IsRareCandyRecoveryMove(pokemonMove))

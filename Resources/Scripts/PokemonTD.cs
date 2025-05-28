@@ -6,44 +6,36 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
+    TODO: Refactor shit code
 
     * Ideas:
-    ? Mute all stage team slot options in settings
-    ? Make conversion apply automatically
-    ? Add keybinds
-    ? Shiny pokemon through color palettes
-    ? Add option to fullscreen
-    ? Pitch variation on hovering button
-    ? Add option to disable button SFX
-    ? Show what items do
-    ? Add poke mart tutorials
-    ? Show attack range 
-    ? Show team and stage without having to hide/show
-    ? Add varying attack range
-    ? Show feedback on not having enough money
-    ?? Figure out a way to compensate paying for fainting pokemon
-    ? Describe what status conditions do 
-    ? Drag pokemon onto another and swap it out
+        ? Mute all stage team slot options in settings
+        ? Make conversion apply automatically
+        ? Add keybinds
+        ? Shiny pokemon through color palettes
+        ? Add option to fullscreen game
+        ? Pitch variation on hovering button
+        ? Add option to disable button SFX
+        ? Add poke mart tutorials
+        ?? Figure out a way to compensate paying for fainting pokemon
+        ? Describe what status conditions do 
+        ? Distribute stat decrease among targets like status conditions
+        ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
 
     * Bugs:
-    ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
-    !! Pokeball will eventually not pause the game when picked up
-    ! Visual bug on stage 2
-    ! Pikachu evolves off level
-    ! Pokemon sometimes freezes
-    ! Pokemon permanently dies 
-    ! When forgetting move, it shows on team slot
-    ! Damage over time moves do not pause 
-    ! Mirror move doesn't reset / Work on mirror move
+        ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
+        !! Pokeball will eventually not pause the game when picked up
+        !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
 
     * Notes:
-    - Pin Missile SFX Will Be Damage SFX
-    - Growl SFX Is The Pokemon's Cry
-    - Haunter will evolve to Gengar by LVL 34
-    - Kadabra will evolve to Alakazam by LVL 33
-    - Machoke will evolve to Machamp by LVL 36
-    - Graveler will evolve to Golem by LVL 33
-    - Pokemon evolves first then learns potential moves
+        - Pin Missile SFX Will Be Damage SFX
+        - Growl SFX Is The Pokemon's Cry
+        - Haunter will evolve to Gengar by LVL 34
+        - Kadabra will evolve to Alakazam by LVL 33
+        - Machoke will evolve to Machamp by LVL 36
+        - Graveler will evolve to Golem by LVL 33
+        - Pokemon evolves first then learns potential moves
+        - No Pokemon learns surf on leveling up
 */
 
 public partial class PokemonTD : Control
@@ -55,10 +47,10 @@ public partial class PokemonTD : Control
     private PokemonTween _pokemonTween;
 
     [Export]
-    private bool _isTeamRandom;
+    private int _startingPokeDollars;
 
     [Export]
-    private int _startingPokeDollars;
+    private bool _isTeamRandom;
 
     [Export(PropertyHint.Range, "0,5,1")]
     private int _teamCount = 5;
@@ -80,9 +72,6 @@ public partial class PokemonTD : Control
 
     [Export]
     private bool _isScreenshotModeOn = false;
-
-    [Export]
-    private bool _isExportingForMobile = false;
 
     [ExportCategory("Poke Center")]
     [Export]
@@ -116,8 +105,6 @@ public partial class PokemonTD : Control
     public static bool AreLevelsRandomized = false;
     public static bool AreMovesRandomized = false;
     public static bool IsScreenshotModeOn = false;
-
-    public static bool IsExportingForMobile = false;
 
     public static int StarterPokemonLevel = 5;
 
@@ -155,7 +142,6 @@ public partial class PokemonTD : Control
         AreLevelsRandomized = _areLevelsRandomized;
         AreMovesRandomized = _areMovesRandomized;
         IsScreenshotModeOn = _isScreenshotModeOn;
-        IsExportingForMobile = _isExportingForMobile;
 
         StarterPokemonLevel = _starterPokemonLevel;
 
@@ -263,7 +249,7 @@ public partial class PokemonTD : Control
             GC.Dictionary<string, Variant> pokemonData = new GC.Dictionary<string, Variant>()
             {
                 { "Name", pokemon.Name },
-                { "HP", pokemon.HP },
+                { "HP", pokemon.Stats.HP },
                 { "Gender", (int) pokemon.Gender },
                 { "Level", pokemon.Level },
                 { "Experience", GetExperienceData(pokemon) },
@@ -283,7 +269,7 @@ public partial class PokemonTD : Control
     {
         int pokemonLevel = pokemonData["Level"].As<int>();
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
-        pokemon.HP = pokemonData["HP"].As<int>();
+        pokemon.Stats.HP = pokemonData["HP"].As<int>();
         pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
         pokemon.HasCanceledEvolution = pokemonData["Has Canceled Evolution"].As<bool>();
 
@@ -335,32 +321,21 @@ public partial class PokemonTD : Control
 
     public static Control GetStageDragPreview(Pokemon pokemon)
     {
-        int minimumValue = 125;
-        Vector2 minimumSize = new Vector2(minimumValue, minimumValue);
+        int minValue = 125;
+        Vector2 minSize = new Vector2(minValue, minValue);
         TextureRect textureRect = new TextureRect()
         {
-            CustomMinimumSize = minimumSize,
+            CustomMinimumSize = minSize,
             Texture = pokemon.Sprite,
             TextureFilter = TextureFilterEnum.Nearest,
-            Position = -new Vector2(minimumSize.X / 2, minimumSize.Y / 4),
-            PivotOffset = new Vector2(minimumSize.X / 2, 0)
+            Position = -new Vector2(minSize.X / 2, minSize.Y / 4),
+            PivotOffset = new Vector2(minSize.X / 2, 0)
         };
 
         Control stageDragPreview = new Control();
         stageDragPreview.AddChild(textureRect);
 
         return stageDragPreview;
-    }
-
-    public static GC.Dictionary<string, Variant> GetStageDragData(Pokemon pokemon, int teamSlotIndex, bool fromTeamSlot, bool isMuted)
-    {
-        return new GC.Dictionary<string, Variant>()
-        {
-            { "TeamSlotIndex", teamSlotIndex },
-            { "FromTeamSlot", fromTeamSlot },
-            { "IsMuted", isMuted },
-            { "Pokemon", pokemon }
-        };
     }
 
     public static Texture2D GetSprite(string filePath)

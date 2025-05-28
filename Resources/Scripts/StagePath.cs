@@ -50,7 +50,7 @@ public partial class StagePath : Path2D
 		if (pokemonEnemy == null) return;
 		
 		float speedMultiplier = 1.25f;
-		double progressSpeed = pokemonEnemy.Pokemon.Speed * PokemonTD.GameSpeed * delta * speedMultiplier;
+		double progressSpeed = pokemonEnemy.Pokemon.Stats.Speed * PokemonTD.GameSpeed * delta * speedMultiplier;
 
 		pathFollow.Progress += (float) progressSpeed;
 

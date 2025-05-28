@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace PokemonTD;
 
-public partial class PokemonStats : Node
+public partial class PokemonStatMoves : Node
 {
-    private static PokemonStats _instance;
+    private static PokemonStatMoves _instance;
 
-    public static PokemonStats Instance
+    public static PokemonStatMoves Instance
     {
         get => _instance;
         private set
@@ -165,27 +165,27 @@ public partial class PokemonStats : Node
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
-                pokemon.Attack = Math.Max(0, pokemon.Attack + statValue);
+                pokemon.Stats.Attack = Math.Max(0, pokemon.Stats.Attack + statValue);
                 break;
             case PokemonStat.SpecialAttack:
-                pokemon.SpecialAttack = Math.Max(0, pokemon.SpecialAttack + statValue);
+                pokemon.Stats.SpecialAttack = Math.Max(0, pokemon.Stats.SpecialAttack + statValue);
                 break;
             case PokemonStat.Defense:
-                pokemon.Defense = Math.Max(0, pokemon.Defense + statValue);
+                pokemon.Stats.Defense = Math.Max(0, pokemon.Stats.Defense + statValue);
                 break;
             case PokemonStat.SpecialDefense:
-                pokemon.SpecialDefense = Math.Max(0, pokemon.SpecialDefense + statValue);
+                pokemon.Stats.SpecialDefense = Math.Max(0, pokemon.Stats.SpecialDefense + statValue);
                 break;
             case PokemonStat.Speed:
-                pokemon.Speed = Math.Max(0, pokemon.Speed + statValue);
+                pokemon.Stats.Speed = Math.Max(0, pokemon.Stats.Speed + statValue);
                 break;
             case PokemonStat.Accuracy:
-                pokemon.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
-                pokemon.Accuracy = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                pokemon.Stats.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Stats.Accuracy = Mathf.Clamp(pokemon.Stats.Accuracy, 0.5f, 2);
                 break;
             case PokemonStat.Evasion:
-                pokemon.Evasion += statMove.IsIncreasing ? changeValue : -changeValue;
-                pokemon.Evasion = Mathf.Clamp(pokemon.Accuracy, 0.5f, 2);
+                pokemon.Stats.Evasion += statMove.IsIncreasing ? changeValue : -changeValue;
+                pokemon.Stats.Evasion = Mathf.Clamp(pokemon.Stats.Accuracy, 0.5f, 2);
                 break;
         }
     }

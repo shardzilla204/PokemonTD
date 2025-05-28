@@ -11,9 +11,19 @@ public partial class PokemonMoveButton : CustomButton
 	[Export]
 	private NinePatchRect _pokemonMoveColor;
 
+	public override void _ExitTree()
+	{
+		PokemonTD.Signals.PokemonCopiedMove -= ChangeMove;
+	}
+
+	public override void _Ready()
+	{
+		PokemonTD.Signals.PokemonCopiedMove += ChangeMove;
+	}
+
 	public void Update(PokemonMove pokemonMove)
 	{
-		try 
+		try
 		{
 			_pokemonMoveName.Text = pokemonMove.Name;
 			_pokemonMoveColor.SelfModulate = PokemonTypes.Instance.GetTypeColor(pokemonMove.Type);
@@ -22,5 +32,13 @@ public partial class PokemonMoveButton : CustomButton
 		{
 			GD.PrintErr(pokemonMove.Name);
 		}
+	}
+
+	private void ChangeMove(PokemonMove pokemonMove, int pokemonTeamIndex)
+	{
+		PokemonTeamSlot pokemonTeamSlot = GetParentOrNull<Node>().GetOwnerOrNull<PokemonTeamSlot>();
+		if (pokemonTeamSlot.PokemonTeamIndex != pokemonTeamIndex) return;
+
+		Update(pokemonMove);
 	}
 }

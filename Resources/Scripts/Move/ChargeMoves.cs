@@ -17,50 +17,36 @@ public partial class ChargeMoves : Node
     };
 
     // Hyper Beam attacks first then charges afterward
-    public (bool IsChargeMove, bool IsHyperBeam) IsChargeMove(PokemonMove pokemonMove)
+    public bool IsChargeMove(PokemonMove pokemonMove)
     {
         string pokemonMoveName = _chargeMoveNames.Find(pokemonMoveName => pokemonMoveName == pokemonMove.Name);
-        if (pokemonMoveName == "Hyper Beam")
-        {
-            return (true, true);
-        }
-        else if (pokemonMoveName != null)
-        {
-            return (true, false);
-        }
-        return (false, false);
+        return pokemonMoveName != null;
     }
 
-    public void ApplyChargeMove(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
+    public void ApplyChargeMove(GodotObject attacking)
     {
         Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
         PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
 
-        if (attackingPokemonEffects.IsCharging) return;
-        
-        bool isCharging = false;
-        bool IsHyperBeam = PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove).IsHyperBeam;
-        if (IsHyperBeam && !isCharging)
+        attackingPokemonEffects.IsCharging = !attackingPokemonEffects.IsCharging;
+        if (attackingPokemonEffects.HasHyperBeam) attackingPokemonEffects.IsCharging = !attackingPokemonEffects.IsCharging;
+
+        if (attackingPokemonEffects.IsCharging)
         {
-            isCharging = true;
-            PokemonCombat.Instance.DealDamage(attacking, pokemonMove, defending);
+            string chargingMessage = $"{attackingPokemon.Name} Is Charging";
+            PrintRich.PrintLine(TextColor.Purple, chargingMessage);
         }
-        else if (!IsHyperBeam)
+        else
         {
-            isCharging = true;
+            string dischargingMessage = $"{attackingPokemon.Name} Is Discharging";
+            PrintRich.PrintLine(TextColor.Purple, dischargingMessage);
         }
-
-        attackingPokemonEffects.IsCharging = isCharging;
-
-        if (!isCharging) return;
-
-        string chargingMessage = $"{attackingPokemon.Name} Is Charging";
-        PrintRich.PrintLine(TextColor.Purple, chargingMessage);
     }
 
     public void HasUsedDig(GodotObject attacking, PokemonMove pokemonMove)
     {
         PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
+        
         bool usedDig = attackingPokemonEffects.IsCharging && pokemonMove.Name == "Dig";
         attackingPokemonEffects.UsedDig = usedDig;
     }

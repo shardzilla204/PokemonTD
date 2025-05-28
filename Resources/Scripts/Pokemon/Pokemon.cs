@@ -6,66 +6,31 @@ using System.Linq;
 
 namespace PokemonTD;
 
-public enum EvolutionStone
-{
-	None,
-	Fire,
-	Water,
-	Thunder,
-	Leaf,
-	Moon
-}
-
-public enum Gender
-{
-	Male,
-	Female
-}
-
-public enum PokemonStat
-{
-	HP,
-	Attack,
-	Defense,
-	SpecialAttack,
-	SpecialDefense,
-	Speed,
-	Accuracy,
-	Evasion
-}
-
 public partial class Pokemon : Node
 {
 	public new string Name;
 	public string NationalNumber;
 	public string Species;
-   	public string Description;
+	public string Description;
 	public float Height;
 	public float Weight;
-   	public Texture2D Sprite;
-   	public List<PokemonType> Types = new List<PokemonType>();
+	public Texture2D Sprite;
+
+	public PokemonStats Stats = new PokemonStats();
+
+	public List<PokemonType> Types = new List<PokemonType>();
 	public List<PokemonMove> Moves = new List<PokemonMove>();
+	public PokemonMove Move;
 
-	public int HP;
-	public int MaxHP;
-	public int Attack;
-	public int Defense;
-	public int SpecialAttack;
-	public int SpecialDefense;
-	public int Speed;
-	public float Accuracy = 1;
-	public float Evasion = 0;
-
-   	public int Level = PokemonTD.MinPokemonLevel;
+	public int Level = PokemonTD.MinPokemonLevel;
 	public PokemonExperience Experience;
 
 	public Gender Gender;
-	public PokemonMove Move;
 	public bool HasCanceledEvolution;
 
 	private List<StatusCondition> _statusConditions = new List<StatusCondition>();
 
-	public Pokemon() {}
+	public Pokemon() { }
 
 	public Pokemon(string pokemonName, GC.Dictionary<string, Variant> pokemonDictionary, GC.Array<string> pokemonTypes, GC.Dictionary<string, Variant> pokemonStats)
 	{
@@ -77,60 +42,35 @@ public partial class Pokemon : Node
 		Description = pokemonDictionary["Description"].As<string>();
 		Sprite = PokemonManager.Instance.GetPokemonSprite(pokemonName);
 
-		int experienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
-		Experience = new PokemonExperience(experienceYield);
-
 		foreach (string pokemonType in pokemonTypes)
 		{
 			Types.Add(Enum.Parse<PokemonType>(pokemonType));
 		}
 
-		HP = pokemonStats["HP"].As<int>();
-		MaxHP = pokemonStats["HP"].As<int>();
-		Attack = pokemonStats["Attack"].As<int>();
-		Defense = pokemonStats["Defense"].As<int>();
-		SpecialAttack = pokemonStats["Special Attack"].As<int>();
-		SpecialDefense = pokemonStats["Special Defense"].As<int>();
-		Speed = pokemonStats["Speed"].As<int>();
-
-		if (pokemonName.Contains("Nido"))
-		{
-			AssignGender(pokemonName);
-			return;
-		}
-		Gender = PokemonManager.Instance.GetRandomGender();
+		int experienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
+		Experience = new PokemonExperience(experienceYield);
+		
+		Stats = new PokemonStats(pokemonStats);
+		Gender = PokemonManager.Instance.GetGender(pokemonName);
 	}
 
-	// For Nidoran Female & Nidoran Male
-	private void AssignGender(string pokemonName)
+	public void SetLevel(int level)
 	{
-		foreach (string nidoranFemaleString in PokemonManager.Instance.NidoranFemaleStrings)
-		{
-			if (!pokemonName.Contains(nidoranFemaleString)) continue;
-			
-			Gender = Gender.Female;
-			return;
-		}
-
-		foreach (string nidoranMaleString in PokemonManager.Instance.NidoranMaleStrings)
-		{
-			if (!pokemonName.Contains(nidoranMaleString)) continue;
-			
-			Gender = Gender.Male;
-			return;
-		}
+		// Default to the minimum level if below the threshold
+		level = level < PokemonTD.MinPokemonLevel ? PokemonTD.MinPokemonLevel : level;
+		Level = PokemonTD.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
 	}
 
 	public void SetMoves(List<PokemonMove> pokemonMoves)
 	{
 		if (Moves.Count >= PokemonTD.MaxMoveCount) return;
-		
+
 		Moves.AddRange(pokemonMoves);
 		Move = Moves[0];
 
 		GetNextMove();
 	}
-	
+
 	public void AddStatusCondition(StatusCondition statusCondition)
 	{
 		_statusConditions.Add(statusCondition);
@@ -141,7 +81,7 @@ public partial class Pokemon : Node
 		_statusConditions.Remove(statusCondition);
 	}
 
-	public void RemoveAllStatusConditions()
+	public void ClearStatusConditions()
 	{
 		_statusConditions.Clear();
 	}
@@ -164,7 +104,7 @@ public partial class Pokemon : Node
 		{
 			// Skip to current move
 			PokemonMove nextPokemonMove = Moves.SkipWhile(move => move != Moves[i]).FirstOrDefault();
-			bool hasIncreasingStatChanges = PokemonStats.Instance.HasIncreasingStatChanges(nextPokemonMove) && (nextPokemonMove.Name != "Skull Bash" || nextPokemonMove.Name != "Rage");
+			bool hasIncreasingStatChanges = PokemonStatMoves.Instance.HasIncreasingStatChanges(nextPokemonMove) && (nextPokemonMove.Name != "Skull Bash" || nextPokemonMove.Name != "Rage");
 			if (hasIncreasingStatChanges || nextPokemonMove.Name == "Focus Energy") continue;
 
 			Move = nextPokemonMove;
@@ -177,18 +117,37 @@ public partial class Pokemon : Node
 		Level += levels;
 		Level = Mathf.Clamp(Level, 1, PokemonTD.MaxPokemonLevel);
 
-		MaxHP = PokemonManager.Instance.GetPokemonHP(this);
-		HP = PokemonManager.Instance.GetPokemonHP(this);
-		
+		Stats.MaxHP = PokemonManager.Instance.GetPokemonHP(this);
+		Stats.HP = PokemonManager.Instance.GetPokemonHP(this);
+
 		PokemonManager.Instance.SetPokemonStats(this);
 	}
+}
 
-	public void SetLevel(int level)
+public partial class PokemonStats : Node
+{
+	public PokemonStats() { }
+	
+	public PokemonStats(GC.Dictionary<string, Variant> pokemonStats)
 	{
-		// Default to the minimum level if below the threshold
-		level = level < PokemonTD.MinPokemonLevel ? PokemonTD.MinPokemonLevel : level;
-		Level = PokemonTD.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
+		HP = pokemonStats["HP"].As<int>();
+		MaxHP = pokemonStats["HP"].As<int>();
+		Attack = pokemonStats["Attack"].As<int>();
+		Defense = pokemonStats["Defense"].As<int>();
+		SpecialAttack = pokemonStats["Special Attack"].As<int>();
+		SpecialDefense = pokemonStats["Special Defense"].As<int>();
+		Speed = pokemonStats["Speed"].As<int>();
 	}
+
+	public int HP;
+	public int MaxHP;
+	public int Attack;
+	public int Defense;
+	public int SpecialAttack;
+	public int SpecialDefense;
+	public int Speed;
+	public float Accuracy = 1;
+	public float Evasion = 0;
 }
 
 public partial class PokemonExperience : Node

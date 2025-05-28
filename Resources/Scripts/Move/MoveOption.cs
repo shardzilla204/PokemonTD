@@ -19,7 +19,7 @@ public partial class MoveOption : CustomButton
 	{
 		if (PokemonMove == null) return;
 
-		bool hasIncreasingStatChanges = PokemonStats.Instance.HasIncreasingStatChanges(PokemonMove) && PokemonMove.Name != "Skull Bash" && PokemonMove.Name != "Rage"; 
+		bool hasIncreasingStatChanges = PokemonStatMoves.Instance.HasIncreasingStatChanges(PokemonMove) && PokemonMove.Name != "Skull Bash" && PokemonMove.Name != "Rage"; 
 		if (hasIncreasingStatChanges || PokemonMove.Name == "Focus Energy") Disable();
 
 		_moveName.Text = $"{PokemonMove.Name}";

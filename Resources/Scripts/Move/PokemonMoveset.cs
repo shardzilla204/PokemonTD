@@ -60,7 +60,6 @@ public partial class PokemonMoveset : Node
 
             PokemonMove pokemonMove = PokemonMoves.Instance.FindPokemonMove(pokemonMoveName);
             pokemonMoves.Add(pokemonMove);
-             GD.Print($"Move Name: {pokemonMove.Name}");
         }
 
         return pokemonMoves;

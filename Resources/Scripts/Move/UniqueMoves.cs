@@ -1,6 +1,5 @@
 using Godot;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace PokemonTD;
 
@@ -12,9 +11,7 @@ public partial class UniqueMoves : Node
         "Dragon Rage",
         "Low Kick",
         "Seismic Toss",
-        "Mirror Move",
         "Night Shade",
-        "Mimic",
         "Pay Day",
         "Sonic Boom",
         "Super Fang",
@@ -38,12 +35,67 @@ public partial class UniqueMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyUniqueMove(PokemonMove pokemonMove)
+    public void ApplyUniqueMove(GodotObject attackingPokemon, GodotObject defendingPokemon, PokemonMove pokemonMove)
     {
-        string pokemonMoveName = pokemonMove.Name.Replace(" ", "");
-        MethodInfo methodInfo = GetType().GetMethod(pokemonMoveName);
-        ParameterInfo[] parameterInfo = methodInfo.GetParameters();
-        methodInfo.Invoke(this, parameterInfo);
+        switch (pokemonMove.Name)
+        {
+            case "Dragon Rage":
+                DragonRage(defendingPokemon);
+                break;
+            case "Low Kick":
+                LowKick(defendingPokemon);
+                break;
+            case "Seismic Toss":
+                SeismicToss(defendingPokemon);
+                break;
+            case "Night Shade":
+                MirrorMove(attackingPokemon, defendingPokemon);
+                break;
+            case "Pay Day":
+                if (attackingPokemon is PokemonEnemy) return;
+                PayDay();
+                break;
+            case "Sonic Boom":
+                SonicBoom(attackingPokemon);
+                break;
+            case "Super Fang":
+                SuperFang(attackingPokemon);
+                break;
+            case "Psywave":
+                Psywave(attackingPokemon);
+                break;
+            case "Teleport":
+                if (attackingPokemon is PokemonEnemy) return;
+                Teleport(attackingPokemon);
+                break;
+            case "Counter":
+                Counter(attackingPokemon);
+                break;
+            case "Disable":
+                Disable(defendingPokemon);
+                break;
+            case "Conversion":
+                Conversion(attackingPokemon, defendingPokemon);
+                break;
+            case "Roar":
+                Roar(defendingPokemon);
+                break;
+            case "Whirlwind":
+                Whirlwind(defendingPokemon);
+                break;
+            case "Transform":
+                Transform(attackingPokemon, defendingPokemon);
+                break;
+            case "Thrash":
+                Thrash(attackingPokemon);
+                break;
+            case "Petal Dance":
+                PetalDance(attackingPokemon);
+                break;
+            case "Substitute":
+                Substitute(attackingPokemon);
+                break;
+        }
     }
 
     // Always inflicts 40 HP
@@ -139,7 +191,7 @@ public partial class UniqueMoves : Node
     {
         Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
 
-        int damage = Mathf.RoundToInt(defendingPokemon.HP / 2);
+        int damage = Mathf.RoundToInt(defendingPokemon.Stats.HP / 2);
         PokemonCombat.Instance.DealDamage(defending, damage);
     }
 
@@ -152,30 +204,6 @@ public partial class UniqueMoves : Node
         float percentage = RNG.RandfRange(0.5f, 1.5f);
         int damage = Mathf.RoundToInt(defendingPokemon.Level * percentage);
         PokemonCombat.Instance.DealDamage(defending, damage);
-    }
-
-    // ! No Pokemon Learns Surf On Level Up...
-    // Hits all adjacent Pokemon
-    public void Surf(GodotObject attacking, PokemonMove pokemonMove)
-    {
-        if (attacking is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = attacking as PokemonStageSlot;
-            foreach (PokemonEnemy pokemonEnemy in pokemonStageSlot.PokemonEnemyQueue)
-            {
-                int damage = PokemonCombat.Instance.GetDamage(pokemonStageSlot.Pokemon, pokemonMove, pokemonEnemy.Pokemon);
-                pokemonEnemy.DamagePokemon(damage);
-            }
-        }
-        else if (attacking is PokemonEnemy)
-        {
-            PokemonEnemy pokemonEnemy = attacking as PokemonEnemy;
-            foreach (PokemonStageSlot pokemonStageSlot in pokemonEnemy.PokemonQueue)
-            {
-                int damage = PokemonCombat.Instance.GetDamage(pokemonEnemy.Pokemon, pokemonMove, pokemonStageSlot.Pokemon);
-                pokemonStageSlot.DamagePokemon(damage);
-            }
-        }
     }
 
     // Halves damage from Special attacks for 5 turns
@@ -204,7 +232,7 @@ public partial class UniqueMoves : Node
             if (randomPokemonStageSlot.Pokemon == null)
             {
                 randomPokemonStageSlot.UpdateSlot(pokemonStageSlot.Pokemon);
-                randomPokemonStageSlot.TeamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+                randomPokemonStageSlot.PokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
                 pokemonStageSlot.UpdateSlot(null);
             }
             else
@@ -270,11 +298,12 @@ public partial class UniqueMoves : Node
         Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
 
         PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
-
         attackingPokemonEffects.PokemonTransform = PokemonManager.Instance.GetPokemonCopy(attackingPokemon);
         PokemonManager.Instance.ChangePokemon(attackingPokemon, defendingPokemon);
 
-        if (attacking is PokemonStageSlot pokemonStageSlot) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonUpdated, attackingPokemon, pokemonStageSlot.TeamSlotIndex);
+        if (attacking is not PokemonStageSlot pokemonStageSlot) return;
+
+        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTransformed, attackingPokemon, pokemonStageSlot.PokemonTeamIndex);
     }
 
     // User attacks, but is then inactive for 4 seconds.

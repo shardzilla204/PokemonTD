@@ -66,8 +66,8 @@ public partial class PokeCenterSlot : NinePatchRect
 		Pokemon = pokemon;
 
 		_healthBar.Visible = pokemon != null;
-		_healthBar.MaxValue = pokemon == null ? 100 : pokemon.MaxHP;
-		_healthBar.Value = pokemon == null ? 100 : pokemon.HP;
+		_healthBar.MaxValue = pokemon == null ? 100 : pokemon.Stats.MaxHP;
+		_healthBar.Value = pokemon == null ? 100 : pokemon.Stats.HP;
 
 		_pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
 		_pokemonLevel.Text = pokemon == null ? "" : $"LVL {pokemon.Level}";

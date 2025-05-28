@@ -30,7 +30,6 @@ public partial class PokemonTeam : Node
 	{
 		PokemonTD.Signals.PokemonStarterSelected += AddStarterPokemon;
 		PokemonTD.Signals.PokemonEnemyCaptured += AddCapturedPokemon;
-		PokemonTD.Signals.PokemonTeamSlotMuted += PokemonTeamSlotMuted;
 		PokemonTD.Signals.GameReset += () => 
 		{
 			Pokemon.Clear();
@@ -40,17 +39,17 @@ public partial class PokemonTeam : Node
 		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
 	}
 
-	private void PokemonTeamSlotMuted(int teamSlotIndex, bool isMuted)
+	private void PokemonTeamSlotMuted(int pokemonTeamIndex, bool isMuted)
 	{
 		if (isMuted)
 		{
-			if (PokemonTeamSlotsMuted.Contains(teamSlotIndex)) return;
+			if (PokemonTeamSlotsMuted.Contains(pokemonTeamIndex)) return;
 			
-			PokemonTeamSlotsMuted.Add(teamSlotIndex);
+			PokemonTeamSlotsMuted.Add(pokemonTeamIndex);
 		}
 		else
 		{
-			PokemonTeamSlotsMuted.Remove(teamSlotIndex);
+			PokemonTeamSlotsMuted.Remove(pokemonTeamIndex);
 		}
 	}
 

@@ -3,60 +3,70 @@
     {
         "Price": 2500,
         "Category": "Candy",
+        "Description": "Raises the level of a Pokémon by one.",
         "File Path": "res://Assets/Images/RareCandy.png"
     },
     "Fire Stone":
     {
         "Price": 1000,
         "Category": "EvolutionStone",
+        "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/FireStone.png"
     },
     "Water Stone":
     {
         "Price": 1000,
         "Category": "EvolutionStone",
+        "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/WaterStone.png"
     },
     "Thunder Stone":
     {
         "Price": 1000,
         "Category": "EvolutionStone",
+        "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/ThunderStone.png"
     },
     "Leaf Stone":
     {
         "Price": 1000,
         "Category": "EvolutionStone",
+        "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/LeafStone.png"
     },
     "Moon Stone":
     {
         "Price": 1000,
         "Category": "EvolutionStone",
+        "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/MoonStone.png"
     },
     "Potion":
     {
         "Price": 100,
         "Category": "Medicine",
+        "Description": "Restores the HP of a Pokémon by 20 points.",
         "File Path": "res://Assets/Images/Medicine/Potion.png"
     },
     "Super Potion":
     {
         "Price": 300,
         "Category": "Medicine",
+        "Description": "Restores the HP of a Pokémon by 50 points.",
         "File Path": "res://Assets/Images/Medicine/SuperPotion.png"
     },
     "Hyper Potion":
     {
         "Price": 750,
         "Category": "Medicine",
+        "Description": "Restores the HP of a Pokémon by 200 points.",
         "File Path": "res://Assets/Images/Medicine/HyperPotion.png"
     },
     "Max Potion":
     {
         "Price": 1500,
         "Category": "Medicine",
+        "Description": "Fully restores the HP of a Pokémon.",
         "File Path": "res://Assets/Images/Medicine/MaxPotion.png"
     }
 }

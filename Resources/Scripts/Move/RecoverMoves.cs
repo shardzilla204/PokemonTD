@@ -33,7 +33,7 @@ public partial class RecoverMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyHealthRecoveryMove(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
+    public void ApplyHealthRecoveryMove(GodotObject attacking, GodotObject defending, PokemonMove pokemonMove)
     {
         Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
 
@@ -79,7 +79,7 @@ public partial class RecoverMoves : Node
         {
             if (!IsInstanceValid(defending)) return;
 
-            int damage = Mathf.RoundToInt(defendingPokemon.HP * drainPercentage);
+            int damage = Mathf.RoundToInt(defendingPokemon.Stats.HP * drainPercentage);
             PokemonCombat.Instance.HealPokemon(attacking, damage);
             PokemonCombat.Instance.DealDamage(defending, damage);
 

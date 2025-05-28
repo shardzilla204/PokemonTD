@@ -97,12 +97,12 @@ public partial class PrintRich : Node
       string textColorString = GetColorHex(textColor);
 
       GD.PrintRich($"[color={textColorString}]Level {pokemon.Level} {pokemon.Name} Stats:[/color]");
-      GD.PrintRich($"[color={textColorString}]HP: {pokemon.HP}[/color]");
-      GD.PrintRich($"[color={textColorString}]Attack: {pokemon.Attack}[/color]");
-      GD.PrintRich($"[color={textColorString}]Defense: {pokemon.Defense}[/color]");
-      GD.PrintRich($"[color={textColorString}]Special Attack: {pokemon.SpecialAttack}[/color]");
-      GD.PrintRich($"[color={textColorString}]Special Defense: {pokemon.SpecialDefense}[/color]");
-      GD.PrintRich($"[color={textColorString}]Speed: {pokemon.Speed}[/color]");
+      GD.PrintRich($"[color={textColorString}]HP: {pokemon.Stats.HP}[/color]");
+      GD.PrintRich($"[color={textColorString}]Attack: {pokemon.Stats.Attack}[/color]");
+      GD.PrintRich($"[color={textColorString}]Defense: {pokemon.Stats.Defense}[/color]");
+      GD.PrintRich($"[color={textColorString}]Special Attack: {pokemon.Stats.SpecialAttack}[/color]");
+      GD.PrintRich($"[color={textColorString}]Special Defense: {pokemon.Stats.SpecialDefense}[/color]");
+      GD.PrintRich($"[color={textColorString}]Speed: {pokemon.Stats.Speed}[/color]");
       GD.Print(); // Spacing
    }
 
@@ -122,9 +122,15 @@ public partial class PrintRich : Node
       return effectiveMessage;
    }
 
-   public static string GetDamageMessage(int damage, Pokemon defendingPokemon, PokemonMove pokemonMove)
+   public static string GetPokemonMoveUsedMessage(Pokemon attackingPokemon, Pokemon defendingPokemon, PokemonMove pokemonMove)
    {
-      string damageMessage = $"For {damage} Damage ";
+      string usedMessage = $"{attackingPokemon.Name} Used {pokemonMove.Name} On {defendingPokemon.Name}";
+      return usedMessage;
+   }
+
+   public static string GetPokemonMoveDamageMessage(Pokemon defendingPokemon, PokemonMove pokemonMove, int damage)
+   {
+      string damageMessage = $" For {damage} Damage ";
       string effectiveMessage = GetEffectiveMessage(defendingPokemon, pokemonMove);
       damageMessage += effectiveMessage;
       return damageMessage;

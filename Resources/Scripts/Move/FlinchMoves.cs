@@ -29,6 +29,7 @@ public partial class FlinchMoves : Node
     {
         if (!CanApplyFlinchMove()) return;
 
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
         PokemonEffects defendingPokemonEffects = PokemonCombat.Instance.GetDefendingPokemonEffects(defending);
         defendingPokemonEffects.HasMoveSkipped = true;
     }

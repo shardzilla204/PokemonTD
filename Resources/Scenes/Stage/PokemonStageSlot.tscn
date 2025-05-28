@@ -1,15 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdfv2agri4jy7"]
+[gd_scene load_steps=8 format=3 uid="uid://cdfv2agri4jy7"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_y82w6"]
 [ext_resource type="Script" uid="uid://bijtn2qgen5e4" path="res://Resources/Scripts/Stage/PokemonStageSlot.cs" id="2_crn5j"]
 [ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scripts/StatusConditionContainer.cs" id="3_crn5j"]
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_ech5t"]
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="4_hkqr4"]
+[ext_resource type="Texture2D" uid="uid://bsfgwbxnod1ey" path="res://Assets/Images/CircleFlat.png" id="5_ech5t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoqv1"]
-radius = 150.0
+radius = 100.0
 
-[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_sprite", "_interactComponent", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
+[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_areaSprite", "_pokemonSprite", "_interactComponent", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
 self_modulate = Color(1, 1, 1, 0)
 custom_minimum_size = Vector2(64, 64)
 offset_right = 64.0
@@ -21,7 +22,8 @@ patch_margin_right = 10
 patch_margin_bottom = 10
 script = ExtResource("2_crn5j")
 _area = NodePath("Area2D")
-_sprite = NodePath("InteractComponent/Control/Sprite")
+_areaSprite = NodePath("InteractComponent/Control/AreaSprite")
+_pokemonSprite = NodePath("InteractComponent/Control/PokemonSprite")
 _interactComponent = NodePath("InteractComponent")
 _statusConditionContainer = NodePath("StatusConditionContainer")
 _attackTimer = NodePath("AttackTimer")
@@ -59,7 +61,26 @@ custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 mouse_filter = 2
 
-[node name="Sprite" type="TextureRect" parent="InteractComponent/Control"]
+[node name="AreaSprite" type="TextureRect" parent="InteractComponent/Control"]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -35.0
+offset_right = 50.0
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+pivot_offset = Vector2(50, 50)
+mouse_filter = 2
+texture = ExtResource("5_ech5t")
+
+[node name="PokemonSprite" type="TextureRect" parent="InteractComponent/Control"]
 y_sort_enabled = true
 layout_mode = 1
 anchors_preset = 15

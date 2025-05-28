@@ -10,7 +10,7 @@ public partial class PokeBall : TextureRect
     {
 		_isDragging = true;
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokeBall, true);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.Dragging, true);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
 
 		SetDragPreview(GetDragPreview());
@@ -23,7 +23,7 @@ public partial class PokeBall : TextureRect
 
 		_isDragging = false;
 		
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.DraggingPokeBall, false);
+		PokemonTD.Signals.EmitSignal(Signals.SignalName.Dragging, false);
 		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
     }
 

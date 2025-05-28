@@ -176,12 +176,12 @@ public partial class PokeCenterAnalysis : NinePatchRect
 
     private string GetStatsString(Pokemon pokemon)
     {
-        string healthString = $"HP: {pokemon.HP}";
-        string attackString = $"Attack: {pokemon.Attack}";
-        string defenseString = $"Defense: {pokemon.Defense}";
-        string specialAttackString = $"Sp. Attack: {pokemon.SpecialAttack}";
-        string specialDefenseString = $"Sp. Defense: {pokemon.SpecialDefense}";
-        string speedString = $"Speed: {pokemon.Speed}";
+        string healthString = $"HP: {pokemon.Stats.HP}";
+        string attackString = $"Attack: {pokemon.Stats.Attack}";
+        string defenseString = $"Defense: {pokemon.Stats.Defense}";
+        string specialAttackString = $"Sp. Attack: {pokemon.Stats.SpecialAttack}";
+        string specialDefenseString = $"Sp. Defense: {pokemon.Stats.SpecialDefense}";
+        string speedString = $"Speed: {pokemon.Stats.Speed}";
 
         string statsString = $"{healthString}\n{attackString}\n{defenseString}\n{specialAttackString}\n{specialDefenseString}\n{speedString}";
         return statsString;

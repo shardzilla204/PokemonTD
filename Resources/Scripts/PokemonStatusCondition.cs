@@ -38,9 +38,7 @@ public partial class PokemonStatusCondition : Node
 
         PokemonTD.Signals.PressedPlay += StartTimers;
         PokemonTD.Signals.PressedPause += StopTimers;
-        PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
-        PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
-        PokemonTD.Signals.DraggingPokeBall += Dragging;
+        PokemonTD.Signals.Dragging += Dragging;
         PokemonTD.Signals.HasLeftStage += HasLeftStage;
     }
 
@@ -96,13 +94,13 @@ public partial class PokemonStatusCondition : Node
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
             Pokemon pokemon = pokemonStageSlot.Pokemon;
-            int teamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+            int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
             PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
 
             pokemonStageSlot.IsActive = false;
             timer.Timeout += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                 if (pokemonStageSlot == null) return;
 
                 pokemonStageSlot.IsActive = true;
@@ -110,14 +108,14 @@ public partial class PokemonStatusCondition : Node
             };
             timer.TreeExiting += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                 if (pokemonStageSlot == null) return;
 
                 ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
                 RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
             };
 
-            pokemonStageSlot.Retrieved += () =>
+            pokemonStageSlot.Retrieved += (pokemonStageSlot) =>
             {
                 if (IsInstanceValid(timer)) timer.QueueFree();
             };
@@ -129,12 +127,12 @@ public partial class PokemonStatusCondition : Node
         else if (defending is PokemonEnemy pokemonEnemy)
         {
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name, pokemonEnemy.Pokemon.Level);
-            pokemonEnemy.Pokemon.Speed = 0;
+            pokemonEnemy.Pokemon.Stats.Speed = 0;
             timer.Timeout += () =>
             {
                 if (!IsInstanceValid(pokemonEnemy)) return;
 
-                pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
+                pokemonEnemy.Pokemon.Stats.Speed = pokemonData.Stats.Speed;
                 timer.QueueFree();
             };
             timer.TreeExiting += () =>
@@ -168,26 +166,26 @@ public partial class PokemonStatusCondition : Node
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonStageSlot.Pokemon.Name, pokemonStageSlot.Pokemon.Level);
-            pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
+            pokemonStageSlot.Pokemon.Stats.Speed = Mathf.RoundToInt(pokemonData.Stats.Speed * reductionPercent);
 
             PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-            int teamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+            int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
 
             timer.Timeout += () =>
             {
-                pokemonStageSlot.Pokemon.Speed = pokemonData.Speed;
+                pokemonStageSlot.Pokemon.Stats.Speed = pokemonData.Stats.Speed;
                 timer.QueueFree();
             };
             timer.TreeExiting += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                 if (pokemonStageSlot == null) return;
 
                 ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
                 RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
             };
 
-            pokemonStageSlot.Retrieved += () =>
+            pokemonStageSlot.Retrieved += (pokemonStageSlot) =>
             {
                 if (IsInstanceValid(timer)) timer.QueueFree();
             };
@@ -199,12 +197,12 @@ public partial class PokemonStatusCondition : Node
         else if (defending is PokemonEnemy pokemonEnemy)
         {
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name, pokemonEnemy.Pokemon.Level);
-            pokemonEnemy.Pokemon.Speed = Mathf.RoundToInt(pokemonData.Speed * reductionPercent);
+            pokemonEnemy.Pokemon.Stats.Speed = Mathf.RoundToInt(pokemonData.Stats.Speed * reductionPercent);
             timer.Timeout += () =>
             {
                 if (!IsInstanceValid(pokemonEnemy)) return;
 
-                pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
+                pokemonEnemy.Pokemon.Stats.Speed = pokemonData.Stats.Speed;
                 timer.QueueFree();
             };
             timer.TreeExiting += () =>
@@ -259,18 +257,19 @@ public partial class PokemonStatusCondition : Node
             if (defending is PokemonStageSlot pokemonStageSlot)
             {
                 PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-                int teamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+                int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
 
                 timer.TreeExiting += () =>
                 {
-                    pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+
+                    pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                     if (pokemonStageSlot == null) return;
 
                     ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
                     RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
                 };
 
-                pokemonStageSlot.Retrieved += () =>
+                pokemonStageSlot.Retrieved += (pokemonStageSlot) =>
                 {
                     if (IsInstanceValid(timer)) timer.QueueFree();
                 };
@@ -283,6 +282,7 @@ public partial class PokemonStatusCondition : Node
             {
                 timer.TreeExiting += () =>
                 {
+
                     if (!IsInstanceValid(pokemonEnemy)) return;
 
                     ApplyStatusColor(pokemonEnemy, StatusCondition.None);
@@ -318,24 +318,24 @@ public partial class PokemonStatusCondition : Node
 
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            int pokemonSpeed = pokemonStageSlot.Pokemon.Speed;
-            pokemonStageSlot.Pokemon.Speed = Mathf.RoundToInt(pokemonSpeed / 1.4f);
+            int pokemonSpeed = pokemonStageSlot.Pokemon.Stats.Speed;
+            pokemonStageSlot.Pokemon.Stats.Speed = Mathf.RoundToInt(pokemonSpeed / 1.4f);
 
             PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-            int teamSlotIndex = pokemonStageSlot.TeamSlotIndex;
+            int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
 
             CustomTimer timer = GetDamageTimer(defending, timeSeconds);
             timer.Timeout += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                 if (pokemonStageSlot == null) return;
                 
-                pokemonStageSlot.Pokemon.Speed = pokemonSpeed;
+                pokemonStageSlot.Pokemon.Stats.Speed = pokemonSpeed;
                 timer.QueueFree();
             };
             timer.TreeExiting += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(teamSlotIndex);
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
                 if (pokemonStageSlot == null) return;
 
                 ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
@@ -343,7 +343,7 @@ public partial class PokemonStatusCondition : Node
             };
             AddChild(timer);
 
-            pokemonStageSlot.Retrieved += () =>
+            pokemonStageSlot.Retrieved += (pokemonStageSlot) =>
             {
                 if (IsInstanceValid(timer)) timer.QueueFree();
             };
@@ -357,7 +357,7 @@ public partial class PokemonStatusCondition : Node
             pokemonEnemy.IsMovingForward = false;
 
             Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name, pokemonEnemy.Pokemon.Level);
-            pokemonEnemy.Pokemon.Speed = -pokemonData.Speed;
+            pokemonEnemy.Pokemon.Stats.Speed = -pokemonData.Stats.Speed;
 
             CustomTimer timer = GetDamageTimer(defending, timeSeconds);
             timer.Timeout += () =>
@@ -365,11 +365,13 @@ public partial class PokemonStatusCondition : Node
                 if (!IsInstanceValid(pokemonEnemy)) return;
 
                 pokemonEnemy.IsMovingForward = true;
-                pokemonEnemy.Pokemon.Speed = pokemonData.Speed;
+                pokemonEnemy.Pokemon.Stats.Speed = pokemonData.Stats.Speed;
                 timer.QueueFree();
             };
             timer.TreeExiting += () =>
             {
+                timer.Stop();
+
                 if (!IsInstanceValid(pokemonEnemy)) return;
 
                 ApplyStatusColor(pokemonEnemy, StatusCondition.None);
@@ -391,15 +393,15 @@ public partial class PokemonStatusCondition : Node
     public void ApplyStatusColor(GodotObject defending, StatusCondition statusCondtion)
     {
         string statusHexColor = GetStatusHexColor(statusCondtion);
-        Color statusColor = Color.FromHtml(statusHexColor);
+        Color statusConditionColor = Color.FromHtml(statusHexColor);
 
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.Sprite.SelfModulate = statusColor;
+            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.ApplyStatusColor(statusConditionColor);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
-            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.SelfModulate = statusColor;
+            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.SelfModulate = statusConditionColor;
         }
     }
 
@@ -427,6 +429,15 @@ public partial class PokemonStatusCondition : Node
         return timer;
     }
 
+    private void StartTimer(CustomTimer timer)
+    {
+        try
+        {
+            timer.Start(timer.WaitTimeLeft);
+        }
+        catch (ObjectDisposedException) {}
+    }
+
     private void StartTimers()
     {
         foreach (CustomTimer timer in _timers)
@@ -435,9 +446,14 @@ public partial class PokemonStatusCondition : Node
         }
     }
 
-    private void StartTimer(CustomTimer timer)
+    private void StopTimer(CustomTimer timer)
     {
-        timer.Start(timer.WaitTimeLeft);
+        try
+        {
+            timer.WaitTimeLeft = timer.TimeLeft;
+            timer.Stop();
+        }
+        catch (ObjectDisposedException) {}
     }
 
     private void StopTimers()
@@ -447,22 +463,6 @@ public partial class PokemonStatusCondition : Node
             StopTimer(timer);
         }
     }
-
-    private void StopTimer(CustomTimer timer)
-    {
-        timer.WaitTimeLeft = timer.TimeLeft;
-        timer.Stop();
-    }
-
-    private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
-	{
-		Dragging(isDragging);
-	}
-
-	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
-	{
-		Dragging(isDragging);
-	}
 
     private async void Dragging(bool isDragging)
     {
@@ -505,13 +505,13 @@ public partial class PokemonStatusCondition : Node
         {
             if (pokemonStageSlot.Pokemon.HasStatusCondition(statusCondition)) return;
 
-            pokemonStageSlot.StatusConditions.AddStatusCondition(statusCondition);
+            pokemonStageSlot.AddStatusCondition(statusCondition);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
             if (pokemonEnemy.Pokemon.HasStatusCondition(statusCondition)) return;
 
-            pokemonEnemy.StatusConditions.AddStatusCondition(statusCondition);
+            pokemonEnemy.AddStatusCondition(statusCondition);
         }
         AddStatusCondition(attacking, defending, statusCondition);
     }
@@ -567,7 +567,7 @@ public partial class PokemonStatusCondition : Node
     {
         if (statusCondition == StatusCondition.None || pokemonStageSlot.Pokemon == null) return;
 
-        pokemonStageSlot.StatusConditions.RemoveStatusCondition(statusCondition);
+        pokemonStageSlot.RemoveStatusCondition(statusCondition);
         pokemonStageSlot.Pokemon.RemoveStatusCondition(statusCondition);
     }
 
@@ -575,7 +575,7 @@ public partial class PokemonStatusCondition : Node
     {
         if (statusCondition == StatusCondition.None || !IsInstanceValid(pokemonEnemy)) return;
 
-        pokemonEnemy.StatusConditions.RemoveStatusCondition(statusCondition);
+        pokemonEnemy.RemoveStatusCondition(statusCondition);
         pokemonEnemy.Pokemon.RemoveStatusCondition(statusCondition);
     }
 

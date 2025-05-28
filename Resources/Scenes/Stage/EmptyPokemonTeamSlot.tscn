@@ -6,7 +6,7 @@
 [node name="EmptyPokemonTeamSlot" type="NinePatchRect"]
 modulate = Color(1, 1, 1, 0.5)
 self_modulate = Color(0.2, 0.2, 0.2, 1)
-custom_minimum_size = Vector2(175, 137.5)
+custom_minimum_size = Vector2(150, 175)
 size_flags_horizontal = 4
 size_flags_vertical = 4
 theme = ExtResource("1_xjxrg")
@@ -53,7 +53,7 @@ theme_override_constants/margin_bottom = 5
 
 [node name="Label" type="Label" parent="MarginContainer/NinePatchRect/MarginContainer"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 35
+theme_override_font_sizes/font_size = 30
 text = "Capture 
 Pokemon"
 horizontal_alignment = 1

@@ -19,28 +19,26 @@ public partial class MovesetInterface : CanvasLayer
 	[Export]
 	private Label _effect;
 
-	public int TeamSlotIndex;
+	public int PokemonTeamIndex;
 	
 	public Pokemon Pokemon;
 
     public override void _ExitTree()
     {
         PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
-		PokemonTD.Signals.DraggingPokemonTeamSlot -= DraggingTeamSlot;
-		PokemonTD.Signals.DraggingPokemonStageSlot -= DraggingStageSlot;
-		PokemonTD.Signals.DraggingPokeBall -= Dragging;
+		PokemonTD.Signals.Dragging -= Dragging;
     }
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
-		PokemonTD.Signals.DraggingPokemonTeamSlot += DraggingTeamSlot;
-		PokemonTD.Signals.DraggingPokemonStageSlot += DraggingStageSlot;
-		PokemonTD.Signals.DraggingPokeBall += Dragging;
+		PokemonTD.Signals.Dragging += Dragging;
 
 		_pokemonName.Text = $"{Pokemon.Name}'s Moves";
 
 		_exitButton.Pressed += QueueFree;
+
+		SetEffectText(Pokemon.Move);
 
 		ClearMoveOptions();
 		AddMoveOptions();
@@ -55,7 +53,7 @@ public partial class MovesetInterface : CanvasLayer
 			moveOption.MouseEntered += () => SetEffectText(pokemonMove);
 			moveOption.Pressed += () =>
 			{
-				EmitSignal(SignalName.PokemonMoveChanged, TeamSlotIndex, pokemonMove);
+				EmitSignal(SignalName.PokemonMoveChanged, PokemonTeamIndex, pokemonMove);
 
 				if (IsInstanceValid(this)) QueueFree();
 			};
@@ -79,16 +77,6 @@ public partial class MovesetInterface : CanvasLayer
         if (effect != "" && accuracy != "") accuracy += "\n\n";
 
 		_effect.Text = $"{power}{accuracy}{effect}";
-	}
-
-	private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
-	{
-		Dragging(isDragging);
-	}
-
-	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
-	{
-		Dragging(isDragging);
 	}
 
 	private void Dragging(bool isDragging)
