@@ -16,12 +16,12 @@ public partial class PokemonMoveEffect : Node
         }
     }
 
-    public UniqueMoves UniqueMoves = new UniqueMoves();
+    public UniqueMoves UniqueMoves = new UniqueMoves(); // Done
     public HighCriticalRatioMoves HighCriticalRatioMoves = new HighCriticalRatioMoves(); // Done
     public TrapMoves TrapMoves = new TrapMoves(); // Done
     public FlinchMoves FlinchMoves = new FlinchMoves(); // Done
     public OneHitMoves OneHitMoves = new OneHitMoves(); // Done
-    public ChargeMoves ChargeMoves = new ChargeMoves(); // ? Done
+    public ChargeMoves ChargeMoves = new ChargeMoves(); // Done
     public MissMoves MissMoves = new MissMoves(); // Done
     public RecoverMoves RecoverMoves = new RecoverMoves(); // Done
     public InflictingMoves InflictingMoves = new InflictingMoves(); // Done
@@ -63,7 +63,7 @@ public partial class PokemonMoveEffect : Node
         }
         else if (TrapMoves.IsTrapMove(pokemonMove))
         {
-            TrapMoves.ApplyTrapMove(attacking, defending);
+            TrapMoves.ApplyTrapMove(defending);
         }
         else if (FlinchMoves.IsFlinchMove(pokemonMove))
         {

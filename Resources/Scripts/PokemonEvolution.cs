@@ -77,7 +77,7 @@ public partial class PokemonEvolution : Node
 		string pokemonEvolutionName = GetPokemonEvolutionName(pokemon, EvolutionStone.None);
 		if (pokemonEvolutionName == "") return null;
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 		Pokemon pokemonEvolution = GetPokemonEvolution(pokemon, pokemonEvolutionName);
 		return pokemonEvolution;
 	}
@@ -87,7 +87,7 @@ public partial class PokemonEvolution : Node
 		string pokemonEvolutionName = GetPokemonEvolutionName(pokemon, evolutionStone);
 		if (pokemonEvolutionName == "") return null;
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 		Pokemon pokemonEvolution = GetPokemonEvolution(pokemon, pokemonEvolutionName);
 		return pokemonEvolution;
 	}

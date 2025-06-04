@@ -5,7 +5,6 @@
 
 [node name="PokemonMoveButton" type="Button" node_paths=PackedStringArray("_pokemonMoveName", "_pokemonMoveColor")]
 custom_minimum_size = Vector2(0, 40)
-mouse_filter = 1
 flat = true
 script = ExtResource("1_ec6ck")
 _pokemonMoveName = NodePath("PokemonMoveColor/MarginContainer/PokemonMoveName")

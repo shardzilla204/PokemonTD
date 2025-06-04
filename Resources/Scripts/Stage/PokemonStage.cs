@@ -16,7 +16,7 @@ public partial class PokemonStage : Node2D
 	private StagePath _stagePath;
 
 	[Export]
-	private Control _pokemonStageSlots;
+	private Control _pokemonStageSlotContainer;
 
 	[Export]
 	private Node2D _transparentLayers;
@@ -37,8 +37,8 @@ public partial class PokemonStage : Node2D
 	public bool HasFinished;
 
 	public StageInterface StageInterface;
-	public List<PokemonStageSlot> PokemonStageSlots = new List<PokemonStageSlot>();
-	public List<PokemonEnemy> PokemonEnemies = new List<PokemonEnemy>(); // List for enemy scenes
+	private List<PokemonStageSlot> _pokemonStageSlots = new List<PokemonStageSlot>();
+	private List<PokemonEnemy> _pokemonEnemies = new List<PokemonEnemy>(); // List for enemy scenes
 
 	public override void _EnterTree()
 	{
@@ -47,11 +47,12 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.PressedPlay += CheckGameState;
 		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured += PokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyExited += PokemonEnemyEvent;
 		PokemonTD.Signals.Dragging += SetStageOpacity;
 
-		foreach (Node child in _pokemonStageSlots.GetChildren())
+		foreach (Node child in _pokemonStageSlotContainer.GetChildren())
 		{
-			if (child is PokemonStageSlot pokemonStageSlot) PokemonStageSlots.Add(pokemonStageSlot);
+			if (child is PokemonStageSlot pokemonStageSlot) _pokemonStageSlots.Add(pokemonStageSlot);
 		}
 	}
 
@@ -60,6 +61,7 @@ public partial class PokemonStage : Node2D
 		PokemonTD.Signals.PressedPlay -= CheckGameState;
 		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyEvent;
 		PokemonTD.Signals.PokemonEnemyCaptured -= PokemonEnemyEvent;
+		PokemonTD.Signals.PokemonEnemyExited -= PokemonEnemyEvent;
 		PokemonTD.Signals.Dragging -= SetStageOpacity;
 	}
 
@@ -83,56 +85,39 @@ public partial class PokemonStage : Node2D
 
 	private void PokemonEnemyEvent(PokemonEnemy pokemonEnemy)
 	{
-		PokemonEnemies.Remove(pokemonEnemy);
+		_pokemonEnemies.Remove(pokemonEnemy);
 		_stagePath.RemovePathFollow(pokemonEnemy);
 
-		bool isWaveFinished = PokemonEnemies.Count == 0;
+		bool isWaveFinished = _pokemonEnemies.Count == 0;
 		if (isWaveFinished) EmitSignal(SignalName.FinishedWave);
 	}
 
 	private async void WaveInterval()
 	{
-		float timeSeconds = 1f;
-		await ToSignal(PokemonTD.Signals, Signals.SignalName.StageStarted);
+		await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.StageStarted); // If the player changes settings before starting
 		HasStarted = true;
 
 		while (CurrentWave < WaveCount)
 		{
-			if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, Signals.SignalName.PressedPlay);
+			if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
 
 			StartWave();
 
 			await ToSignal(this, SignalName.FinishedWave);
-			await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout); // Add delay in bewtween waves
+			await ToSignal(GetTree().CreateTimer(1 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout); // Add delay in bewtween waves
 		}
 
-		if (RareCandy > 0)
-		{
-			WonStage();
-		}
-		else
-		{
-			LostStage();
-		}
-
+		ShowStageResult();
 		HasFinished = true;
 	}
 
-	private void WonStage()
+	private void ShowStageResult()
 	{
-		string resultMessage = "You've Won!";
-		ShowResultInterface(resultMessage);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasWonStage);
+		string resultMessage = RareCandy > 0 ? "You've Won!" : "You've Lost All Your Candy!";
+		StringName signalName = RareCandy > 0 ? PokemonSignals.SignalName.HasWonStage : PokemonSignals.SignalName.HasLostStage;
 
-		// Print message to console
-		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
-	}
-
-	private void LostStage()
-	{
-		string resultMessage = "You've Lost All Your Candy!";
 		ShowResultInterface(resultMessage);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLostStage);
+		PokemonTD.Signals.EmitSignal(signalName);
 
 		// Print message to console
 		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, resultMessage);
@@ -152,13 +137,12 @@ public partial class PokemonStage : Node2D
 
 	private async void SpawnWave()
 	{
-		float timeSeconds = 3f;
 		for (int i = 0; i < PokemonPerWave; i++)
 		{
 			SpawnPokemon();
-			await ToSignal(GetTree().CreateTimer(timeSeconds / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout); // Delay spawning Pokemon
+			await ToSignal(GetTree().CreateTimer(3 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout); // Delay spawning Pokemon
 
-			if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, Signals.SignalName.PressedPlay);
+			if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
 		}
 	}
 
@@ -169,17 +153,17 @@ public partial class PokemonStage : Node2D
 		Pokemon randomPokemon = PokemonManager.Instance.GetPokemon(randomPokemonName, randomLevel);
 
 		PokemonEnemy pokemonEnemy = GetPokemonEnemy(randomPokemon);
-		PokemonEnemies.Add(pokemonEnemy);
+		_pokemonEnemies.Add(pokemonEnemy);
 
 		PathFollow2D pathFollow = _stagePath.GetPathFollow(false, false, false);
 		pathFollow.TreeExiting += () =>
 		{
-			PokemonEnemies.Remove(pokemonEnemy);
-			_stagePath.RemovePathFollow(pathFollow);
+			_pokemonEnemies.Remove(pokemonEnemy);
+			_stagePath.RemovePathFollow(pokemonEnemy);
 		};
 		pathFollow.AddChild(pokemonEnemy);
 		_stagePath.AddPathFollow(pathFollow);
-		
+
 		pokemonEnemy.Fainted += PokemonEnemyEvent;
 
 		// Print message to console
@@ -244,6 +228,7 @@ public partial class PokemonStage : Node2D
 	{
 		float percentageAmount = 0.05f; // 1%
 		RareCandy = Math.Clamp(RareCandy - Mathf.RoundToInt(pokemon.Stats.Attack * percentageAmount), 0, 100);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.RareCandyUpdated);
 
 		CheckCandy();
 	}
@@ -252,8 +237,8 @@ public partial class PokemonStage : Node2D
 	{
 		if (RareCandy > 0) return;
 
+		ShowStageResult();
 		HasFinished = true;
-		LostStage();
 	}
 
 	private void ShowResultInterface(string resultMessage)
@@ -267,12 +252,48 @@ public partial class PokemonStage : Node2D
 	public PokemonStageSlot GetRandomPokemonStageSlot()
 	{
 		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		int randomIndex = RNG.RandiRange(0, PokemonStageSlots.Count - 1);
-		return PokemonStageSlots[randomIndex];
+		int randomIndex = RNG.RandiRange(0, _pokemonStageSlots.Count - 1);
+		return _pokemonStageSlots[randomIndex];
 	}
 
 	public PokemonStageSlot FindPokemonStageSlot(int pokemonTeamIndex)
 	{
-		return PokemonStageSlots.Find(pokemonStageSlot => pokemonStageSlot.PokemonTeamIndex == pokemonTeamIndex);
+		return _pokemonStageSlots.Find(pokemonStageSlot => pokemonStageSlot.PokemonTeamIndex == pokemonTeamIndex);
+	}
+
+	public void AddMovesetInterface(Pokemon pokemon, int pokemonTeamIndex)
+	{
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.ChangeMovesetPressed);
+
+		MovesetInterface movesetInterface = GetMovesetInterface(pokemon, pokemonTeamIndex);
+		AddChild(movesetInterface);
+	}
+
+	private MovesetInterface GetMovesetInterface(Pokemon pokemon, int pokemonTeamIndex)
+	{
+		MovesetInterface movesetInterface = PokemonTD.PackedScenes.GetMovesetInterface();
+		movesetInterface.SetPokemon(pokemon, pokemonTeamIndex);
+		movesetInterface.PokemonMoveChanged += PokemonMoveChanged;
+
+		return movesetInterface;
+	}
+
+	private void PokemonMoveChanged(Pokemon pokemon, int pokemonTeamIndex, PokemonMove pokemonMove)
+	{
+		switch (pokemonMove.Name)
+		{
+			case "Counter":
+				pokemon.Effects.HasCounter = true;
+				break;
+			case "Hyper Beam":
+				pokemon.Effects.HasHyperBeam = true;
+				break;
+		}
+
+		// Print message to console
+		string changedPokemonMoveMessage = $"{pokemon.Name}'s Move Is Now {pokemonMove.Name}";
+		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
+
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonMoveChanged);
 	}
 }

@@ -12,6 +12,7 @@ radius = 100.0
 
 [node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_areaSprite", "_pokemonSprite", "_interactComponent", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
 self_modulate = Color(1, 1, 1, 0)
+y_sort_enabled = true
 custom_minimum_size = Vector2(64, 64)
 offset_right = 64.0
 offset_bottom = 64.0
@@ -23,7 +24,7 @@ patch_margin_bottom = 10
 script = ExtResource("2_crn5j")
 _area = NodePath("Area2D")
 _areaSprite = NodePath("InteractComponent/Control/AreaSprite")
-_pokemonSprite = NodePath("InteractComponent/Control/PokemonSprite")
+_pokemonSprite = NodePath("InteractComponent/PokemonSprite")
 _interactComponent = NodePath("InteractComponent")
 _statusConditionContainer = NodePath("StatusConditionContainer")
 _attackTimer = NodePath("AttackTimer")
@@ -57,12 +58,14 @@ theme_override_constants/margin_bottom = 32
 script = ExtResource("3_ech5t")
 
 [node name="Control" type="Control" parent="InteractComponent"]
+y_sort_enabled = true
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 mouse_filter = 2
 
 [node name="AreaSprite" type="TextureRect" parent="InteractComponent/Control"]
 self_modulate = Color(1, 1, 1, 0)
+y_sort_enabled = true
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -80,15 +83,9 @@ pivot_offset = Vector2(50, 50)
 mouse_filter = 2
 texture = ExtResource("5_ech5t")
 
-[node name="PokemonSprite" type="TextureRect" parent="InteractComponent/Control"]
+[node name="PokemonSprite" type="TextureRect" parent="InteractComponent"]
 y_sort_enabled = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(50, 50)
+layout_mode = 2
 texture = ExtResource("4_hkqr4")
 expand_mode = 1
 

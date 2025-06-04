@@ -20,7 +20,7 @@ public partial class OneHitMoves : Node
 
     public void ApplyOneHitKO(GodotObject defending)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
        
         int damage = defendingPokemon.Stats.HP;
         PokemonCombat.Instance.DealDamage(defending, damage);

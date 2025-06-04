@@ -1,0 +1,90 @@
+[gd_scene load_steps=5 format=3 uid="uid://dj8ovt7mqk6wt"]
+
+[ext_resource type="Script" uid="uid://bybq5y75vb0m7" path="res://Resources/Scenes/GameSettings.cs" id="1_3yxxv"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_udb4x"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="2_udb4x"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_sfbk2"]
+
+[node name="GameSettings" type="VBoxContainer" node_paths=PackedStringArray("_saveButton", "_loadButton", "_deleteButton")]
+custom_minimum_size = Vector2(250, 0)
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.35
+mouse_filter = 2
+theme = ExtResource("1_udb4x")
+theme_override_constants/separation = 25
+script = ExtResource("1_3yxxv")
+_saveButton = NodePath("SaveGame")
+_loadButton = NodePath("LoadGame")
+_deleteButton = NodePath("DeleteGame")
+
+[node name="SaveGame" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "Save Game"
+flat = true
+script = ExtResource("2_udb4x")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="SaveGame"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sfbk2")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="LoadGame" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "Load Game"
+flat = true
+script = ExtResource("2_udb4x")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="LoadGame"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sfbk2")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="DeleteGame" type="Button" parent="."]
+custom_minimum_size = Vector2(200, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 28
+text = "Delete Game"
+flat = true
+script = ExtResource("2_udb4x")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="DeleteGame"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_sfbk2")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10

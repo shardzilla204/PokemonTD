@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=3 uid="uid://p1g6r4eh2wy8"]
+
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_6k6j0"]
+[ext_resource type="Script" uid="uid://dkcef1f755cgm" path="res://Resources/Scenes/AccessibilitySettings.cs" id="1_bldv7"]
+
+[node name="AccessibilitySettings" type="VBoxContainer" node_paths=PackedStringArray("_windowOption", "_buttonSFXOption", "_pokemonSFXOption", "_pokemonMoveSFXOption")]
+custom_minimum_size = Vector2(250, 0)
+size_flags_horizontal = 3
+mouse_filter = 2
+theme = ExtResource("1_6k6j0")
+theme_override_constants/separation = 25
+script = ExtResource("1_bldv7")
+_windowOption = NodePath("WindowOption")
+_buttonSFXOption = NodePath("ButtonSFXOption")
+_pokemonSFXOption = NodePath("PokemonSFXOption")
+_pokemonMoveSFXOption = NodePath("PokemonMoveSFXOption")
+
+[node name="WindowOption" type="OptionButton" parent="."]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+selected = 0
+item_count = 3
+popup/item_0/text = "Fullscreen"
+popup/item_0/id = 0
+popup/item_1/text = "Fullscreen Borderless"
+popup/item_1/id = 1
+popup/item_2/text = "Windowed"
+popup/item_2/id = 2
+
+[node name="ButtonSFXOption" type="CheckButton" parent="."]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+button_pressed = true
+text = "Button SFX: On"
+
+[node name="PokemonSFXOption" type="CheckButton" parent="."]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+button_pressed = true
+text = "Pokemon SFX: On"
+
+[node name="PokemonMoveSFXOption" type="CheckButton" parent="."]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+button_pressed = true
+text = "Pokemon Move SFX: On"

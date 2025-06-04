@@ -91,7 +91,7 @@ public partial class PackedScenes : Node
 		forgetMoveInterface.MoveToLearn = pokemonMove;
 		forgetMoveInterface.Finished += () =>
 		{
-			if (PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+			if (PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
 		};
 
 		return forgetMoveInterface;
@@ -155,9 +155,9 @@ public partial class PackedScenes : Node
 		evolutionInterface.SetPokemon(pokemon, pokemonEvolution);
 		evolutionInterface.Finished += (evolution) =>
 		{
-			if (PokemonEvolution.Instance.IsQueueEmpty() && PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+			if (PokemonEvolution.Instance.IsQueueEmpty() && PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
 			
-			if (evolution != null) PokemonTD.Signals.EmitSignal(Signals.SignalName.EvolutionFinished, evolution, pokemonTeamIndex);
+			if (evolution != null) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.EvolutionFinished, evolution, pokemonTeamIndex);
 		};
 		return evolutionInterface;
 	}

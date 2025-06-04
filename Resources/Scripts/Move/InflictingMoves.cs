@@ -30,43 +30,38 @@ public partial class InflictingMoves : Node
         return pokemonMoveName != null;
     }
 
-    public void ApplyRecoilDamage<Attacking>(Attacking attackingPokemon)
+    public void ApplyRecoilDamage(GodotObject attacking)
     {
         float recoilPercentage = 0.05f;
-        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetPokemon(attacking);
+        Pokemon attackingPokemonData = PokemonManager.Instance.GetPokemon(attackingPokemon.Name, attackingPokemon.Level);
+
+        int damage = Mathf.RoundToInt(attackingPokemonData.Stats.HP * recoilPercentage);
+        if (attacking is PokemonStageSlot pokemonStageSlot)
         {
-            Pokemon pokemon = pokemonStageSlot.Pokemon;
-            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
-            int damage = Mathf.RoundToInt(pokemonData.Stats.HP * recoilPercentage);
             pokemonStageSlot.DamagePokemon(damage);
-
-            string recoilMessage = $"{pokemon.Name} Took {damage} Recoil Damage";
-            PrintRich.PrintLine(TextColor.Yellow, recoilMessage);
         }
-        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        else if (attacking is PokemonEnemy pokemonEnemy)
         {
-            Pokemon pokemon = pokemonEnemy.Pokemon;
-            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemon.Name, pokemon.Level);
-            int damage = Mathf.RoundToInt(pokemonData.Stats.HP * recoilPercentage);
             pokemonEnemy.DamagePokemon(damage);
-
-            string recoilMessage = $"{pokemon.Name} Took {damage} Recoil Damage";
-            PrintRich.PrintLine(TextColor.Red, recoilMessage);
         }
+
+        string recoilMessage = $"{attackingPokemonData.Name} Took {damage} Recoil Damage";
+        PrintRich.PrintLine(TextColor.Yellow, recoilMessage);
     }
 
-    public void ApplyFaint<Attacking>(Attacking attackingPokemon)
+    public void ApplyFaint(GodotObject attacking)
     {
-        if (attackingPokemon is PokemonStageSlot pokemonStageSlot)
-        {
-            int damage = Mathf.RoundToInt(pokemonStageSlot.Pokemon.Stats.HP);
-            pokemonStageSlot.DamagePokemon(damage);
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetPokemon(attacking);
+        int damage = Mathf.RoundToInt(attackingPokemon.Stats.HP);
 
-            pokemonStageSlot.Effects.UsedFaintMove = true;
-        }
-        else if (attackingPokemon is PokemonEnemy pokemonEnemy)
+        if (attacking is PokemonStageSlot pokemonStageSlot)
         {
-            int damage = Mathf.RoundToInt(pokemonEnemy.Pokemon.Stats.HP);
+            pokemonStageSlot.DamagePokemon(damage);
+            pokemonStageSlot.Pokemon.Effects.UsedFaintMove = true;
+        }
+        else if (attacking is PokemonEnemy pokemonEnemy)
+        {
             pokemonEnemy.DamagePokemon(damage);
         }
     }

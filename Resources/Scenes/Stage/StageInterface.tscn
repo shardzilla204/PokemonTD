@@ -11,12 +11,12 @@
 [ext_resource type="Script" uid="uid://b2s87qin4g71l" path="res://Resources/Scripts/PokeBall.cs" id="8_qc3tw"]
 [ext_resource type="Texture2D" uid="uid://lpiswxqwar21" path="res://Assets/Images/SettingsIcon.png" id="11_vg80v"]
 
-[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_PokemonTeamSlots", "_stageControls", "_exitButton", "_settingsButton", "_container")]
+[node name="StageInterface" type="CanvasLayer" node_paths=PackedStringArray("_waveCount", "_pokeDollars", "_rareCandy", "_pokemonTeamSlots", "_stageControls", "_exitButton", "_settingsButton", "_container")]
 script = ExtResource("1_ijjim")
 _waveCount = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/WaveCount")
 _pokeDollars = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageInfo/PokeDollars")
 _rareCandy = NodePath("MarginContainer/VBoxContainer/HBoxContainer/RareCandy/RareCandy")
-_PokemonTeamSlots = NodePath("MarginContainer/VBoxContainer/Container/PokemonTeamSlots")
+_pokemonTeamSlots = NodePath("MarginContainer/VBoxContainer/Container/PokemonTeamSlots")
 _stageControls = NodePath("MarginContainer/VBoxContainer/HBoxContainer/StageControls")
 _exitButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
 _settingsButton = NodePath("MarginContainer/VBoxContainer/HBoxContainer/SettingsButton")

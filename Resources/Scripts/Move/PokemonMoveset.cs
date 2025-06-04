@@ -111,7 +111,7 @@ public partial class PokemonMoveset : Node
 		}
 		else
 		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonForgettingMove, pokemon, pokemonMove);
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonForgettingMove, pokemon, pokemonMove);
 		}
 	}
 

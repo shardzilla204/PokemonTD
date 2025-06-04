@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using Godot;
+using System.Collections.Generic;
 
 namespace PokemonTD;
 
@@ -30,21 +30,25 @@ public partial class StageControls : HBoxContainer
 	{
 		PokemonTD.Signals.PressedPlay -= UpdateGameTexture;
 		PokemonTD.Signals.PressedPause -= UpdateGameTexture;
+		PokemonTD.Keybinds.GameState -= GamePressed;
+		PokemonTD.Keybinds.GameSpeed -= SpeedPressed;
 	}
 
 	public override void _Ready()
 	{
 		PokemonTD.Signals.PressedPlay += UpdateGameTexture;
 		PokemonTD.Signals.PressedPause += UpdateGameTexture;
+		PokemonTD.Keybinds.GameState += GamePressed;
+		PokemonTD.Keybinds.GameSpeed += SpeedPressed;
 
 		// Default to speed of 1
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, 1);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.SpeedToggled, 1);
 
-		_gameToggle.Pressed += OnGamePressed;
-		_speedToggle.LeftClick += () => OnSpeedPressed(true);
-		_speedToggle.RightClick += () => OnSpeedPressed(false);
+		_gameToggle.Pressed += GamePressed;
+		_speedToggle.LeftClick += () => SpeedPressed(true);
+		_speedToggle.RightClick += () => SpeedPressed(false);
 
-		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
+		UpdateGameTexture();
 	}
 
 	private void UpdateGameTexture()
@@ -52,24 +56,16 @@ public partial class StageControls : HBoxContainer
 		_gameTexture.Texture = !PokemonTD.IsGamePaused ? _pauseTexture : _playTexture;
 	}
 
-	private void OnGamePressed()
+	private void GamePressed()
 	{
 		PokemonTD.IsGamePaused = !PokemonTD.IsGamePaused;
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageStarted);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.StageStarted);
 
-		UpdateGameTexture();
-
-		if (PokemonTD.IsGamePaused)
-		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
-		}
-		else
-		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
-		}
+		StringName signalName = PokemonTD.IsGamePaused ? PokemonSignals.SignalName.PressedPause : PokemonSignals.SignalName.PressedPlay;
+		PokemonTD.Signals.EmitSignal(signalName);
 	}
 
-	private void OnSpeedPressed(bool isLeftClick)
+	private void SpeedPressed(bool isLeftClick)
 	{
 		int indexValue = isLeftClick ? 1 : -1;
 		_speedOption += indexValue;
@@ -81,14 +77,6 @@ public partial class StageControls : HBoxContainer
 
 		_speedLabel.Text = speed != 0.5f ? $"{speed}x" : $"½x";
 
-		StageInterface stageInterface = GetParentOrNull<Node>().GetOwnerOrNull<StageInterface>();
-		PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
-
-		foreach (PokemonStageSlot PokemonStageSlot in pokemonStage.PokemonStageSlots)
-		{
-			PokemonStageSlot.SetWaitTime();
-		}
-
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.SpeedToggled, speed);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.SpeedToggled, speed);
 	}
 }

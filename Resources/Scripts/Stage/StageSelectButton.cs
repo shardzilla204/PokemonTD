@@ -11,14 +11,14 @@ public partial class StageSelectButton : CustomButton
 		Text = $"{PokemonStage.ID}";
 
 		Pressed += SetStage;
-		MouseEntered += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonHovered, PokemonStage);
+		MouseEntered += () => PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.StageSelectButtonHovered, PokemonStage);
     }
 
 	private void SetStage()
 	{
 		PokemonTD.IsGamePaused = true;
 		PokemonStage pokemonStage = GetPokemonStage();
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelectButtonPressed, pokemonStage);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.StageSelectButtonPressed, pokemonStage);
 	}
 
 	// Create a scene and copy and paste the variables

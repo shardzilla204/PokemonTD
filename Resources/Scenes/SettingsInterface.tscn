@@ -1,22 +1,19 @@
-[gd_scene load_steps=6 format=3 uid="uid://cy3202rr3ei8h"]
+[gd_scene load_steps=9 format=3 uid="uid://cy3202rr3ei8h"]
 
 [ext_resource type="Script" uid="uid://d0t3rr1ef78h3" path="res://Resources/Scripts/SettingsInterface.cs" id="1_vxq6f"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_tc8kh"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_1gcrq"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_elu6u"]
 [ext_resource type="Texture2D" uid="uid://c6ofu2kfdt81v" path="res://Assets/Images/InformationIcon.png" id="5_tc8kh"]
+[ext_resource type="PackedScene" uid="uid://dj8ovt7mqk6wt" path="res://GameSettings.tscn" id="6_f6dsw"]
+[ext_resource type="PackedScene" uid="uid://p1g6r4eh2wy8" path="res://AccessibilitySettings.tscn" id="7_ahfhn"]
+[ext_resource type="PackedScene" uid="uid://dcbrubwdnaoax" path="res://AudioSettings.tscn" id="8_vwhah"]
 
-[node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_informationButton", "_gameSettings", "_saveButton", "_loadButton", "_deleteButton", "_masterSlider", "_musicSlider", "_soundSlider")]
+[node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_informationButton", "_gameSettings")]
 script = ExtResource("1_vxq6f")
-_exitButton = NodePath("Background/MarginContainer/HBoxContainer/ExitButton")
-_informationButton = NodePath("Background/MarginContainer/HBoxContainer/InformationButton")
+_exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
+_informationButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/InformationButton")
 _gameSettings = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings")
-_saveButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/SaveGame")
-_loadButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/LoadGame")
-_deleteButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/DeleteGame")
-_masterSlider = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio/Control/MasterSlider")
-_musicSlider = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio/Control/MusicSlider")
-_soundSlider = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio/Control/SoundSlider")
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -35,6 +32,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_constants/margin_left = 15
 
 [node name="Label" type="Label" parent="Background/MarginContainer"]
 custom_minimum_size = Vector2(0, 65)
@@ -46,11 +44,16 @@ text = "Settings"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 15
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
 alignment = 2
 
-[node name="InformationButton" type="Button" parent="Background/MarginContainer/HBoxContainer"]
+[node name="InformationButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -59,7 +62,7 @@ theme_override_font_sizes/font_size = 25
 flat = true
 script = ExtResource("3_1gcrq")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/HBoxContainer/InformationButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/InformationButton"]
 self_modulate = Color(0.27, 0.27, 0.27, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -74,7 +77,7 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
-[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/HBoxContainer/InformationButton/NinePatchRect"]
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/InformationButton/NinePatchRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -86,13 +89,13 @@ theme_override_constants/margin_top = 20
 theme_override_constants/margin_right = 20
 theme_override_constants/margin_bottom = 20
 
-[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/HBoxContainer/InformationButton/NinePatchRect/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/InformationButton/NinePatchRect/MarginContainer"]
 layout_mode = 2
 texture = ExtResource("5_tc8kh")
 expand_mode = 1
 stretch_mode = 5
 
-[node name="ExitButton" type="Button" parent="Background/MarginContainer/HBoxContainer"]
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
 size_flags_horizontal = 8
@@ -102,7 +105,7 @@ text = "X"
 flat = true
 script = ExtResource("3_1gcrq")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/HBoxContainer/ExitButton"]
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton"]
 self_modulate = Color(0.27, 0.27, 0.27, 1)
 show_behind_parent = true
 layout_mode = 1
@@ -116,11 +119,6 @@ patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
-layout_mode = 2
-mouse_filter = 2
-theme_override_constants/separation = 15
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -128,211 +126,11 @@ size_flags_vertical = 3
 mouse_filter = 2
 theme_override_constants/separation = 15
 
-[node name="GameSettings" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
-custom_minimum_size = Vector2(250, 0)
+[node name="GameSettings" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("6_f6dsw")]
 layout_mode = 2
-size_flags_horizontal = 3
-size_flags_stretch_ratio = 0.35
-mouse_filter = 2
-theme_override_constants/separation = 25
-alignment = 1
 
-[node name="SaveGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 65)
+[node name="AccessibilitySettings" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("7_ahfhn")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 25
-text = "Save Game"
-flat = true
-script = ExtResource("3_1gcrq")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/SaveGame"]
-self_modulate = Color(0.27, 0.27, 0.27, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_elu6u")
-patch_margin_left = 10
-patch_margin_top = 10
-patch_margin_right = 10
-patch_margin_bottom = 10
-
-[node name="LoadGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 65)
+[node name="AudioSettings" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("8_vwhah")]
 layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 25
-text = "Load Game"
-flat = true
-script = ExtResource("3_1gcrq")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/LoadGame"]
-self_modulate = Color(0.27, 0.27, 0.27, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_elu6u")
-patch_margin_left = 10
-patch_margin_top = 10
-patch_margin_right = 10
-patch_margin_bottom = 10
-
-[node name="DeleteGame" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings"]
-custom_minimum_size = Vector2(200, 65)
-layout_mode = 2
-size_flags_horizontal = 4
-theme_override_font_sizes/font_size = 25
-text = "Delete Game"
-flat = true
-script = ExtResource("3_1gcrq")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/GameSettings/DeleteGame"]
-self_modulate = Color(0.27, 0.27, 0.27, 1)
-show_behind_parent = true
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_elu6u")
-patch_margin_left = 10
-patch_margin_top = 10
-patch_margin_right = 10
-patch_margin_bottom = 10
-
-[node name="AudioSettings" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-mouse_filter = 2
-theme_override_constants/separation = 25
-alignment = 1
-
-[node name="MasterAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings"]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Master"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio"]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="MasterSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MasterAudio/Control"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -9.0
-offset_right = 100.0
-offset_bottom = 9.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(100, 9)
-min_value = -50.0
-max_value = 0.0
-step = 0.25
-value = -25.0
-
-[node name="MusicAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings"]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Music"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio"]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="MusicSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/MusicAudio/Control"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -9.0
-offset_right = 100.0
-offset_bottom = 9.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(100, 9)
-min_value = -50.0
-max_value = 0.0
-step = 0.25
-value = -25.0
-
-[node name="SoundEffectAudio" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings"]
-custom_minimum_size = Vector2(400, 100)
-layout_mode = 2
-size_flags_horizontal = 4
-mouse_filter = 2
-
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio"]
-custom_minimum_size = Vector2(0, 50)
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Sound Effects"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Control" type="Control" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio"]
-custom_minimum_size = Vector2(100, 40)
-layout_mode = 2
-mouse_filter = 2
-
-[node name="SoundSlider" type="HSlider" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/AudioSettings/SoundEffectAudio/Control"]
-custom_minimum_size = Vector2(200, 0)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -9.0
-offset_right = 100.0
-offset_bottom = 9.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(2, 2)
-pivot_offset = Vector2(100, 9)
-min_value = -50.0
-max_value = 0.0
-step = 0.25
-value = -25.0

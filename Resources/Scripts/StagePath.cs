@@ -44,10 +44,11 @@ public partial class StagePath : Path2D
 		}
 	}
 
-	private void MovePokemonEnemy(PathFollow2D pathFollow, double delta)
+	private async void MovePokemonEnemy(PathFollow2D pathFollow, double delta)
 	{
 		PokemonEnemy pokemonEnemy = pathFollow.GetChildOrNull<PokemonEnemy>(0);
-		if (pokemonEnemy == null) return;
+
+		if (!IsInstanceValid(pokemonEnemy)) return;
 		
 		float speedMultiplier = 1.25f;
 		double progressSpeed = pokemonEnemy.Pokemon.Stats.Speed * PokemonTD.GameSpeed * delta * speedMultiplier;
@@ -55,6 +56,10 @@ public partial class StagePath : Path2D
 		pathFollow.Progress += (float) progressSpeed;
 
 		Vector2 previousPosition = pokemonEnemy.GlobalPosition;
+		await ToSignal(GetTree().CreateTimer(0.1f), SceneTreeTimer.SignalName.Timeout);
+
+		if (!IsInstanceValid(pokemonEnemy)) return;
+
 		Vector2 direction = previousPosition.DirectionTo(pokemonEnemy.GlobalPosition);
 		bool isMovingRight = Math.Round(direction.X, 1) >= -0.05f;
 		pokemonEnemy.FlipH = isMovingRight;
@@ -69,12 +74,8 @@ public partial class StagePath : Path2D
 	public void AddPathFollow(PathFollow2D pathFollow)
 	{
 		_pathFollows.Add(pathFollow);
+		pathFollow.TreeExiting += () => _pathFollows.Remove(pathFollow);
 		AddChild(pathFollow);
-	}
-
-	public void RemovePathFollow(PathFollow2D pathFollow)
-	{
-		_pathFollows.Remove(pathFollow);
 	}
 
 	public void RemovePathFollow(PokemonEnemy pokemonEnemy)
@@ -98,15 +99,15 @@ public partial class StagePath : Path2D
 
 	private TextureRect GetArrow()
 	{
-		float minimumSize = 30;
+		float minSize = 30;
 		TextureRect arrow = new TextureRect()
 		{
 			Texture = _rightArrowTexture,
 			ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
 			StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
-			CustomMinimumSize = new Vector2(minimumSize, minimumSize),
+			CustomMinimumSize = new Vector2(minSize, minSize),
 			YSortEnabled = true,
-			Position = new Vector2(-minimumSize, -minimumSize) / 2
+			Position = new Vector2(-minSize, -minSize) / 2
 		};
 		return arrow;
 	}

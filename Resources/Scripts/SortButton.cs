@@ -45,7 +45,7 @@ public partial class SortButton : CustomButton
         };
 		Pressed += () => 
         {
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.SortButtonPressed, (int) _sortCategory);
+            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.SortButtonPressed, (int) _sortCategory);
 
             IsDescending = !IsDescending;
             UpdateArrows(IsDescending);

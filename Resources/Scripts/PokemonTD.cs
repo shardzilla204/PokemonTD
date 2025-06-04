@@ -6,26 +6,31 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
-    TODO: Refactor shit code
+        TODO: Create tutorials for poke mart
+        TODO: Reconfigure the rest of the stages
 
-    * Ideas:
-        ? Mute all stage team slot options in settings
-        ? Make conversion apply automatically
-        ? Add keybinds
+    * Ideas (Low):
         ? Shiny pokemon through color palettes
-        ? Add option to fullscreen game
         ? Pitch variation on hovering button
-        ? Add option to disable button SFX
-        ? Add poke mart tutorials
-        ?? Figure out a way to compensate paying for fainting pokemon
-        ? Describe what status conditions do 
-        ? Distribute stat decrease among targets like status conditions
+        ? Add keybinds
+
+        ? Mute all stage team slot options in settings
+
+    * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
+        ? Add poke mart tutorials
+
+        ? Distribute stat decrease among targets like status conditions
+
+        ?? Figure out a way to compensate paying for fainting pokemon
 
     * Bugs:
         ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
         !! Pokeball will eventually not pause the game when picked up
         !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
+
+        ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
+        ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.
 
     * Notes:
         - Pin Missile SFX Will Be Damage SFX
@@ -47,7 +52,10 @@ public partial class PokemonTD : Control
     private PokemonTween _pokemonTween;
 
     [Export]
-    private int _startingPokeDollars;
+    private PokemonKeybinds _pokemonKeybinds;
+
+    [Export]
+    private int _startingPokeDollars = 727;
 
     [Export]
     private bool _isTeamRandom;
@@ -72,6 +80,7 @@ public partial class PokemonTD : Control
 
     [Export]
     private bool _isScreenshotModeOn = false;
+
 
     [ExportCategory("Poke Center")]
     [Export]
@@ -114,7 +123,8 @@ public partial class PokemonTD : Control
 
     public static AudioManager AudioManager;
 
-    public static Signals Signals = new Signals();
+    public static PokemonSignals Signals = new PokemonSignals();
+    public static PokemonKeybinds Keybinds;
 
     public static int PokeDollars = 0;
 
@@ -135,6 +145,7 @@ public partial class PokemonTD : Control
     {
         PackedScenes = _packedScenes;
         Tween = _pokemonTween;
+        Keybinds = _pokemonKeybinds;
 
         IsTeamRandom = _isTeamRandom;
         AreStagesEnabled = _areStagesEnabled;
@@ -169,41 +180,41 @@ public partial class PokemonTD : Control
         Signals.PressedPause += () => IsGamePaused = true;
         Signals.SpeedToggled += (speed) => GameSpeed = speed;
 
-        Signals.EmitSignal(Signals.SignalName.GameStarted);
+        Signals.EmitSignal(PokemonSignals.SignalName.GameStarted);
     }
 
     public static void AddPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level * 3;
-        int maxPokeDollars = pokemon.Level * 6;
+        int minPokeDollars = pokemon.Level * 5;
+        int maxPokeDollars = pokemon.Level * 10;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
+        int amount = RNG.RandiRange(minPokeDollars, maxPokeDollars);
         PokeDollars += amount;
-        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+        Signals.EmitSignal(PokemonSignals.SignalName.PokeDollarsUpdated);
     }
 
     public static void AddPokeDollars(int amount)
     {
         PokeDollars += amount;
-        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+        Signals.EmitSignal(PokemonSignals.SignalName.PokeDollarsUpdated);
     }
 
     public static void SubtractPokeDollars(Pokemon pokemon)
     {
-        int minimumPokeDollars = pokemon.Level;
+        int minPokeDollars = pokemon.Level;
         int maxPokeDollars = pokemon.Level * 3;
         RandomNumberGenerator RNG = new RandomNumberGenerator();
 
-        int amount = RNG.RandiRange(minimumPokeDollars, maxPokeDollars);
+        int amount = RNG.RandiRange(minPokeDollars, maxPokeDollars);
         PokeDollars = Mathf.Max(0, PokeDollars - amount);
-        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+        Signals.EmitSignal(PokemonSignals.SignalName.PokeDollarsUpdated);
     }
 
     public static void SubtractPokeDollars(int amount)
     {
         PokeDollars = Mathf.Max(0, PokeDollars - amount);
-        Signals.EmitSignal(Signals.SignalName.PokeDollarsUpdated);
+        Signals.EmitSignal(PokemonSignals.SignalName.PokeDollarsUpdated);
     }
 
     public static int GetRandomLevel()
@@ -221,7 +232,7 @@ public partial class PokemonTD : Control
     public static Texture2D GetGenderSprite(Pokemon pokemon)
     {
         string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
-        return ResourceLoader.Load<Texture2D>(filePath);
+        return GetSprite(filePath);
     }
 
     public static Texture2D GetStatusIcon(StatusCondition statusCondition)
@@ -234,7 +245,7 @@ public partial class PokemonTD : Control
             _ => statusCondition.ToString()
         };
         string filePath = $"res://Assets/Images/StatusConditionIcon/{statusConditionFileName}Icon.png";
-        return ResourceLoader.Load<Texture2D>(filePath);
+        return GetSprite(filePath);
     }
 
     public static GC.Dictionary<string, Variant> GetPokemonData(Pokemon pokemon)
@@ -270,7 +281,7 @@ public partial class PokemonTD : Control
         int pokemonLevel = pokemonData["Level"].As<int>();
         Pokemon pokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel);
         pokemon.Stats.HP = pokemonData["HP"].As<int>();
-        pokemon.Gender = (Gender) pokemonData["Gender"].As<int>();
+        pokemon.Gender = (Gender)pokemonData["Gender"].As<int>();
         pokemon.HasCanceledEvolution = pokemonData["Has Canceled Evolution"].As<bool>();
 
         SetExperienceData(pokemon, pokemonData);

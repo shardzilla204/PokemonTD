@@ -25,13 +25,12 @@ public partial class ChargeMoves : Node
 
     public void ApplyChargeMove(GodotObject attacking)
     {
-        Pokemon attackingPokemon = PokemonCombat.Instance.GetAttackingPokemon(attacking);
-        PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetPokemon(attacking);
 
-        attackingPokemonEffects.IsCharging = !attackingPokemonEffects.IsCharging;
-        if (attackingPokemonEffects.HasHyperBeam) attackingPokemonEffects.IsCharging = !attackingPokemonEffects.IsCharging;
+        attackingPokemon.Effects.IsCharging = !attackingPokemon.Effects.IsCharging;
+        if (attackingPokemon.Effects.HasHyperBeam) attackingPokemon.Effects.IsCharging = !attackingPokemon.Effects.IsCharging;
 
-        if (attackingPokemonEffects.IsCharging)
+        if (attackingPokemon.Effects.IsCharging)
         {
             string chargingMessage = $"{attackingPokemon.Name} Is Charging";
             PrintRich.PrintLine(TextColor.Purple, chargingMessage);
@@ -45,9 +44,9 @@ public partial class ChargeMoves : Node
 
     public void HasUsedDig(GodotObject attacking, PokemonMove pokemonMove)
     {
-        PokemonEffects attackingPokemonEffects = PokemonCombat.Instance.GetAttackingPokemonEffects(attacking);
-        
-        bool usedDig = attackingPokemonEffects.IsCharging && pokemonMove.Name == "Dig";
-        attackingPokemonEffects.UsedDig = usedDig;
+        Pokemon attackingPokemon = PokemonCombat.Instance.GetPokemon(attacking);
+
+        bool usedDig = attackingPokemon.Effects.IsCharging && pokemonMove.Name == "Dig";
+        attackingPokemon.Effects.UsedDig = usedDig;
     }
 }

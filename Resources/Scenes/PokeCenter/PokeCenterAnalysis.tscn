@@ -1,24 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmcelavbxx1ih"]
+[gd_scene load_steps=9 format=3 uid="uid://bmcelavbxx1ih"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_jt2sa"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_kmbo8"]
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="2_a467c"]
 [ext_resource type="Script" uid="uid://bslbv1vtb4qm2" path="res://Resources/Scripts/PokeCenter/PokeCenterAnalysis.cs" id="2_gfgl2"]
 [ext_resource type="Texture2D" uid="uid://dvk7wmke6bpjo" path="res://Assets/Images/Gender/MaleIcon.png" id="3_a467c"]
+[ext_resource type="Texture2D" uid="uid://da6hk6gj30trk" path="res://Assets/Images/TypeIcon/PsychicTypeIcon.png" id="4_a467c"]
 [ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="4_kmbo8"]
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="5_md6ax"]
 
-[node name="PokeCenterAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_pokemonName", "_pokemonLevel", "_genderIcon", "_pokemonHeight", "_pokemonWeight", "_pokemonStats", "_pokemonSprite", "_pokemonDescription", "_releaseButton", "_pokeCenterInfo", "_pokeCenterStats", "_interactComponent")]
+[node name="PokeCenterAnalysis" type="NinePatchRect" node_paths=PackedStringArray("_pokemonName", "_pokemonLevel", "_genderIcon", "_pokemonHeight", "_pokemonWeight", "_pokemonStats", "_pokemonSprite", "_pokemonDescription", "_releaseButton", "_pokeCenterInfo", "_pokeCenterStats", "_pokemonTypeIcons", "_interactComponent")]
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 custom_minimum_size = Vector2(355, 100)
 size_flags_vertical = 3
 mouse_filter = 1
+theme = ExtResource("1_kmbo8")
 patch_margin_left = 10
 patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 script = ExtResource("2_gfgl2")
-_pokemonName = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonName")
-_pokemonLevel = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer/PokemonLevel")
+_pokemonName = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/PokemonName")
+_pokemonLevel = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/PokemonLevel")
 _genderIcon = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer/GenderIcon")
 _pokemonHeight = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonHeight")
 _pokemonWeight = NodePath("InteractComponent/PokeCenterStats/MarginContainer/VBoxContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokemonWeight")
@@ -28,6 +31,7 @@ _pokemonDescription = NodePath("InteractComponent/PokeCenterInfo/MarginContainer
 _releaseButton = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/ReleaseButton")
 _pokeCenterInfo = NodePath("InteractComponent/PokeCenterInfo")
 _pokeCenterStats = NodePath("InteractComponent/PokeCenterStats")
+_pokemonTypeIcons = NodePath("InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/TypeIcons")
 _interactComponent = NodePath("InteractComponent")
 
 [node name="InteractComponent" type="HBoxContainer" parent="."]
@@ -71,19 +75,42 @@ mouse_filter = 2
 layout_mode = 2
 mouse_filter = 2
 
-[node name="HBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme_override_constants/separation = 0
 
-[node name="PokemonName" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PokemonName" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25
 text = "Bulbasaur"
 
-[node name="PokemonLevel" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer"]
+[node name="TypeIcons" type="HBoxContainer" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 5
+alignment = 2
+
+[node name="TextureRect" type="TextureRect" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/TypeIcons"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("4_a467c")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureRect2" type="TextureRect" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer/TypeIcons"]
+custom_minimum_size = Vector2(25, 25)
+layout_mode = 2
+texture = ExtResource("4_a467c")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="PokemonLevel" type="Label" parent="InteractComponent/PokeCenterInfo/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 1

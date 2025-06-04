@@ -16,7 +16,7 @@ public partial class CustomButton : Button
 	{
 		MouseEntered += () =>
 		{
-			PokemonTD.AudioManager.PlayButtonHovered();
+			if (PokemonSettings.Instance.ButtonSFXEnabled) PokemonTD.AudioManager.PlayButtonHovered();
 
 			_isHovering = true;
 			ChangeModulation(true);
@@ -26,7 +26,10 @@ public partial class CustomButton : Button
 			_isHovering = false;
 			ChangeModulation(false);
 		};
-		Pressed += PokemonTD.AudioManager.PlayButtonPressed;
+		Pressed += () =>
+		{
+			if (PokemonSettings.Instance.ButtonSFXEnabled) PokemonTD.AudioManager.PlayButtonPressed();
+		};
 	}
 
     public override void _Input(InputEvent @event)

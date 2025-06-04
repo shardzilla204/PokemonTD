@@ -199,7 +199,7 @@ public partial class PokeCenterInventory : Container
 			PokeCenterAnalysis pokeCenterAnalysis = dataDictionary["PokeCenterAnalysis"].As<PokeCenterAnalysis>();
 			PokeCenter.Instance.Pokemon.Insert(0, pokeCenterAnalysis.Pokemon);
 			pokeCenterAnalysis.SetPokemon(null);
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 			return;
 		}
 

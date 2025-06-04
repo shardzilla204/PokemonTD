@@ -16,10 +16,11 @@ variation_opentype = {
 2003265652: 650
 }
 
-[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_notesLabel", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
+[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_statusConditionNotesLabel", "_extraNotesLabel", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
 script = ExtResource("1_12mkb")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/Label/ExitButton")
-_notesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/Notes")
+_statusConditionNotesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/StatusConditionNotes")
+_extraNotesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/ExtraNotes")
 _videoStreamPlayer = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/VideoStreamPlayer")
 _videoTitle = NodePath("Background/MarginContainer/VBoxContainer/VideoTitle")
 _videoCaption = NodePath("Background/MarginContainer/VBoxContainer/VideoCaption")
@@ -97,7 +98,34 @@ layout_mode = 2
 size_flags_vertical = 3
 ratio = 1.7778
 
-[node name="Notes" type="Label" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
+[node name="StatusConditionNotes" type="Label" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 25
+text = "Burned, Poisoned & Badly Poisoned Will Damage The Pokemon Overtime.
+
+Freeze & Sleep Will Stop The Pokemon.
+
+Paralysis Will Slow The Pokemon Down. 
+If Fully Paralyzed, It'll Stop The Pokemon.
+
+Confusion Will Cause The Pokemon Enemy To Run Back. 
+For Your Pokemon They Become Slowed"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="KeybindNotes" type="Label" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 25
+text = "Space = Play/Pause
+Q = Decrease Stage Speed
+E = Increase Stage Speed
+1 - 6 = Change Pokemon's Move When In The Stage"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExtraNotes" type="Label" parent="Background/MarginContainer/VBoxContainer/AspectRatioContainer"]
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25

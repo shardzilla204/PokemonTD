@@ -28,6 +28,8 @@ public partial class Pokemon : Node
 	public Gender Gender;
 	public bool HasCanceledEvolution;
 
+	public PokemonEffects Effects = new PokemonEffects();
+
 	private List<StatusCondition> _statusConditions = new List<StatusCondition>();
 
 	public Pokemon() { }
@@ -49,7 +51,7 @@ public partial class Pokemon : Node
 
 		int experienceYield = pokemonDictionary["Base Experience Yield"].As<int>();
 		Experience = new PokemonExperience(experienceYield);
-		
+
 		Stats = new PokemonStats(pokemonStats);
 		Gender = PokemonManager.Instance.GetGender(pokemonName);
 	}
@@ -104,12 +106,16 @@ public partial class Pokemon : Node
 		{
 			// Skip to current move
 			PokemonMove nextPokemonMove = Moves.SkipWhile(move => move != Moves[i]).FirstOrDefault();
-			bool hasIncreasingStatChanges = PokemonStatMoves.Instance.HasIncreasingStatChanges(nextPokemonMove) && (nextPokemonMove.Name != "Skull Bash" || nextPokemonMove.Name != "Rage");
-			if (hasIncreasingStatChanges || nextPokemonMove.Name == "Focus Energy") continue;
+			if (PokemonMoves.Instance.IsAutomaticMove(nextPokemonMove)) continue;
 
 			Move = nextPokemonMove;
 			break;
 		}
+	}
+
+	public void ResetEffects(int pokemonTeamIndex)
+	{
+		Effects.ResetPokemon(this, pokemonTeamIndex);
 	}
 
 	public void IncreaseLevel(int levels)
@@ -121,6 +127,46 @@ public partial class Pokemon : Node
 		Stats.HP = PokemonManager.Instance.GetPokemonHP(this);
 
 		PokemonManager.Instance.SetPokemonStats(this);
+	}
+
+	public void IsEnraged()
+	{
+		if (!Effects.HasRage) return;
+
+		Effects.UseRage(this);
+	}
+
+	public bool IsMoveSkipped()
+	{
+		if (!Effects.HasMoveSkipped) return false;
+		Effects.HasMoveSkipped = false;
+
+		string skippedMessage = $"{Name} Had It's Turn Skipped";
+		PrintRich.PrintLine(TextColor.Red, skippedMessage);
+
+		return true;
+	}
+
+	public void ApplyEffects()
+	{
+		foreach (PokemonMove pokemonMove in Moves)
+		{
+			switch (pokemonMove.Name)
+			{
+				case "Light Screen":
+					Effects.HasLightScreen = true;
+					break;
+				case "Reflect":
+					Effects.HasReflect = true;
+					break;
+				case "Mist":
+					Effects.HasMist = true;
+					break;
+				case "Conversion":
+					Effects.HasConversion = true;
+					break;
+			}
+		}
 	}
 }
 

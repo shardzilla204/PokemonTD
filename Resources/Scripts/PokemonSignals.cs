@@ -2,7 +2,7 @@ using Godot;
 
 namespace PokemonTD;
 
-public partial class Signals : Node
+public partial class PokemonSignals : Node
 {
     [Signal]
     public delegate void SortButtonPressedEventHandler(int sortCategoryID);
@@ -21,7 +21,10 @@ public partial class Signals : Node
 
     [Signal]
     public delegate void EvolutionFinishedEventHandler(Pokemon pokemonEvolution, int pokemonTeamIndex);
-    
+
+    [Signal]
+    public delegate void PokemonEnemyExitedEventHandler(PokemonEnemy pokemonEnemy);
+
     [Signal]
     public delegate void PokemonEnemyPassedEventHandler(PokemonEnemy pokemonEnemy);
 
@@ -83,9 +86,6 @@ public partial class Signals : Node
 
     // Stage
     [Signal]
-    public delegate void PokemonUsedEventHandler(bool isInUse, int pokemonTeamIndex);
-
-    [Signal]
     public delegate void HasWonStageEventHandler();
 
     [Signal]
@@ -93,6 +93,9 @@ public partial class Signals : Node
 
     [Signal]
     public delegate void ChangeMovesetPressedEventHandler();
+
+    [Signal]
+    public delegate void PokemonMoveChangedEventHandler();
 
     [Signal]
     public delegate void HasLeftStageEventHandler();

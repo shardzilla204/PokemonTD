@@ -1,5 +1,4 @@
 using Godot;
-
 using System.Collections.Generic;
 
 namespace PokemonTD;
@@ -21,15 +20,14 @@ public partial class StarterSelectionInterface : CanvasLayer
 
     public override void _ExitTree()
     {
-		PokemonTD.Signals.PokemonStarterSelected -= OnPokemonStarterSelected;
+		PokemonTD.Signals.PokemonStarterSelected -= PokemonStarterSelected;
     }
 
 	public override void _Ready()
 	{
-		PokemonTD.Signals.PokemonStarterSelected += OnPokemonStarterSelected;
+		PokemonTD.Signals.PokemonStarterSelected += PokemonStarterSelected;
 
-		_exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
-		_exitButton.Pressed += OnExitPressed;
+		_exitButton.Pressed += ExitPressed;
 
 		foreach (string starterOptionName in _starterOptionNames)
 		{
@@ -37,7 +35,7 @@ public partial class StarterSelectionInterface : CanvasLayer
 		}
 	}
 
-	private void OnPokemonStarterSelected(Pokemon pokemon)
+	private void PokemonStarterSelected(Pokemon pokemon)
 	{
 		PokemonTD.HasSelectedStarter = true;
 		StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
@@ -45,9 +43,8 @@ public partial class StarterSelectionInterface : CanvasLayer
 		QueueFree();
 	}
 
-	private void OnExitPressed()
+	private void ExitPressed()
 	{
-		PokemonTD.AudioManager.PlayButtonPressed();
 		MenuInterface menuInterface = PokemonTD.PackedScenes.GetMenuInterface();
 		AddSibling(menuInterface);
 		QueueFree();

@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 namespace PokemonTD;
 
@@ -39,13 +39,21 @@ public partial class PokeMartTeamSlot : NinePatchRect
         
         PokeMartItem pokeMartItem = data.As<PokeMartItem>();
 
-        if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
+        if (pokeMartItem.Category == PokeMartItemCategory.Candy)
+        {
+            return _pokemon.Level < PokemonTD.MaxPokemonLevel;
+        }
+        else if (pokeMartItem.Category == PokeMartItemCategory.Medicine)
+        {
+            int healAmount = GetHealAmount(pokeMartItem.Name);
+            int desiredHealth = _pokemon.Stats.HP + healAmount;
+            int healthThreshold = Mathf.RoundToInt(_pokemon.Stats.MaxHP + healAmount / 2);
+
+            return desiredHealth < healthThreshold;
+        }
+        else if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
         {
             return PokemonEvolution.Instance.CanEvolveWithStone(_pokemon);
-        }
-        else if (pokeMartItem.Category != PokeMartItemCategory.EvolutionStone)
-        {
-            return pokeMartItem != null;
         }
         return false;
     }
@@ -58,7 +66,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         if (pokeMartItem.Category == PokeMartItemCategory.Candy)
         {
             int pokemonTeamIndex = PokemonTeam.Instance.Pokemon.IndexOf(_pokemon);
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonLeveledUp, 1, pokemonTeamIndex);
+            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonLeveledUp, 1, pokemonTeamIndex);
 
             string rareCandyMessage = $"Gave {_pokemon.Name} Rare Candy";
             PrintRich.PrintLine(TextColor.Orange, rareCandyMessage);
@@ -71,7 +79,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
             SetPokemon(_pokemon);
 
             int pokemonTeamIndex = PokemonTeam.Instance.Pokemon.IndexOf(_pokemon);
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonHealed, healAmount, pokemonTeamIndex);
+            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonHealed, healAmount, pokemonTeamIndex);
 
             string healMessage = $"Healed {_pokemon.Name} For {healAmount} HP";
             PrintRich.PrintLine(TextColor.Orange, healMessage);
@@ -82,6 +90,9 @@ public partial class PokeMartTeamSlot : NinePatchRect
             string evolutionStoneName = pokeMartItem.Name.TrimSuffix("Stone").Trim();
             EvolutionStone evolutionStone = Enum.Parse<EvolutionStone>(evolutionStoneName);
 
+            string evolutionStoneMessage = $"Gave {evolutionStoneName} Stone To {_pokemon.Name}";
+            PrintRich.PrintLine(TextColor.Orange, evolutionStoneMessage);
+
             Pokemon pokemonResult = await PokemonManager.Instance.PokemonEvolving(_pokemon, evolutionStone, pokemonTeamIndex);
             if (pokemonResult != _pokemon)
             {
@@ -90,10 +101,10 @@ public partial class PokeMartTeamSlot : NinePatchRect
             else
             {
                 pokeMartItem.Quantity++; // Give back stone if canceled evolution
-                PokemonTD.Signals.EmitSignal(Signals.SignalName.ItemReceived);
+                PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.ItemReceived);
             }
 
-            PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, _pokemon, pokemonTeamIndex);
+            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonEvolved, _pokemon, pokemonTeamIndex);
         }
     }
 

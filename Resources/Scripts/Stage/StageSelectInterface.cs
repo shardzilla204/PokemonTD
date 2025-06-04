@@ -27,7 +27,7 @@ public partial class StageSelectInterface : Node
 		if (PokemonTD.AudioManager.IsPlayingSong(1) /* 01. ~Opening~ */
 		|| PokemonTD.AudioManager.IsPlayingSong(11) /* 11. Pokémon Center */) 
 		{
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.StageSelected);
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.StageSelected);
 		}
 
 		PokemonTD.Signals.StageSelectButtonPressed += StageSelectButtonPressed;

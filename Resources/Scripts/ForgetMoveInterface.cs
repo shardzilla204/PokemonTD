@@ -54,7 +54,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 			QueueFree();
 		};
 		
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPause);
 	}
 
 	private void ClearMoves()

@@ -58,6 +58,8 @@ public partial class AudioManager : AudioStreamPlayer
 
 	public void PlayPokemonCry(Pokemon pokemon, bool isOneshot)
 	{
+		if (!PokemonSettings.Instance.PokemonSFXEnabled) return;
+
 		AudioStream pokemonCry = GetPokemonCry(pokemon);
 		if (isOneshot) 
 		{
@@ -96,6 +98,8 @@ public partial class AudioManager : AudioStreamPlayer
 
 	public void PlayPokemonFaint()
 	{
+		if (!PokemonSettings.Instance.PokemonSFXEnabled) return;
+		
 		string filePath = $"res://Assets/Audio/PokemonFainted.wav";
 		AudioStream pokemonFaint = ResourceLoader.Load<AudioStream>($"{filePath}");
 		PlayOneshotSound(pokemonFaint);
@@ -152,8 +156,9 @@ public partial class AudioManager : AudioStreamPlayer
 
 	private async void MusicInterval()
 	{
+		int maxID = _songIDs.Count - 1;
 		RandomNumberGenerator RNG = new RandomNumberGenerator();
-		int randomValue = RNG.RandiRange(0, _songIDs.Count - 1);
+		int randomValue = RNG.RandiRange(0, maxID);
 		int songID = _songIDs[randomValue];
 
 		while (true)
@@ -162,11 +167,11 @@ public partial class AudioManager : AudioStreamPlayer
 
 			await ToSignal(_musicStreamPlayer, "finished");
 
-			randomValue = RNG.RandiRange(0, _songIDs.Count);
+			randomValue = RNG.RandiRange(0, maxID);
 			int nextSongID = _songIDs[randomValue];
 			while (nextSongID == songID)
 			{
-				randomValue = RNG.RandiRange(0, _songIDs.Count);
+				randomValue = RNG.RandiRange(0, maxID);
 				nextSongID = _songIDs[randomValue];
 			}
 			songID = nextSongID;

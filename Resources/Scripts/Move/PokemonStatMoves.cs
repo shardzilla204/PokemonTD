@@ -107,29 +107,18 @@ public partial class PokemonStatMoves : Node
     }
 
     // Only apply if it doesn't have the change
-    public void DecreaseStats<Defending>(Defending defendingPokemon, PokemonMove pokemonMove)
+    public void DecreaseStats(GodotObject defending, PokemonMove pokemonMove)
     {
-        Pokemon pokemon = null;
-        if (defendingPokemon is PokemonStageSlot pokemonStageSlot)
-        {
-            pokemon = pokemonStageSlot.Pokemon;
-        }
-        else if (defendingPokemon is PokemonEnemy pokemonEnemy)
-        {
-            pokemon = pokemonEnemy.Pokemon;
-        }
-        if (pokemon == null) return;
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
 
-        PokemonMove hasMist = pokemon.Moves.Find(move => move.Name == "Mist");
-        if (hasMist != null) return;
-
-        if (!HasDecreasingStatChanges(pokemonMove)) return;
+        PokemonMove hasMist = defendingPokemon.Moves.Find(move => move.Name == "Mist");
+        if (!HasDecreasingStatChanges(pokemonMove) || hasMist != null) return;
 
         List<StatMove> statDecreasingMoves = FindDecreasingStatMoves(pokemonMove);
         foreach (StatMove statDecreasingMove in statDecreasingMoves)
         {
             if (!CanApplyStatChange(statDecreasingMove)) continue;
-            ChangeStat(pokemon, statDecreasingMove);
+            ChangeStat(defendingPokemon, statDecreasingMove);
         }
     }
 
@@ -154,30 +143,32 @@ public partial class PokemonStatMoves : Node
     private int GetStatValue(Pokemon pokemon, StatMove statMove)
     {
         float statChangePercentage = GetStatChangePercentage(statMove);
-        int statValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat);
+        int statValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat) / 2;
         return Mathf.RoundToInt(statValue * statChangePercentage);
     }
 
     public void ApplyStatChange(Pokemon pokemon, StatMove statMove)
     {
+        int baseStatValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat);
         int statValue = GetStatValue(pokemon, statMove);
+
         float changeValue = statMove.IsSharp ? 1 : 0.5f; // For accuracy and evasion
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
-                pokemon.Stats.Attack = Math.Max(0, pokemon.Stats.Attack + statValue);
+                pokemon.Stats.Attack = Math.Max(0, baseStatValue + statValue);
                 break;
             case PokemonStat.SpecialAttack:
-                pokemon.Stats.SpecialAttack = Math.Max(0, pokemon.Stats.SpecialAttack + statValue);
+                pokemon.Stats.SpecialAttack = Math.Max(0, baseStatValue + statValue);
                 break;
             case PokemonStat.Defense:
-                pokemon.Stats.Defense = Math.Max(0, pokemon.Stats.Defense + statValue);
+                pokemon.Stats.Defense = Math.Max(0, baseStatValue + statValue);
                 break;
             case PokemonStat.SpecialDefense:
-                pokemon.Stats.SpecialDefense = Math.Max(0, pokemon.Stats.SpecialDefense + statValue);
+                pokemon.Stats.SpecialDefense = Math.Max(0, baseStatValue + statValue);
                 break;
             case PokemonStat.Speed:
-                pokemon.Stats.Speed = Math.Max(0, pokemon.Stats.Speed + statValue);
+                pokemon.Stats.Speed = Math.Max(0, baseStatValue + statValue);
                 break;
             case PokemonStat.Accuracy:
                 pokemon.Stats.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
@@ -188,14 +179,18 @@ public partial class PokemonStatMoves : Node
                 pokemon.Stats.Evasion = Mathf.Clamp(pokemon.Stats.Accuracy, 0.5f, 2);
                 break;
         }
+
+        string statChangeMessage = $"{pokemon.Name}'s {statMove.PokemonStat} Has";
+        statChangeMessage += statMove.IsIncreasing ? " Increased" : " Decreased";
+        PrintRich.PrintLine(TextColor.Yellow, statChangeMessage);
     }
 
     private float GetStatChangePercentage(StatMove statMove)
     {
-        float statChangePercentage = statMove.IsIncreasing ? 1.25f : -1.25f;
+        float statChangePercentage = statMove.IsIncreasing ? 1.1f : -1.1f;
         if (statMove.IsSharp)
         {
-            float sharpMultiplier = 1.5f;
+            float sharpMultiplier = 1.35f;
             statChangePercentage *= sharpMultiplier;
         }
 

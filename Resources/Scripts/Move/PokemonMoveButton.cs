@@ -18,6 +18,7 @@ public partial class PokemonMoveButton : CustomButton
 
 	public override void _Ready()
 	{
+		base._Ready();
 		PokemonTD.Signals.PokemonCopiedMove += ChangeMove;
 	}
 

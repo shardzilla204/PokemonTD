@@ -75,7 +75,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "Halves damage from Special attacks for 5 turns.",
+        "Effect": "Halves damage from Special attacks.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -125,7 +125,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "Halves damage from Physical attacks for 5 turns.",
+        "Effect": "Halves damage from Physical attacks.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

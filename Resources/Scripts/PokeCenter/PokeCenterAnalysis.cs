@@ -39,6 +39,9 @@ public partial class PokeCenterAnalysis : NinePatchRect
     private NinePatchRect _pokeCenterStats;
 
     [Export]
+    private Container _pokemonTypeIcons;
+
+    [Export]
     private InteractComponent _interactComponent;
 
     public Pokemon Pokemon;
@@ -50,7 +53,7 @@ public partial class PokeCenterAnalysis : NinePatchRect
 
     public override void _Ready()
     {
-        _releaseButton.Pressed += () => 
+        _releaseButton.Pressed += () =>
         {
             if (PokeCenter.Instance.Pokemon.Count != 0) SetPokemon(null);
         };
@@ -72,38 +75,38 @@ public partial class PokeCenterAnalysis : NinePatchRect
 
     public override Variant _GetDragData(Vector2 atPosition)
     {
-		SetDragPreview(GetDragPreview());
-		Dictionary<string, Variant> dataDictionary = new Dictionary<string, Variant>()
-		{
-			{ "FromAnalysisSlot", true },
-			{ "PokeCenterAnalysis", this }
-		};
-		return dataDictionary;
+        SetDragPreview(GetDragPreview());
+        Dictionary<string, Variant> dataDictionary = new Dictionary<string, Variant>()
+        {
+            { "FromAnalysisSlot", true },
+            { "PokeCenterAnalysis", this }
+        };
+        return dataDictionary;
     }
 
-	public Control GetDragPreview()
-	{
-		Control control = new Control();
+    public Control GetDragPreview()
+    {
+        Control control = new Control();
 
-		if (Pokemon is null) return control;
+        if (Pokemon is null) return control;
 
-		PokeCenterSlot pokeCenterSlot = PokemonTD.PackedScenes.GetPokeCenterSlot();
-		pokeCenterSlot.Position = -pokeCenterSlot.Size / 2;
-		pokeCenterSlot.UpdateSlot(Pokemon);
+        PokeCenterSlot pokeCenterSlot = PokemonTD.PackedScenes.GetPokeCenterSlot();
+        pokeCenterSlot.Position = -pokeCenterSlot.Size / 2;
+        pokeCenterSlot.UpdateSlot(Pokemon);
 
-		control.AddChild(pokeCenterSlot);
+        control.AddChild(pokeCenterSlot);
 
-		return control;
-	}
+        return control;
+    }
 
     public override bool _CanDropData(Vector2 atPosition, Variant data)
-	{
-		Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
-		bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
+    {
+        Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+        bool fromAnalysisSlot = dataDictionary["FromAnalysisSlot"].As<bool>();
 
         if (fromAnalysisSlot) return false;
 
-		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
+        bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
         if (fromTeamSlot)
         {
             PokeCenterTeamSlot pokeCenterTeamSlot = dataDictionary["Slot"].As<PokeCenterTeamSlot>();
@@ -115,12 +118,12 @@ public partial class PokeCenterAnalysis : NinePatchRect
             if (pokeCenterSlot.Pokemon is not null) return true;
         }
 
-		return false;
-	}
+        return false;
+    }
 
     public override void _DropData(Vector2 atPosition, Variant data)
     {
-		Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+        Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
         bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
         Pokemon pokemon = null;
         if (fromTeamSlot)
@@ -137,7 +140,7 @@ public partial class PokeCenterAnalysis : NinePatchRect
             pokeCenterSlot.QueueFree();
         }
 
-		SetPokemon(pokemon);
+        SetPokemon(pokemon);
     }
 
     public void SetPokemon(Pokemon pokemon)
@@ -148,7 +151,7 @@ public partial class PokeCenterAnalysis : NinePatchRect
         // Check if a pokemon is going in and there is already a pokemon in the slot, remove and add the pokemon to the inventory
         if (Pokemon != null)
         {
-            if (pokemon != null) 
+            if (pokemon != null)
             {
                 PokeCenter.Instance.Pokemon.Insert(0, Pokemon);
             }
@@ -158,7 +161,7 @@ public partial class PokeCenterAnalysis : NinePatchRect
         _releaseButton.Visible = pokemon != null;
         _pokeCenterStats.Visible = pokemon != null;
 
-        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+        PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
         Pokemon = pokemon;
         string nationalNumber = pokemon == null ? "" : $"#{pokemon.NationalNumber}";
 
@@ -171,7 +174,9 @@ public partial class PokeCenterAnalysis : NinePatchRect
         _pokemonSprite.Texture = pokemon == null ? null : pokemon.Sprite;
         _pokemonDescription.Text = pokemon == null ? "" : pokemon.Description;
 
-        PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonAnalyzed, pokemon);
+        SetTypeIcons(pokemon);
+
+        PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonAnalyzed, pokemon);
     }
 
     private string GetStatsString(Pokemon pokemon)
@@ -185,5 +190,37 @@ public partial class PokeCenterAnalysis : NinePatchRect
 
         string statsString = $"{healthString}\n{attackString}\n{defenseString}\n{specialAttackString}\n{specialDefenseString}\n{speedString}";
         return statsString;
+    }
+
+    private void SetTypeIcons(Pokemon pokemon)
+    {
+        // Remove current children
+        foreach (Node child in _pokemonTypeIcons.GetChildren())
+        {
+            child.QueueFree();
+        }
+        
+        if (pokemon == null) return;
+
+        // Add Pokemon's type icons
+        foreach (PokemonType pokemonType in pokemon.Types)
+        {
+            TextureRect typeTexture = GetTypeTexture(pokemonType);
+            _pokemonTypeIcons.AddChild(typeTexture);
+        }
+    }
+
+    private TextureRect GetTypeTexture(PokemonType pokemonType)
+    {
+        int sizeValue = 25;
+        Texture2D pokemonTypeIcon = PokemonTypes.Instance.GetTypeIcon(pokemonType);
+        TextureRect typeTexture = new TextureRect()
+        {
+            Texture = pokemonTypeIcon,
+            CustomMinimumSize = new Vector2(sizeValue, sizeValue),
+            ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
+            StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered
+        };
+        return typeTexture;
     }
 }

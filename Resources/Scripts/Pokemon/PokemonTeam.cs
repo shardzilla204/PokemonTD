@@ -61,7 +61,7 @@ public partial class PokemonTeam : Node
 		Pokemon starterPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(pokemon);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 
 		// Print message to console
 		string addedMessage = $"{starterPokemon.Name} Was Selected As Your Starter";
@@ -78,7 +78,7 @@ public partial class PokemonTeam : Node
 		Pokemon capturedPokemon = PokemonManager.Instance.GetPokemon(pokemonName, pokemonLevel); // Prevent changes to reference
 		Pokemon.Add(capturedPokemon);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 
 		// Print message to console
 		string addedMessage = $"{capturedPokemon.Name} Was Added To The Team";
@@ -99,7 +99,7 @@ public partial class PokemonTeam : Node
 	public void AddPokemon(Pokemon pokemon)
 	{
 		Pokemon.Add(pokemon);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 
 		string addToTeamMessage = $"Adding {pokemon.Name} To Team";
 		PrintRich.PrintLine(TextColor.Purple, addToTeamMessage);
@@ -108,7 +108,7 @@ public partial class PokemonTeam : Node
 	public void RemovePokemon(Pokemon pokemon)
 	{
 		Pokemon.Remove(pokemon);
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonTeamUpdated);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonTeamUpdated);
 
 		string removeFromTeamMessage = $"Removing {pokemon.Name} From Team";
 		PrintRich.PrintLine(TextColor.Purple, removeFromTeamMessage);

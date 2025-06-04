@@ -6,12 +6,12 @@
 [ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="4_e8o3t"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="5_0s2hm"]
 
-[node name="PokemonStage" type="Node2D" node_paths=PackedStringArray("_stagePath", "_pokemonStageSlots", "_transparentLayers", "_stageInterface")]
+[node name="PokemonStage" type="Node2D" node_paths=PackedStringArray("_stagePath", "_pokemonStageSlotContainer", "_transparentLayers", "_stageInterface")]
 y_sort_enabled = true
 scale = Vector2(0.75, 0.75)
 script = ExtResource("1_ml3ya")
 _stagePath = NodePath("StagePath")
-_pokemonStageSlots = NodePath("TileMapLayers/PokemonStageSlots")
+_pokemonStageSlotContainer = NodePath("TileMapLayers/PokemonStageSlots")
 _transparentLayers = NodePath("TileMapLayers/TransparentLayers")
 _stageInterface = NodePath("StageInterface")
 

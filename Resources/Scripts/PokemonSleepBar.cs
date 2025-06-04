@@ -33,7 +33,7 @@ public partial class PokemonSleepBar : TextureProgressBar
         {
             _waitTime = _sleepTimer.TimeLeft;
             _sleepTimer.Stop();
-            await ToSignal(PokemonTD.Signals, Signals.SignalName.PressedPlay);
+            await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
         }
 
         Value = _sleepTimer.TimeLeft;

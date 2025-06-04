@@ -14,7 +14,7 @@ public partial class StageInterface : CanvasLayer
 	private Label _rareCandy;
 
 	[Export]
-	private PokemonTeamSlots _PokemonTeamSlots;
+	private PokemonTeamSlots _pokemonTeamSlots;
 
 	[Export]
 	private StageControls _stageControls;
@@ -32,92 +32,66 @@ public partial class StageInterface : CanvasLayer
 	private PokemonStage _pokemonStage;
 
 	private bool _isVisible = true;
-
-	public PokemonTeamSlots PokemonTeamSlots => _PokemonTeamSlots;
-
-    public override void _EnterTree()
-    {
-		PokemonTD.Signals.PokemonEnemyPassed += PokemonEnemyPassed;
-		PokemonTD.Signals.PokeDollarsUpdated += PokeDollarsUpdated;
-		PokemonTD.Signals.RareCandyUpdated += RareCandyUpdated;
-		PokemonTD.Signals.Dragging += SetVisibility;
-		PokemonTD.Signals.PokemonUsed += PokemonUsed;
-    }
-
-    public override void _ExitTree()
-    {
-		PokemonTD.Signals.PokemonEnemyPassed -= PokemonEnemyPassed;
-		PokemonTD.Signals.PokeDollarsUpdated -= PokeDollarsUpdated;
-		PokemonTD.Signals.RareCandyUpdated -= RareCandyUpdated;
+	
+	public override void _ExitTree()
+	{
+		PokemonTD.Signals.PokeDollarsUpdated -= SetPokeDollarsText;
+		PokemonTD.Signals.RareCandyUpdated -= SetRareCandyText;
 		PokemonTD.Signals.Dragging -= SetVisibility;
-		PokemonTD.Signals.PokemonUsed -= PokemonUsed;
-    }
+	}
 
 	public override void _Ready()
 	{
+		PokemonTD.Signals.PokeDollarsUpdated += SetPokeDollarsText;
+		PokemonTD.Signals.RareCandyUpdated += SetRareCandyText;
+		PokemonTD.Signals.Dragging += SetVisibility;
+
 		Visible = !PokemonTD.IsScreenshotModeOn;
 
-		_waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
-		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
-		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
-		
-        _pokemonStage.StartedWave += () => _waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
+		SetPokeDollarsText();
+		SetRareCandyText();
+		SetWaveText();
+
+		_pokemonStage.StartedWave += SetWaveText;
 		_exitButton.Pressed += () =>
 		{
 			StageSelectInterface stageSelectInterface = PokemonTD.PackedScenes.GetStageSelectInterface();
 			_pokemonStage.AddSibling(stageSelectInterface);
 			_pokemonStage.QueueFree();
 
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.HasLeftStage);
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.HasLeftStage);
 		};
 		_settingsButton.Pressed += () =>
 		{
 			SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
 			AddSibling(settingsInterface);
 
-			PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPause);
 		};
 	}
 
-	private void PokemonUsed(bool inUse, int pokemonTeamIndex)
-	{
-		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(pokemonTeamIndex);
-		pokemonTeamSlot.InUse = inUse;
-	}
-
-	public bool IsPokemonTeamSlotInUse(int pokemonTeamIndex)
-	{
-		PokemonTeamSlot pokemonTeamSlot = PokemonTeamSlots.FindPokemonTeamSlot(pokemonTeamIndex);
-		return pokemonTeamSlot.InUse;
-	}
-
-	private void PokemonEnemyPassed(PokemonEnemy pokemonEnemy)
-	{
-		RareCandyUpdated();
-	}
-
-	private void RareCandyUpdated()
+	private void SetRareCandyText()
 	{
 		_rareCandy.Text = $"{_pokemonStage.RareCandy}";
 	}
 
-	private void PokeDollarsUpdated()
+	private void SetPokeDollarsText()
 	{
 		_pokeDollars.Text = $"₽ {PokemonTD.PokeDollars}";
 	}
 
-	private void DraggingTeamSlot(PokemonTeamSlot pokemonTeamSlot, bool isDragging)
+	private void SetWaveText()
 	{
-		SetVisibility(isDragging);
-	}
-
-	private void DraggingStageSlot(PokemonStageSlot pokemonStageSlot, bool isDragging)
-	{
-		SetVisibility(isDragging);
+		_waveCount.Text = $"Wave {_pokemonStage.CurrentWave} of {_pokemonStage.WaveCount}";
 	}
 
 	private void SetVisibility(bool isDragging)
 	{
 		_container.Visible = !isDragging;
+	}
+	
+	public PokemonTeamSlot FindPokemonTeamSlot(int pokemonTeamIndex)
+	{
+		return _pokemonTeamSlots.FindPokemonTeamSlot(pokemonTeamIndex);
 	}
 }

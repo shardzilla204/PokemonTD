@@ -19,7 +19,7 @@ public partial class StarterOption : VBoxContainer
 	{
 		_name.Text = $"{Pokemon.Name}";
 		_sprite.Texture = Pokemon.Sprite;
-		_button.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonStarterSelected, Pokemon);
+		_button.Pressed += () => PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonStarterSelected, Pokemon);
 		_button.MouseEntered += () => 
 		{
 			PokemonTD.AudioManager.PlayPokemonCry(Pokemon, false);

@@ -178,7 +178,7 @@ public partial class PokemonManager : Node
         // Set level once potential moves and potential evolution have been added
         pokemon.IncreaseLevel(levels);
 
-        if (canEvolve) PokemonTD.Signals.EmitSignal(Signals.SignalName.PokemonEvolved, pokemon, pokemonTeamIndex);
+        if (canEvolve) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonEvolved, pokemon, pokemonTeamIndex);
     }
 
     private void PokemonEvolved(Pokemon pokemonEvolution, int pokemonTeamIndex)

@@ -42,7 +42,7 @@ public partial class PokemonGame : Node
 
 		await ToSignal(GetTree().CreateTimer(0.25f), SceneTreeTimer.SignalName.Timeout);
 
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.GameSaved);
 		GetTree().Quit();
     }
 

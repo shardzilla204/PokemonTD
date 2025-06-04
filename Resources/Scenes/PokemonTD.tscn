@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=31 format=3 uid="uid://hvrq7bqyr4x8"]
 
 [ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
 [ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
@@ -25,6 +25,7 @@
 [ext_resource type="PackedScene" uid="uid://b5r7urrtc6j84" path="res://Resources/Scenes/StatusConditionIcon.tscn" id="26_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://tsbjbgmn6lb1" path="res://Resources/Scenes/PokeMart/PokeMartInterface.tscn" id="27_3kk4q"]
 [ext_resource type="PackedScene" uid="uid://d0hccl3odqa75" path="res://Resources/Scenes/PokeMart/PokeMartItem.tscn" id="27_v3jpj"]
+[ext_resource type="Script" uid="uid://by0qb8qrvrglp" path="res://Resources/Scripts/Stage/PokemonKeybinds.cs" id="28_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://3f8kd210tfty" path="res://Resources/Scenes/PokeMart/PokeMartSlot.tscn" id="28_v3jpj"]
 [ext_resource type="Script" uid="uid://r3pbccgmun6t" path="res://Resources/Scripts/PrintRich.cs" id="29_1jrto"]
 
@@ -69,15 +70,15 @@ _bundled = {
 "version": 3
 }
 
-[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween")]
+[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds")]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
-_startingPokeDollars = 1000000
-_isPokeCenterRandomized = true
+_pokemonKeybinds = NodePath("PokemonKeybinds")
+_startingPokeDollars = 727
 _pokeCenterCount = 999
 
 [node name="PackedScenes" type="Node" parent="."]
@@ -125,4 +126,8 @@ script = ExtResource("24_u4bgx")
 
 [node name="PrintRich" type="Node" parent="."]
 script = ExtResource("29_1jrto")
+_areFileMessagesEnabled = true
 _areFilePathsVisible = true
+
+[node name="PokemonKeybinds" type="Node" parent="."]
+script = ExtResource("28_lpw2n")

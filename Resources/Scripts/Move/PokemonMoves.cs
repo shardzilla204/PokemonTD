@@ -40,20 +40,20 @@ public partial class PokemonMoves : Node
     public delegate void QueueClearedEventHandler();
 
     private GC.Dictionary<string, Variant> _typeMovesetsDictionary = new GC.Dictionary<string, Variant>();
-    private List<ForgetMoveInterface> _forgetMoveQueue = new List<ForgetMoveInterface>(); 
+    private List<ForgetMoveInterface> _forgetMoveQueue = new List<ForgetMoveInterface>();
 
     public List<PokemonMove> Moves = new List<PokemonMove>();
 
     public override void _EnterTree()
-	{
-		Instance = this;
+    {
+        Instance = this;
 
         LoadTypeMovesetDictionary();
         SetTypeMoves();
-	}
+    }
 
     private void LoadTypeMovesetDictionary()
-	{
+    {
         PokemonType[] typeArray = Enum.GetValues<PokemonType>();
 
         int totalMoveCount = 0;
@@ -69,26 +69,26 @@ public partial class PokemonMoves : Node
 
         string totalCountMessage = $"Total Move Count: {totalMoveCount}";
         PrintRich.PrintLine(TextColor.Blue, totalCountMessage);
-	}
+    }
 
     private int AddTypeMoveset(PokemonType type)
     {
-		string filePath = $"res://JSON/Moveset/{type}Moveset.json";
+        string filePath = $"res://JSON/Moveset/{type}Moveset.json";
 
-		using FileAccess typeMovesetFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
-		string jsonString = typeMovesetFile.GetAsText();
+        using FileAccess typeMovesetFile = FileAccess.Open(filePath, FileAccess.ModeFlags.Read);
+        string jsonString = typeMovesetFile.GetAsText();
 
         Json json = new Json();
 
-		if (json.Parse(jsonString) != Error.Ok) return 0;
+        if (json.Parse(jsonString) != Error.Ok) return 0;
 
-        GC.Dictionary<string, Variant> typeMovesetDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+        GC.Dictionary<string, Variant> typeMovesetDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary)json.Data);
 
-		_typeMovesetsDictionary.Add(type.ToString(), typeMovesetDictionary);
+        _typeMovesetsDictionary.Add(type.ToString(), typeMovesetDictionary);
 
         // Print Messages To Console
         string typeCountAddedMessage = $"Total {type} Count: {typeMovesetDictionary.Count}";
-		PrintRich.Print(TextColor.Blue, typeCountAddedMessage);
+        PrintRich.Print(TextColor.Blue, typeCountAddedMessage);
 
         return typeMovesetDictionary.Count;
     }
@@ -98,7 +98,7 @@ public partial class PokemonMoves : Node
         List<string> typeNames = _typeMovesetsDictionary.Keys.ToList();
         foreach (string typeName in typeNames)
         {
-            GC.Dictionary<string, Variant> typeMovesetDictionary = (GC.Dictionary<string, Variant>) _typeMovesetsDictionary[typeName];
+            GC.Dictionary<string, Variant> typeMovesetDictionary = (GC.Dictionary<string, Variant>)_typeMovesetsDictionary[typeName];
             SetTypeMoveset(typeMovesetDictionary);
         }
     }
@@ -108,7 +108,7 @@ public partial class PokemonMoves : Node
         List<string> moveNames = typeMovesetDictionary.Keys.ToList();
         foreach (string moveName in moveNames)
         {
-            GC.Dictionary<string, Variant> movesetDictionary = (GC.Dictionary<string, Variant>) typeMovesetDictionary[moveName];
+            GC.Dictionary<string, Variant> movesetDictionary = (GC.Dictionary<string, Variant>)typeMovesetDictionary[moveName];
             AddPokemonMove(movesetDictionary, moveName);
         }
     }
@@ -146,8 +146,8 @@ public partial class PokemonMoves : Node
         if (_forgetMoveQueue.Count == 0)
         {
             Node parentNode = GetParentOrNull<Node>();
-		    parentNode.AddChild(forgetMoveInterface);
-		    parentNode.MoveChild(forgetMoveInterface, GetChildCount() - 1); 
+            parentNode.AddChild(forgetMoveInterface);
+            parentNode.MoveChild(forgetMoveInterface, GetChildCount() - 1);
         }
 
         _forgetMoveQueue.Add(forgetMoveInterface);
@@ -161,17 +161,30 @@ public partial class PokemonMoves : Node
     public void ShowNext()
     {
         ForgetMoveInterface nextForgetMoveInterface = _forgetMoveQueue[0];
-        
+
         Node parentNode = GetParentOrNull<Node>();
-		parentNode.AddChild(nextForgetMoveInterface);
-		parentNode.MoveChild(nextForgetMoveInterface, GetChildCount() - 1);
+        parentNode.AddChild(nextForgetMoveInterface);
+        parentNode.MoveChild(nextForgetMoveInterface, GetChildCount() - 1);
     }
-    
+
     public bool IsQueueEmpty()
     {
         if (_forgetMoveQueue.Count != 0) return false;
 
         EmitSignal(SignalName.QueueCleared);
         return true;
+    }
+
+    public bool IsAutomaticMove(PokemonMove pokemonMove)
+    {
+        bool hasIncreasingStatChanges = PokemonStatMoves.Instance.HasIncreasingStatChanges(pokemonMove) &&
+        pokemonMove.Name != "Skull Bash" &&
+        pokemonMove.Name != "Rage";
+        bool isAutomaticMove = hasIncreasingStatChanges ||
+            pokemonMove.Name == "Focus Energy" ||
+            pokemonMove.Name == "Light Screen" ||
+            pokemonMove.Name == "Reflect" ||
+            pokemonMove.Name == "Conversion";
+        return isAutomaticMove;
     }
 }

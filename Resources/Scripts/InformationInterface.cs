@@ -8,7 +8,13 @@ public partial class InformationInterface : CanvasLayer
     private CustomButton _exitButton;
 
     [Export]
-    private Label _notesLabel;
+    private Label _statusConditionNotesLabel;
+
+    [Export]
+    private Label _keybindNotesLabel;
+
+    [Export]
+    private Label _extraNotesLabel;
 
     [Export]
     private VideoStreamPlayer _videoStreamPlayer;
@@ -26,62 +32,97 @@ public partial class InformationInterface : CanvasLayer
     private CustomButton _previousButton;
 
     private int _pageIndex = 0;
+    private int _extraPages = 2;
+    private int _maxPageCount;
+    private int _videoCount;
 
     public bool FromMainMenu; // For Pokemon Stage
 
     public override void _Ready()
     {
-        _exitButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
+        // Index starts at 0, so subtract the total from 1
+        _videoCount = PokemonVideos.Instance.Videos.Count - 1;
+        _maxPageCount = _videoCount + _extraPages;
         _exitButton.Pressed += () =>
         {
-            PokemonTD.AudioManager.PlayButtonPressed();
-            
+            if (!PokemonTD.HasSelectedStarter)
+            {
+                PokemonSettings.Instance.HasShowedTutorial = true;
+                
+                Node starterSelectionInterface = PokemonTD.PackedScenes.GetStarterSelectionInterface();
+                AddSibling(starterSelectionInterface);
+                QueueFree();
+                return;
+            }
+
             SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
             settingsInterface.FromMainMenu = FromMainMenu;
             AddSibling(settingsInterface);
             QueueFree();
         };
 
-        _nextButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
         _nextButton.Pressed += () =>
         {
-            PokemonTD.AudioManager.PlayButtonPressed();
-
             _pageIndex++;
-            if (_pageIndex > PokemonVideos.Instance.Videos.Count) _pageIndex = 0;
-            SetVideo(_pageIndex);
+            if (_pageIndex > _maxPageCount) _pageIndex = 0;
+            if (_pageIndex == _maxPageCount && !PokemonSettings.Instance.HasShowedTutorial)
+            {
+                _exitButton.Visible = true;
+                _previousButton.Visible = true;
+            }
+            SetPage();
         };
 
-        _previousButton.MouseEntered += PokemonTD.AudioManager.PlayButtonHovered;
         _previousButton.Pressed += () =>
         {
-            PokemonTD.AudioManager.PlayButtonPressed();
-            
             _pageIndex--;
-            if (_pageIndex < 0) _pageIndex = PokemonVideos.Instance.Videos.Count;
-            SetVideo(_pageIndex);
+            if (_pageIndex < 0) _pageIndex = _maxPageCount;
+            SetPage();
         };
 
-        SetVideo(_pageIndex);
+        if (!PokemonSettings.Instance.HasShowedTutorial)
+        {
+            _exitButton.Visible = false;
+            _previousButton.Visible = false;
+        }
+        SetPage();
     }
 
-    private void SetVideo(int pageIndex)
+    private void SetPage()
     {
-        _notesLabel.Visible = pageIndex == PokemonVideos.Instance.Videos.Count;
-        _videoStreamPlayer.Visible = pageIndex != PokemonVideos.Instance.Videos.Count;
-        if (pageIndex == PokemonVideos.Instance.Videos.Count)
-        {
-            _videoTitle.Text = $"Extra Notes";
-            _videoCaption.Text = "";
-            return;
-        }
+        _videoStreamPlayer.Visible = _pageIndex <= _videoCount;
 
-        PokemonVideo pokemonVideo = PokemonVideos.Instance.Videos[pageIndex];
+        SetExtraPages();
+
+        if (_pageIndex > _videoCount) return;
+
+        PokemonVideo pokemonVideo = PokemonVideos.Instance.Videos[_pageIndex];
         _videoTitle.Text = $"{pokemonVideo.Title}";
         _videoCaption.Text = $"{pokemonVideo.Caption}";
 
-        VideoStreamTheora video = PokemonVideos.Instance.GetVideoStream(pageIndex);
+        VideoStreamTheora video = PokemonVideos.Instance.GetVideoStream(_pageIndex);
         _videoStreamPlayer.Stream = video;
         _videoStreamPlayer.Play();
+    }
+
+    private void SetExtraPages()
+    {
+        int extraPageIndex = _pageIndex - _videoCount;
+        _statusConditionNotesLabel.Visible = extraPageIndex == 1;
+        _keybindNotesLabel.Visible = extraPageIndex == 2;
+        _extraNotesLabel.Visible = extraPageIndex == 3;
+
+        if (extraPageIndex < 0) return;
+
+        string videoTitle = extraPageIndex switch
+        {
+            1 => "Status Conditions",
+            2 => "Keybinds",
+            3 => "Extra Notes",
+            _ => ""
+        };
+
+        _videoTitle.Text = videoTitle;
+        _videoCaption.Text = "";
     }
 }

@@ -33,9 +33,9 @@
     {
         "Type": "Grass",
         "Category": "Special",
-        "Power": 40,
+        "Power": 70,
         "Accuracy": 100,
-        "Effect": "User attacks, but is then inactive for 4 seconds.",
+        "Effect": "User attacks, but is then inactive for 2 seconds.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

@@ -1,17 +1,16 @@
-[gd_scene load_steps=11 format=3 uid="uid://ch7esqyvvtk7g"]
+[gd_scene load_steps=10 format=3 uid="uid://ch7esqyvvtk7g"]
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_ydwpq"]
 [ext_resource type="Texture2D" uid="uid://boajyjchrx7f4" path="res://Assets/Images/RoundSquareFlat32x32.png" id="2_sjk7f"]
 [ext_resource type="Script" uid="uid://ccvhp18lrvm38" path="res://Resources/Scripts/Stage/PokemonTeamSlot.cs" id="3_wpub2"]
 [ext_resource type="PackedScene" uid="uid://d1fjp0d0jq5c8" path="res://Resources/Scenes/PokemonExperienceBar.tscn" id="5_1qrho"]
-[ext_resource type="Texture2D" uid="uid://dk8cit4n2mn5g" path="res://Assets/Images/Mute.png" id="5_cn6qm"]
 [ext_resource type="Texture2D" uid="uid://cy4jbowumnl7n" path="res://Assets/Images/Gender/FemaleIcon.png" id="5_d4yxp"]
 [ext_resource type="PackedScene" uid="uid://dnxdneoqwuy65" path="res://Resources/Scenes/Move/PokemonMoveButton.tscn" id="5_f1db7"]
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="6_vwni0"]
 [ext_resource type="PackedScene" uid="uid://cc0xcejesq3c4" path="res://Resources/Scenes/PokemonHealthBar.tscn" id="7_6s0w1"]
 [ext_resource type="PackedScene" uid="uid://c6gh683jjg4id" path="res://Resources/Scenes/PokemonSleepBar.tscn" id="7_bxqyd"]
 
-[node name="PokemonTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton", "_mutedTexture")]
+[node name="PokemonTeamSlot" type="Button" node_paths=PackedStringArray("_genderSprite", "_pokemonName", "_pokemonSprite", "_pokemonExperienceBar", "_pokemonHealthBar", "_pokemonSleepBar", "_pokemonMoveButton")]
 custom_minimum_size = Vector2(150, 175)
 anchors_preset = 15
 anchor_right = 1.0
@@ -32,7 +31,6 @@ _pokemonExperienceBar = NodePath("NinePatchRect/MarginContainer/NinePatchRect/Ma
 _pokemonHealthBar = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/PokemonHealthBar")
 _pokemonSleepBar = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/Control/PokemonSleepBar")
 _pokemonMoveButton = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/PokemonMoveButton")
-_mutedTexture = NodePath("NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/PokemonMoveButton/MutedTexture")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 self_modulate = Color(0.2, 0.2, 0.2, 1)
@@ -152,21 +150,3 @@ mouse_filter = 2
 [node name="PokemonMoveButton" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer" instance=ExtResource("5_f1db7")]
 custom_minimum_size = Vector2(0, 35)
 layout_mode = 2
-mouse_filter = 0
-
-[node name="MutedTexture" type="TextureRect" parent="NinePatchRect/MarginContainer/NinePatchRect/MarginContainer/VBoxContainer/PokemonMoveButton"]
-custom_minimum_size = Vector2(30, 25)
-layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = -10.0
-offset_bottom = 10.0
-grow_horizontal = 0
-grow_vertical = 2
-texture = ExtResource("5_cn6qm")
-expand_mode = 1
-stretch_mode = 5

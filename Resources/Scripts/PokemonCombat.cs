@@ -24,31 +24,31 @@ public partial class PokemonCombat : Node
 
     public void DealDamage(GodotObject attacking, GodotObject defending, PokemonMove pokemonMove)
     {
-        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
+        Pokemon attackingPokemon = GetPokemon(attacking);
+        Pokemon defendingPokemon = GetPokemon(defending);
 
         if (pokemonMove.Power == 0)
         {
-            string usedMessage =  PrintRich.GetPokemonMoveUsedMessage(attackingPokemon, defendingPokemon, pokemonMove);
+            string usedMessage = PrintRich.GetPokemonMoveUsedMessage(attackingPokemon, defendingPokemon, pokemonMove);
             PrintRich.PrintLine(TextColor.Orange, usedMessage);
             return;
         }
 
         if (pokemonMove.Name == "Dream Eater" && !defendingPokemon.HasStatusCondition(StatusCondition.Sleep)) return;
 
-        DamagePokemon(attacking, pokemonMove, defending);
+        DamagePokemon(attacking, defending, pokemonMove);
     }
 
-    // Mainly for moves like Dragon Rage and Sonic Boom
+    // Change name
     public void DealDamage(GodotObject defending, int damage)
     {
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            pokemonStageSlot.DamagePokemon(damage);
+            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(damage);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.DamagePokemon(damage);
+            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.DamagePokemon(damage);
         }
     }
 
@@ -64,19 +64,18 @@ public partial class PokemonCombat : Node
         }
     }
 
-    private void DamagePokemon(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
+    private void DamagePokemon(GodotObject attacking, GodotObject defending, PokemonMove pokemonMove)
     {
-        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
-        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
-        
+        Pokemon attackingPokemon = GetPokemon(attacking);
+        Pokemon defendingPokemon = GetPokemon(defending);
+
         int randomHitCount = PokemonMoveEffect.Instance.GetRandomHitCount(pokemonMove);
         for (int i = 0; i < randomHitCount; i++)
         {
             int damage = GetDamage(attacking, pokemonMove, defending);
             DealDamage(defending, damage);
 
-            bool canPokemonCounter = CanPokemonCounter(defendingPokemonEffects.HasCounter, pokemonMove);
+            bool canPokemonCounter = CanPokemonCounter(defendingPokemon.Effects.HasCounter, pokemonMove);
             if (canPokemonCounter) DealCounterDamage(attacking, damage, defending);
 
             string usedMessage = PrintRich.GetPokemonMoveUsedMessage(attackingPokemon, defendingPokemon, pokemonMove);
@@ -85,82 +84,80 @@ public partial class PokemonCombat : Node
         }
     }
 
-    private void DamagePokemon(GodotObject defending, int damage)
+    public async void DamagePokemonOverTime(GodotObject defending, int damage, int iterations, StatusCondition statusCondition)
     {
-        if (defending is PokemonStageSlot pokemonStageSlot)
+        int pokemonTeamIndex = 0;
+        PokemonStage pokemonStage = null;
+        if (defending is PokemonStageSlot)
         {
-            if (pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(damage);
+            PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
+            pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
+            pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
         }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.DamagePokemon(damage);
-        }
-    }
 
-    // For badly poisoned status condition
-    public void DamagePokemon(GodotObject defending, float percentage)
-    {
-        if (defending is PokemonStageSlot pokemonStageSlot)
-        {
-            if (pokemonStageSlot == null) return;
-
-            int damage = GetDamage(pokemonStageSlot.Pokemon, percentage);
-            if (pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(damage);
-        }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            if (pokemonEnemy == null) return;
-
-            int damage = GetDamage(pokemonEnemy.Pokemon, percentage);
-            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.DamagePokemon(damage);
-        }
-    }
-
-    public async void DamagePokemonOverTime(GodotObject attacking, GodotObject defending, int damage, int iterations, StatusCondition statusCondition)
-    {
         for (int i = 0; i < iterations; i++)
         {
-            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, Signals.SignalName.PressedPlay);
+            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
 
-            CustomTimer timer = PokemonStatusCondition.Instance.GetDamageTimer(defending, 1);
-            timer.Timeout += () => DamagePokemon(defending, damage);
-
-            if (attacking is PokemonStageSlot)
+            if (defending is PokemonStageSlot)
             {
-                PokemonEnemy pokemonEnemy = defending as PokemonEnemy;
-
-                timer.TreeExiting += () =>
-                {
-                    if (!IsInstanceValid(pokemonEnemy)) return;
-
-                    PokemonStatusCondition.Instance.ApplyStatusColor(pokemonEnemy, StatusCondition.None);
-                    PokemonStatusCondition.Instance.RemoveEnemyStatusCondition(pokemonEnemy, statusCondition);
-                };
+                defending = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
             }
-            else if (attacking is PokemonEnemy)
+            else if (defending is PokemonEnemy pokemonEnemy)
             {
-                PokemonEnemy pokemonEnemy = attacking as PokemonEnemy;
-                PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
-
-                PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-                int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
-
-                if (!IsInstanceValid(pokemonEnemy)) return;
-
-                timer.TreeExiting += () =>
-                {
-                    pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-                    if (!IsInstanceValid(pokemonStageSlot) || pokemonStageSlot == null) return;
-
-                    PokemonStatusCondition.Instance.ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
-                    PokemonStatusCondition.Instance.RemoveStageSlotStatusCondition(pokemonStageSlot, statusCondition);
-                };
-
-                pokemonStageSlot.Retrieved += (pokemonStageSlot) => timer.QueueFree();
-                pokemonStageSlot.Fainted += (pokemonStageSlot) => timer.QueueFree();
+                pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
             }
-            AddChild(timer);
+
+            DealDamage(defending, damage);
+
+            Pokemon defendingPokemon = GetPokemon(defending);
+            string statusConditionDamageMessage = $"{defendingPokemon.Name} Has Lost {damage} HP Through {statusCondition}";
+            PrintRich.PrintLine(TextColor.Yellow, statusConditionDamageMessage);
+
+            await ToSignal(GetTree().CreateTimer(1 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
         }
+
+        PokemonStatusCondition.Instance.ApplyStatusColor(defending, StatusCondition.None);
+        PokemonStatusCondition.Instance.RemoveStatusCondition(defending, statusCondition);
+    }
+
+    public async void DamagePokemonOverTime(GodotObject defending, int iterations, StatusCondition statusCondition)
+    {
+        float percentage = .0625f; // 1/16
+
+        int pokemonTeamIndex = 0;
+        PokemonStage pokemonStage = null;
+        if (defending is PokemonStageSlot)
+        {
+            PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
+            pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
+            pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
+        }
+
+        for (int i = 0; i < iterations; i++)
+        {
+            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
+
+            Pokemon defendingPokemon = GetPokemon(defending);
+            if (defending is PokemonStageSlot)
+            {
+                PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
+                defendingPokemon = GetPokemon(pokemonStageSlot);
+            }
+            else if (defending is PokemonEnemy pokemonEnemy)
+            {
+                pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
+            }
+
+            int damage = GetDamage(defendingPokemon, percentage);
+            DealDamage(defending, damage);
+            await ToSignal(GetTree().CreateTimer(1 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
+
+            percentage *= 2;
+        }
+
+        PokemonStatusCondition.Instance.ApplyStatusColor(defending, StatusCondition.None);
+        PokemonStatusCondition.Instance.RemoveStatusCondition(defending, statusCondition);
     }
 
     // If pokemon move has a status condition that the pokemon already has, get the next pokemon in the queue
@@ -208,9 +205,8 @@ public partial class PokemonCombat : Node
 
     public int GetDamage(GodotObject attacking, PokemonMove pokemonMove, GodotObject defending)
     {
-        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
-        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
+        Pokemon attackingPokemon = GetPokemon(attacking);
+        Pokemon defendingPokemon = GetPokemon(defending);
 
         int power = GetPokemonMovePower(defending, pokemonMove);
         float criticalDamageMultiplier = GetCriticalDamageMultiplier(attackingPokemon, pokemonMove);
@@ -220,7 +216,7 @@ public partial class PokemonCombat : Node
         damage = ApplyTypeMultipliers(defendingPokemon, pokemonMove, damage);
         damage = HalveDamage(defending, pokemonMove, damage);
 
-        if (defendingPokemonEffects.UsedDig && pokemonMove.Name != "Earthquake") return 0;
+        if (defendingPokemon.Effects.UsedDig && pokemonMove.Name != "Earthquake") return 0;
 
         float damageMultiplier = 1;
         if (attacking is PokemonStageSlot)
@@ -237,8 +233,8 @@ public partial class PokemonCombat : Node
 
     private void DealCounterDamage(GodotObject attacking, int pokemonMoveDamage, GodotObject defending)
     {
-        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
+        Pokemon attackingPokemon = GetPokemon(attacking);
+        Pokemon defendingPokemon = GetPokemon(defending);
 
         int counterDamage = GetCounterDamage(pokemonMoveDamage);
         if (attacking is PokemonStageSlot pokemonStageSlot)
@@ -272,14 +268,6 @@ public partial class PokemonCombat : Node
         return Mathf.RoundToInt(damage * counterMultiplier);
     }
 
-    private float AppendDamage(GodotObject defending, PokemonMove pokemonMove, float damageAmount)
-    {
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
-        damageAmount = ApplyTypeMultipliers(defendingPokemon, pokemonMove, damageAmount);
-        damageAmount = HalveDamage(defending, pokemonMove, damageAmount);
-        return damageAmount;
-    }
-
     public bool HasPokemonMoveHit(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
         try
@@ -296,60 +284,18 @@ public partial class PokemonCombat : Node
         }
     }
 
-    public Pokemon GetAttackingPokemon(GodotObject attacking)
+    public Pokemon GetPokemon(GodotObject godotObject)
     {
-        Pokemon attackingPokemon = null;
-        if (attacking is PokemonStageSlot pokemonStageSlot)
+        Pokemon pokemon = null;
+        if (godotObject is PokemonStageSlot pokemonStageSlot)
         {
-            attackingPokemon = pokemonStageSlot.Pokemon;
+            pokemon = pokemonStageSlot.Pokemon;
         }
-        else if (attacking is PokemonEnemy pokemonEnemy)
+        else if (godotObject is PokemonEnemy pokemonEnemy)
         {
-            attackingPokemon = pokemonEnemy.Pokemon;
+            pokemon = pokemonEnemy.Pokemon;
         }
-        return attackingPokemon;
-    }
-
-    public Pokemon GetDefendingPokemon(GodotObject defending)
-    {
-        Pokemon defendingPokemon = null;
-        if (defending is PokemonStageSlot pokemonStageSlot)
-        {
-            defendingPokemon = pokemonStageSlot.Pokemon;
-        }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            defendingPokemon = pokemonEnemy.Pokemon;
-        }
-        return defendingPokemon;
-    }
-
-    public PokemonEffects GetAttackingPokemonEffects(GodotObject attacking)
-    {
-        PokemonEffects attackingPokemonEffects = null;
-        if (attacking is PokemonStageSlot pokemonStageSlot)
-        {
-            attackingPokemonEffects = pokemonStageSlot.Effects;
-        }
-        else if (attacking is PokemonEnemy pokemonEnemy)
-        {
-            attackingPokemonEffects = pokemonEnemy.Effects;
-        }
-        return attackingPokemonEffects;
-    }
-
-    public PokemonEffects GetDefendingPokemonEffects(GodotObject defending)
-    {
-        PokemonEffects defendingPokemonEffects = null;
-        if (defending is PokemonStageSlot pokemonStageSlot)
-        {
-            defendingPokemonEffects = pokemonStageSlot.Effects;
-        }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            defendingPokemonEffects = pokemonEnemy.Effects;
-        }
-        return defendingPokemonEffects;
+        return pokemon;
     }
 
     private bool IsPokemonMoveHitGuarenteed(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
@@ -374,13 +320,16 @@ public partial class PokemonCombat : Node
         randomThreshold -= accuracy;
 
         bool hasPassedAccuracy = randomThreshold <= 0;
-        if (!hasPassedAccuracy) ApplyMissDamage(attackingPokemon, pokemonMove);
-
-        if (pokemonMove.Accuracy != 0 && !hasPassedAccuracy)
+        if (!hasPassedAccuracy)
         {
-            // Print message to console
-            string missedMessage = $"{attackingPokemon.Name}'s {pokemonMove.Name} Missed";
-            PrintRich.PrintLine(TextColor.Purple, missedMessage);
+            ApplyMissDamage(attackingPokemon, pokemonMove);
+
+            if (pokemonMove.Accuracy == 0)
+            {
+                // Print message to console
+                string missedMessage = $"{attackingPokemon.Name}'s {pokemonMove.Name} Missed";
+                PrintRich.PrintLine(TextColor.Purple, missedMessage);
+            }
         }
 
         return hasPassedAccuracy;
@@ -391,9 +340,12 @@ public partial class PokemonCombat : Node
         bool isMissMove = PokemonMoveEffect.Instance.MissMoves.IsMissMove(pokemonMove);
         if (!isMissMove) return;
 
-        Pokemon attackingPokemon = GetAttackingPokemon(attacking);
+        Pokemon attackingPokemon = GetPokemon(attacking);
         int damage = attackingPokemon.Stats.HP / 2;
         DealDamage(attacking, damage);
+
+        string missedMessage = $"{attackingPokemon.Name} Lost Half Of It's HP";
+        PrintRich.PrintLine(TextColor.Orange, missedMessage);
     }
 
     private int GetAccuracy(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
@@ -405,12 +357,12 @@ public partial class PokemonCombat : Node
     // Earthquake doubles it's power if opposing Pokemon used dig
     private int GetPokemonMovePower(GodotObject defending, PokemonMove pokemonMove)
     {
-        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
+        Pokemon defendingPokemon = GetPokemon(defending);
 
         int pokemonMovePower = pokemonMove.Power;
         if (pokemonMove.Name != "Earthquake") return pokemonMovePower;
 
-        if (defendingPokemonEffects.UsedDig) pokemonMovePower *= 2;
+        if (defendingPokemon.Effects.UsedDig) pokemonMovePower *= 2;
         return pokemonMovePower;
     }
 
@@ -428,22 +380,19 @@ public partial class PokemonCombat : Node
     // Light screen & reflect Pokemon moves halve damage 
     private float HalveDamage(GodotObject defending, PokemonMove pokemonMove, float damage)
     {
-        Pokemon defendingPokemon = GetDefendingPokemon(defending);
-        PokemonEffects defendingPokemonEffects = GetDefendingPokemonEffects(defending);
+        Pokemon defendingPokemon = GetPokemon(defending);
 
-        if (defendingPokemonEffects.LightScreenCount > 0 && pokemonMove.Category == MoveCategory.Special)
+        if (defendingPokemon.Effects.HasLightScreen && pokemonMove.Category == MoveCategory.Special)
         {
             damage /= 2;
-            defendingPokemonEffects.LightScreenCount--;
 
             // Print message to console
             string usedLightScreenMessage = $"{defendingPokemon.Name} Halved The Damage With Light Screen";
             PrintRich.PrintLine(TextColor.Orange, usedLightScreenMessage);
         }
-        else if (defendingPokemonEffects.ReflectCount > 0 && pokemonMove.Category == MoveCategory.Physical)
+        else if (defendingPokemon.Effects.HasReflect && pokemonMove.Category == MoveCategory.Physical)
         {
             damage /= 2;
-            defendingPokemonEffects.ReflectCount--;
 
             // Print message to console
             string usedReflectMessage = $"{defendingPokemon.Name} Halved The Damage With Reflect";
@@ -454,12 +403,12 @@ public partial class PokemonCombat : Node
 
     private float GetAttackDefenseRatio(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float specialRatio = (float) attackingPokemon.Stats.SpecialAttack / defendingPokemon.Stats.SpecialDefense;
-        float normalRatio = (float) attackingPokemon.Stats.Attack / defendingPokemon.Stats.Defense;
+        float specialRatio = (float)attackingPokemon.Stats.SpecialAttack / defendingPokemon.Stats.SpecialDefense;
+        float normalRatio = (float)attackingPokemon.Stats.Attack / defendingPokemon.Stats.Defense;
 
         float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
 
-        return (float) Math.Round(attackDefenseRatio, 2) / 50;
+        return (float)Math.Round(attackDefenseRatio, 2) / 50;
     }
 
     private float GetCriticalDamageMultiplier(Pokemon pokemon, PokemonMove pokemonMove)
@@ -502,4 +451,40 @@ public partial class PokemonCombat : Node
         }
         return focusEnergy != null ? 255 / 2 : 255;
     }
+
+    // Gets a move that's going to be used in combat
+    public PokemonMove GetCombatMove(Pokemon attackingPokemon, Pokemon defendingPokemon, PokemonMove pokemonMove, int pokemonTeamIndex)
+    {
+        PokemonMove combatMove = pokemonMove;
+        if (combatMove.Name == "Mirror Move" || combatMove.Name == "Mimic")
+        {
+            combatMove = PokemonMoveEffect.Instance.CopyMoves.GetCopiedPokemonMove(attackingPokemon, defendingPokemon);
+            if (pokemonTeamIndex != -1) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonCopiedMove, combatMove, pokemonTeamIndex);
+        }
+
+        combatMove = combatMove.Name == "Metronome" ? PokemonMoves.Instance.GetRandomPokemonMove() : combatMove;
+        return combatMove;
+    }
+
+    public void ApplyEffects(Pokemon pokemon)
+	{
+		foreach (PokemonMove pokemonMove in pokemon.Moves)
+		{
+			switch (pokemonMove.Name)
+			{
+				case "Light Screen":
+					pokemon.Effects.HasLightScreen = true;
+					break;
+				case "Reflect":
+					pokemon.Effects.HasReflect = true;
+					break;
+				case "Mist":
+					pokemon.Effects.HasMist = true;
+					break;
+				case "Conversion":
+					pokemon.Effects.HasConversion = true;
+					break;
+			}
+		}
+	}
 }

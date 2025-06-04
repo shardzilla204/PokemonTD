@@ -75,7 +75,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 0,
-        "Effect": "Changes user's type to that of its first move.",
+        "Effect": "Changes user's type to that of it's target.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -105,7 +105,7 @@
         "Category": "Status",
         "Power": 0,
         "Accuracy": 100,
-        "Effect": "Opponent can't use its last attack for a few turns.",
+        "Effect": "Opponent can't use its last attack.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },
@@ -693,9 +693,9 @@
     {
         "Type": "Normal",
         "Category": "Physical",
-        "Power": 120,
+        "Power": 70,
         "Accuracy": 100,
-        "Effect": "User attacks, but is then inactive for 4 seconds.",
+        "Effect": "User attacks, but is then inactive for 2 seconds.",
         "Hit Count": [1, 1], 
         "Status Condition": {}
     },

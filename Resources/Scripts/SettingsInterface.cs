@@ -13,24 +13,6 @@ public partial class SettingsInterface : CanvasLayer
 	[Export]
 	private Container _gameSettings;
 
-	[Export]
-	private CustomButton _saveButton;
-
-	[Export]
-	private CustomButton _loadButton;
-
-	[Export]
-	private CustomButton _deleteButton;
-
-	[Export]
-	private HSlider _masterSlider;
-
-	[Export]
-	private HSlider _musicSlider;
-
-	[Export]
-	private HSlider _soundSlider;
-
 	public bool FromMainMenu;
 
     public override void _Ready()
@@ -44,7 +26,7 @@ public partial class SettingsInterface : CanvasLayer
 			}
 			else
 			{
-				PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPlay);
+				PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
 			}
 			QueueFree();
 		};
@@ -58,26 +40,5 @@ public partial class SettingsInterface : CanvasLayer
 		};
 		
 		_gameSettings.Visible = FromMainMenu;
-
-		_saveButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameSaved);
-		_loadButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameLoaded);
-		_deleteButton.Pressed += () => PokemonTD.Signals.EmitSignal(Signals.SignalName.GameReset);
-
-        _masterSlider.ValueChanged += (value) => OnValueChanged(BusType.Master, value);
-        _musicSlider.ValueChanged += (value) => OnValueChanged(BusType.Music, value);
-        _soundSlider.ValueChanged += (value) => OnValueChanged(BusType.Sound, value);
-
-		_masterSlider.Value = AudioServer.GetBusVolumeDb((int) BusType.Master);
-		_musicSlider.Value = AudioServer.GetBusVolumeDb((int) BusType.Music);
-		_soundSlider.Value = AudioServer.GetBusVolumeDb((int) BusType.Sound);
     }
-
-	private void OnValueChanged(BusType busType, double value)
-	{
-		float minimumVolume = -50;
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.AudioValueChanged, (int) busType, value);
-
-		bool isMuted = value == minimumVolume;
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.AudioMuted, (int) busType, isMuted);
-	}
 }

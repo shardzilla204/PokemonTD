@@ -20,15 +20,15 @@ public partial class TrapMoves : Node
         return pokemonMoveName != null;
     }
     
-    public void ApplyTrapMove(GodotObject attacking, GodotObject defending)
+    public void ApplyTrapMove(GodotObject defending)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetDefendingPokemon(defending);
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
         float percentage = .125f; // 1/8
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         int randomIterationCount = RNG.RandiRange(4, 5);
         int damage = PokemonCombat.Instance.GetDamage(defendingPokemon, percentage);
-        PokemonCombat.Instance.DamagePokemonOverTime(attacking, defending, damage, randomIterationCount, StatusCondition.None);
+        PokemonCombat.Instance.DamagePokemonOverTime(defending, damage, randomIterationCount, StatusCondition.None);
 
         string trappedMessage = $"{defendingPokemon.Name} Is Trapped";
         PrintRich.PrintLine(TextColor.Yellow, trappedMessage);

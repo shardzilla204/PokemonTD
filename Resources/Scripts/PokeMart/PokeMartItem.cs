@@ -66,7 +66,7 @@ public partial class PokeMartItem : Container
         PokeMartItem pokeMartItem = PokeMart.Instance.Items.Find(item => item.Name == Name);
         pokeMartItem.Quantity++;
 
-        PokemonTD.Signals.EmitSignal(Signals.SignalName.ItemReceived);
+        PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.ItemReceived);
         PokemonTD.SubtractPokeDollars(Price);
 
         HBoxContainer spritecontrol = GetItemSpriteControl();
@@ -128,8 +128,11 @@ public partial class PokeMartItem : Container
         Color transparency = Colors.White;
         transparency.A = 0;
         Vector2 targetPosition = new Vector2(control.Position.X, control.Position.Y - 15);
+
+        float duration = 0.5f;
         Tween tween = CreateTween().SetEase(Tween.EaseType.InOut);
-		tween.TweenProperty(control, "position", targetPosition, 1f);
-		tween.TweenProperty(control, "modulate", transparency, 1f);
+        tween.TweenProperty(control, "position", targetPosition, duration);
+        tween.TweenProperty(control, "modulate", transparency, duration);
+        tween.Finished += control.QueueFree;
     }
 }

@@ -74,7 +74,7 @@ public partial class EvolutionInterface : CanvasLayer
 
 		TweenEvolution(_pokemonSprite, _pokemonSilhouette, _pokemonEvolutionSilhouette);
 		
-		PokemonTD.Signals.EmitSignal(Signals.SignalName.PressedPause);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPause);
 	}
 
 	public async void TweenEvolution(TextureRect pokemonSprite, TextureRect pokemonSilhouette, TextureRect pokemonEvolutionSilhouette)
