@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcbrubwdnaoax"]
 
-[ext_resource type="Script" uid="uid://rvd5tr5xbrfg" path="res://Resources/Scenes/AudioSettings.cs" id="1_wpbo2"]
+[ext_resource type="Script" uid="uid://rvd5tr5xbrfg" path="res://Resources/Scripts/AudioSettings.cs" id="1_wpbo2"]
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_xdrfg"]
 
 [node name="AudioSettings" type="VBoxContainer" node_paths=PackedStringArray("_masterSlider", "_musicSlider", "_soundSlider")]

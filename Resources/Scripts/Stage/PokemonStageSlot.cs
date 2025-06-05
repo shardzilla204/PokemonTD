@@ -373,6 +373,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonEnemy pokemonEnemy = PokemonCombat.Instance.GetNextPokemonEnemy(_targetQueue, pokemonMove); ;
 		pokemonEnemy.Fainted += UpdatePokemonQueue;
 
+
 		if (pokemonMove.Name == "Roar" || pokemonMove.Name == "Whirlwind")
 		{
 			PokemonMoveEffect.Instance.UniqueMoves.ApplyUniqueMove(this, pokemonEnemy, pokemonMove);
@@ -382,6 +383,8 @@ public partial class PokemonStageSlot : NinePatchRect
 
 		bool hasPokemonMoveHit = PokemonCombat.Instance.HasPokemonMoveHit(Pokemon, pokemonMove, pokemonEnemy.Pokemon);
 		if (!hasPokemonMoveHit) return;
+		
+		PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
 
 		PokemonTD.Tween.TweenAttack(_pokemonSprite, pokemonEnemy, _attackTimer);
 		AddContribution(pokemonEnemy);

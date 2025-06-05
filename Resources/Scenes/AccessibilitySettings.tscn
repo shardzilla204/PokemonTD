@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://p1g6r4eh2wy8"]
 
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_6k6j0"]
-[ext_resource type="Script" uid="uid://dkcef1f755cgm" path="res://Resources/Scenes/AccessibilitySettings.cs" id="1_bldv7"]
+[ext_resource type="Script" uid="uid://dkcef1f755cgm" path="res://Resources/Scripts/AccessibilitySettings.cs" id="1_bldv7"]
 
 [node name="AccessibilitySettings" type="VBoxContainer" node_paths=PackedStringArray("_windowOption", "_buttonSFXOption", "_pokemonSFXOption", "_pokemonMoveSFXOption")]
 custom_minimum_size = Vector2(250, 0)

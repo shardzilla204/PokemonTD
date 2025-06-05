@@ -5,9 +5,9 @@
 [ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_1gcrq"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_elu6u"]
 [ext_resource type="Texture2D" uid="uid://c6ofu2kfdt81v" path="res://Assets/Images/InformationIcon.png" id="5_tc8kh"]
-[ext_resource type="PackedScene" uid="uid://dj8ovt7mqk6wt" path="res://GameSettings.tscn" id="6_f6dsw"]
-[ext_resource type="PackedScene" uid="uid://p1g6r4eh2wy8" path="res://AccessibilitySettings.tscn" id="7_ahfhn"]
-[ext_resource type="PackedScene" uid="uid://dcbrubwdnaoax" path="res://AudioSettings.tscn" id="8_vwhah"]
+[ext_resource type="PackedScene" uid="uid://dj8ovt7mqk6wt" path="res://Resources/Scenes/GameSettings.tscn" id="6_f6dsw"]
+[ext_resource type="PackedScene" uid="uid://p1g6r4eh2wy8" path="res://Resources/Scenes/AccessibilitySettings.tscn" id="7_ahfhn"]
+[ext_resource type="PackedScene" uid="uid://dcbrubwdnaoax" path="res://Resources/Scenes/AudioSettings.tscn" id="8_vwhah"]
 
 [node name="SettingsInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_informationButton", "_gameSettings")]
 script = ExtResource("1_vxq6f")

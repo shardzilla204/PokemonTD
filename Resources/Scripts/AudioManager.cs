@@ -80,6 +80,8 @@ public partial class AudioManager : AudioStreamPlayer
 	// GEN 1 Growl Uses The Pokemon's Cry
 	public void PlayPokemonMove(AudioStreamPlayer pokemonMovePlayer, string pokemonMoveName, Pokemon pokemon)
 	{
+		if (!PokemonSettings.Instance.PokemonMoveSFXEnabled) return;
+		
 		if (pokemonMoveName == "Growl")
 		{
 			pokemonMovePlayer.Stream = GetPokemonCry(pokemon);

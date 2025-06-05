@@ -15,10 +15,12 @@ namespace PokemonTD;
         ? Add keybinds
 
         ? Mute all stage team slot options in settings
+        ? Make master audio slider a master ball
+        ? Opening Poke Center initially doesn't organize the inventory
 
     * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
-        ? Add poke mart tutorials
+        ? Add a button to access inventory
 
         ? Distribute stat decrease among targets like status conditions
 
@@ -28,6 +30,11 @@ namespace PokemonTD;
         ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
         !! Pokeball will eventually not pause the game when picked up
         !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
+
+        ! Status condition is not removed from Pokemon
+        ! Causes: Drag and drop while the Pokemon has the Status Condition
+
+        ! Tutorial is broken
 
         ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
         ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.
