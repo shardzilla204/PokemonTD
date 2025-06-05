@@ -17,9 +17,6 @@ point_count = 6
 
 [node name="PokemonStage1" instance=ExtResource("1_psov4")]
 
-[node name="StageInterface" parent="." index="0"]
-visible = false
-
 [node name="StagePath" parent="." index="1"]
 curve = SubResource("Curve2D_0j12j")
 
@@ -161,6 +158,7 @@ mouse_filter = 2
 metadata/_edit_lock_ = true
 
 [node name="Ivysaur" type="TextureRect" parent="TileMapLayers/Pokemon/Control2" index="0"]
+layout_mode = 0
 offset_left = 646.667
 offset_top = 697.333
 offset_right = 714.667
@@ -172,6 +170,7 @@ stretch_mode = 5
 flip_h = true
 
 [node name="Bulbasaur" type="TextureRect" parent="TileMapLayers/Pokemon/Control2" index="1"]
+layout_mode = 0
 offset_left = 695.667
 offset_top = 716.333
 offset_right = 743.667
