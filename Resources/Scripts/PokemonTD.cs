@@ -16,7 +16,6 @@ namespace PokemonTD;
 
         ? Mute all stage team slot options in settings
         ? Make master audio slider a master ball
-        ? Opening Poke Center initially doesn't organize the inventory
 
     * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
@@ -27,12 +26,11 @@ namespace PokemonTD;
         ?? Figure out a way to compensate paying for fainting pokemon
 
     * Bugs:
-        ! When you're searching for a Pokemon in the Poke Center and click on the button to show the next page, it'll not show those Pokemon
         !! Pokeball will eventually not pause the game when picked up
         !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
 
         ! Status condition is not removed from Pokemon
-        ! Causes: Drag and drop while the Pokemon has the Status Condition
+        ! Potential Causes: Drag and drop while the Pokemon has the Status Condition
 
         ! Tutorial is broken
 

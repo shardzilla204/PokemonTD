@@ -16,10 +16,11 @@ variation_opentype = {
 2003265652: 650
 }
 
-[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_statusConditionNotesLabel", "_extraNotesLabel", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
+[node name="InformationInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_statusConditionNotesLabel", "_keybindNotesLabel", "_extraNotesLabel", "_videoStreamPlayer", "_videoTitle", "_videoCaption", "_nextButton", "_previousButton")]
 script = ExtResource("1_12mkb")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/Label/ExitButton")
 _statusConditionNotesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/StatusConditionNotes")
+_keybindNotesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/KeybindNotes")
 _extraNotesLabel = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/ExtraNotes")
 _videoStreamPlayer = NodePath("Background/MarginContainer/VBoxContainer/AspectRatioContainer/VideoStreamPlayer")
 _videoTitle = NodePath("Background/MarginContainer/VBoxContainer/VideoTitle")
@@ -129,7 +130,9 @@ vertical_alignment = 1
 layout_mode = 2
 size_flags_vertical = 1
 theme_override_font_sizes/font_size = 25
-text = "- Moves That Increase Stats Are Automatically Applied
+text = "- To Access The Tutorial, Go Through The Settings And Press The ⓘ Button
+
+- Moves That Increase Stats Are Automatically Applied
 - Don't Let Your Pokemon Faint, Or You'll Have to Pay For It
 
 - Haunter will evolve to Gengar by LVL 34

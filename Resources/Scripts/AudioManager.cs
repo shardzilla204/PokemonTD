@@ -28,30 +28,30 @@ public partial class AudioManager : AudioStreamPlayer
 
 	private Control _audioSettings;
 	private bool _isSettingsCanvasOpen;
-	private List<int> _songIDs = new List<int>() { 2, 4, 5, 6, 8, 10 } ;
-	
+	private List<int> _songIDs = new List<int>() { 2, 4, 5, 6, 8, 10 };
+
 	public override void _EnterTree()
 	{
 		PokemonTD.AudioManager = this;
 
-		PokemonTD.Signals.AudioValueChanged += OnAudioValueChanged;
-		PokemonTD.Signals.AudioMuted += OnAudioMuted;
+		PokemonTD.Signals.AudioValueChanged += AudioValueChanged;
+		PokemonTD.Signals.AudioMuted += AudioMuted;
 
 		PokemonTD.Signals.GameStarted += () => PlaySong(1); // 01. ~Opening~
 		PokemonTD.Signals.StageSelected += MusicInterval;
 		PokemonTD.Signals.PokemonStarterSelected += (pokemon) => MusicInterval();
 	}
 
-	private void OnAudioValueChanged(int busIndex, int volume)
+	private void AudioValueChanged(int busIndex, int volume)
 	{
-		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType) busIndex);
+		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType)busIndex);
 		audioBus.Volume = volume;
 		AudioServer.SetBusVolumeDb(busIndex, volume);
 	}
 
-	private void OnAudioMuted(int busIndex, bool isMuted)
+	private void AudioMuted(int busIndex, bool isMuted)
 	{
-		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType) busIndex);
+		AudioBus audioBus = AudioBuses.Find(audioBus => audioBus.BusType == (BusType)busIndex);
 		audioBus.IsMuted = isMuted;
 		AudioServer.SetBusMute(busIndex, isMuted);
 	}
@@ -61,7 +61,7 @@ public partial class AudioManager : AudioStreamPlayer
 		if (!PokemonSettings.Instance.PokemonSFXEnabled) return;
 
 		AudioStream pokemonCry = GetPokemonCry(pokemon);
-		if (isOneshot) 
+		if (isOneshot)
 		{
 			PlayOneshotSound(pokemonCry);
 		}
@@ -81,7 +81,7 @@ public partial class AudioManager : AudioStreamPlayer
 	public void PlayPokemonMove(AudioStreamPlayer pokemonMovePlayer, string pokemonMoveName, Pokemon pokemon)
 	{
 		if (!PokemonSettings.Instance.PokemonMoveSFXEnabled) return;
-		
+
 		if (pokemonMoveName == "Growl")
 		{
 			pokemonMovePlayer.Stream = GetPokemonCry(pokemon);
@@ -101,7 +101,7 @@ public partial class AudioManager : AudioStreamPlayer
 	public void PlayPokemonFaint()
 	{
 		if (!PokemonSettings.Instance.PokemonSFXEnabled) return;
-		
+
 		string filePath = $"res://Assets/Audio/PokemonFainted.wav";
 		AudioStream pokemonFaint = ResourceLoader.Load<AudioStream>($"{filePath}");
 		PlayOneshotSound(pokemonFaint);
@@ -192,14 +192,14 @@ public partial class AudioManager : AudioStreamPlayer
 		string fileDirectory = "res://Assets/Audio/Music/";
 		List<AudioStream> music = new List<AudioStream>();
 		List<string> musicNames = DirAccess.GetFilesAt(fileDirectory).ToList().FindAll(fileName => fileName.Contains(".import"));
-		
+
 		foreach (string musicName in musicNames)
 		{
 			string filePath = $"{fileDirectory}{musicName}".Replace(".import", "");
 			AudioStream song = ResourceLoader.Load<AudioStream>($"{filePath}");
 			music.Add(song);
 		}
-		
+
 		return music;
 	}
 
@@ -227,6 +227,11 @@ public partial class AudioManager : AudioStreamPlayer
 		soundStreamPlayer.Finished += soundStreamPlayer.QueueFree;
 
 		AddChild(soundStreamPlayer);
+	}
+
+	public AudioBus FindAudioBus(BusType busType)
+	{
+		return AudioBuses.Find(audioBus => audioBus.BusType == busType);
 	}
 }
 

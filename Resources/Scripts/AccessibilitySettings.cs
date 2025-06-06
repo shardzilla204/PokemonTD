@@ -30,8 +30,8 @@ public partial class AccessibilitySettings : Container
 
     private void WindowOptionSelected(long index)
     {
-        _windowOption.Selected = (int)index;
-        PokemonSettings.Instance.WindowModeIndex = (int)index;
+        _windowOption.Selected = (int) index;
+        PokemonSettings.Instance.WindowModeIndex = (int) index;
 
         PokemonSettings.Instance.ApplySettings();
     }

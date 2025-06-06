@@ -60,29 +60,29 @@ public partial class PokeCenterInventory : Container
 		_sortByLevel.Pressed += () =>
 		{
 			SortBy(SortCategory.Level, _sortByLevel.IsDescending);
-			SetPokemonPages();
+			ShowPokemonPages();
 		};
 		_sortByName.Pressed += () =>
 		{
 			SortBy(SortCategory.Name, _sortByName.IsDescending);
-			SetPokemonPages();
+			ShowPokemonPages();
 		};
 		_sortByNumber.Pressed += () =>
 		{
 			SortBy(SortCategory.NationalNumber, _sortByNumber.IsDescending);
-			SetPokemonPages();
+			ShowPokemonPages();
 		};
 		_sortByType.Pressed += () =>
 		{
 			SortBy(SortCategory.Type, _sortByType.IsDescending);
-			SetPokemonPages();
+			ShowPokemonPages();
 		};
 
-		SetPokemonPages();
-		
 		// Default to sorting levels
 		SortBy(SortCategory.Level, _sortByLevel.IsDescending);
 		_sortByLevel.UpdateArrows(_sortByLevel.IsDescending);
+
+		SetPokemonPages();
     }
 	
 	private void SortBy(SortCategory sortCategory, bool isDescending)
@@ -117,10 +117,10 @@ public partial class PokeCenterInventory : Container
 		SetPokemonPages();
 	}
 
-	private void SearchTextChanged(string text)
+	private void SearchTextChanged(string pokemonName)
 	{
-		text = text.Trim();
-		if (text == "")
+		pokemonName = pokemonName.Trim();
+		if (pokemonName == "")
 		{
 			SetPokemonPages();
 			return;
@@ -128,26 +128,32 @@ public partial class PokeCenterInventory : Container
 
 		ClearInventory();
 
+		List<Pokemon> filteredPokemon = GetFilteredPokemon(pokemonName);
+		int filteredPageCount = PokeCenter.Instance.GetPageCount(filteredPokemon.Count);
+
+		SortBy(_sortCategory, _isDescending);
+		SetPokemonPages(filteredPageCount, filteredPokemon);
+	}
+
+	private List<Pokemon> GetFilteredPokemon(string pokemonName)
+	{
 		List<Pokemon> filteredPokemon = new List<Pokemon>();
 		foreach (Pokemon pokemonToFind in PokeCenter.Instance.Pokemon)
 		{
-			Pokemon pokemon = FindPokemon(pokemonToFind, text);
+			Pokemon pokemon = FindPokemon(pokemonToFind, pokemonName);
 			if (pokemon != null) filteredPokemon.Add(pokemon);
 		}
-		int pageCount = PokeCenter.Instance.GetPageCount(filteredPokemon.Count);
-
-		SortBy(_sortCategory, _isDescending);
-		SetPokemonPages(pageCount, filteredPokemon);
+		return filteredPokemon;
 	}
 
-	private Pokemon FindPokemon(Pokemon pokemon, string text)
+	private Pokemon FindPokemon(Pokemon pokemon, string targetPokemonName)
 	{
 		string pokemonName = "";
 		foreach (char character in pokemon.Name)
 		{
 			string uppercaseCharacter = character.ToString().ToUpper();
 			pokemonName += uppercaseCharacter;
-			if (pokemonName == text.ToUpper()) return pokemon;
+			if (pokemonName == targetPokemonName.ToUpper()) return pokemon;
 		}
 		return null;
 	}
@@ -220,7 +226,24 @@ public partial class PokeCenterInventory : Container
 			_pageIndex = _maxPageIndex - 1;
 		}
 
-		SetPokemonPages();
+		ShowPokemonPages();
+	}
+
+	private void ShowPokemonPages()
+	{
+		if (_pokeCenterSearch.Text != "")
+		{
+			string pokemonName = _pokeCenterSearch.Text;
+			List<Pokemon> filteredPokemon = GetFilteredPokemon(pokemonName);
+			int filteredPageCount = PokeCenter.Instance.GetPageCount(filteredPokemon.Count);
+
+			SortBy(_sortCategory, _isDescending);
+			SetPokemonPages(filteredPageCount, filteredPokemon);
+		}
+		else
+		{
+			SetPokemonPages();
+		}
 	}
 
 	private void UpdateInventory()

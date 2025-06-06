@@ -38,6 +38,7 @@ public partial class PokemonSettings : Node
         else
         {
             SaveSettings();
+            LoadSettings(); // Apply the settings
         }
     }
 
@@ -62,6 +63,7 @@ public partial class PokemonSettings : Node
             saveSuccessMessage += $" At {settingsFile.GetPathAbsolute()}";
         }
         if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, saveSuccessMessage);
+
     }
 
     public void LoadSettings()
@@ -146,7 +148,7 @@ public partial class PokemonSettings : Node
         {
             GC.Dictionary<string, Variant> busData = audioData[audioBus.BusType.ToString()].As<GC.Dictionary<string, Variant>>();
             SetBusData(audioBus, busData);
-            AudioServer.SetBusVolumeDb((int)audioBus.BusType, audioBus.Volume);
+            AudioServer.SetBusVolumeDb((int) audioBus.BusType, audioBus.Volume);
         }
     }
 

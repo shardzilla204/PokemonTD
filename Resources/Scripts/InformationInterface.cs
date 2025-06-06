@@ -31,8 +31,8 @@ public partial class InformationInterface : CanvasLayer
     [Export]
     private CustomButton _previousButton;
 
-    private int _pageIndex = 0;
-    private int _extraPages = 2;
+    private int _pageIndex;
+    private int _extraPages;
     private int _maxPageCount;
     private int _videoCount;
 
@@ -40,6 +40,9 @@ public partial class InformationInterface : CanvasLayer
 
     public override void _Ready()
     {
+        Control parent = _videoStreamPlayer.GetParentOrNull<Control>();
+        _extraPages = parent.GetChildCount() - 1; // Include the video stream player to get the extra pages
+        
         // Index starts at 0, so subtract the total from 1
         _videoCount = PokemonVideos.Instance.Videos.Count - 1;
         _maxPageCount = _videoCount + _extraPages;

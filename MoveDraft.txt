@@ -128,3 +128,9 @@ Kinesis (Accuracy)
 Psychic (0.25, Special Defense)
 Bubble (0.25, Speed)
 Bubble Beam (0.25, Speed)
+
+"Pidgey": 2000,
+"Rattata": 2000,
+"Caterpie": 1500,
+"Weedle": 1500,
+"Squirtle": 50

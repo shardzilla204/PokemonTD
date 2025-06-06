@@ -82,7 +82,7 @@ script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _pokemonKeybinds = NodePath("PokemonKeybinds")
-_pokeCenterCount = 999
+_pokeCenterCount = 100
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")

@@ -114,4 +114,5 @@ OptionButton/styles/focus = SubResource("StyleBoxEmpty_mlg4q")
 OptionButton/styles/hover = ExtResource("2_vxw05")
 OptionButton/styles/hover_pressed = ExtResource("2_vxw05")
 OptionButton/styles/normal = ExtResource("2_mlg4q")
+OptionButton/styles/pressed = ExtResource("2_mlg4q")
 VBoxContainer/constants/separation = 10

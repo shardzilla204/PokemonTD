@@ -19,17 +19,17 @@ public partial class AudioSettings : Container
         _musicSlider.ValueChanged += (value) => ValueChanged(BusType.Music, value);
         _soundSlider.ValueChanged += (value) => ValueChanged(BusType.Sound, value);
 
-        _masterSlider.Value = AudioServer.GetBusVolumeDb((int)BusType.Master);
-        _musicSlider.Value = AudioServer.GetBusVolumeDb((int)BusType.Music);
-        _soundSlider.Value = AudioServer.GetBusVolumeDb((int)BusType.Sound);
+        _masterSlider.Value = PokemonTD.AudioManager.FindAudioBus(BusType.Master).Volume;
+        _musicSlider.Value = PokemonTD.AudioManager.FindAudioBus(BusType.Music).Volume;
+        _soundSlider.Value = PokemonTD.AudioManager.FindAudioBus(BusType.Sound).Volume;
     }
     
     private void ValueChanged(BusType busType, double value)
 	{
-		float minimumVolume = -50;
+		float minVolume = -50;
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.AudioValueChanged, (int) busType, value);
 
-		bool isMuted = value == minimumVolume;
+		bool isMuted = value == minVolume;
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.AudioMuted, (int) busType, isMuted);
 	}
 }
