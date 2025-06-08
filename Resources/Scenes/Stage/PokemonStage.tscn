@@ -26,7 +26,6 @@ _rightArrowTexture = ExtResource("4_e8o3t")
 [node name="TileMapLayers" type="Node2D" parent="."]
 y_sort_enabled = true
 metadata/_edit_lock_ = true
-metadata/_edit_group_ = true
 
 [node name="Ground" type="TileMapLayer" parent="TileMapLayers"]
 z_index = -1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=3 uid="uid://hvrq7bqyr4x8"]
+[gd_scene load_steps=38 format=3 uid="uid://hvrq7bqyr4x8"]
 
 [ext_resource type="Script" uid="uid://bof3o5fqsrd1b" path="res://Resources/Scripts/PokemonTD.cs" id="1_22f5f"]
 [ext_resource type="Script" uid="uid://bgxjm67ngb0yv" path="res://Resources/Scripts/PackedScenes.cs" id="2_aafqp"]
@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://oqawclur7pf" path="res://Resources/Scenes/Stages/PokemonStage3.tscn" id="15_8i553"]
 [ext_resource type="PackedScene" uid="uid://ihxsfqcfdmpc" path="res://Resources/Scenes/Stages/PokemonStage4.tscn" id="16_s540p"]
 [ext_resource type="PackedScene" uid="uid://ct0mikbnwlqb1" path="res://Resources/Scenes/Stages/PokemonStage5.tscn" id="17_4lctd"]
+[ext_resource type="PackedScene" uid="uid://cq4s2qs85qhkf" path="res://PokemonStage6.tscn" id="18_4lctd"]
 [ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Resources/Scenes/Move/ForgetMoveInterface.tscn" id="18_8nrjv"]
 [ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/PokemonTeamSlot.tscn" id="19_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyPokemonTeamSlot.tscn" id="20_1jrto"]
@@ -32,6 +33,8 @@
 [ext_resource type="Script" uid="uid://by0qb8qrvrglp" path="res://Resources/Scripts/Stage/PokemonKeybinds.cs" id="28_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://3f8kd210tfty" path="res://Resources/Scenes/PokeMart/PokeMartSlot.tscn" id="28_v3jpj"]
 [ext_resource type="Script" uid="uid://r3pbccgmun6t" path="res://Resources/Scripts/PrintRich.cs" id="29_1jrto"]
+[ext_resource type="PackedScene" uid="uid://ri6134qq7ii0" path="res://Resources/Scenes/InventoryInterface.tscn" id="29_8i553"]
+[ext_resource type="PackedScene" uid="uid://cvil380aw6b84" path="res://Resources/Scenes/StageItem.tscn" id="30_s540p"]
 
 [sub_resource type="CSharpScript" id="CSharpScript_v3jpj"]
 script/source = "using Godot;
@@ -82,6 +85,7 @@ script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _pokemonKeybinds = NodePath("PokemonKeybinds")
+_isPokeCenterRandomized = true
 _pokeCenterCount = 100
 
 [node name="PackedScenes" type="Node" parent="."]
@@ -96,7 +100,7 @@ _starterOption = ExtResource("9_omcsq")
 _stageSelectInterface = ExtResource("6_fochk")
 _stageSelectButton = ExtResource("7_21ucs")
 _stageResultInterface = ExtResource("12_yc2d3")
-_pokemonStages = Array[PackedScene]([ExtResource("13_pgy84"), ExtResource("14_3kk4q"), ExtResource("15_8i553"), ExtResource("16_s540p"), ExtResource("17_4lctd")])
+_pokemonStages = Array[PackedScene]([ExtResource("13_pgy84"), ExtResource("14_3kk4q"), ExtResource("15_8i553"), ExtResource("16_s540p"), ExtResource("17_4lctd"), ExtResource("18_4lctd")])
 _pokemonEnemy = ExtResource("11_cedxp")
 _pokemonTeamSlot = ExtResource("19_lpw2n")
 _emptyPokemonTeamSlot = ExtResource("20_1jrto")
@@ -109,6 +113,8 @@ _statusConditionIcon = ExtResource("26_lpw2n")
 _pokeMartInterface = ExtResource("27_3kk4q")
 _pokeMartItem = ExtResource("27_v3jpj")
 _pokeMartSlot = ExtResource("28_v3jpj")
+_inventoryInterface = ExtResource("29_8i553")
+_stageItem = ExtResource("30_s540p")
 
 [node name="AudioManager" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("_musicStreamPlayer", "_soundStreamPlayer")]
 script = ExtResource("22_s4j0d")

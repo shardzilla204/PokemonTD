@@ -68,5 +68,19 @@
             "Haunter": 250,
             "Charmander": 5
         }
+    },
+    "6":
+    {
+        "Pokemon Per Wave": 15,
+        "Wave Count": 10,
+        "Pokemon Levels": [20, 23],
+        "Pokemon":
+        {
+            "Machop": 5000,
+            "Cubone": 2500,
+            "Magnemite": 2500,
+            "Weezing": 250,
+            "Gengar": 5
+        }
     }
 }

@@ -93,6 +93,24 @@ public partial class PokemonTeamSlot : Button
 		return dataDictionary;
 	}
 
+    public override bool _CanDropData(Vector2 atPosition, Variant data)
+    {
+		if (data.As<PokeMartItem>() is not PokeMartItem) return false;
+
+		return Pokemon.Stats.HP < Pokemon.Stats.MaxHP;
+    }
+
+	public override void _DropData(Vector2 atPosition, Variant data)
+	{
+		PokeMartItem potion = data.As<PokeMartItem>();
+		int healAmount = PokeMart.Instance.GetHealAmount(Pokemon, potion);
+		_pokemonHealthBar.AddHealth(Pokemon, healAmount);
+
+		PokemonTD.AudioManager.PlayPokemonHealed();
+
+		potion.Quantity--;
+    }
+
 	private void PokemonEvolved(Pokemon pokemonEvolution, int pokemonTeamIndex)
 	{
 		if (PokemonTeamIndex == pokemonTeamIndex) SetControls(pokemonEvolution);

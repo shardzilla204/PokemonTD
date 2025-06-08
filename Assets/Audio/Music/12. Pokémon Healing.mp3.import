@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/12. Pokémon Healing.mp3-431331dc763f179cf044
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

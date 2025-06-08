@@ -111,12 +111,14 @@ public partial class PokemonStageSlot : NinePatchRect
 		SetAreaSpriteOpacity(true);
 		
 		_isDragging = true;
+		
 		SetOpacity(true);
-		EmitSignal(SignalName.Dragging);
-		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, true);
 
 		_dragPreview = GetDragPreview(Pokemon);
 		SetDragPreview(_dragPreview);
+
+		EmitSignal(SignalName.Dragging);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, true);
 
 		GC.Dictionary<string, Variant> dataDictionary = new GC.Dictionary<string, Variant>()
 		{

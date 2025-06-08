@@ -16,6 +16,9 @@ public partial class AccessibilitySettings : Container
     [Export]
     private CheckButton _pokemonMoveSFXOption;
 
+    [Export]
+    private CheckButton _autoHealOption;
+
     public override void _Ready()
     {
         _windowOption.ItemSelected += WindowOptionSelected;
@@ -40,9 +43,8 @@ public partial class AccessibilitySettings : Container
     {
         _buttonSFXOption.ButtonPressed = isToggled;
 
-        string toggledText = "Button SFX: ";
-        toggledText += isToggled ? "On" : "Off";
-        _buttonSFXOption.Text = toggledText;
+        string optionText = "Button SFX: ";
+        _buttonSFXOption.Text = AppendOptionText(optionText, isToggled);
 
         PokemonSettings.Instance.ButtonSFXEnabled = isToggled;
     }
@@ -51,9 +53,8 @@ public partial class AccessibilitySettings : Container
     {
         _pokemonSFXOption.ButtonPressed = isToggled;
 
-        string toggledText = "Pokemon SFX: ";
-        toggledText += isToggled ? "On" : "Off";
-        _pokemonSFXOption.Text = toggledText;
+        string optionText = "Pokemon SFX: ";
+        _pokemonSFXOption.Text = AppendOptionText(optionText, isToggled);
 
         PokemonSettings.Instance.PokemonSFXEnabled = isToggled;
     }
@@ -62,10 +63,26 @@ public partial class AccessibilitySettings : Container
     {
         _pokemonMoveSFXOption.ButtonPressed = isToggled;
 
-        string toggledText = "Pokemon Move SFX: ";
-        toggledText += isToggled ? "On" : "Off";
-        _pokemonMoveSFXOption.Text = toggledText;
+        string optionText = "Pokemon Move SFX: ";
+        _pokemonMoveSFXOption.Text = AppendOptionText(optionText, isToggled);
 
         PokemonSettings.Instance.PokemonMoveSFXEnabled = isToggled;
+    }
+
+    private void AutoHealOptionToggled(bool isToggled)
+    {
+        _autoHealOption.ButtonPressed = isToggled;
+
+        string optionText = "Auto Heal: ";
+        _autoHealOption.Text = AppendOptionText(optionText, isToggled);
+
+        PokemonSettings.Instance.AutoHealEnabled = isToggled;
+    }
+
+    private string AppendOptionText(string optionText, bool isToggled)
+    {
+        string toggledText = isToggled ? "On" : "Off";
+        optionText += toggledText;
+        return optionText;
     }
 }

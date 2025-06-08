@@ -1,0 +1,63 @@
+[gd_scene load_steps=5 format=3 uid="uid://ri6134qq7ii0"]
+
+[ext_resource type="Script" uid="uid://durjjh8hssu6g" path="res://Resources/Scripts/InventoryInterface.cs" id="1_hod4a"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_imokv"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_hod4a"]
+[ext_resource type="PackedScene" uid="uid://cvil380aw6b84" path="res://Resources/Scenes/StageItem.tscn" id="4_1ovy5"]
+
+[node name="InventoryInterface" type="CanvasLayer" node_paths=PackedStringArray("_stageItemContainer")]
+script = ExtResource("1_hod4a")
+_stageItemContainer = NodePath("MarginContainer/NinePatchRect/MarginContainer/StageItemContainer")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("2_imokv")
+theme_override_constants/margin_top = 85
+theme_override_constants/margin_right = 160
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
+self_modulate = Color(0.25, 0.25, 0.25, 1)
+custom_minimum_size = Vector2(65, 245)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture = ExtResource("3_hod4a")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="StageItemContainer" type="VBoxContainer" parent="MarginContainer/NinePatchRect/MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 5
+
+[node name="StageItem" parent="MarginContainer/NinePatchRect/MarginContainer/StageItemContainer" instance=ExtResource("4_1ovy5")]
+layout_mode = 2
+
+[node name="StageItem2" parent="MarginContainer/NinePatchRect/MarginContainer/StageItemContainer" instance=ExtResource("4_1ovy5")]
+layout_mode = 2
+
+[node name="StageItem3" parent="MarginContainer/NinePatchRect/MarginContainer/StageItemContainer" instance=ExtResource("4_1ovy5")]
+layout_mode = 2
+
+[node name="StageItem4" parent="MarginContainer/NinePatchRect/MarginContainer/StageItemContainer" instance=ExtResource("4_1ovy5")]
+layout_mode = 2

@@ -24,6 +24,9 @@ public partial class StageInterface : CanvasLayer
 
 	[Export]
 	private CustomButton _settingsButton;
+	
+	[Export]
+	private CustomButton _inventoryButton;
 
 	[Export]
 	private Container _container;
@@ -32,6 +35,7 @@ public partial class StageInterface : CanvasLayer
 	private PokemonStage _pokemonStage;
 
 	private bool _isVisible = true;
+	private InventoryInterface _inventoryInterface;
 	
 	public override void _ExitTree()
 	{
@@ -64,9 +68,22 @@ public partial class StageInterface : CanvasLayer
 		_settingsButton.Pressed += () =>
 		{
 			SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();
-			AddSibling(settingsInterface);
+			_pokemonStage.AddChild(settingsInterface);
+			_pokemonStage.MoveChild(settingsInterface, _pokemonStage.GetChildCount());
 
 			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPause);
+		};
+		_inventoryButton.Toggled += (isToggled) =>
+		{
+			if (isToggled)
+			{
+				_inventoryInterface = PokemonTD.PackedScenes.GetInventoryInterface();
+				AddSibling(_inventoryInterface);
+			}
+			else
+			{
+				if (IsInstanceValid(_inventoryInterface)) _inventoryInterface.QueueFree();
+			}
 		};
 	}
 

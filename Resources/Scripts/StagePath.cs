@@ -15,7 +15,7 @@ public partial class StagePath : Path2D
 	public override void _Ready()
 	{
 		PokemonStage pokemonStage = GetParentOrNull<PokemonStage>();
-		if (!pokemonStage.HasStarted)
+		if (!pokemonStage.HasStarted && !PokemonTD.IsScreenshotModeOn)
 		{
 			TextureRect arrow = GetArrow();
 			_arrowPathFollow = GetPathFollow(true, true, false);

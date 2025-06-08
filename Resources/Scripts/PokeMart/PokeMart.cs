@@ -70,16 +70,21 @@ public partial class PokeMart : Node
     }
 
     public GC.Dictionary<string, int> GetData()
-	{
-		GC.Dictionary<string, int> pokemonInventoryData = new GC.Dictionary<string, int>();
-		foreach (PokeMartItem pokeMartItem in Items)
-		{
+    {
+        GC.Dictionary<string, int> pokemonInventoryData = new GC.Dictionary<string, int>();
+        foreach (PokeMartItem pokeMartItem in Items)
+        {
             pokemonInventoryData.Add(pokeMartItem.Name, pokeMartItem.Quantity);
-		}
-		return pokemonInventoryData;
-	}
+        }
+        return pokemonInventoryData;
+    }
 
-	public void SetData(GC.Dictionary<string, Variant> pokemonInventoryData)
+    public List<PokeMartItem> FindItems(PokeMartItemCategory targetCategory)
+    {
+        return Items.FindAll(item => item.Category == targetCategory);
+    }
+
+    public void SetData(GC.Dictionary<string, Variant> pokemonInventoryData)
     {
         List<string> pokeMartItemKeys = pokemonInventoryData.Keys.ToList();
         foreach (string pokeMartItemKey in pokeMartItemKeys)
@@ -90,4 +95,13 @@ public partial class PokeMart : Node
             pokeMartItem.Quantity = pokeMartItemQuantity;
         }
     }
+    
+    public int GetHealAmount(Pokemon pokemon, PokeMartItem potion) => potion.Name switch
+    {
+        "Potion" => 20,
+        "Super Potion" => 50,
+        "Hyper Potion" => 200,
+        "Max Potion" => pokemon.Stats.MaxHP,
+        _ => 0
+    };
 }

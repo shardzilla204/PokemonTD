@@ -7,7 +7,6 @@ namespace PokemonTD;
 /* 
     * Tasks:
         TODO: Create tutorials for poke mart
-        TODO: Reconfigure the rest of the stages
 
     * Ideas (Low):
         ? Shiny pokemon through color palettes
@@ -19,7 +18,6 @@ namespace PokemonTD;
 
     * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
-        ? Add a button to access inventory
 
         ? Distribute stat decrease among targets like status conditions
 
@@ -30,9 +28,7 @@ namespace PokemonTD;
         !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
 
         ! Status condition is not removed from Pokemon
-        ! Potential Causes: Drag and drop while the Pokemon has the Status Condition
-
-        ! Tutorial is broken
+        ! Potential Causes: Pokemon gets hit with stat debuff as well and somehow it's sharing the same timer
 
         ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
         ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.

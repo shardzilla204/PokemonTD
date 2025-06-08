@@ -23,10 +23,7 @@ grow_vertical = 2
 size_flags_horizontal = 3
 mouse_filter = 2
 theme = ExtResource("1_dsfnt")
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 95
-theme_override_constants/margin_right = 10
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_top = 85
 
 [node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer"]
 self_modulate = Color(0.25, 0.25, 0.25, 1)

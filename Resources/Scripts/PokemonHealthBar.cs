@@ -54,4 +54,11 @@ public partial class PokemonHealthBar : Container
         PokemonTD.SubtractPokeDollars(pokemon);
         EmitSignal(SignalName.Fainted);
     }
+
+    private void AutoHeal()
+    {
+        if (!PokemonSettings.Instance.AutoHealEnabled) return;
+
+        
+    }
 }

@@ -74,6 +74,12 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _pokeMartSlot;
 
+	[Export]
+	private PackedScene _inventoryInterface;
+
+	[Export]
+	private PackedScene _stageItem;
+
 	public MenuInterface GetMenuInterface()
 	{
 		return _menuInterface.Instantiate<MenuInterface>();
@@ -156,7 +162,7 @@ public partial class PackedScenes : Node
 		evolutionInterface.Finished += (evolution) =>
 		{
 			if (PokemonEvolution.Instance.IsQueueEmpty() && PokemonMoves.Instance.IsQueueEmpty()) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
-			
+
 			if (evolution != null) PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.EvolutionFinished, evolution, pokemonTeamIndex);
 		};
 		return evolutionInterface;
@@ -207,5 +213,17 @@ public partial class PackedScenes : Node
 		PokeMartSlot pokeMartSlot = _pokeMartSlot.Instantiate<PokeMartSlot>();
 		pokeMartSlot.SetPokeMartItem(pokeMartItem);
 		return pokeMartSlot;
+	}
+
+	public InventoryInterface GetInventoryInterface()
+	{
+		return _inventoryInterface.Instantiate<InventoryInterface>();
+	}
+
+	public StageItem GetStageItem(PokeMartItem pokeMartItem)
+	{
+		StageItem stageItem = _stageItem.Instantiate<StageItem>();
+		stageItem.SetItem(pokeMartItem);
+		return stageItem;
 	}
 }

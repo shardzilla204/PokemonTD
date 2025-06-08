@@ -23,6 +23,7 @@ public partial class PokemonSettings : Node
     public bool ButtonSFXEnabled = true;
     public bool PokemonSFXEnabled = true;
     public bool PokemonMoveSFXEnabled = true;
+    public bool AutoHealEnabled = false;
 
     public override void _EnterTree()
     {
@@ -104,7 +105,8 @@ public partial class PokemonSettings : Node
             { "Window Mode Index", WindowModeIndex },
             { "Button SFX Enabled", ButtonSFXEnabled },
             { "Pokemon SFX Enabled", PokemonSFXEnabled },
-            { "Pokemon Move SFX Enabled", PokemonMoveSFXEnabled }
+            { "Pokemon Move SFX Enabled", PokemonMoveSFXEnabled },
+            { "Auto Heal Enabled", AutoHealEnabled },
         };
         return settingsData;
     }
@@ -138,6 +140,7 @@ public partial class PokemonSettings : Node
         ButtonSFXEnabled = settingsData["Button SFX Enabled"].As<bool>();
         PokemonSFXEnabled = settingsData["Pokemon SFX Enabled"].As<bool>();
         PokemonMoveSFXEnabled = settingsData["Pokemon Move SFX Enabled"].As<bool>();
+        AutoHealEnabled = settingsData["Auto Heal Enabled"].As<bool>();
 
         ApplySettings();
     }
@@ -160,14 +163,14 @@ public partial class PokemonSettings : Node
 
     public void ApplySettings()
     {
+        DisplayServer.MouseMode mouseMode = WindowModeIndex == 0 ? DisplayServer.MouseMode.Confined : DisplayServer.MouseMode.Visible;
+        DisplayServer.MouseSetMode(mouseMode);
+
         DisplayServer.WindowMode windowMode = WindowModeIndex switch
         {
             2 => DisplayServer.WindowMode.Windowed,
             _ => DisplayServer.WindowMode.Fullscreen
         };
         DisplayServer.WindowSetMode(windowMode);
-
-        DisplayServer.MouseMode mouseMode = WindowModeIndex == 0 ? DisplayServer.MouseMode.Confined : DisplayServer.MouseMode.Visible;
-        DisplayServer.MouseSetMode(mouseMode);
     }
 }

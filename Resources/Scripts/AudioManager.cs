@@ -98,6 +98,13 @@ public partial class AudioManager : AudioStreamPlayer
 		pokemonMovePlayer.Play();
 	}
 
+	public void PlayPokemonHealed()
+	{
+		string filePath = $"res://Assets/Audio/PokemonHealed.wav";
+		AudioStream pokemonHealed = ResourceLoader.Load<AudioStream>($"{filePath}");
+		PlayOneshotSound(pokemonHealed);
+	}
+
 	public void PlayPokemonFaint()
 	{
 		if (!PokemonSettings.Instance.PokemonSFXEnabled) return;

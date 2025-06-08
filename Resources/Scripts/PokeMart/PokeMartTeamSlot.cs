@@ -45,11 +45,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         }
         else if (pokeMartItem.Category == PokeMartItemCategory.Medicine)
         {
-            int healAmount = GetHealAmount(pokeMartItem.Name);
-            int desiredHealth = _pokemon.Stats.HP + healAmount;
-            int healthThreshold = Mathf.RoundToInt(_pokemon.Stats.MaxHP + healAmount / 2);
-
-            return desiredHealth < healthThreshold;
+            return _pokemon.Stats.HP < _pokemon.Stats.MaxHP;
         }
         else if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
         {
@@ -73,7 +69,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         }
         else if (pokeMartItem.Category == PokeMartItemCategory.Medicine)
         {
-            int healAmount = GetHealAmount(pokeMartItem.Name);
+            int healAmount = PokeMart.Instance.GetHealAmount(_pokemon, pokeMartItem);
             _pokemon.Stats.HP = Mathf.Clamp(_pokemon.Stats.HP + healAmount, 0, _pokemon.Stats.MaxHP);
 
             SetPokemon(_pokemon);
@@ -83,6 +79,8 @@ public partial class PokeMartTeamSlot : NinePatchRect
 
             string healMessage = $"Healed {_pokemon.Name} For {healAmount} HP";
             PrintRich.PrintLine(TextColor.Orange, healMessage);
+
+            PokemonTD.AudioManager.PlayPokemonHealed();
         }
         else if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone)
         {
@@ -107,14 +105,5 @@ public partial class PokeMartTeamSlot : NinePatchRect
             PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonEvolved, _pokemon, pokemonTeamIndex);
         }
     }
-
-    private int GetHealAmount(string potionName) => potionName switch
-    {
-        "Potion" => 20,
-        "Super Potion" => 50,
-        "Hyper Potion" => 200,
-        "Max Potion" => _pokemon.Stats.MaxHP,
-        _ => 20
-    };
 }
 

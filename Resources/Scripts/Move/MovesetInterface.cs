@@ -22,7 +22,6 @@ public partial class MovesetInterface : CanvasLayer
 	private Pokemon _pokemon;
 	private int _pokemonTeamIndex;
 	
-
     public override void _ExitTree()
     {
         PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;

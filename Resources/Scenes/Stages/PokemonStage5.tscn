@@ -102,6 +102,7 @@ offset_right = 1584.0
 offset_bottom = 612.0
 
 [node name="Grimer" type="TextureRect" parent="TileMapLayers/Pokemon" index="0"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = 537.333
 offset_top = 212.0
@@ -111,6 +112,7 @@ texture = ExtResource("5_gvcfm")
 stretch_mode = 5
 
 [node name="Gastly" type="TextureRect" parent="TileMapLayers/Pokemon" index="1"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = 1180.0
 offset_top = 478.667
@@ -120,6 +122,7 @@ texture = ExtResource("6_w3aw8")
 stretch_mode = 5
 
 [node name="Gastly2" type="TextureRect" parent="TileMapLayers/Pokemon" index="2"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = -3.0
 offset_top = 190.0
@@ -130,6 +133,7 @@ stretch_mode = 5
 flip_h = true
 
 [node name="Gastly3" type="TextureRect" parent="TileMapLayers/Pokemon" index="3"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = 928.0
 offset_top = -48.0
@@ -139,6 +143,7 @@ texture = ExtResource("6_w3aw8")
 stretch_mode = 5
 
 [node name="Koffing" type="TextureRect" parent="TileMapLayers/Pokemon" index="4"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = 471.0
 offset_top = 423.0
@@ -148,6 +153,7 @@ texture = ExtResource("7_ub8d4")
 stretch_mode = 5
 
 [node name="Muk" type="TextureRect" parent="TileMapLayers/Pokemon" index="5"]
+y_sort_enabled = true
 layout_mode = 0
 offset_left = 393.333
 offset_top = 160.0

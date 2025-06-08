@@ -16,13 +16,14 @@ warnings/check_invalid_track_paths=false
 
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
-config/version="0.5.5"
+config/version="0.5.6"
 run/main_scene="res://Resources/Scenes/MenuInterface.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot/app_userdata/PokemonTD"
 config/auto_accept_quit=false
 config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
-boot_splash/image="uid://byynbmon8ik1"
+boot_splash/bg_color=Color(0.14902, 0.14902, 0.14902, 1)
+boot_splash/show_image=false
 config/icon="res://Assets/Images/GameIcon.png"
 
 [audio]
