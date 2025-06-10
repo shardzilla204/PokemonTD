@@ -1,0 +1,269 @@
+[gd_scene load_steps=9 format=3 uid="uid://duetnlfhlxtod"]
+
+[ext_resource type="Script" uid="uid://hbyasup2evb8" path="res://Resources/Scripts/MasterModeInterface.cs" id="1_gnvdl"]
+[ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="2_8tnk0"]
+[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="3_wufve"]
+[ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_jx2vg"]
+[ext_resource type="Texture2D" uid="uid://db8f0ca2shish" path="res://Assets/Images/DonutFlat.png" id="5_8tnk0"]
+[ext_resource type="Script" uid="uid://bycs0gk44p72y" path="res://Resources/Scripts/ScrollOption.cs" id="5_wufve"]
+[ext_resource type="Texture2D" uid="uid://cwclhhjtnp4uy" path="res://Assets/Images/Pokemon/Bulbasaur.png" id="7_jx2vg"]
+[ext_resource type="Texture2D" uid="uid://0w6rgkf6p2kb" path="res://Assets/Images/Pokemon/Mew.png" id="8_7rwdb"]
+
+[node name="MasterModeInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_masterModeOption", "_masterModeLabel", "_minPokemonLevelOption", "_maxPokemonLevelOption")]
+script = ExtResource("1_gnvdl")
+_exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
+_masterModeOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption")
+_masterModeLabel = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption/MarginContainer/VBoxContainer/MasterModeLabel")
+_minPokemonLevelOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption")
+_maxPokemonLevelOption = NodePath("Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_8tnk0")
+color = Color(0, 0, 0, 0.5)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="Label" type="Label" parent="Background/MarginContainer"]
+custom_minimum_size = Vector2(0, 65)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Master Mode"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 2
+
+[node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "X"
+flat = true
+script = ExtResource("3_wufve")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton"]
+self_modulate = Color(0.27, 0.27, 0.27, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_jx2vg")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(720, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+alignment = 1
+
+[node name="MasterModeOption" type="CheckButton" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+disabled = true
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="MasterModeLabel" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Complete All Stages To Unlock"
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Random Pokemon Can Spawn"
+
+[node name="Label2" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MasterModeOption/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Choose Any Stage Afterwards"
+
+[node name="MinLevelOption" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer" node_paths=PackedStringArray("_label", "_textureProgressBar")]
+self_modulate = Color(0.231373, 0.231373, 0.231373, 1)
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("4_jx2vg")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("5_wufve")
+_label = NodePath("MarginContainer/HBoxContainer/MinimumLevelLabel")
+_textureProgressBar = NodePath("MarginContainer/HBoxContainer/TextureProgressBar")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer"]
+layout_mode = 2
+
+[node name="MinimumLevelLabel" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 28
+text = "Minimum Pokemon Level: 1"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = 1.0
+value = 100.0
+rounded = true
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("5_8tnk0")
+tint_progress = Color(0.270588, 0.270588, 0.270588, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer/HBoxContainer/TextureProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MinLevelOption/MarginContainer/HBoxContainer/TextureProgressBar/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("7_jx2vg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="MaxLevelOption" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer" node_paths=PackedStringArray("_label", "_textureProgressBar")]
+self_modulate = Color(0.231373, 0.231373, 0.231373, 1)
+custom_minimum_size = Vector2(0, 85)
+layout_mode = 2
+mouse_filter = 0
+texture = ExtResource("4_jx2vg")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+script = ExtResource("5_wufve")
+_label = NodePath("MarginContainer/HBoxContainer/VBoxContainer/MaximumLevelLabel")
+_textureProgressBar = NodePath("MarginContainer/HBoxContainer/TextureProgressBar")
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 0
+
+[node name="MaximumLevelLabel" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 28
+text = "Maximum Pokemon Level: 100"
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Increase Cap Through Leveling Up Your Highest Pokemon's Level"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+min_value = 1.0
+value = 100.0
+rounded = true
+fill_mode = 4
+nine_patch_stretch = true
+texture_progress = ExtResource("5_8tnk0")
+tint_progress = Color(0.270588, 0.270588, 0.270588, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer/TextureProgressBar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="TextureRect" type="TextureRect" parent="Background/MarginContainer/VBoxContainer/VBoxContainer/MaxLevelOption/MarginContainer/HBoxContainer/TextureProgressBar/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("8_7rwdb")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Definitely Didn't Make This Due To My Laziness To Make More Stages"
+horizontal_alignment = 1

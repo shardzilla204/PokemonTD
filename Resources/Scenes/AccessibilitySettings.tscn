@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_6k6j0"]
 [ext_resource type="Script" uid="uid://dkcef1f755cgm" path="res://Resources/Scripts/AccessibilitySettings.cs" id="1_bldv7"]
 
-[node name="AccessibilitySettings" type="VBoxContainer" node_paths=PackedStringArray("_windowOption", "_buttonSFXOption", "_pokemonSFXOption", "_pokemonMoveSFXOption")]
+[node name="AccessibilitySettings" type="VBoxContainer" node_paths=PackedStringArray("_windowOption", "_buttonSFXOption", "_pokemonSFXOption", "_pokemonMoveSFXOption", "_autoHealOption", "_autoHealLabel")]
 custom_minimum_size = Vector2(250, 0)
 size_flags_horizontal = 3
 mouse_filter = 2
@@ -14,6 +14,8 @@ _windowOption = NodePath("WindowOption")
 _buttonSFXOption = NodePath("ButtonSFXOption")
 _pokemonSFXOption = NodePath("PokemonSFXOption")
 _pokemonMoveSFXOption = NodePath("PokemonMoveSFXOption")
+_autoHealOption = NodePath("AutoHealOption")
+_autoHealLabel = NodePath("AutoHealOption/MarginContainer/VBoxContainer/AutoHealLabel")
 
 [node name="WindowOption" type="OptionButton" parent="."]
 custom_minimum_size = Vector2(0, 65)
@@ -49,12 +51,12 @@ theme_override_font_sizes/font_size = 28
 button_pressed = true
 text = "Pokemon Move SFX: On"
 
-[node name="HealOption" type="CheckButton" parent="."]
-custom_minimum_size = Vector2(0, 85)
+[node name="AutoHealOption" type="CheckButton" parent="."]
+custom_minimum_size = Vector2(0, 100)
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 
-[node name="MarginContainer" type="MarginContainer" parent="HealOption"]
+[node name="MarginContainer" type="MarginContainer" parent="AutoHealOption"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -66,15 +68,21 @@ theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HealOption/MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="AutoHealOption/MarginContainer"]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="Label" type="Label" parent="HealOption/MarginContainer/VBoxContainer"]
+[node name="AutoHealLabel" type="Label" parent="AutoHealOption/MarginContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 28
 text = "Auto Heal: Off"
 
-[node name="Label2" type="Label" parent="HealOption/MarginContainer/VBoxContainer"]
+[node name="Label" type="Label" parent="AutoHealOption/MarginContainer/VBoxContainer"]
 layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Automatically heals Pokemon if applicable"
+
+[node name="Label2" type="Label" parent="AutoHealOption/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Uses potions that heal more first"

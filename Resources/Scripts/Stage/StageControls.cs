@@ -24,7 +24,7 @@ public partial class StageControls : HBoxContainer
 	private Texture2D _pauseTexture;
 
 	private int _speedOption;
-	private List<float> _speedOptions = new List<float>(){ 1, 2, 4, 0.5f };
+	private List<float> _speedOptions = new List<float>(){ 1, 2, 4, 8, 0.5f };
 
 	public override void _ExitTree()
 	{

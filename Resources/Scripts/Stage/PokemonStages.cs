@@ -10,22 +10,39 @@ public partial class PokemonStages : Node
 {
 	private static PokemonStages _instance;
 
-    public static PokemonStages Instance
-    {
-        get => _instance;
-        private set
-        {
-            if (_instance == null) _instance = value;
-        }
-    }
+	public static PokemonStages Instance
+	{
+		get => _instance;
+		private set
+		{
+			if (_instance == null) _instance = value;
+		}
+	}
 
 	private GC.Dictionary<string, Variant> _stagesDictionary = new GC.Dictionary<string, Variant>();
 	private List<PokemonStage> _pokemonStages = new List<PokemonStage>();
+	private GC.Dictionary<int, bool> _stageCompletionList = new GC.Dictionary<int, bool>()
+	{
+		{ 1, false },
+		{ 2, false },
+		{ 3, false },
+		{ 4, false },
+		{ 5, false },
+		{ 6, false }
+	};
 
 	public override void _EnterTree()
 	{
 		Instance = this;
-		
+
+		PokemonTD.Signals.GameReset += () =>
+		{
+			foreach (int key in _stageCompletionList.Keys)
+			{
+				_stageCompletionList[key] = false;
+			}
+        };
+
 		LoadStagesFile();
 		SetPokemonStages();
 	}
@@ -38,10 +55,10 @@ public partial class PokemonStages : Node
 		string jsonString = file.GetAsText();
 
 		Json json = new Json();
-		
+
 		if (json.Parse(jsonString) != Error.Ok) return;
-		
-		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary) json.Data);
+
+		_stagesDictionary = new GC.Dictionary<string, Variant>((GC.Dictionary)json.Data);
 
 		// Print message to console
 		string loadSuccessMessage = "Pokemon Stages File Successfully Loaded";
@@ -78,7 +95,7 @@ public partial class PokemonStages : Node
 
 			_pokemonStages.Add(pokemonStage);
 		}
-		GD.Print(); // Spacing
+		GD.Print(); // Print Spacing
 	}
 
 	public int GetRandomEnemyCount()
@@ -95,5 +112,38 @@ public partial class PokemonStages : Node
 	public PokemonStage GetPokemonStage(int pokemonStageID)
 	{
 		return _pokemonStages.Find(pokemonStage => pokemonStage.ID == pokemonStageID);
+	}
+
+	public void CompletedStage(int stageID)
+	{
+		bool hasCompleted = _stageCompletionList[stageID];
+		if (hasCompleted) return;
+
+		_stageCompletionList[stageID] = true;
+
+		// Print message to console
+		string completedStageMessage = $"You've Completed Stage {stageID}!";
+		if (PrintRich.AreStageMessagesEnabled) PrintRich.PrintLine(TextColor.Yellow, completedStageMessage);
+	}
+
+	public GC.Dictionary<string, Variant> GetData()
+	{
+		GC.Dictionary<string, Variant> stageData = new GC.Dictionary<string, Variant>();
+		List<int> keys = _stageCompletionList.Keys.ToList();
+		for (int i = 0; i < keys.Count; i++)
+		{
+			int key = keys[i];
+			stageData.Add(key.ToString(), _stageCompletionList[key]);
+		}
+		return stageData;
+	}
+
+	public void SetData(GC.Dictionary<string, Variant> stageData)
+	{
+		foreach (string keyString in stageData.Keys)
+		{
+			int key = int.Parse(keyString);
+			_stageCompletionList[key] = stageData[keyString].As<bool>();
+		}
 	}
 }

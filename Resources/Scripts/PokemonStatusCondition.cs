@@ -30,29 +30,20 @@ public partial class PokemonStatusCondition : Node
         }
     }
 
-    private List<CustomTimer> _timers = new List<CustomTimer>();
+    private PokemonTimer _pokemonTimer = new PokemonTimer();
 
     public override void _EnterTree()
     {
         Instance = this;
-
-        PokemonTD.Signals.PressedPlay += StartTimers;
-        PokemonTD.Signals.PressedPause += StopTimers;
-        PokemonTD.Signals.Dragging += Dragging;
     }
 
     private void ApplyBurnCondition(GodotObject defending)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
-
         StatusCondition statusCondition = StatusCondition.Burn;
         ApplyStatusColor(defending, statusCondition);
 
-        float percentage = .0625f; // 1/16
         int iterations = 3;
-
-        int damage = PokemonCombat.Instance.GetDamage(defendingPokemon, percentage);
-        PokemonCombat.Instance.DamagePokemonOverTime(defending, damage, iterations, statusCondition);
+        PokemonCombat.Instance.DamagePokemonOverTime(defending, iterations, statusCondition);
     }
 
     private void ApplyFreezeCondition(GodotObject defending)
@@ -87,31 +78,27 @@ public partial class PokemonStatusCondition : Node
 
     public void FreezePokemon(GodotObject defending, StatusCondition statusCondition, float timeSeconds)
     {
-        CustomTimer timer = GetDamageTimer(defending, timeSeconds);
-        AddChild(timer);
-        _timers.Add(timer);
+        CustomTimer timer = GetDamageTimer(timeSeconds);
+
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        Pokemon defendingPokemonData = PokemonManager.Instance.GetPokemon(defendingPokemon.Name, defendingPokemon.Level);
+        
+        defendingPokemon.Stats.Speed = 0;
+        
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            Pokemon pokemon = pokemonStageSlot.Pokemon;
             int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
             PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
 
-            pokemonStageSlot.IsActive = false;
             timer.Timeout += () =>
             {
                 pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-                if (pokemonStageSlot == null) return;
-
-                pokemonStageSlot.IsActive = true;
-                timer.QueueFree();
+                if (pokemonStageSlot == null) return; // * For the next part thats appended with the same signal (Timeout)
             };
             timer.TreeExiting += () =>
             {
-                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-                if (pokemonStageSlot == null) return;
-
-                ApplyStatusColor(pokemonStageSlot, StatusCondition.None);
-                RemoveStatusCondition(pokemonStageSlot, statusCondition);
+                 pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
+                if (pokemonStageSlot == null) return; // * For the next part thats appended with the same signal (TreeExiting)
             };
 
             pokemonStageSlot.Retrieved += (pokemonStageSlot) =>
@@ -122,35 +109,32 @@ public partial class PokemonStatusCondition : Node
             {
                 if (IsInstanceValid(timer)) timer.QueueFree();
             };
+
+            pokemonStageSlot.AddChild(timer);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
-            Pokemon pokemonData = PokemonManager.Instance.GetPokemon(pokemonEnemy.Pokemon.Name, pokemonEnemy.Pokemon.Level);
-            pokemonEnemy.Pokemon.Stats.Speed = 0;
-            timer.Timeout += () =>
-            {
-                if (!IsInstanceValid(pokemonEnemy)) return;
-
-                pokemonEnemy.Pokemon.Stats.Speed = pokemonData.Stats.Speed;
-                timer.QueueFree();
-            };
-            timer.TreeExiting += () =>
-            {
-                if (!IsInstanceValid(pokemonEnemy)) return;
-                
-                ApplyStatusColor(pokemonEnemy, StatusCondition.None);
-                RemoveStatusCondition(pokemonEnemy, statusCondition);
-            };
-
-            pokemonEnemy.TreeExiting += () =>
-            {
-                if (IsInstanceValid(timer)) timer.QueueFree();
-            };
             pokemonEnemy.Fainted += (pokemonEnemy) =>
             {
                 if (IsInstanceValid(timer)) timer.QueueFree();
             };
+            pokemonEnemy.AddChild(timer);
         }
+
+        // *
+        timer.Timeout += () =>
+        {
+            defendingPokemon.Stats.Speed = defendingPokemonData.Stats.Speed;
+            timer.QueueFree();
+        };
+
+        // *
+        timer.TreeExiting += () =>
+        {
+            ApplyStatusColor(defending, StatusCondition.None);
+            RemoveStatusCondition(defending, statusCondition);
+            defendingPokemon.RemoveStatusCondition(statusCondition);
+        };
     }
 
     private void ApplyParalysis(GodotObject defending)
@@ -158,8 +142,7 @@ public partial class PokemonStatusCondition : Node
         float reductionPercent = 0.25f;
         StatusCondition statusCondition = StatusCondition.Paralysis;
 
-        CustomTimer timer = GetDamageTimer(defending, 3);
-        _timers.Add(timer);
+        CustomTimer timer = GetDamageTimer(3);
 
         Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
         Pokemon defendingPokemonData = PokemonManager.Instance.GetPokemon(defendingPokemon.Name, defendingPokemon.Level);
@@ -171,42 +154,51 @@ public partial class PokemonStatusCondition : Node
             PokemonStage pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
             int pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
 
+            timer.Timeout += () =>
+            {
+                pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
+                if (pokemonStageSlot == null) return; // * For the next part thats appended with the same signal (Timeout)
+            };
+
             timer.TreeExiting += () =>
             {
                 pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-                if (pokemonStageSlot == null) return;
+                if (pokemonStageSlot == null) return; // * For the next part thats appended with the same signal (TreeExiting)
             };
             pokemonStageSlot.AddChild(timer);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
+            pokemonEnemy.Fainted += (pokemonEnemy) =>
+            {
+                if (IsInstanceValid(timer)) timer.QueueFree();
+            };
             pokemonEnemy.AddChild(timer);
         }
 
+        // *
         timer.Timeout += () =>
         {
             defendingPokemon.Stats.Speed = defendingPokemonData.Stats.Speed;
             timer.QueueFree();
         };
+
+        // *
         timer.TreeExiting += () =>
         {
             ApplyStatusColor(defending, StatusCondition.None);
             RemoveStatusCondition(defending, statusCondition);
+            defendingPokemon.RemoveStatusCondition(statusCondition);
         };
     }
 
     private void ApplyPoisonCondition(GodotObject defending)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
-
         StatusCondition statusCondition = StatusCondition.Poison;
         ApplyStatusColor(defending, statusCondition);
 
-        float percentage = .0625f; // 1/16
         int iterations = 3;
-
-        int damage = PokemonCombat.Instance.GetDamage(defendingPokemon, percentage);
-        PokemonCombat.Instance.DamagePokemonOverTime(defending, damage, iterations, statusCondition);
+        PokemonCombat.Instance.DamagePokemonOverTime(defending, iterations, statusCondition);
     }
 
     private void ApplyBadlyPoisonedCondition(GodotObject defending)
@@ -234,7 +226,7 @@ public partial class PokemonStatusCondition : Node
         Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
         Pokemon defendingPokemonData = PokemonManager.Instance.GetPokemon(defendingPokemon.Name, defendingPokemon.Level);
 
-        CustomTimer timer = GetDamageTimer(defending, 3);
+        CustomTimer timer = GetDamageTimer(3);
 
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
@@ -274,6 +266,7 @@ public partial class PokemonStatusCondition : Node
         {
             ApplyStatusColor(defending, StatusCondition.None);
             RemoveStatusCondition(defending, statusCondition);
+            defendingPokemon.RemoveStatusCondition(statusCondition);
         };
     }
 
@@ -284,7 +277,7 @@ public partial class PokemonStatusCondition : Node
 
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.ApplyStatusColor(statusConditionColor);
+            pokemonStageSlot.ApplyStatusColor(statusConditionColor);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
@@ -292,76 +285,14 @@ public partial class PokemonStatusCondition : Node
         }
     }
 
-    public CustomTimer GetDamageTimer(GodotObject defending, float timeSeconds)
+    public CustomTimer GetDamageTimer(float waitTime)
     {
-        CustomTimer timer = new CustomTimer()
-        {
-            Autostart = true,
-            OneShot = true,
-            WaitTime = timeSeconds / PokemonTD.GameSpeed
-        };
+        CustomTimer timer = new CustomTimer(waitTime);
 
-        timer.TreeEntered += () => _timers.Add(timer);
-        timer.Timeout += async () =>
-        {
-            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
-            timer.QueueFree();
-        };
-        timer.TreeExiting += () =>
-        {
-            _timers.Remove(timer);
-            if (!IsInstanceValid(defending)) return;
-        }; 
+        timer.TreeEntered += () => _pokemonTimer.AddTimer(timer);
+        timer.TreeExiting += () => _pokemonTimer.RemoveTimer(timer);
         
         return timer;
-    }
-
-    private void StartTimer(CustomTimer timer)
-    {
-        try
-        {
-            timer.Start(timer.WaitTimeLeft);
-        }
-        catch (ObjectDisposedException) {}
-    }
-
-    private void StartTimers()
-    {
-        foreach (CustomTimer timer in _timers)
-        {
-            StartTimer(timer);
-        }
-    }
-
-    private void StopTimer(CustomTimer timer)
-    {
-        try
-        {
-            timer.WaitTimeLeft = timer.TimeLeft;
-            timer.Stop();
-        }
-        catch (ObjectDisposedException) {}
-    }
-
-    private void StopTimers()
-    {
-        foreach (CustomTimer timer in _timers)
-        {
-            StopTimer(timer);
-        }
-    }
-
-    private async void Dragging(bool isDragging)
-    {
-        if (isDragging)
-        {
-            StopTimers();
-        }
-        else
-        {
-            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
-            StartTimers();
-        }
     }
 
     private string GetStatusHexColor(StatusCondition statusCondtion) => statusCondtion switch
@@ -380,16 +311,15 @@ public partial class PokemonStatusCondition : Node
     {
         if (statusCondition == StatusCondition.None) return;
 
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        if (defendingPokemon.HasStatusCondition(statusCondition)) return;
+
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            if (pokemonStageSlot.Pokemon.HasStatusCondition(statusCondition)) return;
-
             pokemonStageSlot.AddStatusCondition(statusCondition);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
-            if (pokemonEnemy.Pokemon.HasStatusCondition(statusCondition)) return;
-
             pokemonEnemy.AddStatusCondition(statusCondition);
         }
         AddStatusCondition(defending, statusCondition);
@@ -422,30 +352,18 @@ public partial class PokemonStatusCondition : Node
                 break;
         }
 
-        if (defending is PokemonStageSlot pokemonStageSlot)
-        {
-            pokemonStageSlot.Pokemon.AddStatusCondition(statusCondition);
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        defendingPokemon.AddStatusCondition(statusCondition);
 
-            // Print message to console
-            string statusConditionText = PrintRich.GetStatusConditionText(statusCondition);
-            string statusConditionMessage = $"{pokemonStageSlot.Pokemon.Name} Is Now {statusConditionText}";
-            PrintRich.PrintLine(TextColor.Yellow, statusConditionMessage);
-        }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            pokemonEnemy.Pokemon.AddStatusCondition(statusCondition);
-
-            // Print message to console
-            string statusConditionText = PrintRich.GetStatusConditionText(statusCondition);
-            string statusConditionMessage = $"{pokemonEnemy.Pokemon.Name} Is Now {statusConditionText}";
-            PrintRich.PrintLine(TextColor.Red, statusConditionMessage);
-        }
+        // Print message to console
+        string statusConditionText = PrintRich.GetStatusConditionText(statusCondition);
+        string statusConditionMessage = $"{defendingPokemon.Name} Is Now {statusConditionText}";
+        PrintRich.PrintLine(TextColor.Yellow, statusConditionMessage);
     }
 
     public void RemoveStatusCondition(GodotObject defending, StatusCondition statusCondition)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
-        if (statusCondition == StatusCondition.None || defendingPokemon == null) return;
+        if (statusCondition == StatusCondition.None) return;
 
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
@@ -456,20 +374,7 @@ public partial class PokemonStatusCondition : Node
             pokemonEnemy.RemoveStatusCondition(statusCondition);
         }
     }
-
-    public bool HasStatusCondition<Defending>(Defending defending, StatusCondition statusCondition)
-    {
-        if (defending is PokemonStageSlot pokemonStageSlot)
-        {
-            return pokemonStageSlot.Pokemon.HasStatusCondition(statusCondition);
-        }
-        else if (defending is PokemonEnemy pokemonEnemy)
-        {
-            return pokemonEnemy.Pokemon.HasStatusCondition(statusCondition);
-        }
-        return false;
-    }
-
+    
     // Get a status condition that the pokemon doesn't already have
     public StatusCondition GetStatusCondition<Defending>(Defending defending, PokemonMove pokemonMove)
     {

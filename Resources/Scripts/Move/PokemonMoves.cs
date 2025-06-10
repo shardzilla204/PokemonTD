@@ -61,7 +61,7 @@ public partial class PokemonMoves : Node
         {
             totalMoveCount += AddTypeMoveset(type);
         }
-        GD.Print(); // Spacing
+        GD.Print(); // Print Spacing
 
         // Print Messages To Console
         string typeCountMessage = $"Total Pokemon Types: {typeArray.Length}";

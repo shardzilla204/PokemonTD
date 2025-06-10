@@ -29,8 +29,7 @@ public partial class Pokemon : Node
 	public bool HasCanceledEvolution;
 
 	public PokemonEffects Effects = new PokemonEffects();
-
-	private List<StatusCondition> _statusConditions = new List<StatusCondition>();
+	public List<StatusCondition> StatusConditions = new List<StatusCondition>();
 
 	public Pokemon() { }
 
@@ -75,27 +74,22 @@ public partial class Pokemon : Node
 
 	public void AddStatusCondition(StatusCondition statusCondition)
 	{
-		_statusConditions.Add(statusCondition);
+		StatusConditions.Add(statusCondition);
 	}
 
 	public void RemoveStatusCondition(StatusCondition statusCondition)
 	{
-		_statusConditions.Remove(statusCondition);
+		StatusConditions.Remove(statusCondition);
 	}
 
 	public void ClearStatusConditions()
 	{
-		_statusConditions.Clear();
-	}
-
-	public List<StatusCondition> GetStatusConditions()
-	{
-		return _statusConditions;
+		StatusConditions.Clear();
 	}
 
 	public bool HasStatusCondition(StatusCondition statusCondition)
 	{
-		return _statusConditions.Contains(statusCondition);
+		return StatusConditions.Contains(statusCondition);
 	}
 
 	// Set Current Move
@@ -111,6 +105,8 @@ public partial class Pokemon : Node
 			Move = nextPokemonMove;
 			break;
 		}
+
+		ApplyMoveEffect(Move);
 	}
 
 	public void ResetEffects(int pokemonTeamIndex)
@@ -124,7 +120,6 @@ public partial class Pokemon : Node
 		Level = Mathf.Clamp(Level, 1, PokemonTD.MaxPokemonLevel);
 
 		Stats.MaxHP = PokemonManager.Instance.GetPokemonHP(this);
-		Stats.HP = PokemonManager.Instance.GetPokemonHP(this);
 
 		PokemonManager.Instance.SetPokemonStats(this);
 	}
@@ -166,6 +161,26 @@ public partial class Pokemon : Node
 					Effects.HasConversion = true;
 					break;
 			}
+		}
+	}
+
+	public void ApplyMoveEffect(PokemonMove pokemonMove)
+	{
+		Effects.ClearMoveEffects(this);
+		switch (pokemonMove.Name)
+		{
+			case "Quick Attack":
+				Effects.HasQuickAttack = true;
+				break;
+			case "Counter":
+				Effects.HasCounter = true;
+				break;
+			case "Rage":
+				Effects.HasRage = true;
+				break;
+			case "Hyper Beam":
+				Effects.HasHyperBeam = true;
+				break;
 		}
 	}
 }

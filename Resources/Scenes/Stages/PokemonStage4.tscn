@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://ihxsfqcfdmpc"]
 
 [ext_resource type="PackedScene" uid="uid://casdu4fu8s6ya" path="res://Resources/Scenes/Stage/PokemonStage.tscn" id="1_anqcv"]
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_2cv4g"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="2_2cv4g"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="4_4adus"]
 [ext_resource type="Texture2D" uid="uid://bfui266b7ek5a" path="res://Assets/Images/Pokemon/Psyduck.png" id="6_cfmor"]
 [ext_resource type="Texture2D" uid="uid://2dxl8wcpop2n" path="res://Assets/Images/Pokemon/Rhyhorn.png" id="7_nivgl"]

@@ -106,7 +106,7 @@ public partial class PokemonSettings : Node
             { "Button SFX Enabled", ButtonSFXEnabled },
             { "Pokemon SFX Enabled", PokemonSFXEnabled },
             { "Pokemon Move SFX Enabled", PokemonMoveSFXEnabled },
-            { "Auto Heal Enabled", AutoHealEnabled },
+            { "Auto Heal Enabled", AutoHealEnabled }
         };
         return settingsData;
     }

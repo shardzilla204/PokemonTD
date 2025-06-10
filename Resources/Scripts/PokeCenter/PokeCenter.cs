@@ -279,7 +279,7 @@ public partial class PokeCenter : Node
 	{
 		for (int i = 0; i < PokemonTD.PokeCenterCount; i++)
 		{
-			Pokemon randomPokemon = PokemonManager.Instance.GetRandomPokemon();
+			Pokemon randomPokemon = PokemonManager.Instance.GetRandomPokemon(false);
 			Pokemon.Add(randomPokemon);
 		}
 	}

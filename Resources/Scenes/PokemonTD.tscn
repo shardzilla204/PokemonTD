@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://oqawclur7pf" path="res://Resources/Scenes/Stages/PokemonStage3.tscn" id="15_8i553"]
 [ext_resource type="PackedScene" uid="uid://ihxsfqcfdmpc" path="res://Resources/Scenes/Stages/PokemonStage4.tscn" id="16_s540p"]
 [ext_resource type="PackedScene" uid="uid://ct0mikbnwlqb1" path="res://Resources/Scenes/Stages/PokemonStage5.tscn" id="17_4lctd"]
-[ext_resource type="PackedScene" uid="uid://cq4s2qs85qhkf" path="res://PokemonStage6.tscn" id="18_4lctd"]
+[ext_resource type="PackedScene" uid="uid://cq4s2qs85qhkf" path="res://Resources/Scenes/Stages/PokemonStage6.tscn" id="18_4lctd"]
 [ext_resource type="PackedScene" uid="uid://caqpnn7iurh5b" path="res://Resources/Scenes/Move/ForgetMoveInterface.tscn" id="18_8nrjv"]
 [ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/PokemonTeamSlot.tscn" id="19_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyPokemonTeamSlot.tscn" id="20_1jrto"]
@@ -35,49 +35,10 @@
 [ext_resource type="Script" uid="uid://r3pbccgmun6t" path="res://Resources/Scripts/PrintRich.cs" id="29_1jrto"]
 [ext_resource type="PackedScene" uid="uid://ri6134qq7ii0" path="res://Resources/Scenes/InventoryInterface.tscn" id="29_8i553"]
 [ext_resource type="PackedScene" uid="uid://cvil380aw6b84" path="res://Resources/Scenes/StageItem.tscn" id="30_s540p"]
+[ext_resource type="PackedScene" uid="uid://duetnlfhlxtod" path="res://Resources/Scenes/MasterModeInterface.tscn" id="32_cntds"]
+[ext_resource type="Script" uid="uid://d0npdwnc2lvpp" path="res://Resources/Scripts/PokemonMasterMode.cs" id="36_p6id6"]
 
-[sub_resource type="CSharpScript" id="CSharpScript_v3jpj"]
-script/source = "using Godot;
-
-namespace PokemonTD;
-
-public partial class StageConsoleLabel : Label
-{
-    [Export]
-    private Timer _timer;
-
-    public override void _Ready()
-    {
-        _timer.Timeout += TweenOpacity;
-    }
-
-    private void TweenOpacity()
-    {
-        Color transparent = Colors.White;
-        transparent.A = 0;
-
-        float duration = 1f;
-        Tween tween = GetTree().CreateTween();
-        tween.TweenProperty(this, \"modulate\", transparent, duration);
-        tween.Finished += QueueFree;
-    }
-}
-"
-
-[sub_resource type="PackedScene" id="PackedScene_3kk4q"]
-_bundled = {
-"conn_count": 0,
-"conns": PackedInt32Array(),
-"editable_instances": [],
-"names": PackedStringArray("StageConsoleLabel", "Label", "custom_minimum_size", "size_flags_vertical", "theme_override_font_sizes/font_size", "text", "autowrap_mode", "script", "_timer", "Timer", "Timer", "wait_time", "autostart"),
-"node_count": 2,
-"node_paths": [NodePath(".")],
-"nodes": PackedInt32Array(-1, -1, 1, 0, -1, 7, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 7, 5, 1073741832, 6, 0, 1073741824, 0, 10, 9, -1, 2, 11, 7, 12, 8, 0),
-"variants": [Vector2(0, 20), 1, 20, "Bulbasaur Used Leech Seed On Squirtle", 2, SubResource("CSharpScript_v3jpj"), NodePath("Timer"), 2.0, true],
-"version": 3
-}
-
-[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds")]
+[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds", "_pokemonMasterMode")]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
@@ -85,6 +46,7 @@ script = ExtResource("1_22f5f")
 _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _pokemonKeybinds = NodePath("PokemonKeybinds")
+_pokemonMasterMode = NodePath("PokemonMasterMode")
 _isPokeCenterRandomized = true
 _pokeCenterCount = 100
 
@@ -106,7 +68,6 @@ _pokemonTeamSlot = ExtResource("19_lpw2n")
 _emptyPokemonTeamSlot = ExtResource("20_1jrto")
 _forgetMoveInterface = ExtResource("18_8nrjv")
 _evolutionInterface = ExtResource("20_g5jc2")
-_stageConsoleLabel = SubResource("PackedScene_3kk4q")
 _settingsInterface = ExtResource("22_u4bgx")
 _informationInterface = ExtResource("25_6jdnx")
 _statusConditionIcon = ExtResource("26_lpw2n")
@@ -115,6 +76,7 @@ _pokeMartItem = ExtResource("27_v3jpj")
 _pokeMartSlot = ExtResource("28_v3jpj")
 _inventoryInterface = ExtResource("29_8i553")
 _stageItem = ExtResource("30_s540p")
+_masterModeInterface = ExtResource("32_cntds")
 
 [node name="AudioManager" type="AudioStreamPlayer" parent="." node_paths=PackedStringArray("_musicStreamPlayer", "_soundStreamPlayer")]
 script = ExtResource("22_s4j0d")
@@ -140,3 +102,6 @@ _areFilePathsVisible = true
 
 [node name="PokemonKeybinds" type="Node" parent="."]
 script = ExtResource("28_lpw2n")
+
+[node name="PokemonMasterMode" type="Node" parent="."]
+script = ExtResource("36_p6id6")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://casdu4fu8s6ya"]
 
 [ext_resource type="Script" uid="uid://dmxl183bhblr0" path="res://Resources/Scripts/Stage/PokemonStage.cs" id="1_ml3ya"]
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_qi5qs"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="2_qi5qs"]
 [ext_resource type="Script" uid="uid://dqdpgyxsxsnpk" path="res://Resources/Scripts/StagePath.cs" id="3_v4mr2"]
 [ext_resource type="Texture2D" uid="uid://cbgqh1gw8v43g" path="res://Assets/Images/RightArrow.png" id="4_e8o3t"]
 [ext_resource type="PackedScene" uid="uid://dj4c8rxpcemg6" path="res://Resources/Scenes/Stage/StageInterface.tscn" id="5_0s2hm"]

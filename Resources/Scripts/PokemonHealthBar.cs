@@ -1,5 +1,5 @@
-using System;
 using Godot;
+using System;
 
 namespace PokemonTD;
 
@@ -14,44 +14,48 @@ public partial class PokemonHealthBar : Container
     [Export]
     private TextureProgressBar _healthBar;
 
+    private Pokemon _pokemon;
+
     public void Update(Pokemon pokemon)
     {
+        _pokemon = pokemon;
         _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.Stats.HP} HP" : null;
 
         _healthBar.MaxValue = pokemon != null ? pokemon.Stats.MaxHP : 100;
         _healthBar.Value = pokemon != null ? pokemon.Stats.HP : 100;
     }
 
-    public void AddHealth(Pokemon pokemon, int health)
+    public void AddHealth(int health)
     {
-        SetHealth(pokemon, health);
+        SetHealth(health);
     }
 
-    public void SubtractHealth(Pokemon pokemon, int damage)
+    public void SubtractHealth(int damage)
     {
-        SetHealth(pokemon, -damage);
-        CheckHealth(pokemon);
+        SetHealth(-damage);
+        AutoHeal();
+        CheckHealth();
     }
 
-    private void SetHealth(Pokemon pokemon, int value)
+    private void SetHealth(int value)
     {
-        pokemon.Stats.HP += value;
-        pokemon.Stats.HP = Math.Clamp(pokemon.Stats.HP, 0, pokemon.Stats.MaxHP);
-        _pokemonHealthLabel.Text = pokemon != null ? $"{pokemon.Stats.HP} HP" : null;
-        _healthBar.Value = pokemon.Stats.HP;
+        _pokemon.Stats.HP += value;
+        _pokemon.Stats.HP = Math.Clamp(_pokemon.Stats.HP, 0, _pokemon.Stats.MaxHP);
+        _pokemonHealthLabel.Text = _pokemon != null ? $"{_pokemon.Stats.HP} HP" : null;
+        _healthBar.Value = _pokemon.Stats.HP;
     }
 
-    public void ResetHealth(Pokemon pokemon)
+    public void ResetHealth()
     {
-        pokemon.Stats.HP = pokemon.Stats.MaxHP;
-        Update(pokemon);
+        _pokemon.Stats.HP = _pokemon.Stats.MaxHP;
+        Update(_pokemon);
     }
 
-    private void CheckHealth(Pokemon pokemon)
+    private void CheckHealth()
     {
         if (_healthBar.Value > _healthBar.MinValue) return;
 
-        PokemonTD.SubtractPokeDollars(pokemon);
+        PokemonTD.SubtractPokeDollars(_pokemon);
         EmitSignal(SignalName.Fainted);
     }
 
@@ -59,6 +63,16 @@ public partial class PokemonHealthBar : Container
     {
         if (!PokemonSettings.Instance.AutoHealEnabled) return;
 
+        PokeMartItem bestPotion = PokeMart.Instance.GetBestPotion(_pokemon);
+        if (bestPotion == null) return;
+
+        bestPotion.Quantity--;
         
+        int healAmount = PokeMart.Instance.GetHealAmount(_pokemon, bestPotion);
+        AddHealth(healAmount);
+        PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.AutoHealed);
+
+        string healedMessage = $"{_pokemon.Name} Was Healed For {healAmount} HP";
+        PrintRich.PrintLine(TextColor.Yellow, healedMessage);
     }
 }

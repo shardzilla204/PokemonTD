@@ -14,6 +14,9 @@ public partial class StageSelectInterface : Node
 	private CustomButton _pokeMartButton;
 
 	[Export]
+	private CustomButton _masterModeButton;
+
+	[Export]
 	private Container _stageSelectButtons;
 
     public override void _ExitTree()
@@ -49,6 +52,11 @@ public partial class StageSelectInterface : Node
 			PokeMartInterface pokeMartInterface = PokemonTD.PackedScenes.GetPokeMartInterface();
 			AddSibling(pokeMartInterface);
 			QueueFree();
+		};
+		_masterModeButton.Pressed += () =>
+		{
+			MasterModeInterface masterModeInterface = PokemonTD.PackedScenes.GetMasterModeInterface();
+			AddSibling(masterModeInterface);
 		};
 
 		ClearStageSelectButtons();

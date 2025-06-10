@@ -55,9 +55,19 @@ public partial class PokemonStatMoves : Node
         new StatMove("Bubble Beam", PokemonStat.Speed, false, 85)
     };
 
+    private List<CustomTimer> _timers = new List<CustomTimer>();
+
     public override void _EnterTree()
     {
         Instance = this;
+
+        PokemonTD.Signals.HasLeftStage += () =>
+        {
+            foreach (CustomTimer timer in _timers)
+            {
+                timer.QueueFree();
+            }
+        };
     }
 
     public List<StatMove> FindIncreasingStatMoves(PokemonMove pokemonMove)
@@ -118,7 +128,7 @@ public partial class PokemonStatMoves : Node
         foreach (StatMove statDecreasingMove in statDecreasingMoves)
         {
             if (!CanApplyStatChange(statDecreasingMove)) continue;
-            ChangeStat(defendingPokemon, statDecreasingMove);
+            ChangeStat(defending, statDecreasingMove);
         }
     }
 
@@ -130,14 +140,16 @@ public partial class PokemonStatMoves : Node
 
         return randomValue <= 0;
     }
-    
-    public void ChangeStat(Pokemon pokemon, StatMove statMove)
-    {
-        ApplyStatChange(pokemon, statMove);
 
-        Timer timer = GetTimer(2);
-        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(pokemon); // Reset Stats
-         AddChild(timer);
+    public void ChangeStat(GodotObject defending, StatMove statMove)
+    {
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        ApplyStatChange(defendingPokemon, statMove);
+
+        CustomTimer timer = GetTimer(2);
+        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(defendingPokemon); // Reset Stats
+
+        AddChild(timer);
     }
 
     private int GetStatValue(Pokemon pokemon, StatMove statMove)
@@ -197,15 +209,52 @@ public partial class PokemonStatMoves : Node
         return statChangePercentage;
     }
 
-    private Timer GetTimer(float waitTime)
+    private CustomTimer GetTimer(float waitTime)
     {
-        Timer timer = new Timer()
-        {
-            WaitTime = waitTime,
-            Autostart = true
-        };
-        timer.Timeout += timer.QueueFree;
+        CustomTimer timer = new CustomTimer(waitTime);
+
+        timer.TreeEntered += () => _timers.Add(timer);
+        timer.TreeExiting += () => _timers.Remove(timer);
+        
         return timer;
+    }
+
+    private void StartTimer(CustomTimer timer)
+    {
+        try
+        {
+            timer.Start(timer.WaitTimeLeft);
+        }
+        catch (ObjectDisposedException) {}
+    }
+
+    private void StartTimers()
+    {
+        foreach (CustomTimer timer in _timers)
+        {
+            StartTimer(timer);
+        }
+    }
+
+    private void StopTimers()
+    {
+        foreach (CustomTimer timer in _timers)
+        {
+            timer.Stop();
+        }
+    }
+
+    private async void Dragging(bool isDragging)
+    {
+        if (isDragging)
+        {
+            StopTimers();
+        }
+        else
+        {
+            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
+            StartTimers();
+        }
     }
 
 }

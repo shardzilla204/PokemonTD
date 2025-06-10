@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=14 format=3 uid="uid://b4i4qpakkjdqr"]
+[gd_resource type="Theme" load_steps=15 format=3 uid="uid://b4i4qpakkjdqr"]
 
 [ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="1_j12yg"]
 [ext_resource type="Texture2D" uid="uid://j1oxdu6th12n" path="res://Assets/Images/PokeBall.png" id="2_jnd74"]
@@ -7,6 +7,16 @@
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_stf6b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucrgt"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vxw05"]
+content_margin_left = 20.0
+content_margin_right = 20.0
+texture = ExtResource("3_stf6b")
+texture_margin_left = 10.0
+texture_margin_top = 10.0
+texture_margin_right = 10.0
+texture_margin_bottom = 10.0
+modulate_color = Color(0.2, 0.2, 0.2, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kspi0"]
 bg_color = Color(1, 1, 1, 1)
@@ -75,6 +85,7 @@ Button/styles/focus = SubResource("StyleBoxEmpty_ucrgt")
 Button/styles/hover = null
 Button/styles/normal = null
 Button/styles/pressed = null
+CheckButton/styles/disabled = SubResource("StyleBoxTexture_vxw05")
 CheckButton/styles/hover = ExtResource("2_vxw05")
 CheckButton/styles/hover_pressed = ExtResource("2_vxw05")
 CheckButton/styles/normal = ExtResource("2_mlg4q")

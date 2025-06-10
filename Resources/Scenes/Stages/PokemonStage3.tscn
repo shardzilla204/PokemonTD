@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://oqawclur7pf"]
 
 [ext_resource type="PackedScene" uid="uid://casdu4fu8s6ya" path="res://Resources/Scenes/Stage/PokemonStage.tscn" id="1_lrlsk"]
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_toepj"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="2_toepj"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="3_x82tb"]
 [ext_resource type="Texture2D" uid="uid://61fbayn4qi1p" path="res://Assets/Images/Pokemon/Pikachu.png" id="4_4206h"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="5_xmd33"]

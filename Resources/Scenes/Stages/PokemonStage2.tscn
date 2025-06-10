@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=4 uid="uid://dgnowes35x2gr"]
 
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="1_cf84c"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="1_cf84c"]
 [ext_resource type="PackedScene" uid="uid://casdu4fu8s6ya" path="res://Resources/Scenes/Stage/PokemonStage.tscn" id="1_jpj1t"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="3_gpemn"]
 [ext_resource type="Texture2D" uid="uid://b62chyo8sy2j1" path="res://Assets/Images/Pokemon/Ekans.png" id="4_at06o"]

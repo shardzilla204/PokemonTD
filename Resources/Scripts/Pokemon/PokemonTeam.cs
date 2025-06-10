@@ -89,8 +89,7 @@ public partial class PokemonTeam : Node
 	{
 		for (int i = 0; i < teamCount; i++)
 		{
-			Pokemon pokemon = PokemonManager.Instance.GetRandomPokemon();
-			pokemon.Level = PokemonManager.Instance.GetRandomLevel();
+			Pokemon pokemon = PokemonManager.Instance.GetRandomPokemon(false);
             pokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
 			Pokemon.Add(pokemon);
 		}

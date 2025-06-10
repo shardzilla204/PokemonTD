@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://ux88purtyb8k"]
 
 [ext_resource type="PackedScene" uid="uid://casdu4fu8s6ya" path="res://Resources/Scenes/Stage/PokemonStage.tscn" id="1_psov4"]
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_2b861"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="2_2b861"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="3_8hy7o"]
 [ext_resource type="Texture2D" uid="uid://dow40neyh11lf" path="res://Assets/Images/Pokemon/Rattata.png" id="4_evx4n"]
 [ext_resource type="Texture2D" uid="uid://dgrgeeph534kp" path="res://Assets/Images/Pokemon/Ivysaur.png" id="5_vyuu6"]

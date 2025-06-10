@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=4 uid="uid://cq4s2qs85qhkf"]
 
 [ext_resource type="PackedScene" uid="uid://casdu4fu8s6ya" path="res://Resources/Scenes/Stage/PokemonStage.tscn" id="1_474it"]
-[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/Default.tres" id="2_5osd7"]
+[ext_resource type="TileSet" uid="uid://bbjd5w18v7pi" path="res://Resources/UltimoSprinter.tres" id="2_5osd7"]
 [ext_resource type="PackedScene" uid="uid://cdfv2agri4jy7" path="res://Resources/Scenes/Stage/PokemonStageSlot.tscn" id="3_xftoh"]
 [ext_resource type="Texture2D" uid="uid://cqg430rqcci8t" path="res://Assets/Images/Pokemon/Machop.png" id="4_e0p3g"]
 [ext_resource type="Texture2D" uid="uid://kvu6wsri7075" path="res://Assets/Images/Pokemon/Zubat.png" id="5_3ynwx"]

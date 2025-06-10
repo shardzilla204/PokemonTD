@@ -10,13 +10,15 @@ public partial class PokemonEffects : Node
     public bool HasLightScreen = false;
     public bool HasReflect = false;
     public bool HasMist = false;
+    public bool HasSubstitute = false;
+    public bool HasMoveSkipped = false;
+    public bool HasConversion = false;
+
     public bool HasCounter = false;
     public bool HasQuickAttack = false;
-    public bool HasSubstitute = false;
     public bool HasRage = false;
-    public bool HasMoveSkipped = false;
     public bool HasHyperBeam = false;
-    public bool HasConversion = false;
+
     public Pokemon PokemonTransform = null; // For Pokemon that used Transform
 
     public void Reset()
@@ -27,13 +29,15 @@ public partial class PokemonEffects : Node
         HasLightScreen = false;
         HasReflect = false;
         HasMist = false;
+        HasSubstitute = false;
+        HasMoveSkipped = false;
+        HasConversion = false;
+
         HasCounter = false;
         HasQuickAttack = false;
-        HasSubstitute = false;
         HasRage = false;
-        HasMoveSkipped = false;
         HasHyperBeam = false;
-        HasConversion = false;
+
         PokemonTransform = null;
     }
 
@@ -88,24 +92,32 @@ public partial class PokemonEffects : Node
     }
 
     public void ApplyEffects(Pokemon pokemon)
-	{
-		foreach (PokemonMove pokemonMove in pokemon.Moves)
-		{
-			switch (pokemonMove.Name)
-			{
-				case "Light Screen":
-					pokemon.Effects.HasLightScreen = true;
-					break;
-				case "Reflect":
-					pokemon.Effects.HasReflect = true;
-					break;
-				case "Mist":
-					pokemon.Effects.HasMist = true;
-					break;
-				case "Conversion":
-					pokemon.Effects.HasConversion = true;
-					break;
-			}
-		}
-	}
+    {
+        foreach (PokemonMove pokemonMove in pokemon.Moves)
+        {
+            switch (pokemonMove.Name)
+            {
+                case "Light Screen":
+                    pokemon.Effects.HasLightScreen = true;
+                    break;
+                case "Reflect":
+                    pokemon.Effects.HasReflect = true;
+                    break;
+                case "Mist":
+                    pokemon.Effects.HasMist = true;
+                    break;
+                case "Conversion":
+                    pokemon.Effects.HasConversion = true;
+                    break;
+            }
+        }
+    }
+
+    public void ClearMoveEffects(Pokemon pokemon)
+    {
+        pokemon.Effects.HasCounter = false;
+        pokemon.Effects.HasQuickAttack = false;
+        pokemon.Effects.HasRage = false;
+        pokemon.Effects.HasHyperBeam = false;
+    }
 }

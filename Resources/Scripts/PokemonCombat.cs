@@ -39,12 +39,11 @@ public partial class PokemonCombat : Node
         DamagePokemon(attacking, defending, pokemonMove);
     }
 
-    // Change name
     public void DealDamage(GodotObject defending, int damage)
     {
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
-            if (IsInstanceValid(pokemonStageSlot) && pokemonStageSlot.IsActive) pokemonStageSlot.DamagePokemon(damage);
+            if (!pokemonStageSlot.IsRecovering) pokemonStageSlot.DamagePokemon(damage);
         }
         else if (defending is PokemonEnemy pokemonEnemy)
         {
@@ -60,7 +59,7 @@ public partial class PokemonCombat : Node
         }
         else if (attacking is PokemonEnemy pokemonEnemy)
         {
-            pokemonEnemy.HealPokemon(health);
+            if (IsInstanceValid(pokemonEnemy)) pokemonEnemy.HealPokemon(health);
         }
     }
 
@@ -84,49 +83,14 @@ public partial class PokemonCombat : Node
         }
     }
 
-    public async void DamagePokemonOverTime(GodotObject defending, int damage, int iterations, StatusCondition statusCondition)
-    {
-        int pokemonTeamIndex = 0;
-        PokemonStage pokemonStage = null;
-        if (defending is PokemonStageSlot)
-        {
-            PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
-            pokemonTeamIndex = pokemonStageSlot.PokemonTeamIndex;
-            pokemonStage = pokemonStageSlot.GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-        }
-
-        for (int i = 0; i < iterations; i++)
-        {
-            if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
-
-            if (defending is PokemonStageSlot)
-            {
-                defending = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-            }
-            else if (defending is PokemonEnemy pokemonEnemy)
-            {
-                pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
-            }
-
-            DealDamage(defending, damage);
-
-            Pokemon defendingPokemon = GetPokemon(defending);
-            string statusConditionDamageMessage = $"{defendingPokemon.Name} Has Lost {damage} HP Through {statusCondition}";
-            PrintRich.PrintLine(TextColor.Yellow, statusConditionDamageMessage);
-
-            await ToSignal(GetTree().CreateTimer(1 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
-        }
-
-        PokemonStatusCondition.Instance.ApplyStatusColor(defending, StatusCondition.None);
-        PokemonStatusCondition.Instance.RemoveStatusCondition(defending, statusCondition);
-    }
-
     public async void DamagePokemonOverTime(GodotObject defending, int iterations, StatusCondition statusCondition)
     {
-        float percentage = .0625f; // 1/16
+        float percentage = statusCondition == StatusCondition.None ? .125f /* 1/8 */ : .0625f; /* 1/16 */ 
 
         int pokemonTeamIndex = 0;
         PokemonStage pokemonStage = null;
+        Pokemon pokemon = GetPokemon(defending);
+
         if (defending is PokemonStageSlot)
         {
             PokemonStageSlot pokemonStageSlot = defending as PokemonStageSlot;
@@ -138,58 +102,56 @@ public partial class PokemonCombat : Node
         {
             if (PokemonTD.IsGamePaused) await ToSignal(PokemonTD.Signals, PokemonSignals.SignalName.PressedPlay);
 
+            if (defending is PokemonStageSlot) defending = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex); // Gets the Pokemon wherever it is on the stage
+
             Pokemon defendingPokemon = GetPokemon(defending);
-            if (defending is PokemonStageSlot)
-            {
-                PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
-                defendingPokemon = GetPokemon(pokemonStageSlot);
-            }
-            else if (defending is PokemonEnemy pokemonEnemy)
-            {
-                pokemonEnemy.Fainted += (pokemonEnemy) => { return; };
-            }
+            if (defendingPokemon == null) return;
 
             int damage = GetDamage(defendingPokemon, percentage);
+
             DealDamage(defending, damage);
             await ToSignal(GetTree().CreateTimer(1 / PokemonTD.GameSpeed), SceneTreeTimer.SignalName.Timeout);
 
-            percentage *= 2;
+            percentage = statusCondition == StatusCondition.BadlyPoisoned ? percentage *= 2 : percentage; // Badly Poisoned damage increases
         }
 
         PokemonStatusCondition.Instance.ApplyStatusColor(defending, StatusCondition.None);
         PokemonStatusCondition.Instance.RemoveStatusCondition(defending, statusCondition);
+        pokemon.RemoveStatusCondition(statusCondition);
     }
 
     // If pokemon move has a status condition that the pokemon already has, get the next pokemon in the queue
-    public PokemonStageSlot GetNextPokemonStageSlot(List<PokemonStageSlot> pokemonStageSlots, PokemonMove pokemonMove)
+    public GodotObject GetNextTarget<T>(List<T> targets, PokemonMove pokemonMove)
     {
-        PokemonStageSlot nextPokemonStageSlot = pokemonStageSlots[0];
-        foreach (PokemonStageSlot pokemonStageSlot in pokemonStageSlots)
+        List<GodotObject> targetObjects = GetTargetObjects(targets);
+        GodotObject nextTargetObject = targetObjects[0];
+        foreach (GodotObject targetObject in targetObjects)
         {
-            Pokemon pokemon = pokemonStageSlot.Pokemon;
+            Pokemon pokemon = GetPokemon(targetObject);
             if (pokemon == null) continue;
 
-            PokemonStageSlot result = (PokemonStageSlot)CheckStatusConditions(pokemonStageSlot, pokemon, pokemonMove);
-            if (result != null) nextPokemonStageSlot = result;
+            GodotObject result = CheckStatusConditions(targetObject, pokemon, pokemonMove);
+            if (result != null) nextTargetObject = result;
         }
-        return nextPokemonStageSlot;
+        return nextTargetObject;
     }
 
-    public PokemonEnemy GetNextPokemonEnemy(List<PokemonEnemy> pokemonEnemies, PokemonMove pokemonMove)
+    // Converts the list 
+    private List<GodotObject> GetTargetObjects<T>(List<T> targets)
     {
-        PokemonEnemy nextPokemonEnemy = pokemonEnemies[0];
-        foreach (PokemonEnemy pokemonEnemy in pokemonEnemies)
+        List<GodotObject> targetObjects = new List<GodotObject>();
+        if (targets is List<PokemonStageSlot> pokemonStageSlots)
         {
-            Pokemon pokemon = pokemonEnemy.Pokemon;
-            if (pokemon == null) continue;
-
-            PokemonEnemy result = (PokemonEnemy)CheckStatusConditions(pokemonEnemy, pokemon, pokemonMove);
-            if (result != null) nextPokemonEnemy = result;
+            targetObjects.AddRange(pokemonStageSlots);
         }
-        return nextPokemonEnemy;
+        else if (targets is List<PokemonEnemy> pokemonEnemies)
+        {
+            targetObjects.AddRange(pokemonEnemies);
+        }
+        return targetObjects;
     }
 
-    // See if the pokemon from the pokemon stage slot has any of the status condition the pokemon move gives. If it doesn't have any, return that pokemon stage slot.
+    // See if the pokemon from the object has any of the status condition the pokemon move gives. If it doesn't have any, return the object.
     private GodotObject CheckStatusConditions(GodotObject attacking, Pokemon pokemon, PokemonMove pokemonMove)
     {
         foreach (string statusConditionName in pokemonMove.StatusCondition.Keys)

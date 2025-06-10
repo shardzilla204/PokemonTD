@@ -38,8 +38,15 @@ public partial class PokemonEnemy : TextureRect
 	public bool HasRewards = true;
 	public GC.Dictionary<int, int> SlotContributionCount = new GC.Dictionary<int, int>();
 
+    public override void _ExitTree()
+    {
+        PokemonTD.Signals.SpeedToggled -= SpeedToggled;
+    }
+
 	public override void _Ready()
 	{
+		PokemonTD.Signals.SpeedToggled += SpeedToggled;
+
 		if (PokemonTD.AreLevelsRandomized) Pokemon.Level = PokemonTD.GetRandomLevel(PokemonTD.MinPokemonEnemyLevel, PokemonTD.MaxPokemonEnemyLevel);
 
 		if (PokemonTD.IsCaptureModeEnabled)
@@ -59,7 +66,7 @@ public partial class PokemonEnemy : TextureRect
 		_area.AreaEntered += AddToQueue;
 		_area.AreaExited += RemoveFromQueue;
 
-		_attackTimer.Timeout += AttackPokemon;
+		_attackTimer.Timeout += Attack;
 
 		foreach (PokemonMove pokemonMove in Pokemon.Moves)
 		{
@@ -67,13 +74,7 @@ public partial class PokemonEnemy : TextureRect
 			PokemonStatMoves.Instance.IncreaseStats(Pokemon, statIncreasingMoves);
 		}
 
-		Pokemon.Effects.HasCounter = Pokemon.Move.Name == "Counter";
-		Pokemon.Effects.HasQuickAttack = Pokemon.Move.Name == "Quick Attack";
-		Pokemon.Effects.HasRage = Pokemon.Move.Name == "Rage";
-
-		_attackTimer.WaitTime *= Pokemon.Effects.HasQuickAttack ? 0.75f : 1;
-		_attackTimer.Start();
-
+		SetWaitTime();
 		Pokemon.ApplyEffects();
 	}
 
@@ -97,12 +98,24 @@ public partial class PokemonEnemy : TextureRect
 		if (!isDragging) _targetQueue.Remove(pokemonStageSlot);
 	}
 
+	private void SpeedToggled(float speed)
+	{
+		SetWaitTime();
+	}
+
+	private void SetWaitTime()
+	{
+		_attackTimer.WaitTime = 100 / (Pokemon.Stats.Speed * PokemonTD.GameSpeed * 1.25f);
+		_attackTimer.WaitTime *= Pokemon.Effects.HasQuickAttack ? 0.7f : 1;
+		_attackTimer.Start();
+	}
+
 	private void AddToQueue(Area2D area)
 	{
 		PokemonStageSlot pokemonStageSlot = area.GetParentOrNull<PokemonStageSlot>();
 		pokemonStageSlot.AddToQueue(this);
 
-		if (pokemonStageSlot.Pokemon == null || !pokemonStageSlot.IsActive) return;
+		if (pokemonStageSlot.Pokemon == null || pokemonStageSlot.IsRecovering) return;
 
 		pokemonStageSlot.Fainted += PokemonStageSlotFainted;
 		pokemonStageSlot.Dragging += () => _targetQueue.Remove(pokemonStageSlot);
@@ -154,13 +167,13 @@ public partial class PokemonEnemy : TextureRect
 		_targetQueue.Remove(pokemonStageSlot);
 	}
 
-	private void AttackPokemon()
+	private void Attack()
 	{
 		if (_targetQueue.Count <= 0 || PokemonTD.IsGamePaused || Pokemon.IsMoveSkipped()) return;
 
 		PokemonMove pokemonMove = PokemonCombat.Instance.GetCombatMove(Pokemon, _targetQueue[0].Pokemon, Pokemon.Move, -1);
 
-		PokemonStageSlot pokemonStageSlot = PokemonCombat.Instance.GetNextPokemonStageSlot(_targetQueue, pokemonMove);
+		PokemonStageSlot pokemonStageSlot = (PokemonStageSlot) PokemonCombat.Instance.GetNextTarget(_targetQueue, pokemonMove);
 		pokemonStageSlot.Retrieved += UpdatePokemonQueue;
 		pokemonStageSlot.Fainted += UpdatePokemonQueue;
 
@@ -190,16 +203,6 @@ public partial class PokemonEnemy : TextureRect
 		PokemonMoveEffect.Instance.ApplyMoveEffect(this, pokemonStageSlot, pokemonMove);
 	}
 
-	private void UpdatePokemonQueue(PokemonStageSlot pokemonStageSlot)
-	{
-		pokemonStageSlot.Retrieved -= UpdatePokemonQueue;
-		pokemonStageSlot.Fainted -= UpdatePokemonQueue;
-
-		if (!_targetQueue.Contains(pokemonStageSlot)) return;
-
-		_targetQueue.Remove(pokemonStageSlot);
-	}
-
 	// For Unique Moves
 	public void AttackPokemon(PokemonStageSlot pokemonStageSlot, PokemonMove pokemonMove)
 	{
@@ -209,6 +212,16 @@ public partial class PokemonEnemy : TextureRect
 		PokemonStatusCondition.Instance.ApplyStatusCondition(pokemonStageSlot, statusCondition);
 
 		PokemonStatMoves.Instance.DecreaseStats(pokemonStageSlot, pokemonMove);
+	}
+
+	private void UpdatePokemonQueue(PokemonStageSlot pokemonStageSlot)
+	{
+		pokemonStageSlot.Retrieved -= UpdatePokemonQueue;
+		pokemonStageSlot.Fainted -= UpdatePokemonQueue;
+
+		if (!_targetQueue.Contains(pokemonStageSlot)) return;
+
+		_targetQueue.Remove(pokemonStageSlot);
 	}
 
 	public void SetPokemon(Pokemon pokemon)
@@ -226,6 +239,8 @@ public partial class PokemonEnemy : TextureRect
 
 	public void DamagePokemon(int damage)
 	{
+		if (Pokemon == null) return;
+
 		_healthBar.Value -= damage;
 
 		CheckIsCatchable();
@@ -287,6 +302,7 @@ public partial class PokemonEnemy : TextureRect
 			PokemonStage pokemonStage = GetParentOrNull<PathFollow2D>().GetParentOrNull<Path2D>().GetParentOrNull<PokemonStage>();
 			StageInterface stageInterface = pokemonStage.StageInterface;
 			PokemonTeamSlot pokemonTeamSlot = stageInterface.FindPokemonTeamSlot(pokemonTeamIndex);
+			if (pokemonTeamSlot == null) continue;
 			pokemonTeamSlot.AddExperience(experience);
 		}
 	}
@@ -326,10 +342,11 @@ public partial class PokemonEnemy : TextureRect
 		}
 		return totalContributions;
 	}
-	
+
 	public void AddStatusCondition(StatusCondition statusCondition)
 	{
 		_statusConditionContainer.AddStatusCondition(statusCondition);
+		Pokemon.AddStatusCondition(statusCondition);
 	}
 
 	public void RemoveStatusCondition(StatusCondition statusCondition)
@@ -338,8 +355,9 @@ public partial class PokemonEnemy : TextureRect
 		Pokemon.RemoveStatusCondition(statusCondition);
     }
 
-    public void ClearStatusConditions()
-    {
-		_statusConditionContainer.ClearStatusConditions(); 
+	public void ClearStatusConditions()
+	{
+		_statusConditionContainer.ClearStatusConditions();
+		Pokemon.ClearStatusConditions();
     }
 }

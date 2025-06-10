@@ -41,6 +41,7 @@ public partial class PokeMart : Node
         };
 
         LoadPokeMartItems();
+        AddStartingItems();
     }
 
     public void LoadPokeMartItems()
@@ -58,11 +59,23 @@ public partial class PokeMart : Node
 
         foreach (string pokeMartItemName in pokeMartItemsDictionaries.Keys)
         {
-            AddPokeMartItems(pokeMartItemName, pokeMartItemsDictionaries);
+            AddPokeMartItem(pokeMartItemName, pokeMartItemsDictionaries);
         }
     }
 
-    private void AddPokeMartItems(string pokeMartItemName, GC.Dictionary<string, Variant> pokeMartItemsDictionaries)
+    public void AddStartingItems()
+    {
+        List<string> pokeMartItemNames = PokemonTD.StartingInventory.Keys.ToList();
+        for (int i = 0; i < pokeMartItemNames.Count; i++)
+        {
+            string itemName = pokeMartItemNames[i];
+            int itemQuantity = PokemonTD.StartingInventory[itemName];
+            PokeMartItem pokeMartItem = FindItem(itemName);
+            pokeMartItem.Quantity += itemQuantity;
+        }
+    }
+
+    private void AddPokeMartItem(string pokeMartItemName, GC.Dictionary<string, Variant> pokeMartItemsDictionaries)
     {
         GC.Dictionary<string, Variant> pokeMartItemDictionary = pokeMartItemsDictionaries[pokeMartItemName].As<GC.Dictionary<string, Variant>>();
         PokeMartItem pokeMartItem = new PokeMartItem(pokeMartItemName, pokeMartItemDictionary);
@@ -84,6 +97,11 @@ public partial class PokeMart : Node
         return Items.FindAll(item => item.Category == targetCategory);
     }
 
+    public PokeMartItem FindItem(string pokeMartItemName)
+    {
+        return Items.Find(item => item.Name == pokeMartItemName);
+    }
+
     public void SetData(GC.Dictionary<string, Variant> pokemonInventoryData)
     {
         List<string> pokeMartItemKeys = pokemonInventoryData.Keys.ToList();
@@ -95,7 +113,7 @@ public partial class PokeMart : Node
             pokeMartItem.Quantity = pokeMartItemQuantity;
         }
     }
-    
+
     public int GetHealAmount(Pokemon pokemon, PokeMartItem potion) => potion.Name switch
     {
         "Potion" => 20,
@@ -104,4 +122,45 @@ public partial class PokeMart : Node
         "Max Potion" => pokemon.Stats.MaxHP,
         _ => 0
     };
+
+    public PokeMartItem GetBestPotion(Pokemon pokemon)
+    {
+        List<PokeMartItem> potions = FindItems(PokeMartItemCategory.Medicine);
+        List<PokeMartItem> stockedPotions = potions.FindAll(potion => potion.Quantity != 0);
+        stockedPotions.Reverse(); // Get the potion that heals the most first
+
+        PokeMartItem bestPotion = FindBestPotion(pokemon, stockedPotions);
+        return bestPotion;
+    }
+
+    // Get highest healing potion ! that doesn't go over the max HP
+    private PokeMartItem FindBestPotion(Pokemon pokemon, List<PokeMartItem> stockedPotions)
+    {
+        if (stockedPotions.Count == 0) return null;
+
+        int index = 0;
+        PokeMartItem bestPotion = stockedPotions[index];
+        int highestHealAmount = GetHealAmount(pokemon, bestPotion);
+
+        while (highestHealAmount > pokemon.Stats.MaxHP && bestPotion.Name != "Max Potion")
+        {
+            index++;
+            if (index > stockedPotions.Count - 1) break;
+
+            PokeMartItem potion = stockedPotions[index];
+            int healAmount = GetHealAmount(pokemon, potion);
+
+            bestPotion = potion;
+            highestHealAmount = healAmount;
+        }
+
+        if (highestHealAmount + pokemon.Stats.HP > pokemon.Stats.MaxHP)
+        {
+            return null;
+        }
+        else
+        {
+            return bestPotion;
+        }
+    }
 }

@@ -14,7 +14,6 @@ namespace PokemonTD;
         ? Add keybinds
 
         ? Mute all stage team slot options in settings
-        ? Make master audio slider a master ball
 
     * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
@@ -24,14 +23,11 @@ namespace PokemonTD;
         ?? Figure out a way to compensate paying for fainting pokemon
 
     * Bugs:
-        !! Pokeball will eventually not pause the game when picked up
-        !? Pokemon permanently dies/freezes (!? = Possibly Fixed)
-
         ! Status condition is not removed from Pokemon
         ! Potential Causes: Pokemon gets hit with stat debuff as well and somehow it's sharing the same timer
 
-        ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
-        ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.
+        // ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
+        // ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.
 
     * Notes:
         - Pin Missile SFX Will Be Damage SFX
@@ -56,10 +52,21 @@ public partial class PokemonTD : Control
     private PokemonKeybinds _pokemonKeybinds;
 
     [Export]
+    private PokemonMasterMode _pokemonMasterMode;
+
+    [Export]
     private int _startingPokeDollars = 727;
 
     [Export]
     private bool _isTeamRandom;
+
+    [Export]
+    private GC.Dictionary<string, int> _startingInventory = new GC.Dictionary<string, int>()
+    {
+        { "Potion", 5 },
+        { "Rare Candy", 1 },
+        { "Super Potion", 1 },
+    };
 
     [Export(PropertyHint.Range, "0,5,1")]
     private int _teamCount = 5;
@@ -107,7 +114,6 @@ public partial class PokemonTD : Control
 
     public static float GameSpeed = 1;
     public static bool IsGamePaused;
-    public static PokemonTween Tween;
 
     public static bool IsTeamRandom = false;
     public static bool AreStagesEnabled = true;
@@ -124,10 +130,13 @@ public partial class PokemonTD : Control
 
     public static AudioManager AudioManager;
 
-    public static PokemonSignals Signals = new PokemonSignals();
+    public static PokemonTween Tween;
     public static PokemonKeybinds Keybinds;
+    public static PokemonMasterMode MasterMode;
+    public static PokemonSignals Signals = new PokemonSignals();
 
-    public static int PokeDollars = 0;
+    public static int PokeDollars = 727;
+    public static GC.Dictionary<string, int> StartingInventory = new GC.Dictionary<string, int>();
 
     public const int MinPokemonLevel = 1;
     public const int MaxPokemonLevel = 100;
@@ -147,6 +156,10 @@ public partial class PokemonTD : Control
         PackedScenes = _packedScenes;
         Tween = _pokemonTween;
         Keybinds = _pokemonKeybinds;
+        MasterMode = _pokemonMasterMode;
+
+        PokeDollars = _startingPokeDollars;
+        StartingInventory = _startingInventory;
 
         IsTeamRandom = _isTeamRandom;
         AreStagesEnabled = _areStagesEnabled;
@@ -175,6 +188,7 @@ public partial class PokemonTD : Control
         {
             HasSelectedStarter = false;
             PokeDollars = _startingPokeDollars;
+            PokeMart.Instance.AddStartingItems();
         };
 
         Signals.PressedPlay += () => IsGamePaused = false;

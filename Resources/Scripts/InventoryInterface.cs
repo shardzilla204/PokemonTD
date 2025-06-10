@@ -12,6 +12,7 @@ public partial class InventoryInterface : CanvasLayer
     {
         PokemonTD.Signals.ChangeMovesetPressed -= QueueFree;
 		PokemonTD.Signals.Dragging -= Dragging;
+        PokemonTD.Signals.AutoHealed -= RefreshItems;
         PokemonTD.Keybinds.ChangePokemonMove -= KeybindPressed;
     }
 
@@ -19,10 +20,10 @@ public partial class InventoryInterface : CanvasLayer
     {
         PokemonTD.Signals.ChangeMovesetPressed += QueueFree;
 		PokemonTD.Signals.Dragging += Dragging;
+        PokemonTD.Signals.AutoHealed += RefreshItems;
 		PokemonTD.Keybinds.ChangePokemonMove += KeybindPressed;
-        
-        ClearContainer();
-        AddItems();
+
+        RefreshItems();
     }
 
     private void ClearContainer()
@@ -44,12 +45,18 @@ public partial class InventoryInterface : CanvasLayer
     }
 
     private void KeybindPressed(int pokemonTeamIndex)
-	{
-		QueueFree();
-	}
+    {
+        QueueFree();
+    }
 
 	private void Dragging(bool isDragging)
 	{
 		QueueFree();
 	}
+
+    private void RefreshItems()
+    {
+        ClearContainer();
+        AddItems();
+    }
 }

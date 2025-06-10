@@ -54,9 +54,6 @@ public partial class PackedScenes : Node
 	private PackedScene _evolutionInterface;
 
 	[Export]
-	private PackedScene _stageConsoleLabel;
-
-	[Export]
 	private PackedScene _settingsInterface;
 
 	[Export]
@@ -79,6 +76,9 @@ public partial class PackedScenes : Node
 
 	[Export]
 	private PackedScene _stageItem;
+
+	[Export]
+	private PackedScene _masterModeInterface;
 
 	public MenuInterface GetMenuInterface()
 	{
@@ -206,6 +206,11 @@ public partial class PackedScenes : Node
 		pokeMartItem.Price = pokeMartItemData.Price;
 		pokeMartItem.Sprite = pokeMartItemData.Sprite;
 		return pokeMartItem;
+	}
+
+	public MasterModeInterface GetMasterModeInterface()
+	{
+		return _masterModeInterface.Instantiate<MasterModeInterface>();
 	}
 
 	public PokeMartSlot GetPokeMartSlot(PokeMartItem pokeMartItem)

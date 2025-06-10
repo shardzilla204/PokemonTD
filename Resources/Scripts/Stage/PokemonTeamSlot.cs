@@ -54,7 +54,11 @@ public partial class PokemonTeamSlot : Button
 
 		_pokemonMoveButton.Pressed += MoveButtonPressed;
 
-		_pokemonExperienceBar.LeveledUp += (levels) => PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonLeveledUp, levels, PokemonTeamIndex);
+		_pokemonExperienceBar.LeveledUp += (levels) =>
+		{
+			PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonLeveledUp, levels, PokemonTeamIndex);
+			_pokemonHealthBar.ResetHealth();
+		};
 		_pokemonHealthBar.Fainted += PokemonFainted;
 		_pokemonSleepBar.Finished += SleepFinished;
 	}
@@ -104,7 +108,7 @@ public partial class PokemonTeamSlot : Button
 	{
 		PokeMartItem potion = data.As<PokeMartItem>();
 		int healAmount = PokeMart.Instance.GetHealAmount(Pokemon, potion);
-		_pokemonHealthBar.AddHealth(Pokemon, healAmount);
+		_pokemonHealthBar.AddHealth(healAmount);
 
 		PokemonTD.AudioManager.PlayPokemonHealed();
 
@@ -143,16 +147,17 @@ public partial class PokemonTeamSlot : Button
 		}
 	}
 
-	private void PokemonMoveChanged()
+	private void PokemonMoveChanged(int pokemonTeamIndex)
 	{
+		if (PokemonTeamIndex != pokemonTeamIndex) return;
+
 		_pokemonMoveButton.Update(Pokemon.Move);
+		Pokemon.ApplyMoveEffect(Pokemon.Move);
 	}
 
 	private void ChangePokemonMoveKeybind(int pokemonTeamIndex)
 	{
-		if (PokemonTeamIndex != pokemonTeamIndex) return;
-
-		MoveButtonPressed();
+		if (PokemonTeamIndex == pokemonTeamIndex) MoveButtonPressed();
 	}
 
    	private void MoveButtonPressed()
@@ -172,18 +177,14 @@ public partial class PokemonTeamSlot : Button
 		PrintRich.PrintLine(TextColor.Purple, pokemonGainedExperienceMessage);
 	}
 
-	public void PokemonHealed(int health, int pokemonTeamIndex)
+	private void PokemonHealed(int health, int pokemonTeamIndex)
 	{
-		if (PokemonTeamIndex != pokemonTeamIndex) return;
-
-		_pokemonHealthBar.AddHealth(Pokemon, health);
+		if (PokemonTeamIndex == pokemonTeamIndex) _pokemonHealthBar.AddHealth(health);
 	}
 
-	public void PokemonDamaged(int damage, int pokemonTeamIndex)
+	private void PokemonDamaged(int damage, int pokemonTeamIndex)
 	{
-		if (PokemonTeamIndex != pokemonTeamIndex) return;
-
-		_pokemonHealthBar.SubtractHealth(Pokemon, damage);
+		if (PokemonTeamIndex == pokemonTeamIndex) _pokemonHealthBar.SubtractHealth(damage);
 	}
 
 	private void PokemonFainted()
@@ -192,7 +193,7 @@ public partial class PokemonTeamSlot : Button
 		PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(PokemonTeamIndex);
 		pokemonStageSlot.EmitSignal(PokemonStageSlot.SignalName.Fainted, pokemonStageSlot);
 		
-		pokemonStageSlot.IsActive = false;
+		pokemonStageSlot.IsRecovering = true;
 		float additionalTime = pokemonStageSlot.Pokemon.Effects.UsedFaintMove ? 3.5f : 0;
 		_pokemonSleepBar.Start(Pokemon, additionalTime);
 
@@ -207,8 +208,8 @@ public partial class PokemonTeamSlot : Button
 
 		if (pokemonStageSlot == null) return;
 
-		pokemonStageSlot.IsActive = true;
-		_pokemonHealthBar.ResetHealth(Pokemon); 
+		pokemonStageSlot.IsRecovering = false;
+		_pokemonHealthBar.ResetHealth(); 
 		Modulate = Colors.White;
 		Disabled = false;
 	}

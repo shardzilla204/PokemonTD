@@ -6,12 +6,13 @@
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="4_ytw0q"]
 [ext_resource type="PackedScene" uid="uid://yb2nr2xa6drk" path="res://Resources/Scenes/Stage/StageInfo.tscn" id="5_l6dv5"]
 
-[node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_pokeCenterButton", "_pokeMartButton", "_stageSelectButtons")]
+[node name="StageSelectInterface" type="CanvasLayer" node_paths=PackedStringArray("_exitButton", "_pokeCenterButton", "_pokeMartButton", "_masterModeButton", "_stageSelectButtons")]
 script = ExtResource("1_gq7qg")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/ExitButton")
 _pokeCenterButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeCenterButton")
 _pokeMartButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeMartButton")
-_stageSelectButtons = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2/StageSelectButtons")
+_masterModeButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/MasterModeButton")
+_stageSelectButtons = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/StageSelectButtons")
 
 [node name="Background" type="ColorRect" parent="."]
 anchors_preset = 15
@@ -88,6 +89,32 @@ patch_margin_top = 10
 patch_margin_right = 10
 patch_margin_bottom = 10
 
+[node name="MasterModeButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+custom_minimum_size = Vector2(175, 65)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 6
+theme_override_font_sizes/font_size = 25
+text = "Master Mode
+"
+flat = true
+script = ExtResource("3_y72j3")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/MasterModeButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_ytw0q")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
+
 [node name="ExitButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
 custom_minimum_size = Vector2(65, 65)
 layout_mode = 2
@@ -118,13 +145,10 @@ patch_margin_bottom = 10
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="StageSelectButtons" type="FlowContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer2"]
+[node name="StageSelectButtons" type="FlowContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer"]
 custom_minimum_size = Vector2(330, 0)
 layout_mode = 2
+size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10

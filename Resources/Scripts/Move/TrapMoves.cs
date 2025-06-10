@@ -22,14 +22,11 @@ public partial class TrapMoves : Node
     
     public void ApplyTrapMove(GodotObject defending)
     {
-        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
-        float percentage = .125f; // 1/8
-
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         int randomIterationCount = RNG.RandiRange(4, 5);
-        int damage = PokemonCombat.Instance.GetDamage(defendingPokemon, percentage);
-        PokemonCombat.Instance.DamagePokemonOverTime(defending, damage, randomIterationCount, StatusCondition.None);
+        PokemonCombat.Instance.DamagePokemonOverTime(defending, randomIterationCount, StatusCondition.None);
 
+        Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
         string trappedMessage = $"{defendingPokemon.Name} Is Trapped";
         PrintRich.PrintLine(TextColor.Yellow, trappedMessage);
     }

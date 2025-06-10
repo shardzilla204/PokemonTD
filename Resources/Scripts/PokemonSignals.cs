@@ -34,6 +34,9 @@ public partial class PokemonSignals : Node
     [Signal]
     public delegate void PokemonCopiedMoveEventHandler(PokemonMove pokemonMove, int pokemonTeamIndex);
 
+    [Signal]
+    public delegate void AutoHealedEventHandler();
+
     // Game
     [Signal]
     public delegate void GameStartedEventHandler();
@@ -95,7 +98,7 @@ public partial class PokemonSignals : Node
     public delegate void ChangeMovesetPressedEventHandler();
 
     [Signal]
-    public delegate void PokemonMoveChangedEventHandler();
+    public delegate void PokemonMoveChangedEventHandler(int pokemonTeamIndex);
 
     [Signal]
     public delegate void HasLeftStageEventHandler();

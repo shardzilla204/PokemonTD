@@ -99,7 +99,9 @@ public partial class PokemonGame : Node
 			{ "Has Selected Starter", PokemonTD.HasSelectedStarter },
 			{ "Poke Dollars", PokemonTD.PokeDollars },
 			{ "Pokemon Team", PokemonTeam.Instance.GetData() },
-			{ "Pokemon Inventory", PokeMart.Instance.GetData() }
+			{ "Pokemon Inventory", PokeMart.Instance.GetData() },
+			{ "Pokemon Stages", PokemonStages.Instance.GetData() },
+			{ "Master Mode", PokemonTD.MasterMode.GetData() }
 		};
 
         return gameData;
@@ -114,13 +116,19 @@ public partial class PokemonGame : Node
 
 			GC.Dictionary<string, Variant> pokemonTeamData = gameData["Pokemon Team"].As<GC.Dictionary<string, Variant>>();
 			PokemonTeam.Instance.SetData(pokemonTeamData);
-			
+
 			GC.Dictionary<string, Variant> pokemonInventoryData = gameData["Pokemon Inventory"].As<GC.Dictionary<string, Variant>>();
 			PokeMart.Instance.SetData(pokemonInventoryData);
+
+			GC.Dictionary<string, Variant> pokemonStagesData = gameData["Pokemon Stages"].As<GC.Dictionary<string, Variant>>();
+			PokemonStages.Instance.SetData(pokemonStagesData);
+
+			GC.Dictionary<string, Variant> masterModeData = gameData["Master Mode"].As<GC.Dictionary<string, Variant>>();
+			PokemonTD.MasterMode.SetData(masterModeData);
 		}
-		catch (KeyNotFoundException e)
+		catch (KeyNotFoundException error)
 		{
-			GD.PrintErr(e);
+			GD.PrintErr(error);
 			SaveGame();
 		}
     }

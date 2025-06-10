@@ -42,7 +42,7 @@ public partial class PokemonStageSlot : NinePatchRect
 	public Pokemon Pokemon;
 	private List<PokemonEnemy> _targetQueue = new List<PokemonEnemy>();
 
-	public bool IsActive = true;
+	public bool IsRecovering = false;
 
 	public int PokemonTeamIndex = -1;
 
@@ -55,6 +55,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonTD.Signals.PokemonEnemyCaptured -= UpdatePokemonQueue;
 		PokemonTD.Signals.PokemonEvolved -= PokemonUpdated;
 		PokemonTD.Signals.PokemonTransformed -= PokemonUpdated;
+		PokemonTD.Signals.PokemonMoveChanged -= PokemonMoveChanged;
 		PokemonTD.Signals.SpeedToggled -=  SpeedToggled;
 		PokemonTD.Signals.Dragging -= SetOpacity;
 
@@ -67,6 +68,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonTD.Signals.PokemonEnemyCaptured += UpdatePokemonQueue;
 		PokemonTD.Signals.PokemonEvolved += PokemonUpdated;
 		PokemonTD.Signals.PokemonTransformed += PokemonUpdated;
+		PokemonTD.Signals.PokemonMoveChanged += PokemonMoveChanged;
 		PokemonTD.Signals.SpeedToggled += SpeedToggled;
 		PokemonTD.Signals.Dragging += SetOpacity;
 
@@ -74,7 +76,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		_interactComponent.MouseExited += () => SetAreaSpriteOpacity(true);
 		_interactComponent.Interacted += (isLeftClick, isPressed, isDoubleClick) => Interacted(isLeftClick, isDoubleClick);
 
-		_attackTimer.Timeout += AttackPokemonEnemy;
+		_attackTimer.Timeout += Attack;
 
 		UpdateSlot(null);
 		SetAreaSpriteOpacity(true);
@@ -106,16 +108,15 @@ public partial class PokemonStageSlot : NinePatchRect
 
 	public override Variant _GetDragData(Vector2 atPosition)
 	{
-		if (!IsActive || Pokemon == null) return new Control();
-
-		SetAreaSpriteOpacity(true);
-		
-		_isDragging = true;
-		
-		SetOpacity(true);
+		if (IsRecovering || Pokemon == null) return new Control();
 
 		_dragPreview = GetDragPreview(Pokemon);
 		SetDragPreview(_dragPreview);
+
+		_isDragging = true;
+
+		SetOpacity(true);
+		SetAreaSpriteOpacity(true);
 
 		EmitSignal(SignalName.Dragging);
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, true);
@@ -166,12 +167,18 @@ public partial class PokemonStageSlot : NinePatchRect
 		if (origin is PokemonTeamSlot)
 		{
 			PokemonTeamIndex = pokemonTeamIndex;
+
+			// Check if the Pokemon is already on the stage
+			PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
+			PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(PokemonTeamIndex);
+
+			if (pokemonStageSlot != null && pokemonStageSlot.Pokemon != null) pokemonStageSlot.UpdateSlot(null);
 		}
 		else
 		{
 			SwapPokemon(previousSlot);
 		}
-		
+
 		// Carry over effects from previous slot
 		if (origin is PokemonStageSlot)
 		{
@@ -193,10 +200,15 @@ public partial class PokemonStageSlot : NinePatchRect
 	public void RefreshStatusConditions(Pokemon pokemon)
 	{
 		ClearStatusConditions();
-		foreach (StatusCondition statusCondition in pokemon.GetStatusConditions())
+		foreach (StatusCondition statusCondition in pokemon.StatusConditions)
 		{
 			AddStatusCondition(statusCondition);
 			PokemonStatusCondition.Instance.ApplyStatusColor(this, statusCondition);
+		}
+
+		if (pokemon.StatusConditions.Count == 0)
+		{
+			PokemonStatusCondition.Instance.ApplyStatusColor(this, StatusCondition.None);
 		}
 	}
 
@@ -219,7 +231,7 @@ public partial class PokemonStageSlot : NinePatchRect
 	
 	private void Interacted(bool isLeftClick, bool isDoubleClick)
 	{
-		if (!isLeftClick || !isDoubleClick || Pokemon is null || !IsActive) return;
+		if (!isLeftClick || !isDoubleClick || Pokemon is null || IsRecovering) return;
 
 		// Print message to console
 		string offStageMessage = $"{Pokemon.Name} Is Off Stage";
@@ -229,26 +241,27 @@ public partial class PokemonStageSlot : NinePatchRect
 
 		ClearStatusConditions();
 
-		EmitSignal(SignalName.Retrieved);
+		EmitSignal(SignalName.Retrieved, this);
 
 		SetAreaSpriteOpacity(true);
 		UpdateSlot(null);
 	}
 
-	public void SetAreaSpriteOpacity(bool isTransparent)
+	private void SetAreaSpriteOpacity(bool isTransparent)
 	{
-		if (Pokemon == null || _isDragging) return;
-
 		Color color = Colors.White;
-		color.A = isTransparent ? 0 : 0.4f;
+		color.A = 0;
+		if (Pokemon != null && !_isDragging && !isTransparent)
+		{
+			color.A = 0.4f;
+		}
+
 		_areaSprite.SelfModulate = color;
 	}
 
 	private void PokemonUpdated(Pokemon pokemon, int pokemonTeamIndex)
 	{
-		if (PokemonTeamIndex != pokemonTeamIndex) return;
-
-		UpdateSlot(pokemon);
+		if (PokemonTeamIndex == pokemonTeamIndex) UpdateSlot(pokemon);
 	}
 
 	public void ChangeAreaSize(Pokemon pokemon)
@@ -278,6 +291,11 @@ public partial class PokemonStageSlot : NinePatchRect
 		SetWaitTime();
 	}
 
+	private void PokemonMoveChanged(int pokemonTeamIndex)
+	{
+		if (PokemonTeamIndex == pokemonTeamIndex) SetWaitTime();
+	}
+
 	private void SetWaitTime()
 	{
 		if (Pokemon == null)
@@ -287,7 +305,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		}
 
 		_attackTimer.WaitTime = 100 / (Pokemon.Stats.Speed * PokemonTD.GameSpeed * 1.25f);
-		_attackTimer.WaitTime *= Pokemon.Effects.HasQuickAttack ? 0.75f : 1;
+		_attackTimer.WaitTime *= Pokemon.Effects.HasQuickAttack ? 0.7f : 1;
 		_attackTimer.Start();
 	}
 
@@ -319,11 +337,15 @@ public partial class PokemonStageSlot : NinePatchRect
 
 	public void HealPokemon(int health)
 	{
+		if (Pokemon == null) return;
+		
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonHealed, health, PokemonTeamIndex);
 	}
 
 	public void DamagePokemon(int damage)
 	{
+		if (Pokemon == null) return;
+
 		Pokemon.IsEnraged();
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonDamaged, damage, PokemonTeamIndex);
 	}
@@ -361,20 +383,21 @@ public partial class PokemonStageSlot : NinePatchRect
 		Pokemon = pokemon != null ? pokemon : null;
 		_pokemonSprite.Texture = pokemon != null ? pokemon.Sprite : null;
 
-		if (pokemon == null) IsActive = true;
+		if (pokemon == null) IsRecovering = false;
 
 		SetWaitTime();
 	}
 
-	private void AttackPokemonEnemy()
+	private void Attack()
 	{
-		if (_targetQueue.Count <= 0 || PokemonTD.IsGamePaused || !IsActive || Pokemon == null || Pokemon.IsMoveSkipped()) return;
+		if (_targetQueue.Count <= 0 || PokemonTD.IsGamePaused || IsRecovering || Pokemon == null || Pokemon.IsMoveSkipped()) return;
 
 		PokemonMove pokemonMove = PokemonCombat.Instance.GetCombatMove(Pokemon, _targetQueue[0].Pokemon, Pokemon.Move, PokemonTeamIndex);
-
-		PokemonEnemy pokemonEnemy = PokemonCombat.Instance.GetNextPokemonEnemy(_targetQueue, pokemonMove); ;
+		
+		PokemonEnemy pokemonEnemy = (PokemonEnemy) PokemonCombat.Instance.GetNextTarget(_targetQueue, pokemonMove);
 		pokemonEnemy.Fainted += UpdatePokemonQueue;
 
+		AddContribution(pokemonEnemy);
 
 		if (pokemonMove.Name == "Roar" || pokemonMove.Name == "Whirlwind")
 		{
@@ -389,7 +412,6 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonTD.AudioManager.PlayPokemonMove(_pokemonMovePlayer, pokemonMove.Name, Pokemon);
 
 		PokemonTD.Tween.TweenAttack(_pokemonSprite, pokemonEnemy, _attackTimer);
-		AddContribution(pokemonEnemy);
 
 		if (PokemonMoveEffect.Instance.ChargeMoves.IsChargeMove(pokemonMove))
 		{
@@ -445,7 +467,7 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		_pokemonSprite.SelfModulate = statusConditionColor;
 	}
-	
+
 	public void AddStatusCondition(StatusCondition statusCondition)
 	{
 		_statusConditionContainer.AddStatusCondition(statusCondition);
@@ -454,11 +476,10 @@ public partial class PokemonStageSlot : NinePatchRect
     public void RemoveStatusCondition(StatusCondition statusCondition)
     {
         _statusConditionContainer.RemoveStatusCondition(statusCondition);
-		Pokemon.RemoveStatusCondition(statusCondition);
     }
 
-    public void ClearStatusConditions()
-    {
-		_statusConditionContainer.ClearStatusConditions(); 
+	private void ClearStatusConditions()
+	{
+		_statusConditionContainer.ClearStatusConditions();
     }
 }

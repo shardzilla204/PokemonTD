@@ -19,16 +19,22 @@ public partial class AccessibilitySettings : Container
     [Export]
     private CheckButton _autoHealOption;
 
+    [Export]
+    private Label _autoHealLabel;
+
     public override void _Ready()
     {
         _windowOption.ItemSelected += WindowOptionSelected;
         _buttonSFXOption.Toggled += ButtonSFXOptionToggled;
         _pokemonSFXOption.Toggled += PokemonSFXOptionToggled;
         _pokemonMoveSFXOption.Toggled += PokemonMoveSFXOptionToggled;
+        _autoHealOption.Toggled += AutoHealOptionToggled;
 
         WindowOptionSelected(PokemonSettings.Instance.WindowModeIndex);
         ButtonSFXOptionToggled(PokemonSettings.Instance.ButtonSFXEnabled);
         PokemonSFXOptionToggled(PokemonSettings.Instance.PokemonSFXEnabled);
+        PokemonMoveSFXOptionToggled(PokemonSettings.Instance.PokemonMoveSFXEnabled);
+        AutoHealOptionToggled(PokemonSettings.Instance.AutoHealEnabled);
     }
 
     private void WindowOptionSelected(long index)
@@ -74,7 +80,7 @@ public partial class AccessibilitySettings : Container
         _autoHealOption.ButtonPressed = isToggled;
 
         string optionText = "Auto Heal: ";
-        _autoHealOption.Text = AppendOptionText(optionText, isToggled);
+        _autoHealLabel.Text = AppendOptionText(optionText, isToggled);
 
         PokemonSettings.Instance.AutoHealEnabled = isToggled;
     }

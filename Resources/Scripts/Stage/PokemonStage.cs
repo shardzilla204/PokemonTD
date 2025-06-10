@@ -67,6 +67,8 @@ public partial class PokemonStage : Node2D
 
 	public override void _Ready()
 	{
+		HasStarted = false;
+		HasFinished = false;
 		if (PokemonNames.Count == 0) PokemonTD.AreStagesEnabled = false;
 		if (PokemonTD.AreStagesEnabled) WaveInterval();
 	}
@@ -109,6 +111,8 @@ public partial class PokemonStage : Node2D
 
 		ShowStageResult();
 		HasFinished = true;
+
+		PokemonStages.Instance.CompletedStage(ID);
 	}
 
 	private void ShowStageResult()
@@ -151,6 +155,11 @@ public partial class PokemonStage : Node2D
 		string randomPokemonName = GetRandomPokemonName();
 		int randomLevel = GetRandomLevel();
 		Pokemon randomPokemon = PokemonManager.Instance.GetPokemon(randomPokemonName, randomLevel);
+
+		if (PokemonTD.MasterMode.IsEnabled)
+		{
+			randomPokemon = PokemonManager.Instance.GetRandomPokemon(true);
+		}
 
 		PokemonEnemy pokemonEnemy = GetPokemonEnemy(randomPokemon);
 		_pokemonEnemies.Add(pokemonEnemy);
@@ -280,20 +289,12 @@ public partial class PokemonStage : Node2D
 
 	private void PokemonMoveChanged(Pokemon pokemon, int pokemonTeamIndex, PokemonMove pokemonMove)
 	{
-		switch (pokemonMove.Name)
-		{
-			case "Counter":
-				pokemon.Effects.HasCounter = true;
-				break;
-			case "Hyper Beam":
-				pokemon.Effects.HasHyperBeam = true;
-				break;
-		}
+		pokemon.ApplyMoveEffect(pokemonMove);
 
 		// Print message to console
 		string changedPokemonMoveMessage = $"{pokemon.Name}'s Move Is Now {pokemonMove.Name}";
 		PrintRich.PrintLine(TextColor.Purple, changedPokemonMoveMessage);
 
-		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonMoveChanged);
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonMoveChanged, pokemonTeamIndex);
 	}
 }

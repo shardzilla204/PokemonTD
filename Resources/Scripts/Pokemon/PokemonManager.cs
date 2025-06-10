@@ -143,19 +143,22 @@ public partial class PokemonManager : Node
         PokemonMoves.Instance.AddToQueue(forgetMoveInterface);
     }
 
-    public Pokemon GetRandomPokemon()
+    public Pokemon GetRandomPokemon(bool fromMasterMode)
     {
         string randomPokemonName = GetRandomPokemonName();
-        int randomLevel = GetRandomLevel();
+        int randomLevel = GetRandomLevel(fromMasterMode);
         Pokemon pokemon = GetPokemon(randomPokemonName, randomLevel);
 
         return pokemon;
     }
 
-    public int GetRandomLevel()
+    public int GetRandomLevel(bool fromMasterMode)
     {
+        int minLevel = fromMasterMode ? PokemonTD.MasterMode.MinPokemonLevel : PokemonTD.MinRandomPokemonLevel;
+        int maxLevel = fromMasterMode ? PokemonTD.MasterMode.MaxPokemonLevel : PokemonTD.MaxRandomPokemonLevel;
+
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        return RNG.RandiRange(PokemonTD.MinRandomPokemonLevel, PokemonTD.MaxRandomPokemonLevel);
+        return RNG.RandiRange(minLevel, maxLevel);
     }
 
     private async void PokemonLeveledUp(int levels, int pokemonTeamIndex)
