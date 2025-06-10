@@ -38,10 +38,10 @@ public partial class PokeCenter : Node
 		PokemonTD.Signals.GameReset += () => 
 		{
 			Pokemon.Clear();
-			if (PokemonTD.IsPokeCenterRandomized) AddRandomPokemon();
+			if (PokemonTD.Debug.IsPokeCenterRandomized) AddRandomPokemon();
 		};
 
-		if (PokemonTD.IsPokeCenterRandomized && !PokemonTD.HasSelectedStarter) AddRandomPokemon();
+		if (PokemonTD.Debug.IsPokeCenterRandomized && !PokemonTD.HasSelectedStarter) AddRandomPokemon();
     }
 
 	public void SavePokemon()
@@ -277,7 +277,7 @@ public partial class PokeCenter : Node
 
 	private void AddRandomPokemon()
 	{
-		for (int i = 0; i < PokemonTD.PokeCenterCount; i++)
+		for (int i = 0; i < PokemonTD.Debug.PokeCenterCount; i++)
 		{
 			Pokemon randomPokemon = PokemonManager.Instance.GetRandomPokemon(false);
 			Pokemon.Add(randomPokemon);

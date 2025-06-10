@@ -6,28 +6,19 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
-        TODO: Create tutorials for poke mart
+        TODO: Distribute stat decrease among targets like status conditions
 
     * Ideas (Low):
         ? Shiny pokemon through color palettes
         ? Pitch variation on hovering button
         ? Add keybinds
 
-        ? Mute all stage team slot options in settings
-
     * Ideas (High):
         ? Show tutorial for the section (Pokemon Stage, Poke Center, and Poke Mart) and once the player sees all of the them, display the exit button
-
-        ? Distribute stat decrease among targets like status conditions
-
+        
         ?? Figure out a way to compensate paying for fainting pokemon
 
     * Bugs:
-        ! Status condition is not removed from Pokemon
-        ! Potential Causes: Pokemon gets hit with stat debuff as well and somehow it's sharing the same timer
-
-        // ! Part (1/2) When a Pokemon is hit with a stat debuff specically speed, and is hit with a status condition that works with speed e.g (Confuse or Sleep). 
-        // ! Part (2/2) When the timer of the stat debuff is done, it'll reset the stat without taking consideration of the status conditions it currently has.
 
     * Notes:
         - Pin Missile SFX Will Be Damage SFX
@@ -55,10 +46,10 @@ public partial class PokemonTD : Control
     private PokemonMasterMode _pokemonMasterMode;
 
     [Export]
-    private int _startingPokeDollars = 727;
+    private PokemonDebug _pokemonDebug;
 
     [Export]
-    private bool _isTeamRandom;
+    private int _startingPokeDollars = 727;
 
     [Export]
     private GC.Dictionary<string, int> _startingInventory = new GC.Dictionary<string, int>()
@@ -68,64 +59,17 @@ public partial class PokemonTD : Control
         { "Super Potion", 1 },
     };
 
-    [Export(PropertyHint.Range, "0,5,1")]
-    private int _teamCount = 5;
-
-    [Export]
-    private bool _areStagesEnabled = true;
-
-    [Export]
-    private bool _isCaptureModeEnabled = false;
-
-    [Export]
-    private bool _areLevelsRandomized = false;
-
-    [Export]
-    private bool _areMovesRandomized = false;
-
     [Export(PropertyHint.Range, "1,100,1")]
     private int _starterPokemonLevel = 5;
 
     [Export]
     private bool _isScreenshotModeOn = false;
 
-
-    [ExportCategory("Poke Center")]
-    [Export]
-    private bool _isPokeCenterRandomized = false;
-
-    [Export(PropertyHint.Range, "0,999,1")]
-    private int _pokeCenterCount;
-
-    [ExportCategory("Pokemon Level")]
-    [Export(PropertyHint.Range, "1,100,1")]
-    private int _minPokemonLevel = 1;
-
-    [Export(PropertyHint.Range, "1,100,1")]
-    private int _maxPokemonLevel = 100;
-
-    [Export(PropertyHint.Range, "1,100,1")]
-    private int _minPokemonEnemyLevel = 1;
-
-    [Export(PropertyHint.Range, "1,100,1")]
-    private int _maxPokemonEnemyLevel = 100;
-
     public static PackedScenes PackedScenes;
 
     public static float GameSpeed = 1;
     public static bool IsGamePaused;
-
-    public static bool IsTeamRandom = false;
-    public static bool AreStagesEnabled = true;
-    public static bool IsCaptureModeEnabled = false;
-    public static bool AreLevelsRandomized = false;
-    public static bool AreMovesRandomized = false;
-    public static bool IsScreenshotModeOn = false;
-
-    public static int StarterPokemonLevel = 5;
-
-    public static int PokeCenterCount;
-    public static bool IsPokeCenterRandomized = false;
+    
     public static bool HasSelectedStarter = false;
 
     public static AudioManager AudioManager;
@@ -133,20 +77,16 @@ public partial class PokemonTD : Control
     public static PokemonTween Tween;
     public static PokemonKeybinds Keybinds;
     public static PokemonMasterMode MasterMode;
+    public static PokemonDebug Debug;
     public static PokemonSignals Signals = new PokemonSignals();
 
     public static int PokeDollars = 727;
     public static GC.Dictionary<string, int> StartingInventory = new GC.Dictionary<string, int>();
+    public static int StarterPokemonLevel = 5;
+    public static bool IsScreenshotModeOn = false;
 
     public const int MinPokemonLevel = 1;
     public const int MaxPokemonLevel = 100;
-
-    public static int MinRandomPokemonLevel = 1;
-    public static int MaxRandomPokemonLevel = 100;
-
-    public static int MinPokemonEnemyLevel = 1;
-    public static int MaxPokemonEnemyLevel = 100;
-    public static int TeamCount = 1;
 
     public const int MaxTeamSize = 6;
     public const int MaxMoveCount = 4;
@@ -157,29 +97,12 @@ public partial class PokemonTD : Control
         Tween = _pokemonTween;
         Keybinds = _pokemonKeybinds;
         MasterMode = _pokemonMasterMode;
+        Debug = _pokemonDebug;
 
         PokeDollars = _startingPokeDollars;
         StartingInventory = _startingInventory;
-
-        IsTeamRandom = _isTeamRandom;
-        AreStagesEnabled = _areStagesEnabled;
-        IsCaptureModeEnabled = _isCaptureModeEnabled;
-        AreLevelsRandomized = _areLevelsRandomized;
-        AreMovesRandomized = _areMovesRandomized;
-        IsScreenshotModeOn = _isScreenshotModeOn;
-
         StarterPokemonLevel = _starterPokemonLevel;
-
-        PokeCenterCount = _pokeCenterCount;
-        IsPokeCenterRandomized = _isPokeCenterRandomized;
-
-        MinRandomPokemonLevel = _minPokemonLevel;
-        MaxPokemonEnemyLevel = _maxPokemonLevel;
-
-        MinPokemonEnemyLevel = _minPokemonEnemyLevel;
-        MaxPokemonEnemyLevel = _maxPokemonEnemyLevel;
-
-        TeamCount = _teamCount;
+        IsScreenshotModeOn = _isScreenshotModeOn;
     }
 
     public override void _Ready()
@@ -235,7 +158,7 @@ public partial class PokemonTD : Control
     public static int GetRandomLevel()
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        return RNG.RandiRange(MinRandomPokemonLevel, MaxRandomPokemonLevel);
+        return RNG.RandiRange(Debug.MinPokemonLevel, Debug.MaxPokemonLevel);
     }
 
     public static int GetRandomLevel(int minimumLevel, int MaxLevel)
@@ -247,6 +170,15 @@ public partial class PokemonTD : Control
     public static Texture2D GetGenderSprite(Pokemon pokemon)
     {
         string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
+        return GetSprite(filePath);
+    }
+
+    public static Texture2D GetStatIcon(PokemonStat stat)
+    {
+        if (stat == PokemonStat.Accuracy || stat == PokemonStat.Evasion) return null;
+
+        string statFileName = stat.ToString();
+        string filePath = $"res://Assets/Images/StatIcon/{statFileName}Icon.png";
         return GetSprite(filePath);
     }
 

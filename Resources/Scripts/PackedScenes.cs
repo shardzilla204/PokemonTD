@@ -60,9 +60,6 @@ public partial class PackedScenes : Node
 	private PackedScene _informationInterface;
 
 	[Export]
-	private PackedScene _statusConditionIcon;
-
-	[Export]
 	private PackedScene _pokeMartInterface;
 
 	[Export]
@@ -101,13 +98,6 @@ public partial class PackedScenes : Node
 		};
 
 		return forgetMoveInterface;
-	}
-
-	public StatusConditionIcon GetStatusConditionIcon(StatusCondition statusCondition)
-	{
-		StatusConditionIcon statusConditionIcon = _statusConditionIcon.Instantiate<StatusConditionIcon>();
-		statusConditionIcon.SetIcon(statusCondition);
-		return statusConditionIcon;
 	}
 
 	public StarterOption GetStarterOption()

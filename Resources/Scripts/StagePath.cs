@@ -36,7 +36,7 @@ public partial class StagePath : Path2D
 		if (!pokemonStage.HasStarted) MoveArrow(delta);
 
 		bool hasStageFinished = pokemonStage.HasFinished;
-		if (!PokemonTD.AreStagesEnabled || hasStageFinished || PokemonTD.IsGamePaused) return;
+		if (!PokemonTD.Debug.AreStagesEnabled || hasStageFinished || PokemonTD.IsGamePaused) return;
 
 		foreach (PathFollow2D pathFollow in GetChildren())
 		{

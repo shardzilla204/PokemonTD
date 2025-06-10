@@ -154,8 +154,8 @@ public partial class PokemonManager : Node
 
     public int GetRandomLevel(bool fromMasterMode)
     {
-        int minLevel = fromMasterMode ? PokemonTD.MasterMode.MinPokemonLevel : PokemonTD.MinRandomPokemonLevel;
-        int maxLevel = fromMasterMode ? PokemonTD.MasterMode.MaxPokemonLevel : PokemonTD.MaxRandomPokemonLevel;
+        int minLevel = fromMasterMode ? PokemonTD.MasterMode.MinPokemonLevel : PokemonTD.Debug.MinPokemonLevel;
+        int maxLevel = fromMasterMode ? PokemonTD.MasterMode.MaxPokemonLevel : PokemonTD.Debug.MaxPokemonLevel;
 
         RandomNumberGenerator RNG = new RandomNumberGenerator();
         return RNG.RandiRange(minLevel, maxLevel);

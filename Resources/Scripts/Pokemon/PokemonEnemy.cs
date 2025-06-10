@@ -20,6 +20,9 @@ public partial class PokemonEnemy : TextureRect
 	private TextureProgressBar _healthBar;
 
 	[Export]
+	private StatContainer _statContainer;
+
+	[Export]
 	private StatusConditionContainer _statusConditionContainer;
 
 	[Export]
@@ -47,9 +50,9 @@ public partial class PokemonEnemy : TextureRect
 	{
 		PokemonTD.Signals.SpeedToggled += SpeedToggled;
 
-		if (PokemonTD.AreLevelsRandomized) Pokemon.Level = PokemonTD.GetRandomLevel(PokemonTD.MinPokemonEnemyLevel, PokemonTD.MaxPokemonEnemyLevel);
+		if (PokemonTD.Debug.AreLevelsRandomized) Pokemon.Level = PokemonTD.GetRandomLevel(PokemonTD.Debug.MinPokemonEnemyLevel, PokemonTD.Debug.MaxPokemonEnemyLevel);
 
-		if (PokemonTD.IsCaptureModeEnabled)
+		if (PokemonTD.Debug.IsCaptureModeEnabled)
 		{
 			EnableCaptureMode();
 		}
@@ -71,6 +74,10 @@ public partial class PokemonEnemy : TextureRect
 		foreach (PokemonMove pokemonMove in Pokemon.Moves)
 		{
 			List<StatMove> statIncreasingMoves = PokemonStatMoves.Instance.FindIncreasingStatMoves(pokemonMove);
+			foreach (StatMove statIncreasingMove in statIncreasingMoves)
+			{
+				AddStat(statIncreasingMove.PokemonStat, true);
+			}
 			PokemonStatMoves.Instance.IncreaseStats(Pokemon, statIncreasingMoves);
 		}
 
@@ -343,21 +350,33 @@ public partial class PokemonEnemy : TextureRect
 		return totalContributions;
 	}
 
+	public void AddStat(PokemonStat stat, bool isIncreasing)
+	{
+		_statContainer.AddStat(stat, isIncreasing);
+	}
+
+	public void RemoveStat(PokemonStat stat)
+	{
+		_statContainer.RemoveStat(stat);
+	}
+
+	public void ClearStats()
+	{
+		_statContainer.ClearStats();
+	}
+
 	public void AddStatusCondition(StatusCondition statusCondition)
 	{
 		_statusConditionContainer.AddStatusCondition(statusCondition);
-		Pokemon.AddStatusCondition(statusCondition);
 	}
 
 	public void RemoveStatusCondition(StatusCondition statusCondition)
 	{
 		_statusConditionContainer.RemoveStatusCondition(statusCondition);
-		Pokemon.RemoveStatusCondition(statusCondition);
     }
 
 	public void ClearStatusConditions()
 	{
 		_statusConditionContainer.ClearStatusConditions();
-		Pokemon.ClearStatusConditions();
     }
 }

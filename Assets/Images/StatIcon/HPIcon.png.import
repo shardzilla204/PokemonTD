@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://xbifokv7hyqv"
-path="res://.godot/imported/SpecialDefense.png-bab6d975771856af9b8194d22ca81d4a.ctex"
+uid="uid://bfnocaya7f4m8"
+path="res://.godot/imported/HPIcon.png-030f9d1a832aa01e4710ed9eed18b374.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Images/StatIcon/SpecialDefense.png"
-dest_files=["res://.godot/imported/SpecialDefense.png-bab6d975771856af9b8194d22ca81d4a.ctex"]
+source_file="res://Assets/Images/StatIcon/HPIcon.png"
+dest_files=["res://.godot/imported/HPIcon.png-030f9d1a832aa01e4710ed9eed18b374.ctex"]
 
 [params]
 

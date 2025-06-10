@@ -9,7 +9,7 @@ public partial class StatusConditionContainer : Container
     
     public void AddStatusCondition(StatusCondition statusCondition)
     {
-        StatusConditionIcon statusConditionIcon = PokemonTD.PackedScenes.GetStatusConditionIcon(statusCondition);
+        StatusConditionIcon statusConditionIcon = new StatusConditionIcon(statusCondition);
         AddChild(statusConditionIcon);
         _statusConditionIcons.Add(statusConditionIcon);
     }

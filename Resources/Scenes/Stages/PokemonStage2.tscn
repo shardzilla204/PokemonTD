@@ -80,23 +80,30 @@ offset_bottom = 576.0
 
 [node name="PokemonStageSlot5" parent="TileMapLayers/PokemonStageSlots" index="4" instance=ExtResource("3_gpemn")]
 layout_mode = 0
-offset_left = 960.0
-offset_top = 316.0
-offset_right = 1024.0
-offset_bottom = 380.0
+offset_left = 1472.0
+offset_top = 384.0
+offset_right = 1536.0
+offset_bottom = 448.0
 
-[node name="PokemonStageSlot6" parent="TileMapLayers/PokemonStageSlots" index="5" instance=ExtResource("3_gpemn")]
+[node name="PokemonStageSlot8" parent="TileMapLayers/PokemonStageSlots" index="5" instance=ExtResource("3_gpemn")]
+layout_mode = 0
+offset_left = 1088.0
+offset_top = 288.0
+offset_right = 1152.0
+offset_bottom = 352.0
+
+[node name="PokemonStageSlot6" parent="TileMapLayers/PokemonStageSlots" index="6" instance=ExtResource("3_gpemn")]
 layout_mode = 0
 offset_left = 384.0
 offset_top = 544.0
 offset_right = 448.0
 offset_bottom = 608.0
 
-[node name="PokemonStageSlot7" parent="TileMapLayers/PokemonStageSlots" index="6" instance=ExtResource("3_gpemn")]
+[node name="PokemonStageSlot7" parent="TileMapLayers/PokemonStageSlots" index="7" instance=ExtResource("3_gpemn")]
 layout_mode = 0
-offset_left = 1056.0
+offset_left = 1184.0
 offset_top = 64.0
-offset_right = 1120.0
+offset_right = 1248.0
 offset_bottom = 128.0
 
 [node name="Ekans" type="TextureRect" parent="TileMapLayers/Pokemon" index="0"]

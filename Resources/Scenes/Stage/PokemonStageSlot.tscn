@@ -1,16 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://cdfv2agri4jy7"]
+[gd_scene load_steps=9 format=3 uid="uid://cdfv2agri4jy7"]
 
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="1_y82w6"]
 [ext_resource type="Script" uid="uid://bijtn2qgen5e4" path="res://Resources/Scripts/Stage/PokemonStageSlot.cs" id="2_crn5j"]
 [ext_resource type="Script" uid="uid://dyibpu73cq4rp" path="res://Resources/Scripts/StatusConditionContainer.cs" id="3_crn5j"]
 [ext_resource type="Script" uid="uid://2uxar0f7i2od" path="res://Resources/Scripts/InteractComponent.cs" id="3_ech5t"]
+[ext_resource type="Script" uid="uid://djab1svjmggrg" path="res://Resources/Scripts/StatContainer.cs" id="3_hkqr4"]
 [ext_resource type="Texture2D" uid="uid://cua24deuav8n4" path="res://Assets/Images/Pokemon/Charizard.png" id="4_hkqr4"]
 [ext_resource type="Texture2D" uid="uid://bsfgwbxnod1ey" path="res://Assets/Images/CircleFlat.png" id="5_ech5t"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xoqv1"]
 radius = 100.0
 
-[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_areaSprite", "_pokemonSprite", "_interactComponent", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
+[node name="PokemonStageSlot" type="NinePatchRect" node_paths=PackedStringArray("_area", "_areaSprite", "_pokemonSprite", "_interactComponent", "_statContainer", "_statusConditionContainer", "_attackTimer", "_pokemonMovePlayer")]
 self_modulate = Color(1, 1, 1, 0)
 y_sort_enabled = true
 custom_minimum_size = Vector2(64, 64)
@@ -26,21 +27,36 @@ _area = NodePath("Area2D")
 _areaSprite = NodePath("InteractComponent/Control/AreaSprite")
 _pokemonSprite = NodePath("InteractComponent/PokemonSprite")
 _interactComponent = NodePath("InteractComponent")
-_statusConditionContainer = NodePath("StatusConditionContainer")
+_statContainer = NodePath("VBoxContainer/StatContainer")
+_statusConditionContainer = NodePath("VBoxContainer/StatusConditionContainer")
 _attackTimer = NodePath("AttackTimer")
 _pokemonMovePlayer = NodePath("PokemonMovePlayer")
 metadata/_edit_group_ = true
 
-[node name="StatusConditionContainer" type="HBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -16.5
-offset_top = -23.0
-offset_right = 16.5
-offset_bottom = -8.0
+offset_left = -7.5
+offset_top = -30.0
+offset_right = 7.5
 grow_horizontal = 2
+theme_override_constants/separation = 0
+
+[node name="StatContainer" type="HBoxContainer" parent="VBoxContainer"]
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 3
+alignment = 1
+script = ExtResource("3_hkqr4")
+
+[node name="StatusConditionContainer" type="HBoxContainer" parent="VBoxContainer"]
+z_index = 1
+y_sort_enabled = true
+layout_mode = 2
 mouse_filter = 2
 theme_override_constants/separation = 3
 alignment = 1

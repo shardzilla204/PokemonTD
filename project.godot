@@ -16,7 +16,7 @@ warnings/check_invalid_track_paths=false
 
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
-config/version="0.6.0"
+config/version="1.0.1"
 run/main_scene="res://Resources/Scenes/MenuInterface.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot/app_userdata/PokemonTD"

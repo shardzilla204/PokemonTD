@@ -27,7 +27,6 @@
 [ext_resource type="PackedScene" uid="uid://cy3202rr3ei8h" path="res://Resources/Scenes/SettingsInterface.tscn" id="22_u4bgx"]
 [ext_resource type="Script" uid="uid://n14u7sui1dd7" path="res://Resources/Scripts/PokemonTween.cs" id="24_u4bgx"]
 [ext_resource type="PackedScene" uid="uid://cns7fl2chiobe" path="res://Resources/Scenes/InformationInterface.tscn" id="25_6jdnx"]
-[ext_resource type="PackedScene" uid="uid://b5r7urrtc6j84" path="res://Resources/Scenes/StatusConditionIcon.tscn" id="26_lpw2n"]
 [ext_resource type="PackedScene" uid="uid://tsbjbgmn6lb1" path="res://Resources/Scenes/PokeMart/PokeMartInterface.tscn" id="27_3kk4q"]
 [ext_resource type="PackedScene" uid="uid://d0hccl3odqa75" path="res://Resources/Scenes/PokeMart/PokeMartItem.tscn" id="27_v3jpj"]
 [ext_resource type="Script" uid="uid://by0qb8qrvrglp" path="res://Resources/Scripts/Stage/PokemonKeybinds.cs" id="28_lpw2n"]
@@ -37,8 +36,9 @@
 [ext_resource type="PackedScene" uid="uid://cvil380aw6b84" path="res://Resources/Scenes/StageItem.tscn" id="30_s540p"]
 [ext_resource type="PackedScene" uid="uid://duetnlfhlxtod" path="res://Resources/Scenes/MasterModeInterface.tscn" id="32_cntds"]
 [ext_resource type="Script" uid="uid://d0npdwnc2lvpp" path="res://Resources/Scripts/PokemonMasterMode.cs" id="36_p6id6"]
+[ext_resource type="Script" uid="uid://bxn5w2xlt3srw" path="res://Resources/Scripts/PokemonDebug.cs" id="38_mfv4n"]
 
-[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds", "_pokemonMasterMode")]
+[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds", "_pokemonMasterMode", "_pokemonDebug")]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
@@ -47,8 +47,7 @@ _packedScenes = NodePath("PackedScenes")
 _pokemonTween = NodePath("PokemonTween")
 _pokemonKeybinds = NodePath("PokemonKeybinds")
 _pokemonMasterMode = NodePath("PokemonMasterMode")
-_isPokeCenterRandomized = true
-_pokeCenterCount = 100
+_pokemonDebug = NodePath("PokemonDebug")
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
@@ -70,7 +69,6 @@ _forgetMoveInterface = ExtResource("18_8nrjv")
 _evolutionInterface = ExtResource("20_g5jc2")
 _settingsInterface = ExtResource("22_u4bgx")
 _informationInterface = ExtResource("25_6jdnx")
-_statusConditionIcon = ExtResource("26_lpw2n")
 _pokeMartInterface = ExtResource("27_3kk4q")
 _pokeMartItem = ExtResource("27_v3jpj")
 _pokeMartSlot = ExtResource("28_v3jpj")
@@ -105,3 +103,6 @@ script = ExtResource("28_lpw2n")
 
 [node name="PokemonMasterMode" type="Node" parent="."]
 script = ExtResource("36_p6id6")
+
+[node name="PokemonDebug" type="Node" parent="."]
+script = ExtResource("38_mfv4n")

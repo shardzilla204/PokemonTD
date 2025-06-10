@@ -69,8 +69,8 @@ public partial class PokemonStage : Node2D
 	{
 		HasStarted = false;
 		HasFinished = false;
-		if (PokemonNames.Count == 0) PokemonTD.AreStagesEnabled = false;
-		if (PokemonTD.AreStagesEnabled) WaveInterval();
+		if (PokemonNames.Count == 0) PokemonTD.Debug.AreStagesEnabled = false;
+		if (PokemonTD.Debug.AreStagesEnabled) WaveInterval();
 	}
 
 	private void CheckGameState()

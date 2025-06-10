@@ -31,6 +31,9 @@ public partial class PokemonStageSlot : NinePatchRect
 	private InteractComponent _interactComponent;
 
 	[Export]
+	private StatContainer _statContainer;
+
+	[Export]
 	private StatusConditionContainer _statusConditionContainer;
 
 	[Export]
@@ -101,6 +104,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		SetOpacity(false);
 		SetAreaSpriteOpacity(true);
 
+		ClearStats();
 		ClearStatusConditions();
 
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, false);
@@ -223,6 +227,10 @@ public partial class PokemonStageSlot : NinePatchRect
 		foreach (PokemonMove pokemonMove in pokemon.Moves)
 		{
 			List<StatMove> statIncreasingMoves = PokemonStatMoves.Instance.FindIncreasingStatMoves(pokemonMove);
+			foreach (StatMove statIncreasingMove in statIncreasingMoves)
+			{
+				AddStat(statIncreasingMove.PokemonStat, true);
+			}
 			PokemonStatMoves.Instance.IncreaseStats(pokemon, statIncreasingMoves);
 		}
 		PrintRich.Print(TextColor.Blue, "After");
@@ -462,6 +470,21 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		_targetQueue.Remove(pokemonEnemy);
 	}
+
+	public void AddStat(PokemonStat stat, bool isIncreasing)
+	{
+		_statContainer.AddStat(stat, isIncreasing);
+	}
+
+	public void RemoveStat(PokemonStat stat)
+	{
+		_statContainer.RemoveStat(stat);
+	}
+
+	public void ClearStats()
+	{
+		_statContainer.ClearStats();
+	}
 	
 	public void ApplyStatusColor(Color statusConditionColor)
 	{
@@ -482,4 +505,5 @@ public partial class PokemonStageSlot : NinePatchRect
 	{
 		_statusConditionContainer.ClearStatusConditions();
     }
+	
 }

@@ -33,10 +33,10 @@ public partial class PokemonTeam : Node
 		PokemonTD.Signals.GameReset += () => 
 		{
 			Pokemon.Clear();
-			if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
+			if (PokemonTD.Debug.IsTeamRandom) GetRandomTeam(PokemonTD.Debug.TeamCount);
 		};
 
-		if (PokemonTD.IsTeamRandom) GetRandomTeam(PokemonTD.TeamCount);
+		if (PokemonTD.Debug.IsTeamRandom) GetRandomTeam(PokemonTD.Debug.TeamCount);
 	}
 
 	private void PokemonTeamSlotMuted(int pokemonTeamIndex, bool isMuted)
@@ -90,7 +90,7 @@ public partial class PokemonTeam : Node
 		for (int i = 0; i < teamCount; i++)
 		{
 			Pokemon pokemon = PokemonManager.Instance.GetRandomPokemon(false);
-            pokemon.Moves = PokemonTD.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
+            pokemon.Moves = PokemonTD.Debug.AreMovesRandomized ? PokemonMoveset.Instance.GetRandomMoveset() : PokemonMoveset.Instance.GetPokemonMoveset(pokemon);
 			Pokemon.Add(pokemon);
 		}
 	}

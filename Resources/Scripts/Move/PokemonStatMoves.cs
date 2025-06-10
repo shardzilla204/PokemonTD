@@ -146,8 +146,28 @@ public partial class PokemonStatMoves : Node
         Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
         ApplyStatChange(defendingPokemon, statMove);
 
+        if (defending is PokemonStageSlot pokemonStageSlot)
+        {
+            pokemonStageSlot.AddStat(statMove.PokemonStat, false);
+        }
+        else if (defending is PokemonEnemy pokemonEnemy)
+        {
+            pokemonEnemy.AddStat(statMove.PokemonStat, false);
+        }
+
         CustomTimer timer = GetTimer(2);
-        timer.Timeout += () => PokemonManager.Instance.SetPokemonStats(defendingPokemon); // Reset Stats
+        timer.Timeout += () =>
+        {
+            PokemonManager.Instance.SetPokemonStats(defendingPokemon); // Reset Stats
+            if (defending is PokemonStageSlot pokemonStageSlot)
+            {
+                pokemonStageSlot.RemoveStat(statMove.PokemonStat);
+            }
+            else if (defending is PokemonEnemy pokemonEnemy)
+            {
+                pokemonEnemy.RemoveStat(statMove.PokemonStat);
+            }
+        };
 
         AddChild(timer);
     }

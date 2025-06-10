@@ -59,7 +59,7 @@ public partial class Pokemon : Node
 	{
 		// Default to the minimum level if below the threshold
 		level = level < PokemonTD.MinPokemonLevel ? PokemonTD.MinPokemonLevel : level;
-		Level = PokemonTD.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
+		Level = PokemonTD.Debug.AreLevelsRandomized ? PokemonTD.GetRandomLevel() : level;
 	}
 
 	public void SetMoves(List<PokemonMove> pokemonMoves)
