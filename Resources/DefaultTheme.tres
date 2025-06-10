@@ -2,8 +2,8 @@
 
 [ext_resource type="FontFile" uid="uid://bougit5gqns2y" path="res://Assets/Fonts/AfacadFlux-VariableFont_slnt,wght.ttf" id="1_j12yg"]
 [ext_resource type="Texture2D" uid="uid://j1oxdu6th12n" path="res://Assets/Images/PokeBall.png" id="2_jnd74"]
-[ext_resource type="StyleBox" uid="uid://cdtd7i3s6go8b" path="res://NormalTexture.tres" id="2_mlg4q"]
-[ext_resource type="StyleBox" uid="uid://bplop6f5mxo8k" path="res://HoverTexture.tres" id="2_vxw05"]
+[ext_resource type="StyleBox" uid="uid://cdtd7i3s6go8b" path="res://Resources/NormalTexture.tres" id="2_mlg4q"]
+[ext_resource type="StyleBox" uid="uid://bplop6f5mxo8k" path="res://Resources/HoverTexture.tres" id="2_vxw05"]
 [ext_resource type="Texture2D" uid="uid://cpvkwt141tskn" path="res://Assets/Images/RoundSquareFlat.png" id="3_stf6b"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ucrgt"]
