@@ -120,6 +120,7 @@ public partial class Pokemon : Node
 		Level = Mathf.Clamp(Level, 1, PokemonTD.MaxPokemonLevel);
 
 		Stats.MaxHP = PokemonManager.Instance.GetPokemonHP(this);
+		Stats.HP = PokemonManager.Instance.GetPokemonHP(this);
 
 		PokemonManager.Instance.SetPokemonStats(this);
 	}

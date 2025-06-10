@@ -6,7 +6,6 @@ namespace PokemonTD;
 
 /* 
     * Tasks:
-        TODO: Distribute stat decrease among targets like status conditions
 
     * Ideas (Low):
         ? Shiny pokemon through color palettes
