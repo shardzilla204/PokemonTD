@@ -29,6 +29,7 @@ public partial class Pokemon : Node
 	public bool HasCanceledEvolution;
 
 	public PokemonEffects Effects = new PokemonEffects();
+	public List<PokemonStat> Debuffs = new List<PokemonStat>();
 	public List<StatusCondition> StatusConditions = new List<StatusCondition>();
 
 	public Pokemon() { }

@@ -170,13 +170,13 @@ public partial class PokemonStageSlot : NinePatchRect
 
 		if (origin is PokemonTeamSlot)
 		{
-			PokemonTeamIndex = pokemonTeamIndex;
-
 			// Check if the Pokemon is already on the stage
 			PokemonStage pokemonStage = GetParentOrNull<Node>().GetOwnerOrNull<PokemonStage>();
-			PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(PokemonTeamIndex);
+			PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(pokemonTeamIndex);
 
 			if (pokemonStageSlot != null && pokemonStageSlot.Pokemon != null) pokemonStageSlot.UpdateSlot(null);
+
+			PokemonTeamIndex = pokemonTeamIndex;
 		}
 		else
 		{
@@ -187,6 +187,7 @@ public partial class PokemonStageSlot : NinePatchRect
 		if (origin is PokemonStageSlot)
 		{
 			PokemonEffects pokemonEffects = dataDictionary["PokemonEffects"].As<PokemonEffects>();
+			if (Pokemon == null) return;
 			Pokemon.Effects = pokemonEffects;
 		}
 
@@ -195,8 +196,8 @@ public partial class PokemonStageSlot : NinePatchRect
 		pokemon.ApplyEffects();
 
 		ChangeAreaSize(pokemon);
-
 		UpdateSlot(pokemon);
+
 		PokemonTD.AudioManager.PlayPokemonCry(pokemon, true);
 	}
 
@@ -360,16 +361,16 @@ public partial class PokemonStageSlot : NinePatchRect
 
 	public void SwapPokemon(PokemonStageSlot previousSlot)
 	{
-		Pokemon pokemon = Pokemon;
-		int pokemonTeamIndex = PokemonTeamIndex;
+		Pokemon pokemon = previousSlot.Pokemon;
+		int pokemonTeamIndex = previousSlot.PokemonTeamIndex;
 
-		UpdateSlot(previousSlot.Pokemon);
-		ChangeAreaSize(previousSlot.Pokemon);
-		PokemonTeamIndex = previousSlot.PokemonTeamIndex;
+		previousSlot.UpdateSlot(Pokemon);
+		previousSlot.ChangeAreaSize(Pokemon);
+		previousSlot.PokemonTeamIndex = PokemonTeamIndex;
 
-		previousSlot.UpdateSlot(pokemon);
-		previousSlot.ChangeAreaSize(pokemon);
-		previousSlot.PokemonTeamIndex = pokemonTeamIndex;
+		UpdateSlot(pokemon);
+		ChangeAreaSize(pokemon);
+		PokemonTeamIndex = pokemonTeamIndex;
 	}
 	
 	private StageInterface GetStageInterface()

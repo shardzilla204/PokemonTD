@@ -155,7 +155,9 @@ public partial class PokemonStatMoves : Node
             pokemonEnemy.AddStat(statMove.PokemonStat, false);
         }
 
-        CustomTimer timer = GetTimer(2);
+        defendingPokemon.Debuffs.Add(statMove.PokemonStat);
+
+        CustomTimer timer = GetTimer(5);
         timer.Timeout += () =>
         {
             PokemonManager.Instance.SetPokemonStats(defendingPokemon); // Reset Stats
@@ -167,6 +169,8 @@ public partial class PokemonStatMoves : Node
             {
                 pokemonEnemy.RemoveStat(statMove.PokemonStat);
             }
+
+            defendingPokemon.Debuffs.Remove(statMove.PokemonStat);
         };
 
         AddChild(timer);

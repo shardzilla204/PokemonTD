@@ -130,7 +130,9 @@ public partial class PokemonCombat : Node
             Pokemon pokemon = GetPokemon(targetObject);
             if (pokemon == null) continue;
 
-            GodotObject result = CheckStatusConditions(targetObject, pokemon, pokemonMove);
+            GodotObject result = CheckStats(targetObject, pokemon, pokemonMove);
+            result = CheckStatusConditions(targetObject, pokemon, pokemonMove);
+            
             if (result != null) nextTargetObject = result;
         }
         return nextTargetObject;
@@ -149,6 +151,20 @@ public partial class PokemonCombat : Node
             targetObjects.AddRange(pokemonEnemies);
         }
         return targetObjects;
+    }
+
+    // See if the pokemon from the object has any stats already debuffed. If it doesn't have any, return the object.
+    private GodotObject CheckStats(GodotObject attacking, Pokemon pokemon, PokemonMove pokemonMove)
+    {
+        List<StatMove> decreasingStatMoves = PokemonStatMoves.Instance.FindDecreasingStatMoves(pokemonMove);
+        foreach (StatMove decreasingStatMove in decreasingStatMoves)
+        {
+            bool pokemonHasDebuff = pokemon.Debuffs.Contains(decreasingStatMove.PokemonStat);
+            if (pokemonHasDebuff) continue;
+
+            return attacking;
+        }
+        return null;
     }
 
     // See if the pokemon from the object has any of the status condition the pokemon move gives. If it doesn't have any, return the object.
