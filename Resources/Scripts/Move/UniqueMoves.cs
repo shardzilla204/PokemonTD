@@ -267,6 +267,8 @@ public partial class UniqueMoves : Node
     public void Roar(GodotObject defending)
     {
         Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        if (defendingPokemon == null) return;
+        
         Pokemon defendingPokemonData = PokemonManager.Instance.GetPokemon(defendingPokemon.Name, defendingPokemon.Level);
         if (defending is PokemonStageSlot pokemonStageSlot)
         {
@@ -283,6 +285,8 @@ public partial class UniqueMoves : Node
     public void Whirlwind(GodotObject defending)
     {
         Pokemon defendingPokemon = PokemonCombat.Instance.GetPokemon(defending);
+        if (defendingPokemon == null) return;
+
         Pokemon defendingPokemonData = PokemonManager.Instance.GetPokemon(defendingPokemon.Name, defendingPokemon.Level);
         if (defending is PokemonStageSlot pokemonStageSlot)
         {

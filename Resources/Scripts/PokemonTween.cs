@@ -4,6 +4,11 @@ namespace PokemonTD;
 
 public partial class PokemonTween : Control
 {
+    public override void _EnterTree()
+    {
+		PokemonTD.Tween = this;
+    }
+
 	public void TweenSlotDragRotation(Control dragPreview, bool isDragging)
 	{
 		if (!isDragging || dragPreview is null) return;

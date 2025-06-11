@@ -62,6 +62,8 @@ public partial class PokemonDebug : Node
 
     public override void _EnterTree()
     {
+        PokemonTD.Debug = this;
+        
         IsTeamRandom = _isTeamRandom;
         AreStagesEnabled = _areStagesEnabled;
         IsCaptureModeEnabled = _isCaptureModeEnabled;

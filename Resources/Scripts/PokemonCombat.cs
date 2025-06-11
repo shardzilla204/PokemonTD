@@ -329,6 +329,7 @@ public partial class PokemonCombat : Node
     private int GetAccuracy(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
         int accuracy = Mathf.RoundToInt((attackingPokemon.Stats.Accuracy - defendingPokemon.Stats.Evasion) * pokemonMove.Accuracy);
+        GD.Print(accuracy);
         return accuracy;
     }
 
@@ -381,8 +382,8 @@ public partial class PokemonCombat : Node
 
     private float GetAttackDefenseRatio(Pokemon attackingPokemon, PokemonMove pokemonMove, Pokemon defendingPokemon)
     {
-        float specialRatio = (float)attackingPokemon.Stats.SpecialAttack / defendingPokemon.Stats.SpecialDefense;
-        float normalRatio = (float)attackingPokemon.Stats.Attack / defendingPokemon.Stats.Defense;
+        float specialRatio = (float) attackingPokemon.Stats.SpecialAttack / defendingPokemon.Stats.SpecialDefense;
+        float normalRatio = (float) attackingPokemon.Stats.Attack / defendingPokemon.Stats.Defense;
 
         float attackDefenseRatio = pokemonMove.Category == MoveCategory.Special ? specialRatio : normalRatio;
 

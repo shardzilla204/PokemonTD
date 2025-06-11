@@ -21,15 +21,23 @@ public partial class PokemonSleepBar : TextureProgressBar
     public override void _Ready()
     {
         PokemonTD.Signals.PressedPlay += ContinueTimer;
-        _sleepTimer.Timeout += () => EmitSignal(SignalName.Finished);
-        Value = 0;
+        _sleepTimer.Timeout += () =>
+        {
+            EmitSignal(SignalName.Finished);
+            Visible = false;
+        };
+        Visible = false;
     }
 
     public override async void _Process(double delta)
     {
         if (_sleepTimer.IsStopped()) return;
+        
+        PokemonTeamSlot pokemonTeamSlot = GetParentOrNull<Node>().GetOwnerOrNull<PokemonTeamSlot>();
+        StageInterface stageInterface = pokemonTeamSlot.GetParentOrNull<PokemonTeamSlots>().GetOwnerOrNull<StageInterface>();
+        PokemonStage pokemonStage = stageInterface.GetParentOrNull<PokemonStage>();
 
-        if (PokemonTD.IsGamePaused) 
+        if (PokemonTD.IsGamePaused && pokemonStage.HasStarted)
         {
             _waitTime = _sleepTimer.TimeLeft;
             _sleepTimer.Stop();
@@ -40,7 +48,9 @@ public partial class PokemonSleepBar : TextureProgressBar
     }
 
     private void ContinueTimer()
-    { 
+    {
+        PokemonTeamSlot pokemonTeamSlot = GetParentOrNull<Node>().GetOwnerOrNull<PokemonTeamSlot>();
+        if (!pokemonTeamSlot.IsRecovering) return;
         if (PokemonTD.IsGamePaused) return;
         
         _sleepTimer.WaitTime = _waitTime;
@@ -54,6 +64,8 @@ public partial class PokemonSleepBar : TextureProgressBar
         MaxValue = waitTime;
         _sleepTimer.WaitTime = waitTime;
         _sleepTimer.Start();
+
+        Visible = true;
     }
 
     private float GetWaitTime(Pokemon pokemon)

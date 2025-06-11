@@ -9,6 +9,11 @@ public partial class PokemonMasterMode : Node
     public int MinPokemonLevel = 1;
     public int MaxPokemonLevel = 100;
 
+    public override void _EnterTree()
+    {
+        PokemonTD.MasterMode = this;
+    }
+
     public Dictionary<string, Variant> GetData()
     {
         Dictionary<string, Variant> masterModeData = new Dictionary<string, Variant>()

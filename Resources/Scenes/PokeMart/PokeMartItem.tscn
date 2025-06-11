@@ -4,7 +4,7 @@
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_jam8g"]
 [ext_resource type="Script" uid="uid://b2cccew3ssrob" path="res://Resources/Scripts/PokeMart/PokeMartItem.cs" id="1_s5x43"]
 [ext_resource type="Texture2D" uid="uid://dagl8j28upyep" path="res://Assets/Images/EvolutionStone/FireStone.png" id="2_s5x43"]
-[ext_resource type="Script" uid="uid://bd3wfqhf8f3be" path="res://Resources/Scenes/PokeMart/BuyButton.cs" id="5_jam8g"]
+[ext_resource type="Script" uid="uid://bd3wfqhf8f3be" path="res://Resources/Scripts/BuyButton.cs" id="5_jam8g"]
 
 [node name="PokeMartItem" type="HBoxContainer" node_paths=PackedStringArray("_itemSprite", "_itemName", "_itemDescription", "_itemPrice", "_buyButton")]
 offset_right = 440.0

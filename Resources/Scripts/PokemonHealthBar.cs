@@ -51,9 +51,9 @@ public partial class PokemonHealthBar : Container
         Update(_pokemon);
     }
 
-    private void CheckHealth()
+    public void CheckHealth()
     {
-        if (_healthBar.Value > _healthBar.MinValue) return;
+        if (_pokemon.Stats.HP > 0) return;
 
         PokemonTD.SubtractPokeDollars(_pokemon);
         EmitSignal(SignalName.Fainted);

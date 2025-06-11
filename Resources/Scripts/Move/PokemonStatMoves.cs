@@ -188,7 +188,7 @@ public partial class PokemonStatMoves : Node
         int baseStatValue = PokemonManager.Instance.GetOtherPokemonStat(pokemon, statMove.PokemonStat);
         int statValue = GetStatValue(pokemon, statMove);
 
-        float changeValue = statMove.IsSharp ? 1 : 0.5f; // For accuracy and evasion
+        float changeValue = statMove.IsSharp ? 0.6f : 0.25f; // For accuracy and evasion
         switch (statMove.PokemonStat)
         {
             case PokemonStat.Attack:
@@ -208,11 +208,11 @@ public partial class PokemonStatMoves : Node
                 break;
             case PokemonStat.Accuracy:
                 pokemon.Stats.Accuracy += statMove.IsIncreasing ? changeValue : -changeValue;
-                pokemon.Stats.Accuracy = Mathf.Clamp(pokemon.Stats.Accuracy, 0.5f, 2);
+                pokemon.Stats.Accuracy = Mathf.Clamp(pokemon.Stats.Accuracy, 0, 2);
                 break;
             case PokemonStat.Evasion:
                 pokemon.Stats.Evasion += statMove.IsIncreasing ? changeValue : -changeValue;
-                pokemon.Stats.Evasion = Mathf.Clamp(pokemon.Stats.Accuracy, 0.5f, 2);
+                pokemon.Stats.Evasion = Mathf.Clamp(pokemon.Stats.Evasion, 0, 2);
                 break;
         }
 

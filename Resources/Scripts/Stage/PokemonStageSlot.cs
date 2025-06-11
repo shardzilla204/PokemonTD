@@ -104,9 +104,6 @@ public partial class PokemonStageSlot : NinePatchRect
 		SetOpacity(false);
 		SetAreaSpriteOpacity(true);
 
-		ClearStats();
-		ClearStatusConditions();
-
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, false);
 	}
 
@@ -188,13 +185,10 @@ public partial class PokemonStageSlot : NinePatchRect
 		{
 			PokemonEffects pokemonEffects = dataDictionary["PokemonEffects"].As<PokemonEffects>();
 			if (Pokemon == null) return;
+			
 			Pokemon.Effects = pokemonEffects;
 		}
-
-		RefreshStatusConditions(pokemon);
-		ApplyIncreasingStats(pokemon);
-		pokemon.ApplyEffects();
-
+		
 		ChangeAreaSize(pokemon);
 		UpdateSlot(pokemon);
 
@@ -205,6 +199,8 @@ public partial class PokemonStageSlot : NinePatchRect
 	public void RefreshStatusConditions(Pokemon pokemon)
 	{
 		ClearStatusConditions();
+		if (pokemon == null) return;
+
 		foreach (StatusCondition statusCondition in pokemon.StatusConditions)
 		{
 			AddStatusCondition(statusCondition);
@@ -217,9 +213,22 @@ public partial class PokemonStageSlot : NinePatchRect
 		}
 	}
 
+	public void RefreshStats(Pokemon pokemon)
+	{
+		ClearStats();
+		if (pokemon == null) return;
+
+		foreach (PokemonStat stat in pokemon.Debuffs)
+		{
+			AddStat(stat, false);
+		}
+	}
+
 	// Automatically applies any stat increasing moves & mist if there are any
 	private void ApplyIncreasingStats(Pokemon pokemon)
 	{
+		if (pokemon == null) return;
+
 		bool hasAnyIncreasingStatChanges = PokemonStatMoves.Instance.HasAnyIncreasingStatChanges(pokemon.Moves);
 		if (!hasAnyIncreasingStatChanges) return;
 
@@ -392,9 +401,21 @@ public partial class PokemonStageSlot : NinePatchRect
 		Pokemon = pokemon != null ? pokemon : null;
 		_pokemonSprite.Texture = pokemon != null ? pokemon.Sprite : null;
 
-		if (pokemon == null) IsRecovering = false;
+		if (pokemon == null)
+		{
+			IsRecovering = false;
+		}
+		else 
+		{
+			pokemon.ApplyEffects();
+		}
 
 		SetWaitTime();
+
+		RefreshStats(pokemon);
+		RefreshStatusConditions(pokemon);
+
+		ApplyIncreasingStats(pokemon);
 	}
 
 	private void Attack()
@@ -404,6 +425,8 @@ public partial class PokemonStageSlot : NinePatchRect
 		PokemonMove pokemonMove = PokemonCombat.Instance.GetCombatMove(Pokemon, _targetQueue[0].Pokemon, Pokemon.Move, PokemonTeamIndex);
 		
 		PokemonEnemy pokemonEnemy = (PokemonEnemy) PokemonCombat.Instance.GetNextTarget(_targetQueue, pokemonMove);
+		if (pokemonEnemy == null) return;
+
 		pokemonEnemy.Fainted += UpdatePokemonQueue;
 
 		AddContribution(pokemonEnemy);

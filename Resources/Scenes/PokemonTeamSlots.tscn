@@ -1,8 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c0rupaqiw81fp"]
+[gd_scene load_steps=2 format=3 uid="uid://c0rupaqiw81fp"]
 
 [ext_resource type="Script" uid="uid://bvn36736lbc3b" path="res://Resources/Scripts/PokemonTeamSlots.cs" id="1_udy6x"]
-[ext_resource type="PackedScene" uid="uid://ch7esqyvvtk7g" path="res://Resources/Scenes/Stage/PokemonTeamSlot.tscn" id="2_nxpqd"]
-[ext_resource type="PackedScene" uid="uid://i1ue4yt2cgs2" path="res://Resources/Scenes/Stage/EmptyPokemonTeamSlot.tscn" id="3_k3qor"]
 
 [node name="PokemonTeamSlots" type="HBoxContainer"]
 offset_right = 925.0
@@ -11,24 +9,3 @@ size_flags_vertical = 8
 mouse_filter = 2
 theme_override_constants/separation = 5
 script = ExtResource("1_udy6x")
-
-[node name="PokemonTeamSlot" parent="." instance=ExtResource("2_nxpqd")]
-layout_mode = 2
-
-[node name="PokemonTeamSlot2" parent="." instance=ExtResource("2_nxpqd")]
-layout_mode = 2
-
-[node name="EmptyPokemonTeamSlot" parent="." instance=ExtResource("3_k3qor")]
-layout_mode = 2
-
-[node name="EmptyPokemonTeamSlot5" parent="." instance=ExtResource("3_k3qor")]
-layout_mode = 2
-
-[node name="EmptyPokemonTeamSlot2" parent="." instance=ExtResource("3_k3qor")]
-layout_mode = 2
-
-[node name="EmptyPokemonTeamSlot3" parent="." instance=ExtResource("3_k3qor")]
-layout_mode = 2
-
-[node name="EmptyPokemonTeamSlot4" parent="." instance=ExtResource("3_k3qor")]
-layout_mode = 2

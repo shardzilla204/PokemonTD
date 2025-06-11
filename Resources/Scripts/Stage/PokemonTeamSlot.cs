@@ -30,6 +30,8 @@ public partial class PokemonTeamSlot : Button
 	public int PokemonTeamIndex = 0;
 	public Pokemon Pokemon;
 
+	public bool IsRecovering = false;
+
 	private bool _isDragging;
 	private Control _dragPreview;
 
@@ -44,8 +46,8 @@ public partial class PokemonTeamSlot : Button
 		if (Pokemon != null) Pokemon.ClearStatusConditions();
 	}
 
-	public override void _Ready()
-	{
+    public override void _EnterTree()
+    {
 		PokemonTD.Signals.PokemonHealed += PokemonHealed;
 		PokemonTD.Signals.PokemonDamaged += PokemonDamaged;
 		PokemonTD.Signals.PokemonEvolved += PokemonEvolved;
@@ -61,7 +63,12 @@ public partial class PokemonTeamSlot : Button
 		};
 		_pokemonHealthBar.Fainted += PokemonFainted;
 		_pokemonSleepBar.Finished += SleepFinished;
-	}
+    }
+
+    public override void _Ready()
+    {
+        _pokemonHealthBar.CheckHealth();
+    }
 
 	public override void _Process(double delta)
 	{
@@ -97,11 +104,18 @@ public partial class PokemonTeamSlot : Button
 		return dataDictionary;
 	}
 
-    public override bool _CanDropData(Vector2 atPosition, Variant data)
-    {
-		if (data.As<PokeMartItem>() is not PokeMartItem) return false;
+	public override bool _CanDropData(Vector2 atPosition, Variant data)
+	{
+		try
+		{
+			if (data.As<PokeMartItem>() is not PokeMartItem) return false;
 
-		return Pokemon.Stats.HP < Pokemon.Stats.MaxHP;
+			return Pokemon.Stats.HP < Pokemon.Stats.MaxHP;
+		}
+		catch (InvalidCastException)
+		{
+			return false;
+		}
     }
 
 	public override void _DropData(Vector2 atPosition, Variant data)
@@ -129,7 +143,7 @@ public partial class PokemonTeamSlot : Button
 
 			// Remove gender icons in the name for Nidoran
 			string pokemonName = pokemon == null ? "" : pokemon.Name;
-        	if (Pokemon != null) pokemonName = pokemon.Name.Contains("Nidoran") ? "Nidoran" : pokemon.Name;
+			if (Pokemon != null) pokemonName = pokemon.Name.Contains("Nidoran") ? "Nidoran" : pokemon.Name;
 
 			_pokemonName.Text = pokemonName;
 			_pokemonSprite.Texture = pokemon != null ? pokemon.Sprite : null;
@@ -138,7 +152,7 @@ public partial class PokemonTeamSlot : Button
 			_pokemonHealthBar.Update(pokemon);
 
 			_genderSprite.Texture = PokemonTD.GetGenderSprite(pokemon);
-			
+
 			_pokemonMoveButton.Update(pokemon.Move);
 		}
 		catch (NullReferenceException error)
@@ -191,10 +205,14 @@ public partial class PokemonTeamSlot : Button
 	{
 		PokemonStage pokemonStage = GetPokemonStage();
 		PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(PokemonTeamIndex);
-		pokemonStageSlot.EmitSignal(PokemonStageSlot.SignalName.Fainted, pokemonStageSlot);
+		if (pokemonStageSlot != null)
+		{
+			pokemonStageSlot.EmitSignal(PokemonStageSlot.SignalName.Fainted, pokemonStageSlot);
+			pokemonStageSlot.IsRecovering = true;
+		}
 		
-		pokemonStageSlot.IsRecovering = true;
-		float additionalTime = pokemonStageSlot.Pokemon.Effects.UsedFaintMove ? 3.5f : 0;
+		IsRecovering = true;
+		float additionalTime = Pokemon.Effects.UsedFaintMove ? 3.5f : 0;
 		_pokemonSleepBar.Start(Pokemon, additionalTime);
 
 		Modulate = Modulate.Darkened(0.15f);
@@ -206,9 +224,12 @@ public partial class PokemonTeamSlot : Button
 		PokemonStage pokemonStage = GetPokemonStage();
 		PokemonStageSlot pokemonStageSlot = pokemonStage.FindPokemonStageSlot(PokemonTeamIndex);
 
-		if (pokemonStageSlot == null) return;
+		if (pokemonStageSlot != null)
+		{
+			pokemonStageSlot.IsRecovering = false;
+		}
 
-		pokemonStageSlot.IsRecovering = false;
+		IsRecovering = false;
 		_pokemonHealthBar.ResetHealth(); 
 		Modulate = Colors.White;
 		Disabled = false;
