@@ -220,7 +220,7 @@ theme_override_constants/separation = 10
 [node name="PokemonTeamSlots" parent="MarginContainer/VBoxContainer/Container" instance=ExtResource("8_eh12w")]
 layout_mode = 2
 
-[node name="PokéBall" type="TextureRect" parent="MarginContainer/VBoxContainer/Container"]
+[node name="PokeBall" type="TextureRect" parent="MarginContainer/VBoxContainer/Container"]
 texture_filter = 1
 custom_minimum_size = Vector2(75, 75)
 layout_mode = 2

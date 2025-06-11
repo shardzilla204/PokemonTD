@@ -50,7 +50,7 @@ public partial class MovesetInterface : CanvasLayer
 		foreach (PokemonMove pokemonMove in _pokemon.Moves)
 		{
 			MoveOption moveOption = PokemonTD.PackedScenes.GetMoveOption();
-			moveOption.PokemonMove = pokemonMove;
+			moveOption.SetOption(pokemonMove, false);
 			moveOption.MouseEntered += () => SetEffectText(pokemonMove);
 			moveOption.Pressed += () =>
 			{

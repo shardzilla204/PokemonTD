@@ -4,9 +4,11 @@
 [ext_resource type="Theme" uid="uid://b4i4qpakkjdqr" path="res://Resources/DefaultTheme.tres" id="1_jam8g"]
 [ext_resource type="Script" uid="uid://b2cccew3ssrob" path="res://Resources/Scripts/PokeMart/PokeMartItem.cs" id="1_s5x43"]
 [ext_resource type="Texture2D" uid="uid://dagl8j28upyep" path="res://Assets/Images/EvolutionStone/FireStone.png" id="2_s5x43"]
-[ext_resource type="Script" uid="uid://cs10d85jh17yy" path="res://Resources/Scripts/CustomButton.cs" id="4_dfpou"]
+[ext_resource type="Script" uid="uid://bd3wfqhf8f3be" path="res://Resources/Scenes/PokeMart/BuyButton.cs" id="5_jam8g"]
 
 [node name="PokeMartItem" type="HBoxContainer" node_paths=PackedStringArray("_itemSprite", "_itemName", "_itemDescription", "_itemPrice", "_buyButton")]
+offset_right = 440.0
+offset_bottom = 80.0
 theme = ExtResource("1_jam8g")
 script = ExtResource("1_s5x43")
 _itemSprite = NodePath("NinePatchRect/MarginContainer/HBoxContainer/ItemSprite")
@@ -17,7 +19,7 @@ _buyButton = NodePath("BuyButton")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
-custom_minimum_size = Vector2(350, 80)
+custom_minimum_size = Vector2(365, 80)
 layout_mode = 2
 texture = ExtResource("1_4ke20")
 patch_margin_left = 10
@@ -74,10 +76,10 @@ text = "Fully restores the HP of a Pokémon."
 [node name="BuyButton" type="Button" parent="."]
 custom_minimum_size = Vector2(80, 80)
 layout_mode = 2
-theme_override_font_sizes/font_size = 50
+theme_override_font_sizes/font_size = 40
 text = "+"
 flat = true
-script = ExtResource("4_dfpou")
+script = ExtResource("5_jam8g")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="BuyButton"]
 self_modulate = Color(0.270588, 0.270588, 0.270588, 1)

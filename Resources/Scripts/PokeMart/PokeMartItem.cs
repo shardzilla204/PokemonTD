@@ -34,7 +34,7 @@ public partial class PokeMartItem : Container
     private Label _itemPrice;
 
     [Export]
-    private CustomButton _buyButton;
+    private BuyButton _buyButton;
 
     public new string Name;
     public string Description;
@@ -43,19 +43,21 @@ public partial class PokeMartItem : Container
     public Texture2D Sprite;
     public int Quantity;
 
+    public int TargetPrice;
+
     public override void _Ready()
     {
-        _buyButton.Pressed += Purchase;
+        TargetPrice = Price;
 
-        _itemSprite.Texture = Sprite;
-        _itemName.Text = Name;
-        _itemDescription.Text = Description;
-        _itemPrice.Text = $"₽ {Price}";
+        _buyButton.Pressed += Purchase;
+        _buyButton.AmountChanged += AmountChanged;
+
+        SetItem();
     }
 
     private void Purchase()
     {
-        if (Price > PokemonTD.PokeDollars)
+        if (TargetPrice > PokemonTD.PokeDollars)
         {
             Label control = GetInsufficientFundsControl();
             GetParent<Node>().GetOwnerOrNull<PokeMartInterface>().AddChild(control);
@@ -64,14 +66,28 @@ public partial class PokeMartItem : Container
         }
 
         PokeMartItem pokeMartItem = PokeMart.Instance.Items.Find(item => item.Name == Name);
-        pokeMartItem.Quantity++;
+        pokeMartItem.Quantity += _buyButton.Amount;
 
         PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.ItemReceived);
-        PokemonTD.SubtractPokeDollars(Price);
+        PokemonTD.SubtractPokeDollars(TargetPrice);
 
-        HBoxContainer spritecontrol = GetItemSpriteControl();
-        GetParent<Node>().GetOwnerOrNull<PokeMartInterface>().AddChild(spritecontrol);
-        TweenControl(spritecontrol);
+        HBoxContainer spriteControl = GetItemSpriteControl();
+        GetParent<Node>().GetOwnerOrNull<PokeMartInterface>().AddChild(spriteControl);
+        TweenControl(spriteControl);
+    }
+
+    private void AmountChanged(int amount)
+    {
+        TargetPrice = Price * amount;
+        SetItem();
+    }
+
+    private void SetItem()
+    {
+        _itemSprite.Texture = Sprite;
+        _itemName.Text = Name;
+        _itemDescription.Text = Description;
+        _itemPrice.Text = $"₽ {TargetPrice}";
     }
 
     public HBoxContainer GetItemSpriteControl()
@@ -102,6 +118,18 @@ public partial class PokeMartItem : Container
             CustomMinimumSize = size,
             MouseFilter = MouseFilterEnum.Ignore,
         };
+
+        Label itemAmount = new Label()
+        {
+            Text = _buyButton.Amount > 1 ? $"x{_buyButton.Amount}" : "",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            CustomMinimumSize = size,
+            SizeFlagsVertical = SizeFlags.Fill
+        };
+        
+        itemSprite.AddChild(itemAmount);
+
         hBoxContainer.AddChild(plusLabel);
         hBoxContainer.AddChild(itemSprite);
         return hBoxContainer;

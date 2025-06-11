@@ -39,8 +39,8 @@ public partial class ForgetMoveInterface : CanvasLayer
 
 		ClearMoves();
 		SetMovesToSwap();
-		_moveToLearnOption.UpdateOption(MoveToLearn);
-		_moveToForgetOption.UpdateOption(_moveToForget);
+		_moveToLearnOption.SetOption(MoveToLearn, true);
+		_moveToForgetOption.SetOption(_moveToForget, true);
 
 		// Resume game after deciding
 		_swap.Pressed += () =>
@@ -93,7 +93,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 		foreach (PokemonMove pokemonMove in Pokemon.Moves)
 		{
 			MoveOption moveOption = GetMoveOption(pokemonMove);
-			moveOption.UpdateOption(pokemonMove);
+			moveOption.SetOption(pokemonMove, true);
 
 			_moveForgetOptions.AddChild(moveOption);
 			_moveOptions.Add(moveOption);
@@ -115,7 +115,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 		firstMoveOption.Modulate = Colors.White.Darkened(darknessPercentage);
 
 		_moveToForget = Pokemon.Moves[0];
-		_moveToForgetOption.UpdateOption(_moveToForget);
+		_moveToForgetOption.SetOption(_moveToForget, true);
 	}
 
 	private void OnMoveOptionMouseEntered(PokemonMove pokemonMove)
@@ -140,7 +140,7 @@ public partial class ForgetMoveInterface : CanvasLayer
 		moveOption.Modulate = colorWhite.Darkened(darknessPercentage);
 
 		_moveToForget = moveOption.PokemonMove;
-		_moveToForgetOption.UpdateOption(moveOption.PokemonMove);
+		_moveToForgetOption.SetOption(moveOption.PokemonMove, true);
 	}
 
 	private void ForgetMove()

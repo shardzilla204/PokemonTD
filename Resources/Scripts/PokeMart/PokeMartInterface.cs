@@ -40,6 +40,17 @@ public partial class PokeMartInterface : CanvasLayer
         AddPokeMartItems();
     }
 
+      public override void _Input(InputEvent @event)
+    {
+        if (@event is not InputEventKey eventKey) return;
+
+        if (eventKey.Keycode == Key.Ctrl)
+        {
+            Control parent = _pokeMartItems.GetParentOrNull<Control>();
+            parent.MouseFilter = eventKey.Pressed ? Control.MouseFilterEnum.Ignore : Control.MouseFilterEnum.Stop;
+        }
+    }
+
     private void ClearPokeMartItems()
     {
         foreach (Node child in _pokeMartItems.GetChildren())

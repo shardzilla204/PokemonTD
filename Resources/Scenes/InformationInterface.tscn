@@ -122,7 +122,8 @@ theme_override_font_sizes/font_size = 25
 text = "Space = Play/Pause
 Q = Decrease Stage Speed
 E = Increase Stage Speed
-1 - 6 = Change Pokemon's Move When In The Stage"
+1 - 6 = Change Pokemon's Move When In The Stage
+C = Bring Out PokeBall (Left-Click To Capture)"
 horizontal_alignment = 1
 vertical_alignment = 1
 

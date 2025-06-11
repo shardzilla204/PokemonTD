@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 using System;
 
 namespace PokemonTD;
@@ -36,12 +37,14 @@ public partial class PokeMartTeamSlot : NinePatchRect
     public override bool _CanDropData(Vector2 atPosition, Variant data)
     {
         if (_pokemon == null) return false;
-        
-        PokeMartItem pokeMartItem = data.As<PokeMartItem>();
+
+        Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+        PokeMartItem pokeMartItem = dataDictionary["PokeMartItem"].As<PokeMartItem>();
+        int amount = dataDictionary["Amount"].As<int>();
 
         if (pokeMartItem.Category == PokeMartItemCategory.Candy)
         {
-            return _pokemon.Level < PokemonTD.MaxPokemonLevel;
+            return _pokemon.Level + amount <= PokemonTD.MaxPokemonLevel;
         }
         else if (pokeMartItem.Category == PokeMartItemCategory.Medicine)
         {
@@ -56,13 +59,16 @@ public partial class PokeMartTeamSlot : NinePatchRect
 
     public override async void _DropData(Vector2 atPosition, Variant data)
     {
-        PokeMartItem pokeMartItem = data.As<PokeMartItem>();
-        pokeMartItem.Quantity--;
+        Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+        
+        PokeMartItem pokeMartItem = dataDictionary["PokeMartItem"].As<PokeMartItem>();
+        int amount = dataDictionary["Amount"].As<int>();
+        pokeMartItem.Quantity -= amount;
 
         if (pokeMartItem.Category == PokeMartItemCategory.Candy)
         {
             int pokemonTeamIndex = PokemonTeam.Instance.Pokemon.IndexOf(_pokemon);
-            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonLeveledUp, 1, pokemonTeamIndex);
+            PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PokemonLeveledUp, amount, pokemonTeamIndex);
 
             string rareCandyMessage = $"Gave {_pokemon.Name} Rare Candy";
             PrintRich.PrintLine(TextColor.Orange, rareCandyMessage);

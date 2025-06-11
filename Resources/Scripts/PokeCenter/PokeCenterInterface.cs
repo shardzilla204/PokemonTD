@@ -14,6 +14,8 @@ public partial class PokeCenterInterface : CanvasLayer
 			// Grab the first Pokemon in the Poke Center and add it to the team
 			if (PokemonTeam.Instance.Pokemon.Count == 0)
 			{
+				if (PokeCenter.Instance.Pokemon.Count == 0) return;
+				
 				Pokemon pokemon = PokeCenter.Instance.Pokemon[0];
 				PokeCenter.Instance.RemovePokemon(pokemon);
 			};

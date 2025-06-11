@@ -51,7 +51,7 @@ public partial class PokeCenterMoveAnalysis : NinePatchRect
         foreach (PokemonMove pokemonMove in pokemon.Moves)
         {
             MoveOption moveOption = PokemonTD.PackedScenes.GetMoveOption();
-            moveOption.PokemonMove = pokemonMove;
+            moveOption.SetOption(pokemonMove, false);
             moveOption.SetBackgroundColor(gray);
             moveOption.MouseEntered += () => OnMoveOptionHovered(pokemonMove);
             moveOption.Pressed += () => OnMoveOptionPressed(moveOption);

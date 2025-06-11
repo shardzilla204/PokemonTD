@@ -10,7 +10,7 @@ public partial class CustomButton : Button
 	[Signal]
 	public delegate void RightClickEventHandler();
 
-	private bool _isHovering;
+	public bool IsHovering;
 
 	public override void _Ready()
 	{
@@ -18,16 +18,17 @@ public partial class CustomButton : Button
 		{
 			if (PokemonSettings.Instance.ButtonSFXEnabled) PokemonTD.AudioManager.PlayButtonHovered();
 
-			_isHovering = true;
+			IsHovering = true;
 			if (!ButtonPressed) ChangeModulation(true);
 		};
 		MouseExited += () =>
 		{
-			_isHovering = false;
+			IsHovering = false;
 			if (!ButtonPressed) ChangeModulation(false);
 		};
 		Pressed += () =>
 		{
+			ReleaseFocus();
 			if (PokemonSettings.Instance.ButtonSFXEnabled) PokemonTD.AudioManager.PlayButtonPressed();
 		};
 		Toggled += ChangeModulation;
@@ -35,9 +36,9 @@ public partial class CustomButton : Button
 
     public override void _Input(InputEvent @event)
     {
-		if (!_isHovering) return;
-        if (@event is not InputEventMouseButton eventMouseButton) return;
+        if (!IsHovering || @event is not InputEventMouseButton eventMouseButton) return;
 		if (!eventMouseButton.Pressed) return;
+		
 		if (eventMouseButton.ButtonIndex == MouseButton.Left)
 		{
 			EmitSignal(SignalName.LeftClick);

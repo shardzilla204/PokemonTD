@@ -160,15 +160,22 @@ public partial class PokemonTD : Control
         return RNG.RandiRange(Debug.MinPokemonLevel, Debug.MaxPokemonLevel);
     }
 
-    public static int GetRandomLevel(int minimumLevel, int MaxLevel)
+    public static int GetRandomLevel(int minLevel, int maxLevel)
     {
         RandomNumberGenerator RNG = new RandomNumberGenerator();
-        return RNG.RandiRange(minimumLevel, MaxLevel);
+        return RNG.RandiRange(minLevel, maxLevel);
     }
 
     public static Texture2D GetGenderSprite(Pokemon pokemon)
     {
         string filePath = $"res://Assets/Images/Gender/{pokemon.Gender}Icon.png";
+        return GetSprite(filePath);
+    }
+
+    public static Texture2D GetMoveCategoryIcon(MoveCategory moveCategory)
+    {
+        string categoryFileName = moveCategory.ToString();
+        string filePath = $"res://Assets/Images/MoveCategoryIcon/{categoryFileName}CategoryIcon.png";
         return GetSprite(filePath);
     }
 

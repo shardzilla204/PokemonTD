@@ -7,6 +7,7 @@
 [node name="PokeMartInventory" type="VBoxContainer" node_paths=PackedStringArray("_pokeMartSlots")]
 size_flags_horizontal = 3
 size_flags_vertical = 3
+mouse_filter = 2
 script = ExtResource("1_ebfq7")
 _pokeMartSlots = NodePath("NinePatchRect/MarginContainer/PokeMartSlots")
 
@@ -32,41 +33,35 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="PokeMartSlots" type="FlowContainer" parent="NinePatchRect/MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
+mouse_filter = 2
 theme_override_constants/h_separation = 10
 theme_override_constants/v_separation = 10
 
 [node name="PokeMartSlot" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot2" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot3" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot4" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot5" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot6" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot7" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2
 
 [node name="PokeMartSlot8" parent="NinePatchRect/MarginContainer/PokeMartSlots" instance=ExtResource("2_84j1v")]
-self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 layout_mode = 2

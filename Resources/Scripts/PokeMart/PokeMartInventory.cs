@@ -35,7 +35,6 @@ public partial class PokeMartInventory : Container
 
             PokeMartSlot pokeMartSlot = PokemonTD.PackedScenes.GetPokeMartSlot(pokeMartItem);
             pokeMartSlot.Used += UpdateSlots;
-            pokeMartSlot.PokeMartItem = pokeMartItem;
             _pokeMartSlots.AddChild(pokeMartSlot);
         }
     }

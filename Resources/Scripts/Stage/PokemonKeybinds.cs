@@ -13,6 +13,9 @@ public partial class PokemonKeybinds : Node
     [Signal]
     public delegate void GameSpeedEventHandler(bool isIncreased);
 
+    [Signal]
+    public delegate void PokeBallEventHandler(bool isPressed);
+
     public override void _Input(InputEvent @event)
     {
         if (@event is not InputEventKey eventKey) return;
@@ -33,6 +36,14 @@ public partial class PokemonKeybinds : Node
         {
             bool isSpeedIncreased = keycode == Key.E;
             EmitSignal(SignalName.GameSpeed, isSpeedIncreased);
+        }
+        else if (eventKey.IsActionPressed("PokeBall"))
+        {
+            EmitSignal(SignalName.PokeBall, true);
+        }
+        else if (eventKey.IsActionReleased("PokeBall"))
+        {
+            EmitSignal(SignalName.PokeBall, false);
         }
     }
 }

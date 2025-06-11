@@ -51,11 +51,15 @@ public partial class InformationInterface : CanvasLayer
             if (!PokemonTD.HasSelectedStarter)
             {
                 PokemonSettings.Instance.HasShowedTutorial = true;
-                
+
                 Node starterSelectionInterface = PokemonTD.PackedScenes.GetStarterSelectionInterface();
                 AddSibling(starterSelectionInterface);
                 QueueFree();
                 return;
+            }
+            else
+            {
+                PokemonSettings.Instance.HasShowedTutorial = true;
             }
 
             SettingsInterface settingsInterface = PokemonTD.PackedScenes.GetSettingsInterface();

@@ -6,23 +6,53 @@ public partial class PokeBall : TextureRect
 {
 	private bool _isDragging = false;
 
-    public override Variant _GetDragData(Vector2 atPosition)
+    public override void _ExitTree()
     {
+        PokemonTD.Keybinds.PokeBall -= ShowPokeBall;
+    }
+
+    public override void _Ready()
+	{
+		PokemonTD.Keybinds.PokeBall += ShowPokeBall;
+	}
+
+	private void ShowPokeBall(bool isPressed)
+	{
+		_isDragging = isPressed;
+		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, _isDragging);
+		
+		StringName gameStateSignalName = isPressed ? PokemonSignals.SignalName.PressedPause : PokemonSignals.SignalName.PressedPlay;
+		PokemonTD.Signals.EmitSignal(gameStateSignalName);
+
+		if (isPressed)
+		{
+			Control dragPreview = GetDragPreview();
+			ForceDrag(this, dragPreview);
+		}
+		else
+		{
+			GetViewport().GuiCancelDrag();
+		}
+	}
+
+    public override Variant _GetDragData(Vector2 atPosition)
+	{
 		_isDragging = true;
 
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, true);
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPause);
 
-		SetDragPreview(GetDragPreview());
-        return this;
-    }
+		Control dragPreview = GetDragPreview();
+		SetDragPreview(dragPreview);
+		return this;
+	}
 
-    public override void _Notification(int what)
-    {
-        if (what != NotificationDragEnd || !_isDragging ) return;
+	public override void _Notification(int what)
+	{
+		if (what != NotificationDragEnd || !_isDragging) return;
 
 		_isDragging = false;
-		
+
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.Dragging, false);
 		PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
     }

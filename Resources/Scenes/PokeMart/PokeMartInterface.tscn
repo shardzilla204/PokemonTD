@@ -99,6 +99,7 @@ text = "Items"
 custom_minimum_size = Vector2(400, 365)
 layout_mode = 2
 size_flags_vertical = 3
+mouse_filter = 0
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3
 

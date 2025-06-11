@@ -1,4 +1,6 @@
 using Godot;
+using Godot.Collections;
+using System;
 
 namespace PokemonTD;
 
@@ -13,8 +15,36 @@ public partial class PokeMartSlot : NinePatchRect
 	[Export]
 	private Label _itemQuantity;
 
-	public PokeMartItem PokeMartItem;
+	private PokeMartItem _pokeMartItem;
+
     private bool _isDragging;
+    private Control _dragPreview;
+    private Dictionary<string, Variant> _dataDictionary = new Dictionary<string, Variant>();
+    private int _amount = 1;
+
+    public override void _Input(InputEvent @event)
+    {
+        if (_pokeMartItem.Category != PokeMartItemCategory.Candy || _dragPreview == null) return;
+
+        if (@event is not InputEventMouseButton eventMouseButton) return;
+
+        if (!eventMouseButton.Pressed) return;
+
+        if (eventMouseButton.ButtonIndex == MouseButton.WheelUp)
+        {
+            _amount++;
+            _amount = Math.Min(_amount, _pokeMartItem.Quantity);
+        }
+        else if (eventMouseButton.ButtonIndex == MouseButton.WheelDown)
+        {
+            _amount--;
+            _amount = Math.Max(_amount, 1);
+        }
+
+        Label dragPreviewLabel = _dragPreview.GetChildOrNull<Label>(1);
+        dragPreviewLabel.Text = _amount > 1 ? $"x{_amount}" : "";
+        _dataDictionary["Amount"] = _amount;
+    }
 
     public override void _Notification(int what)
     {
@@ -24,9 +54,10 @@ public partial class PokeMartSlot : NinePatchRect
         EmitSignal(SignalName.Used);
     }
 
-
 	public void SetPokeMartItem(PokeMartItem pokeMartItem)
     {
+        _pokeMartItem = pokeMartItem;
+
         _itemSprite.Texture = pokeMartItem.Sprite;
         _itemQuantity.Text = $"{pokeMartItem.Quantity}x";
     }
@@ -35,30 +66,48 @@ public partial class PokeMartSlot : NinePatchRect
 	{
         _isDragging = true;
 
-        Control dragPreview = GetDragPreview();
-        SetDragPreview(dragPreview);
+        _dragPreview = GetDragPreview();
+        SetDragPreview(_dragPreview);
+
+        _dataDictionary = new Dictionary<string, Variant>()
+        {
+            { "PokeMartItem", _pokeMartItem },
+            { "Amount", _amount }
+        };
         
-        PokeMartItem pokeMartItem = PokeMart.Instance.Items.Find(item => item.Name == PokeMartItem.Name);
-        return pokeMartItem;  
+        return _dataDictionary;  
 	}
 
 	public Control GetDragPreview()
 	{
         Control control = new Control();
 
-        if (PokeMartItem is null) return control;
+        if (_pokeMartItem is null) return control;
 
-        int minimumSize = 45;
-        Vector2 size = new Vector2(minimumSize, minimumSize);
+        int minSize = 45;
+        Vector2 size = new Vector2(minSize, minSize);
         TextureRect textureRect = new TextureRect()
         {
-            Texture = PokeMartItem.Sprite,
+            Texture = _pokeMartItem.Sprite,
             ExpandMode = TextureRect.ExpandModeEnum.IgnoreSize,
             StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered,
             Position = -size / 2,
-            Size = size
+            CustomMinimumSize = size
         };
+
+        Label label = new Label()
+        {
+            Text = _amount > 1 ? $"x{_amount}" : "",
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom,
+            Position = -size / 2,
+            CustomMinimumSize = size,
+            SizeFlagsVertical = SizeFlags.Fill
+        };
+        label.AddThemeFontSizeOverride("font_size", 20);
+
         control.AddChild(textureRect);
+        control.AddChild(label);
 
         return control;
 	}

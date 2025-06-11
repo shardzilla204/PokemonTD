@@ -8,6 +8,7 @@
 self_modulate = Color(0.74902, 0.74902, 0.74902, 1)
 show_behind_parent = true
 custom_minimum_size = Vector2(65, 65)
+mouse_filter = 0
 texture = ExtResource("1_ltt05")
 patch_margin_left = 10
 patch_margin_top = 10
@@ -24,6 +25,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 5
 theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
@@ -31,6 +33,7 @@ theme_override_constants/margin_bottom = 5
 
 [node name="ItemSprite" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 texture = ExtResource("3_uttp2")
 expand_mode = 1
 stretch_mode = 5
