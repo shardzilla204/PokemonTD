@@ -48,24 +48,30 @@ columns = 2
 
 [node name="PokeCenterTeamSlot" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot2" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot3" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot4" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot5" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")
 
 [node name="PokeCenterTeamSlot6" parent="PokeCenterTeamSlots" instance=ExtResource("2_s7cs2")]
 layout_mode = 2
+mouse_filter = 1
 script = ExtResource("3_xfwd4")

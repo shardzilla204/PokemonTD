@@ -40,7 +40,8 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 
 	public override Variant _GetDragData(Vector2 atPosition)
     {
-		SetDragPreview(GetDragPreview());
+		Control dragPreview = GetDragPreview();
+		SetDragPreview(dragPreview);
 		Dictionary<string, Variant> dataDictionary = new Dictionary<string, Variant>()
 		{
 			{ "FromTeamSlot", true },
@@ -64,6 +65,38 @@ public partial class PokeCenterTeamSlot : NinePatchRect
 
 		return control;
 	}
+
+	public override bool _CanDropData(Vector2 atPosition, Variant data)
+	{
+		Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+		// {
+		// 	{ "FromTeamSlot", false },
+		// 	{ "FromAnalysisSlot", false },
+		// 	{ "Slot", this }
+		// };
+		bool fromTeamSlot = dataDictionary["FromTeamSlot"].As<bool>();
+		if (fromTeamSlot) return false;
+
+		Node slot = dataDictionary["Slot"].As<Node>();
+		if (slot is PokeCenterSlot)
+		{
+			return Pokemon != null;
+		}
+		return false;
+    }
+
+	public override void _DropData(Vector2 atPosition, Variant data)
+	{
+		// Swap Pokemon 
+		Dictionary<string, Variant> dataDictionary = data.As<Dictionary<string, Variant>>();
+		Node slot = dataDictionary["Slot"].As<Node>();
+		if (slot is PokeCenterSlot pokeCenterSlot)
+		{
+			Pokemon newPokemon = pokeCenterSlot.Pokemon;
+			PokeCenter.Instance.AddPokemon(Pokemon);
+			PokeCenter.Instance.RemovePokemon(newPokemon);
+		}
+    }
 
 	public void UpdateSlot(Pokemon pokemon)
 	{

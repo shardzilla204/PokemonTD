@@ -181,6 +181,8 @@ public partial class PokemonEnemy : TextureRect
 		PokemonMove pokemonMove = PokemonCombat.Instance.GetCombatMove(Pokemon, _targetQueue[0].Pokemon, Pokemon.Move, -1);
 
 		PokemonStageSlot pokemonStageSlot = (PokemonStageSlot) PokemonCombat.Instance.GetNextTarget(_targetQueue, pokemonMove);
+		if (pokemonStageSlot == null) return;
+		
 		pokemonStageSlot.Retrieved += UpdatePokemonQueue;
 		pokemonStageSlot.Fainted += UpdatePokemonQueue;
 

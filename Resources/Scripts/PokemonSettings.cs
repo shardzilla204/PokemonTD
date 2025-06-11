@@ -218,6 +218,6 @@ public partial class PokemonSettings : Node
         }
 
         DisplayServer.WindowSetMode(windowMode);
-        GetWindow().Size = windowSize;
+        if (windowMode != DisplayServer.WindowMode.Fullscreen) GetWindow().Size = windowSize;
     }
 }

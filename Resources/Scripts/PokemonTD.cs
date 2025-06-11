@@ -33,21 +33,6 @@ namespace PokemonTD;
 public partial class PokemonTD : Control
 {
     [Export]
-    private PackedScenes _packedScenes;
-
-    [Export]
-    private PokemonTween _pokemonTween;
-
-    [Export]
-    private PokemonKeybinds _pokemonKeybinds;
-
-    [Export]
-    private PokemonMasterMode _pokemonMasterMode;
-
-    [Export]
-    private PokemonDebug _pokemonDebug;
-
-    [Export]
     private int _startingPokeDollars = 727;
 
     [Export]
@@ -91,13 +76,7 @@ public partial class PokemonTD : Control
     public const int MaxMoveCount = 4;
 
     public override void _EnterTree()
-    {
-        PackedScenes = _packedScenes;
-        Tween = _pokemonTween;
-        Keybinds = _pokemonKeybinds;
-        MasterMode = _pokemonMasterMode;
-        Debug = _pokemonDebug;
-
+	{
         PokeDollars = _startingPokeDollars;
         StartingInventory = _startingInventory;
         StarterPokemonLevel = _starterPokemonLevel;

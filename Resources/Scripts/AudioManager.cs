@@ -73,7 +73,8 @@ public partial class AudioManager : AudioStreamPlayer
 
 	private AudioStream GetPokemonCry(Pokemon pokemon)
 	{
-		string filePath = $"res://Assets/Audio/Cry/{pokemon.Name}Cry.wav";
+		string pokemonName = pokemon.Name.Replace(" ", "");
+		string filePath = $"res://Assets/Audio/Cry/{pokemonName}Cry.wav";
 		return ResourceLoader.Load<AudioStream>($"{filePath}");
 	}
 

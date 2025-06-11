@@ -38,16 +38,11 @@
 [ext_resource type="Script" uid="uid://d0npdwnc2lvpp" path="res://Resources/Scripts/PokemonMasterMode.cs" id="36_p6id6"]
 [ext_resource type="Script" uid="uid://bxn5w2xlt3srw" path="res://Resources/Scripts/PokemonDebug.cs" id="38_mfv4n"]
 
-[node name="PokemonTD" type="Control" node_paths=PackedStringArray("_packedScenes", "_pokemonTween", "_pokemonKeybinds", "_pokemonMasterMode", "_pokemonDebug")]
+[node name="PokemonTD" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
 script = ExtResource("1_22f5f")
-_packedScenes = NodePath("PackedScenes")
-_pokemonTween = NodePath("PokemonTween")
-_pokemonKeybinds = NodePath("PokemonKeybinds")
-_pokemonMasterMode = NodePath("PokemonMasterMode")
-_pokemonDebug = NodePath("PokemonDebug")
 
 [node name="PackedScenes" type="Node" parent="."]
 script = ExtResource("2_aafqp")
@@ -95,6 +90,7 @@ script = ExtResource("24_u4bgx")
 
 [node name="PrintRich" type="Node" parent="."]
 script = ExtResource("29_1jrto")
+_areConsoleMessagesEnabled = false
 _areFileMessagesEnabled = true
 _areFilePathsVisible = true
 
@@ -106,3 +102,4 @@ script = ExtResource("36_p6id6")
 
 [node name="PokemonDebug" type="Node" parent="."]
 script = ExtResource("38_mfv4n")
+_pokeCenterCount = 6

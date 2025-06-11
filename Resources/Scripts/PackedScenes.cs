@@ -77,6 +77,11 @@ public partial class PackedScenes : Node
 	[Export]
 	private PackedScene _masterModeInterface;
 
+    public override void _EnterTree()
+    {
+        PokemonTD.PackedScenes = this;
+    }
+
 	public MenuInterface GetMenuInterface()
 	{
 		return _menuInterface.Instantiate<MenuInterface>();

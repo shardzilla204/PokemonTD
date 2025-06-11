@@ -17,7 +17,7 @@ public partial class SettingsInterface : CanvasLayer
 
     public override void _Ready()
     {
-		_exitButton.Pressed += () => 
+		_exitButton.Pressed += () =>
 		{
 			if (FromMainMenu)
 			{
@@ -28,6 +28,8 @@ public partial class SettingsInterface : CanvasLayer
 			{
 				PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.PressedPlay);
 			}
+			
+			PokemonSettings.Instance.SaveSettings();
 			QueueFree();
 		};
 		

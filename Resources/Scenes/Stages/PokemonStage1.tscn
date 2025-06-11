@@ -101,13 +101,6 @@ offset_bottom = 608.0
 
 [node name="PokemonStageSlot9" parent="TileMapLayers/PokemonStageSlots" index="8" instance=ExtResource("3_8hy7o")]
 layout_mode = 0
-offset_left = 1248.0
-offset_top = 676.0
-offset_right = 1312.0
-offset_bottom = 740.0
-
-[node name="PokemonStageSlot10" parent="TileMapLayers/PokemonStageSlots" index="9" instance=ExtResource("3_8hy7o")]
-layout_mode = 0
 offset_left = 1440.0
 offset_top = 512.0
 offset_right = 1504.0

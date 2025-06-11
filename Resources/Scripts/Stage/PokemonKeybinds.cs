@@ -16,6 +16,11 @@ public partial class PokemonKeybinds : Node
     [Signal]
     public delegate void PokeBallEventHandler(bool isPressed);
 
+    public override void _EnterTree()
+    {
+        PokemonTD.Keybinds = this;
+    }
+
     public override void _Input(InputEvent @event)
     {
         if (@event is not InputEventKey eventKey) return;

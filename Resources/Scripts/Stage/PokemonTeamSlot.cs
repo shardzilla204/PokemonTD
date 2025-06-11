@@ -30,6 +30,8 @@ public partial class PokemonTeamSlot : Button
 	public int PokemonTeamIndex = 0;
 	public Pokemon Pokemon;
 
+	public bool IsRecovering = false;
+
 	private bool _isDragging;
 	private Control _dragPreview;
 
@@ -194,6 +196,7 @@ public partial class PokemonTeamSlot : Button
 		pokemonStageSlot.EmitSignal(PokemonStageSlot.SignalName.Fainted, pokemonStageSlot);
 		
 		pokemonStageSlot.IsRecovering = true;
+		IsRecovering = true;
 		float additionalTime = pokemonStageSlot.Pokemon.Effects.UsedFaintMove ? 3.5f : 0;
 		_pokemonSleepBar.Start(Pokemon, additionalTime);
 
@@ -208,7 +211,10 @@ public partial class PokemonTeamSlot : Button
 
 		if (pokemonStageSlot == null) return;
 
+		GD.Print("Sleep Finished");
+
 		pokemonStageSlot.IsRecovering = false;
+		IsRecovering = false;
 		_pokemonHealthBar.ResetHealth(); 
 		Modulate = Colors.White;
 		Disabled = false;
