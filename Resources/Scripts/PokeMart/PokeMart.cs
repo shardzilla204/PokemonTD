@@ -7,7 +7,7 @@ namespace PokemonTD;
 
 public enum PokeMartItemCategory
 {
-    EvolutionStone,
+    Evolution,
     Medicine, 
     Candy,
 }

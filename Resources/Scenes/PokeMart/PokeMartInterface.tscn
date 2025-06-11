@@ -12,7 +12,7 @@ script = ExtResource("1_6l4nt")
 _exitButton = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer/ExitButton")
 _pokeDollarsLabel = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/PokeDollars")
 _pokeMartItems = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer/ScrollContainer/PokeMartItems")
-_pokeMartTeamSlots = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam/PokeMartTeamSlots")
+_pokeMartTeamSlots = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PokemonTeam/PokeMartTeamSlots")
 _pokeMartInventory = NodePath("Background/MarginContainer/VBoxContainer/HBoxContainer2/PokeMartInventory")
 
 [node name="Background" type="ColorRect" parent="."]
@@ -107,20 +107,51 @@ vertical_scroll_mode = 3
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="PokemonTeam" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 10
+
+[node name="PokemonTeam" type="VBoxContainer" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 10
 mouse_filter = 0
 theme = ExtResource("1_e2fpt")
 theme_override_constants/separation = 10
 
-[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam"]
+[node name="Label" type="Label" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PokemonTeam"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Team"
 
-[node name="PokeMartTeamSlots" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/PokemonTeam" instance=ExtResource("6_e2fpt")]
+[node name="PokeMartTeamSlots" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/PokemonTeam" instance=ExtResource("6_e2fpt")]
 layout_mode = 2
+
+[node name="RelearnButton" type="Button" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2"]
+visible = false
+custom_minimum_size = Vector2(65, 65)
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 25
+text = "Relearn Move
+$1000
+"
+flat = true
+script = ExtResource("2_p8oow")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2/VBoxContainer2/RelearnButton"]
+self_modulate = Color(0.270588, 0.270588, 0.270588, 1)
+show_behind_parent = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_huhwu")
+patch_margin_left = 10
+patch_margin_top = 10
+patch_margin_right = 10
+patch_margin_bottom = 10
 
 [node name="PokeMartInventory" parent="Background/MarginContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("6_xe03f")]
 custom_minimum_size = Vector2(460, 0)

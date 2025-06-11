@@ -9,35 +9,35 @@
     "Fire Stone":
     {
         "Price": 1000,
-        "Category": "EvolutionStone",
+        "Category": "Evolution",
         "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/FireStone.png"
     },
     "Water Stone":
     {
         "Price": 1000,
-        "Category": "EvolutionStone",
+        "Category": "Evolution",
         "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/WaterStone.png"
     },
     "Thunder Stone":
     {
         "Price": 1000,
-        "Category": "EvolutionStone",
+        "Category": "Evolution",
         "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/ThunderStone.png"
     },
     "Leaf Stone":
     {
         "Price": 1000,
-        "Category": "EvolutionStone",
+        "Category": "Evolution",
         "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/LeafStone.png"
     },
     "Moon Stone":
     {
         "Price": 1000,
-        "Category": "EvolutionStone",
+        "Category": "Evolution",
         "Description": "Makes certain species of Pokémon evolve.",
         "File Path": "res://Assets/Images/EvolutionStone/MoonStone.png"
     },

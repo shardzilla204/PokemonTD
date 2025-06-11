@@ -108,6 +108,8 @@ public partial class MasterModeInterface : CanvasLayer
 
         _maxPokemonLevelOption.SetMaxValue(highestPokemonLevel);
         _maxPokemonLevelOption.SetProgress(highestPokemonLevel);
+
+        GD.Print(highestPokemonLevel);
     }
 
     private int GetHighestPokemonLevel()

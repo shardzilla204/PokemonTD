@@ -50,7 +50,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
         {
             return _pokemon.Stats.HP < _pokemon.Stats.MaxHP;
         }
-        else if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone && !_pokemon.HasCanceledEvolution)
+        else if (pokeMartItem.Category == PokeMartItemCategory.Evolution && !_pokemon.HasCanceledEvolution)
         {
             return PokemonEvolution.Instance.CanEvolveWithStone(_pokemon);
         }
@@ -88,7 +88,7 @@ public partial class PokeMartTeamSlot : NinePatchRect
 
             PokemonTD.AudioManager.PlayPokemonHealed();
         }
-        else if (pokeMartItem.Category == PokeMartItemCategory.EvolutionStone)
+        else if (pokeMartItem.Category == PokeMartItemCategory.Evolution)
         {
             int pokemonTeamIndex = PokemonTeam.Instance.Pokemon.IndexOf(_pokemon);
             string evolutionStoneName = pokeMartItem.Name.TrimSuffix("Stone").Trim();

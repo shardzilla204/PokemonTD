@@ -1,18 +1,22 @@
+using Godot;
+
 namespace PokemonTD;
 
 public partial class StageSelectButton : CustomButton
 {
 	public PokemonStage PokemonStage;
 
-    public override void _Ready()
-    {
+	public override void _Ready()
+	{
 		base._Ready();
-		
+
 		Text = $"{PokemonStage.ID}";
 
 		Pressed += SetStage;
 		MouseEntered += () => PokemonTD.Signals.EmitSignal(PokemonSignals.SignalName.StageSelectButtonHovered, PokemonStage);
-    }
+
+		IsStageCompleted();
+	}
 
 	private void SetStage()
 	{
@@ -32,5 +36,13 @@ public partial class StageSelectButton : CustomButton
 		pokemonStage.PokemonLevels = PokemonStage.PokemonLevels;
 
 		return pokemonStage;
+	}
+
+	private void IsStageCompleted()
+	{
+		Color completedColor = Color.FromHtml("#455545");
+		bool isStageCompleted = PokemonStages.Instance.IsStageCompleted(PokemonStage.ID);
+		NinePatchRect ninePatchRect = GetChildOrNull<NinePatchRect>(0);
+		ninePatchRect.SelfModulate = isStageCompleted ? completedColor : ninePatchRect.SelfModulate;
 	}
 }

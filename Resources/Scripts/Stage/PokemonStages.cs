@@ -41,7 +41,7 @@ public partial class PokemonStages : Node
 			{
 				_stageCompletionList[key] = false;
 			}
-        };
+		};
 
 		LoadStagesFile();
 		SetPokemonStages();
@@ -145,5 +145,10 @@ public partial class PokemonStages : Node
 			int key = int.Parse(keyString);
 			_stageCompletionList[key] = stageData[keyString].As<bool>();
 		}
+	}
+
+	public bool IsStageCompleted(int stageID)
+	{
+		return _stageCompletionList[stageID];
 	}
 }

@@ -55,6 +55,8 @@ public partial class PokemonEvolution : Node
 			int pokemonLevel = pokemon.Level + levels;
 			GC.Dictionary<string, Variant> pokemonEvolutionDictionary = _pokemonEvolutionDictionaries[pokemon.Name].As<GC.Dictionary<string, Variant>>();
 			int levelRequirement = (int) pokemonEvolutionDictionary.Values.ToList()[0];
+			if (levelRequirement == 0) return false;
+
 			return pokemonLevel >= levelRequirement;
 		}
 		catch (KeyNotFoundException)
@@ -114,7 +116,7 @@ public partial class PokemonEvolution : Node
 		foreach (EvolutionStone evolutionStone in evolutionStones)
 		{
 			// Print message to console
-			string canEvolveWithStone = $"{pokemon.Name} Can Evolve With {evolutionStone}";
+			string canEvolveWithStone = $"{pokemon.Name} Can Evolve With {evolutionStone} Stone";
 			if (PrintRich.AreFileMessagesEnabled) PrintRich.PrintLine(TextColor.Green, canEvolveWithStone);
 		}
 		return evolutionStones.Count != 0;
