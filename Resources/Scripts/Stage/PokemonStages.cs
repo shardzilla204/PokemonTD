@@ -39,7 +39,7 @@ public partial class PokemonStages : Node
 		{
 			foreach (int key in _stageCompletionList.Keys)
 			{
-				_stageCompletionList[key] = false;
+				_stageCompletionList[key] = false; // ? Set To True For Debugging
 			}
 		};
 
