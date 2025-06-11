@@ -3,14 +3,18 @@
     {
         "Pokemon Per Wave": 5,
         "Wave Count": 10,
-        "Pokemon Levels": [3, 6],
+        "Pokemon Levels": [100, 100],
         "Pokemon": 
         {
+<<<<<<< HEAD
            "Pidgey": 2000,
             "Rattata": 2000,
             "Caterpie": 1500,
             "Weedle": 1500,
             "Squirtle": 50
+=======
+            "Clefable": 2000
+>>>>>>> c63038850ff27017ab8d23ea02209e51ebde5a6f
         }
     },
     "2":

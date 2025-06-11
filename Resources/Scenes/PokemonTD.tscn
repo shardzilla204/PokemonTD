@@ -90,6 +90,7 @@ script = ExtResource("24_u4bgx")
 
 [node name="PrintRich" type="Node" parent="."]
 script = ExtResource("29_1jrto")
+_areConsoleMessagesEnabled = false
 _areFileMessagesEnabled = true
 _areFilePathsVisible = true
 
