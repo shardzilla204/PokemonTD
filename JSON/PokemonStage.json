@@ -10,7 +10,8 @@
             "Rattata": 2000,
             "Caterpie": 1500,
             "Weedle": 1500,
-            "Squirtle": 50
+            "Eevee": 500,
+            "Growlithe": 50
         }
     },
     "2":
@@ -22,21 +23,24 @@
         {
             "Spearow": 2000,
             "Rattata": 1000,
+            "Ekans": 500,
             "Raticate": 250,
-            "Bulbasaur": 150,
-            "Pikachu": 25
+            "Meowth": 100,
+            "Pikachu": 50,
+            "Bulbasaur": 5
         }
     },
     "3":
     {
-        "Pokemon Per Wave": 12,
-        "Wave Count": 7,
+        "Pokemon Per Wave": 15,
+        "Wave Count": 8,
         "Pokemon Levels": [10, 16],
         "Pokemon":
         {
             "Magikarp": 5000,
             "Poliwag": 1000,
             "Goldeen": 500,
+            "Krabby": 100,
             "Fearow": 50,
             "Lapras": 5
         }
@@ -52,7 +56,10 @@
             "Magikarp": 2500,
             "Horsea": 500,
             "Poliwhirl": 250,
-            "Dratini": 5
+            "Pidgeot": 100,
+            "Omanyte": 100,
+            "Dratini": 50,
+            "Squirtle": 5
         }
     },
     "5":
@@ -66,6 +73,8 @@
             "Grimer": 2500,
             "Koffing": 2500,
             "Haunter": 250,
+            "Voltorb": 100,
+            "Diglett": 50,
             "Charmander": 5
         }
     },
@@ -80,7 +89,9 @@
             "Cubone": 2500,
             "Magnemite": 2500,
             "Weezing": 250,
-            "Gengar": 5
+            "Zubat": 100,
+            "Gengar": 50,
+            "Abra": 5
         }
     }
 }
