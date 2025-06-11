@@ -16,7 +16,7 @@ warnings/check_invalid_track_paths=false
 
 config/name="Pokemon TD"
 config/description="A recreation of a flash game that was a tower defense based off Pokemon"
-config/version="1.0.3"
+config/version="1.0.4"
 run/main_scene="res://Resources/Scenes/MenuInterface.tscn"
 config/use_custom_user_dir=true
 config/custom_user_dir_name="Godot/app_userdata/PokemonTD"
@@ -55,7 +55,6 @@ PokemonGame="*res://Resources/Scripts/PokemonGame.cs"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="keep_width"
 window/image="uid://byynbmon8ik1"
 
 [dotnet]
